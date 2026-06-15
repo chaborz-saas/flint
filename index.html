@@ -109,6 +109,12 @@
   .cbar .ctrack{width:84px;height:7px;border-radius:6px;background:var(--track);overflow:hidden;flex:none}
   .cbar .cfill{display:block;height:100%;border-radius:6px}
 
+  .hm{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.hm:last-child{border-bottom:0}.hm .hl{font-size:13px;font-weight:700}.hm .hv{font-size:14px;font-weight:800}
+  .wf{display:flex;align-items:flex-end;gap:8px;height:74px;margin:6px 0 4px}.wf .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}.wf .cb{width:100%;border-radius:6px;min-height:6px}.wf .cl2{font-size:9px;font-weight:800;color:var(--faint);text-transform:uppercase;text-align:center;line-height:1.1}.wf .cn2{font-size:12px;font-weight:800}
+  .bchip{border:1px solid var(--line);background:#fff;color:var(--ink2);font-weight:700;font-size:12px;border-radius:30px;padding:8px 13px;cursor:pointer;font-family:inherit}.bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .cor{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.cor:last-child{border-bottom:0}.cor .cl{font-size:13px;font-weight:700;flex:1}.cor .cbarw{width:80px;height:7px;border-radius:6px;background:var(--track);overflow:hidden;flex:none}.cor .cbarf{display:block;height:100%;border-radius:6px}
+  .zb{display:flex;height:20px;border-radius:7px;overflow:hidden;margin-top:6px}.zb span{height:100%}
+  .hvn{height:14px;border-radius:8px;background:var(--track);position:relative;margin-top:8px;overflow:visible}.hvn .f{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#9AA4DD,#6C7BD6)}.hvn .tick{position:absolute;top:-4px;width:3px;height:22px;background:var(--ink);border-radius:2px}
   /* nav */
   nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;padding:8px 4px calc(8px + env(safe-area-inset-bottom));
     background:rgba(244,241,234,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
@@ -192,6 +198,8 @@
     <div class="grid2" id="recVitals" style="gap:10px"></div>
     <p class="sci" id="recAge" style="margin-top:10px"></p>
   </div>
+  <div class="card" id="healthCard"></div>
+  <div class="card" id="stressCard"></div>
   <div class="card">
     <div class="ct">Récupération · 14 jours</div>
     <svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg>
@@ -214,6 +222,9 @@
     <div class="stage" id="slStages"></div>
     <div class="sci" id="slStagesTxt" style="margin-top:8px"></div>
   </div>
+  <div class="card"><div class="ct">Hypnogramme · ta nuit</div><div id="hypnoCard"></div></div>
+  <div class="card"><div class="ct">Besoin de sommeil</div><div id="sleepNeedCard"></div></div>
+  <div class="card"><div class="ct">Sous-scores du sommeil</div><div class="grid2" id="subScores" style="gap:10px"></div></div>
   <div class="card splitc">
     <div class="left">
       <div class="ct">Dette de sommeil · 14j</div>
@@ -274,6 +285,8 @@
     <div class="stat"><div class="sl">HRV moy · 7j</div><div class="sv" id="tr7hrv">—</div></div>
     <div class="stat"><div class="sl">Charge · 7j</div><div class="sv" id="tr7load">—</div></div>
   </div>
+  <div class="card" id="weeklyCard"></div>
+  <div class="card" id="corrCard"></div>
 </div></section>
 
 <!-- ===================== PROFIL ===================== -->
@@ -291,6 +304,7 @@
     </div>
     <button class="btn ghost sm" style="margin-top:10px" onclick="saveProfile()">💾 Enregistrer</button>
   </div>
+  <div class="card" id="journalCard"></div>
   <div class="card">
     <div class="ct">⌚ Capteur · Polar Loop / Health Connect</div>
     <button class="btn sm" onclick="pullHealthConnect()">🔄 Synchroniser mon capteur</button>
@@ -349,6 +363,34 @@ function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(
 function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
+// ===================== WHOOP-FAITHFUL MODULES =====================
+// --- Hypnogramme (stades sur la timeline de la nuit) ---
+function hypnoSeq(s){const cyc=Math.max(3,Math.min(6,Math.round(s.sleepMin/95)));const seq=[];const dP=s.deep/cyc,rP=s.rem/cyc,lP=s.light/cyc;if(s.awake>3)seq.push([3,Math.round(s.awake*0.35)]);for(let c=0;c<cyc;c++){seq.push([1,Math.round(lP*0.45)]);const dw=Math.round(dP*Math.max(0.3,(2-c*1.4/cyc)));if(dw>2)seq.push([0,dw]);seq.push([1,Math.round(lP*0.3)]);const rw=Math.round(rP*(0.4+c*1.2/cyc));if(rw>2)seq.push([2,rw]);seq.push([1,Math.round(lP*0.25)])}if(s.awake>3)seq.push([3,Math.round(s.awake*0.3)]);return seq}
+function drawHypno(date){const s=sensorOf(date||tk());if(!s||!s.sleepMin)return '<p class="sci">Pas de données de sommeil.</p>';const seq=hypnoSeq(s);const W=320,H=108,gx=46,aw=W-gx-6,total=seq.reduce((a,b)=>a+b[1],0)||1;const yC={3:16,2:42,1:66,0:90},col={0:'#3A4FB0',1:'#9AA4DD',2:'#5E6FCC',3:'#D8C9A2'};let x=gx,r='';seq.forEach(seg=>{const w=seg[1]/total*aw;r+='<rect x="'+x.toFixed(1)+'" y="'+(yC[seg[0]]-5)+'" width="'+Math.max(2,w-1).toFixed(1)+'" height="10" rx="3" fill="'+col[seg[0]]+'"/>';x+=w});const lab=[[16,'Éveillé'],[42,'REM'],[66,'Léger'],[90,'Profond']].map(l=>'<text x="2" y="'+(l[0]+3)+'" font-size="8.5" fill="var(--faint)" font-weight="800">'+l[1]+'</text>').join('');return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px">'+lab+r+'</svg>'}
+// --- Sleep Need (waterfall) ---
+function sleepNeedCalc(){const base=(getProfile().need||8)*60;const debt=Math.round(sleepDebt()*60*0.35);const strain=Math.round(loadStrain()*3.2);const nap=0;const need=Math.max(base,base+debt+strain-nap);return {base,debt,strain,nap,need}}
+function sleepConsistency(){const a=[];for(let i=0;i<5;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)a.push(s.sleepMin)}if(a.length<3)return 80;const m=a.reduce((x,y)=>x+y,0)/a.length,sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length);return Math.max(40,Math.min(100,Math.round(100-sd/2.4)))}
+function sleepSubscores(t){const need=(getProfile().need||8)*60;return [['Suffisance',Math.min(100,Math.round(t.sleepMin/need*100))],['Efficacité',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):95],['Réparateur',Math.round((t.deep+t.rem)/Math.max(1,t.sleepMin)*100)],['Régularité',sleepConsistency()]]}
+// --- Stress Monitor 0-3 ---
+function stressLevel(){const bH=baseStat('hrv'),t=sensorOf(tk());if(!bH||!t||t.hrv==null)return null;const z=(t.hrv-bH.m)/bH.sd;return Math.max(0,Math.min(3,+(1.5-z*0.85).toFixed(1)))}
+function drawStress(){const lv=stressLevel();if(lv==null)return '';const W=300,H=60;let p='M0 '+H;for(let i=0;i<=24;i++){const hr=i,base=lv*(0.6+0.4*Math.sin((hr-9)/24*Math.PI*2));const y=H-8-Math.max(0,Math.min(3,base))/3*(H-16);p+=' L'+(i/24*W).toFixed(1)+' '+y.toFixed(1)}return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px"><path d="'+p+' L'+W+' '+H+' Z" fill="rgba(240,73,46,.12)"/><path d="'+p.replace(/^M0 \d+/,'M0 '+(H-8))+'" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>'}
+// --- Health Monitor (5 vitaux) ---
+function renderHealth(){const host=document.getElementById('healthCard');if(!host)return;const t=sensorOf(tk());if(!t){host.innerHTML='<div class="ct">Health Monitor</div><p class="sci">Connecte ton capteur.</p>';return}
+ const rows=[['HRV',t.hrv,'ms',baseStat('hrv'),1],['FC repos',t.rhr,'bpm',baseStat('rhr'),-1],['Fréquence resp.',t.resp,'/min',baseStat('resp'),-1],['Oxygène (SpO₂)',t.spo2,'%',null,1],['Temp. de peau',t.skinTemp,'°',null,1]];
+ host.innerHTML='<div class="ct">Health Monitor</div>'+rows.map(v=>{if(v[1]==null)return '<div class="hm"><span class="hl">'+v[0]+'</span><span class="hv" style="color:var(--faint)">non mesuré (Polar Loop)</span></div>';const b=v[3];let st='✓',col='var(--green)';if(b){const dev=(v[1]-b.m)/b.sd,fav=v[4]>0?dev>=-0.6:dev<=0.6;st=fav?'✓':'!';col=fav?'var(--green)':'var(--accent)'}return '<div class="hm"><span class="hl">'+v[0]+'</span><span class="hv">'+v[1]+' '+v[2]+' <span style="color:'+col+';font-weight:900">'+st+'</span></span></div>'}).join('')+'<p class="sci" style="margin-top:8px">✓ dans ta plage normale · ! hors plage (signal à surveiller).</p>'}
+function renderStress(){const host=document.getElementById('stressCard');if(!host)return;const lv=stressLevel();if(lv==null){host.innerHTML='<div class="ct">Stress du jour</div><p class="sci">En attente de données.</p>';return}const lbl=lv<1?'Bas':lv<2?'Modéré':'Élevé';host.innerHTML='<div class="ct">Stress du jour</div><div class="row" style="align-items:flex-end;gap:12px"><div><span class="big" style="font-size:34px;color:var(--accent)">'+lv.toFixed(1)+'</span><span class="eyebrow"> / 3</span><div class="eyebrow" style="margin-top:2px">'+lbl+'</div></div><div style="flex:1">'+drawStress()+'</div></div>'}
+// --- Journal + corrélations (%) ---
+const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
+function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr()}
+function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
+function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
+function renderCorr(){const host=document.getElementById('corrCard');if(!host)return;const c=behaviorCorr();host.innerHTML='<div class="ct">Ce qui influence ta récup</div>'+(c.length?c.slice(0,7).map(x=>'<div class="cor"><span class="cl">'+x.lbl+'</span><span class="cbarw"><span class="cbarf" style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(x.imp>0?'var(--green)':'var(--accent)')+'"></span></span><span style="color:'+(x.imp>0?'var(--green)':'var(--accent)')+';font-weight:800;width:48px;text-align:right">'+(x.imp>0?'+':'')+x.imp+'%</span></div>').join(''):'<p class="sci">Remplis ton journal quelques jours pour révéler ce qui aide ou nuit à ta récup.</p>')}
+// --- Zones de FC par activité ---
+const ZCOL=['#3FB57A','#9BCB4A','#F2C744','#F0902E','#F0492E'];const ZLAB=['Z1','Z2','Z3','Z4','Z5'];
+function hrZonesOf(sess){if(sess.hr)return sess.hr;const dur=sess.dur||40,i=sess.int||2;const w={1:[.5,.35,.12,.03,0],2:[.25,.4,.25,.08,.02],3:[.1,.25,.35,.22,.08],4:[.05,.15,.3,.3,.2]}[i];return w.map(x=>Math.round(x*dur))}
+// --- Bilan hebdo/mensuel ---
+function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r!=null){rec+=r;rn++}const s=sensorOf(k);if(s&&s.sleepMin){sl+=s.sleepMin;sn++}str+=loadStrain(k);ses+=DB.get('sessions_'+k,[]).length}return {rec:rn?Math.round(rec/rn):null,sl:sn?(sl/sn/60):null,str:Math.round(str),ses}}
+function renderWeekly(){const host=document.getElementById('weeklyCard');if(!host)return;const w=assess(7),pw=(()=>{let rec=0,rn=0;for(let i=7;i<14;i++){const r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;rn++}}return rn?Math.round(rec/rn):null})();const d=(w.rec!=null&&pw!=null)?w.rec-pw:null;host.innerHTML='<div class="ct">Bilan de la semaine</div><div class="grid2" style="gap:10px"><div class="stat"><div class="sl">Récup moy</div><div class="sv">'+(w.rec!=null?w.rec+'%':'—')+'</div><div class="ss">'+(d!=null?(d>=0?'+':'')+d+' vs sem. dernière':'')+'</div></div><div class="stat"><div class="sl">Sommeil moy</div><div class="sv">'+(w.sl!=null?Math.floor(w.sl)+'h'+String(Math.round(w.sl%1*60)).padStart(2,'0'):'—')+'</div></div><div class="stat"><div class="sl">Effort cumulé</div><div class="sv">'+w.str+'</div></div><div class="stat"><div class="sl">Séances</div><div class="sv">'+w.ses+'</div></div></div>'}
 function renderToday(){const p=getProfile(),cal=calibNights(),t=sensorOf(tk());
  set('greet','Bonjour, '+p.name.toUpperCase()+'.');document.getElementById('avatar').textContent=(p.name[0]||'A').toUpperCase();
  const dstr=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});set('heroSub',dstr.charAt(0).toUpperCase()+dstr.slice(1));
@@ -377,7 +419,7 @@ function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/180))).toFixed(1)))}
 function strainTarget(){const rv=recovery(),r=rv?rv.s:60;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
 function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)return null;const r=rv?rv.s:60;return Math.round(c*(r>=67?1.2:r>=34?1.0:0.7))}
-function renderRecovery(){const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'Récup','%');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou simule des données dans Profil.');set('recContrib','');set('recVitals','');return}
+function renderRecovery(){renderHealth();renderStress();const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'Récup','%');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou simule des données dans Profil.');set('recContrib','');set('recVitals','');return}
  document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'','%',rv.color);set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
  set('recContrib',rv.c.map(c=>{const col=c[2]>0.2?'var(--green)':c[2]<-0.2?'var(--accent)':'var(--faint)';return '<div class="cbar"><span class="cl">'+c[0]+'</span><span class="cn">'+c[1]+'</span><span class="ctrack"><span class="cfill" style="width:'+Math.round(Math.max(0,Math.min(1,0.5+c[2]/4))*100)+'%;background:'+col+'"></span></span></div>'}).join(''));
  const vit=[['HRV',rv.today.hrv,'ms',rv.bH,1],['FC repos',rv.today.rhr,'bpm',rv.bR,-1],['Respiration',rv.today.resp,'/min',rv.bP,-1]];
@@ -398,6 +440,9 @@ function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(
  const wake=tmin(getProfile().wake),bed=((wake-need-Math.min(120,debt*15))%1440+1440)%1440;set('slPlan','Couche-toi vers '+String(Math.floor(bed/60)).padStart(2,'0')+':'+String(bed%60).padStart(2,'0'));
  const arr=seriesBack('sleepMin',14).map(x=>x?x/60:null);const mx=Math.max(...arr.filter(x=>x),9);
  set('slBars',arr.map(v=>'<i class="'+(v&&v>=need/60?'on':'')+'" style="height:'+(v?Math.max(6,v/mx*54):6)+'px;'+(v&&v<need/60?'background:var(--amber)':'')+'"></i>').join(''));
+ set('hypnoCard',drawHypno());
+ const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map((c,i)=>'<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>').join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
+ set('subScores',sleepSubscores(t).map(s=>{const col=s[1]>=85?'var(--green)':s[1]>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+s[1]+'%</div></div>'}).join(''));
 }
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
 function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();
@@ -409,7 +454,7 @@ function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();
  const arr=seriesBack(null,14,k=>loadOf(k));const mx=Math.max(tgt,...arr,1);
  set('loadBars14',arr.map((v,i)=>'<i class="'+(i===13?'on':'')+'" style="height:'+Math.max(6,v/mx*60)+'px"></i>').join(''));
  const ac=loadAvg(5),ch=loadAvg(28),r=ch>0?(ac/ch):0;set('loadBalance',ch>0?('Ratio charge aiguë/chronique : <b>'+r.toFixed(2)+'</b> — '+(r>1.5?'⚠️ pic de charge, risque de surmenage':r<0.8?'tu peux pousser un peu':'zone optimale 👌')):'Ajoute des séances pour suivre ta charge.');
- const ss=DB.get('sessions_'+tk(),[]);set('seList',ss.map((s,i)=>'<div class="kv" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="k">'+(s.name||'Séance')+' · '+s.dur+'min</span><span class="v">'+Math.round(s.dur*s.int*1.7)+' <span style="cursor:pointer;color:var(--faint)" onclick="delSession('+i+')">✕</span></span></div>').join(''));
+ const ss=DB.get('sessions_'+tk(),[]);set('seList',ss.map((s,i)=>{const z=hrZonesOf(s),zt=z.reduce((a,b)=>a+b,0)||1;return '<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="kv"><span class="k">'+(s.name||'Séance')+' · '+s.dur+'min</span><span class="v">'+Math.round(s.dur*s.int*1.7)+' charge <span style="cursor:pointer;color:var(--faint);margin-left:4px" onclick="delSession('+i+')">✕</span></span></div><div class="zb">'+z.map((m,zi)=>'<span style="width:'+(m/zt*100)+'%;background:'+ZCOL[zi]+'"></span>').join('')+'</div><div class="sci" style="font-size:10px;margin-top:3px">'+z.map((m,zi)=>m>0?ZLAB[zi]+' '+m+'min':'').filter(Boolean).join(' · ')+'</div></div>'}).join(''));
 }
 function addSession(){const dur=parseInt(document.getElementById('seDur').value)||0;if(!dur)return;const int=+document.getElementById('seInt').value;const name=document.getElementById('seName').value||'Séance';const k=tk(),a=DB.get('sessions_'+k,[]);a.push({name,dur,int});DB.set('sessions_'+k,a);document.getElementById('seDur').value='';document.getElementById('seName').value='';toast('Séance ajoutée ⚡');renderLoad()}
 function delSession(i){const k=tk(),a=DB.get('sessions_'+k,[]);a.splice(i,1);DB.set('sessions_'+k,a);renderLoad()}
@@ -419,16 +464,20 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
  const m=metrics[cur];set('trTitle',m[1]+' · '+PER[pc][1]);const arr=seriesBack(null,nd,m[3]);document.getElementById('trChart').innerHTML=lineSVG(arr,320,120,m[2]);
  const v=arr.filter(x=>x!=null);set('trStat',v.length?('Moyenne '+(m[0]==='sleep'?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)+'h':Math.round(v.reduce((a,b)=>a+b,0)/v.length))):'Pas encore de données.');
  const a7=(fn,r)=>{let t=0,c=0;for(let i=0;i<7;i++){const x=fn(tk(-i));if(x!=null){t+=x;c++}}return c?(r?(t/c).toFixed(r):Math.round(t/c)):'—'};
- set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',(function(){const x=a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1);return x==='—'?'—':x+'h'})());set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)));
+ renderWeekly();renderCorr();set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',(function(){const x=a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1);return x==='—'?'—':x+'h'})());set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)));
 }
-function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;set('verLine','Version : '+APP_VERSION)}
+function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;set('verLine','Version : '+APP_VERSION);renderJournal()}
 function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;DB.set('profile',p);toast('Profil enregistré');renderToday()}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
 async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));persistRecov();toast('Capteur synchronisé ⌚');go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
-function simulateData(){for(let i=0;i<28;i++){const k=tk(-i);const sleepMin=Math.round(410+Math.random()*100),deep=Math.round(70+Math.random()*45),rem=Math.round(85+Math.random()*40),awake=Math.round(10+Math.random()*22),light=Math.max(30,sleepMin-deep-rem-awake);DB.set('sensor_'+k,{hrv:Math.round(58+Math.random()*30),rhr:Math.round(46+Math.random()*12),resp:+(13+Math.random()*2.4).toFixed(1),deep,rem,light,awake,sleepMin,source:'sim'});if(Math.random()>0.35){DB.set('sessions_'+k,[{name:'Séance',dur:40+Math.round(Math.random()*50),int:1+Math.round(Math.random()*3)}])}}
- // compute & persist recov for each day (baseline-relative, approx)
+function simulateData(){const BEH=['cafeine','alcool','ecrans','sportintense','magnesium','meditation','repastard','hydrate'];
+ for(let i=0;i<28;i++){const k=tk(-i);const j={};BEH.forEach(b=>{if(Math.random()<0.3)j[b]=true});DB.set('journal_'+k,j);
+  let pen=0;if(j.alcool)pen-=9;if(j.cafeine)pen-=4;if(j.ecrans)pen-=3;if(j.repastard)pen-=2;if(j.magnesium)pen+=3;if(j.meditation)pen+=3;if(j.hydrate)pen+=2;
+  const sleepMin=Math.round(410+Math.random()*100),deep=Math.round(70+Math.random()*45),rem=Math.round(85+Math.random()*40),awake=Math.round(10+Math.random()*22),light=Math.max(30,sleepMin-deep-rem-awake);
+  DB.set('sensor_'+k,{hrv:Math.round(58+Math.random()*30+pen),rhr:Math.round(46+Math.random()*12-pen*0.3),resp:+(13+Math.random()*2.4).toFixed(1),deep,rem,light,awake,sleepMin,source:'sim'});
+  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3);DB.set('sessions_'+k,[{name:['Course','Muscu','Vélo','HIIT'][Math.floor(Math.random()*4)],dur,int}])}}
  for(let i=27;i>=0;i--){const k=tk(-i);persistRecovFor(k)}
- toast('28 jours simulés 🎲');go('today')}
+ renderProfile();toast('28 jours simulés 🎲');go('today')}
 function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[],ps=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr);if(ss.resp!=null)ps.push(ss.resp)}}
  if(hs.length<3){DB.set('recov_'+k,Math.round(50+(s.hrv-65)));return}
  const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
@@ -438,7 +487,7 @@ function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v4';
+const APP_VERSION='flint-v5';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 persistRecov();
