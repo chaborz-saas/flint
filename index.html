@@ -154,7 +154,7 @@
   <div class="card splitc">
     <div class="left">
       <div class="ct">Charge d'entraînement</div>
-      <div class="big" style="font-size:42px" id="loadVal">0</div>
+      <div class="big" style="font-size:42px" id="loadVal">—</div>
       <div class="eyebrow" id="loadQual" style="color:var(--accent);margin-top:3px">—</div>
       <div class="bars" id="loadBars"></div>
       <div class="barlbl"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
@@ -246,7 +246,7 @@
   <div class="card splitc">
     <div class="left">
       <div class="ct">Charge du jour</div>
-      <div class="big" style="font-size:46px" id="loadVal2">0</div>
+      <div class="big" style="font-size:46px" id="loadVal2">—</div>
       <div class="progbar"><i id="loadProg" style="width:0%"></i></div>
       <div class="sci" id="loadObj" style="margin-top:6px;text-align:right">Objectif —</div>
     </div>
@@ -369,8 +369,8 @@ function hypnoSeq(s){const cyc=Math.max(3,Math.min(6,Math.round(s.sleepMin/95)))
 function drawHypno(date){const s=sensorOf(date||tk());if(!s||!s.sleepMin)return '<p class="sci">Pas de données de sommeil.</p>';const seq=hypnoSeq(s);const W=320,H=108,gx=46,aw=W-gx-6,total=seq.reduce((a,b)=>a+b[1],0)||1;const yC={3:16,2:42,1:66,0:90},col={0:'#3A4FB0',1:'#9AA4DD',2:'#5E6FCC',3:'#D8C9A2'};let x=gx,r='';seq.forEach(seg=>{const w=seg[1]/total*aw;r+='<rect x="'+x.toFixed(1)+'" y="'+(yC[seg[0]]-5)+'" width="'+Math.max(2,w-1).toFixed(1)+'" height="10" rx="3" fill="'+col[seg[0]]+'"/>';x+=w});const lab=[[16,'Éveillé'],[42,'REM'],[66,'Léger'],[90,'Profond']].map(l=>'<text x="2" y="'+(l[0]+3)+'" font-size="8.5" fill="var(--faint)" font-weight="800">'+l[1]+'</text>').join('');return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px">'+lab+r+'</svg>'}
 // --- Sleep Need (waterfall) ---
 function sleepNeedCalc(){const base=(getProfile().need||8)*60;const debt=Math.round(sleepDebt()*60*0.35);const strain=Math.round(loadStrain()*3.2);const nap=0;const need=Math.max(base,base+debt+strain-nap);return {base,debt,strain,nap,need}}
-function sleepConsistency(){const a=[];for(let i=0;i<5;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)a.push(s.sleepMin)}if(a.length<3)return 80;const m=a.reduce((x,y)=>x+y,0)/a.length,sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length);return Math.max(40,Math.min(100,Math.round(100-sd/2.4)))}
-function sleepSubscores(t){const need=(getProfile().need||8)*60;return [['Suffisance',Math.min(100,Math.round(t.sleepMin/need*100))],['Efficacité',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):95],['Réparateur',Math.round((t.deep+t.rem)/Math.max(1,t.sleepMin)*100)],['Régularité',sleepConsistency()]]}
+function sleepConsistency(){const a=[];for(let i=0;i<5;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)a.push(s.sleepMin)}if(a.length<3)return null;const m=a.reduce((x,y)=>x+y,0)/a.length,sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length);return Math.max(40,Math.min(100,Math.round(100-sd/2.4)))}
+function sleepSubscores(t){const need=(getProfile().need||8)*60;return [['Suffisance',Math.min(100,Math.round(t.sleepMin/need*100))],['Efficacité',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):null],['Réparateur',Math.round((t.deep+t.rem)/Math.max(1,t.sleepMin)*100)],['Régularité',sleepConsistency()]]}
 // --- Stress Monitor 0-3 ---
 function stressLevel(){const bH=baseStat('hrv'),t=sensorOf(tk());if(!bH||!t||t.hrv==null)return null;const z=(t.hrv-bH.m)/bH.sd;return Math.max(0,Math.min(3,+(1.5-z*0.85).toFixed(1)))}
 function drawStress(){const lv=stressLevel();if(lv==null)return '';const W=300,H=60;let p='M0 '+H;for(let i=0;i<=24;i++){const hr=i,base=lv*(0.6+0.4*Math.sin((hr-9)/24*Math.PI*2));const y=H-8-Math.max(0,Math.min(3,base))/3*(H-16);p+=' L'+(i/24*W).toFixed(1)+' '+y.toFixed(1)}return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px"><path d="'+p+' L'+W+' '+H+' Z" fill="rgba(240,73,46,.12)"/><path d="'+p.replace(/^M0 \d+/,'M0 '+(H-8))+'" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>'}
@@ -417,8 +417,8 @@ function renderToday(){const p=getProfile(),cal=calibNights(),t=sensorOf(tk());
 }
 function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/180))).toFixed(1)))}
-function strainTarget(){const rv=recovery(),r=rv?rv.s:60;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
-function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)return null;const r=rv?rv.s:60;return Math.round(c*(r>=67?1.2:r>=34?1.0:0.7))}
+function strainTarget(){const rv=recovery();if(!rv)return [10,14];const r=rv.s;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
+function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)return null;const f=!rv?1:(rv.s>=67?1.2:rv.s>=34?1:0.7);return Math.round(c*f)}
 function renderRecovery(){renderHealth();renderStress();const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'Récup','%');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou simule des données dans Profil.');set('recContrib','');set('recVitals','');return}
  document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'','%',rv.color);set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
  set('recContrib',rv.c.map(c=>{const col=c[2]>0.2?'var(--green)':c[2]<-0.2?'var(--accent)':'var(--faint)';return '<div class="cbar"><span class="cl">'+c[0]+'</span><span class="cn">'+c[1]+'</span><span class="ctrack"><span class="cfill" style="width:'+Math.round(Math.max(0,Math.min(1,0.5+c[2]/4))*100)+'%;background:'+col+'"></span></span></div>'}).join(''));
@@ -432,7 +432,7 @@ function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(
  const perf=Math.min(100,Math.round(t.sleepMin/need*100));document.getElementById('sleepRing').innerHTML=ringHTML(perf,160,'','%','#6C7BD6');
  set('sleepLine',(t.sleepMin/60).toFixed(1)+'h sur '+(need/60)+'h de besoin');
  set('slDur',Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'));
- const eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):95;set('slEff',eff+'%');
+ set('slEff',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100)+'%':'—');
  const st=[['Profond',t.deep,'#3A4FB0'],['REM',t.rem,'#6C7BD6'],['Léger',t.light,'#B9C2EA'],['Éveillé',t.awake,'#E7E3DA']].filter(x=>x[1]);const tot=st.reduce((a,b)=>a+b[1],0)||1;
  set('slStages',st.map(s=>'<span style="width:'+(s[1]/tot*100)+'%;background:'+s[2]+'"></span>').join(''));
  set('slStagesTxt',st.map(s=>s[0]+' '+Math.round(s[1])+'min').join(' · '));
@@ -442,7 +442,7 @@ function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(
  set('slBars',arr.map(v=>'<i class="'+(v&&v>=need/60?'on':'')+'" style="height:'+(v?Math.max(6,v/mx*54):6)+'px;'+(v&&v<need/60?'background:var(--amber)':'')+'"></i>').join(''));
  set('hypnoCard',drawHypno());
  const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map((c,i)=>'<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>').join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
- set('subScores',sleepSubscores(t).map(s=>{const col=s[1]>=85?'var(--green)':s[1]>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+s[1]+'%</div></div>'}).join(''));
+ set('subScores',sleepSubscores(t).map(s=>{const v=s[1];const col=v==null?'var(--faint)':v>=85?'var(--green)':v>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+(v==null?'—':v+'%')+'</div></div>'}).join(''));
 }
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
 function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();
@@ -479,7 +479,7 @@ function simulateData(){const BEH=['cafeine','alcool','ecrans','sportintense','m
  for(let i=27;i>=0;i--){const k=tk(-i);persistRecovFor(k)}
  renderProfile();toast('28 jours simulés 🎲');go('today')}
 function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[],ps=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr);if(ss.resp!=null)ps.push(ss.resp)}}
- if(hs.length<3){DB.set('recov_'+k,Math.round(50+(s.hrv-65)));return}
+ if(hs.length<3)return;
  const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
  const zH=(s.hrv-mean(hs))/sd(hs),zR=(s.rhr-mean(rs))/sd(rs),sp=Math.min(1.1,s.sleepMin/((getProfile().need||8)*60)),zS=(sp-1)*3;
  const Z=0.55*zH-0.22*zR+0.18*zS;DB.set('recov_'+k,Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z))))))}
@@ -487,7 +487,7 @@ function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v5';
+const APP_VERSION='flint-v6';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 persistRecov();
