@@ -11,13 +11,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4F1EA; --bg2:#EFEBE2; --card:#FFFFFF;
+    --bg:#F3EFE7; --bg2:#EBE6DC; --card:#FFFFFF;
     --ink:#15140F; --ink2:#6E6A62; --faint:#A7A29A;
     --accent:#F0492E; --accentL:#FF6A48; --accentD:#D63A20;
     --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
     --green:#3FB57A; --amber:#F2A93B;
-    --shadow:0 6px 22px rgba(20,18,12,.06); --shadowL:0 12px 32px rgba(240,73,46,.18);
-    --r:22px;
+    --shadow:0 10px 34px rgba(20,18,12,.05),0 2px 6px rgba(20,18,12,.03); --shadowL:0 14px 34px rgba(240,73,46,.22);
+    --r:26px;
     --disp:'Anton',-apple-system,'Arial Narrow',sans-serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
@@ -33,22 +33,22 @@
     padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
   header .logo{font-family:var(--disp);font-size:26px;font-style:italic;letter-spacing:.02em;color:var(--ink);transform:skewX(-6deg)}
   header .av{width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center;font-size:18px;overflow:hidden;background-size:cover;background-position:center}
-  .wrap{max-width:560px;margin:0 auto;padding:4px 16px 0}
+  .wrap{max-width:560px;margin:0 auto;padding:2px 17px 0}
   .view{display:none}.view.on{display:block;animation:vin .32s cubic-bezier(.2,.8,.2,1)}
   @keyframes vin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .eyebrow{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.18em;text-transform:uppercase}
   .pgtitle{font-family:var(--disp);font-size:42px;text-align:center;letter-spacing:.01em;margin:2px 0 14px}
-  .card{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
-  .ct{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.13em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;gap:8px}
-  .iconb{width:46px;height:46px;border-radius:50%;background:var(--peach);display:grid;place-items:center;font-size:20px;flex:none}
+  .card{background:var(--card);border-radius:var(--r);padding:22px;margin-bottom:13px;box-shadow:var(--shadow)}
+  .ct{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.14em;text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .iconb{width:44px;height:44px;border-radius:50%;background:var(--peach);display:grid;place-items:center;font-size:19px;flex:none}
   .sci{font-size:13px;color:var(--ink2);line-height:1.5}
   .row{display:flex;align-items:center}
   .big{font-family:var(--disp);line-height:.92;letter-spacing:.01em}
 
   /* HERO */
-  .hero{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:6px 2px 18px}
+  .hero{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px 20px}
   .hero .hi{font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.04em;text-transform:uppercase}
-  .hero .hl{font-family:var(--disp);font-size:40px;line-height:.92;margin:6px 0 8px;text-transform:uppercase}
+  .hero .hl{font-family:var(--disp);font-size:37px;line-height:.9;margin:7px 0 9px;text-transform:uppercase}
   .hero .hs{font-size:13px;color:var(--ink2)}
   .ring{position:relative;flex:none}
   .ring svg{display:block}
@@ -61,23 +61,23 @@
   /* metric split card */
   .splitc{display:flex;gap:16px}
   .splitc .left{flex:1;min-width:0}
-  .splitc .rightcol{flex:none;width:128px;border-left:1px solid var(--line);padding-left:14px;display:flex;flex-direction:column;gap:9px}
+  .splitc{gap:18px}.splitc .rightcol{flex:none;width:136px;border-left:1px solid var(--line);padding-left:16px;display:flex;flex-direction:column;gap:12px}
   .kv{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-  .kv .k{font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
-  .kv .v{font-size:14px;font-weight:800}
+  .kv .k{font-size:10px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;line-height:1.15}
+  .kv .v{font-size:15px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
   .kv .v.acc{color:var(--accent)}
 
-  .stbig{font-family:var(--disp);font-size:30px;text-transform:uppercase;margin:2px 0 6px}
+  .stbig{font-family:var(--disp);font-size:33px;text-transform:uppercase;margin:6px 0 8px;line-height:.95}
   .bars{display:flex;align-items:flex-end;gap:7px;height:46px;margin-top:12px}
-  .bars i{flex:1;border-radius:5px 5px 0 0;background:var(--track);min-height:6px;position:relative}
-  .bars i.on{background:var(--accent)}
+  .bars{gap:8px;height:48px;margin-top:14px}.bars i{flex:1;border-radius:6px;background:var(--track);min-height:7px}
+  .bars i.on{background:linear-gradient(180deg,var(--accentL),var(--accent))}
   .barlbl{display:flex;gap:7px;margin-top:5px}.barlbl span{flex:1;text-align:center;font-size:9px;font-weight:700;color:var(--faint)}
-  .trend{font-family:var(--disp);font-size:30px}
+  .trend{font-family:var(--disp);font-size:32px;line-height:1}
   .progbar{height:12px;border-radius:8px;background:var(--track);overflow:hidden;margin-top:8px}
   .progbar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accentL),var(--accent))}
   .spark{width:100%;height:54px;display:block}
   .pill{display:inline-block;background:var(--bg2);color:var(--ink2);font-weight:700;font-size:11.5px;border-radius:30px;padding:5px 11px;margin:3px 5px 0 0}
-  .banner{background:var(--accent);color:#fff;border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadowL);cursor:pointer}
+  .banner{background:linear-gradient(135deg,var(--accentL),var(--accentD));color:#fff;border-radius:var(--r);padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadowL);cursor:pointer;margin-top:2px}
   .banner .iconb{background:rgba(255,255,255,.18)}
   .banner b{font-family:var(--disp);font-size:17px;letter-spacing:.01em;text-transform:uppercase;display:block}
   .banner p{margin:3px 0 0;font-size:12px;opacity:.92}
@@ -133,13 +133,10 @@
     <div style="flex:1;min-width:0">
       <div class="hi" id="greet">Bonjour</div>
       <div class="hl" id="headline">—</div>
-      <div class="hs">Voici ton état aujourd'hui.</div>
+      <div class="hs" id="heroSub">Voici ton état aujourd'hui.</div>
     </div>
     <div class="ring" id="heroRing"></div>
   </div>
-  <div class="card" id="calibBanner" style="display:none;background:var(--peach)"><div class="disp" style="font-size:20px;text-align:center">CALIBRATION EN COURS</div><p class="sci" id="calibTxt" style="text-align:center;margin-top:4px"></p></div>
-  <div class="card" id="dialsCard"><div class="row" style="justify-content:space-around;gap:6px"><div style="text-align:center" id="dialRec"></div><div style="text-align:center" id="dialSlp"></div><div style="text-align:center" id="dialStr"></div></div><div class="sci" id="strainCoach" style="text-align:center;margin-top:10px"></div></div>
-
   <div class="card splitc">
     <div class="left">
       <div class="ct"><span class="iconb" id="stateIcon">🔥</span><span>État du jour</span></div>
@@ -148,32 +145,29 @@
     </div>
     <div class="rightcol" id="stateKv"></div>
   </div>
-
   <div class="card splitc">
     <div class="left">
       <div class="ct">Charge d'entraînement</div>
-      <div class="big" style="font-size:40px" id="loadVal">0</div>
-      <div class="eyebrow" id="loadQual" style="color:var(--accent);margin-top:2px">—</div>
+      <div class="big" style="font-size:42px" id="loadVal">0</div>
+      <div class="eyebrow" id="loadQual" style="color:var(--accent);margin-top:3px">—</div>
       <div class="bars" id="loadBars"></div>
       <div class="barlbl"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
     </div>
-    <div class="rightcol" style="justify-content:center">
-      <div class="iconb" style="margin-bottom:6px">📈</div>
+    <div class="rightcol" style="justify-content:center;align-items:flex-start">
+      <div class="iconb" style="margin-bottom:8px">📈</div>
       <div class="eyebrow">Tendance</div>
       <div class="trend" id="loadTrend">—</div>
-      <div class="sci" id="loadTrendSub">vs hier</div>
+      <div class="sci">vs hier</div>
     </div>
   </div>
-
   <div class="card">
     <div class="ct"><span class="iconb">❤️</span><span>Fréquence cardiaque</span></div>
     <div class="row" style="gap:14px;align-items:flex-end">
-      <div><span class="big" style="font-size:36px" id="hrVal">—</span> <span class="eyebrow">bpm</span></div>
+      <div style="white-space:nowrap"><span class="big" style="font-size:38px" id="hrVal">—</span> <span class="eyebrow">bpm</span></div>
       <svg class="spark" id="hrSpark" viewBox="0 0 300 54" preserveAspectRatio="none" style="flex:1"></svg>
     </div>
-    <div class="sci" id="hrSub" style="margin-top:6px">Dans ta zone habituelle.</div>
+    <div class="sci" id="hrSub" style="margin-top:8px">Dans ta zone habituelle.</div>
   </div>
-
   <div class="banner" onclick="go('trends')">
     <div class="iconb">🏆</div>
     <div><b>Le progrès, pas la perfection.</b><p>Continue d'accumuler les bonnes journées.</p></div>
@@ -345,7 +339,7 @@ function fatigue(){const acute=loadAvg(5),chronic=loadAvg(28);if(chronic<1)retur
 function scoreFlint(){const rv=recovery();if(!rv)return null;const t=rv.today,need=(getProfile().need||8)*60;const sp=Math.min(1.1,(t.sleepMin||need*0.85)/need);const fat=fatigue();const s=Math.round(0.5*rv.s+0.3*(sp*100)+0.2*(100-fat));return Math.max(1,Math.min(100,s))}
 
 /* ---------- RING ---------- */
-function ringHTML(val,size,label,sub,color){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-val/100);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc"><div class="rlab">'+label+'</div><div class="rval" style="font-size:'+Math.round(size*0.30)+'px;color:'+color+'">'+val+'</div><div class="rsub">'+sub+'</div></div>'}
+function ringHTML(val,size,label,sub,color){color=color||'var(--accent)';const r=size/2-10,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+val);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".75"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="10"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc"><div class="rlab">'+label+'</div><div class="rval" style="font-size:'+Math.round(size*0.31)+'px;color:'+color+'">'+val+'</div><div class="rsub">'+sub+'</div></div>'}
 function lineSVG(arr,W,H,color){const v=arr.filter(x=>x!=null);if(v.length<2)return '';const mn=Math.min(...v),mx=Math.max(...v),pad=6,gx=i=>pad+i*(W-2*pad)/(arr.length-1),gy=x=>H-pad-(mx===mn?H/2:(x-mn)/(mx-mn)*(H-2*pad));let p='',st=false;arr.forEach((x,i)=>{if(x==null)return;p+=(st?'L':'M')+gx(i).toFixed(1)+' '+gy(x).toFixed(1);st=true});const last=arr.map((x,i)=>x!=null?i:-1).filter(i=>i>=0).pop();return '<path d="'+p+'" fill="none" stroke="'+(color||'var(--accent)')+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+gx(last).toFixed(1)+'" cy="'+gy(arr[last]).toFixed(1)+'" r="3.4" fill="'+(color||'var(--accent)')+'"/>'}
 function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(-i);out.push(fn?fn(k):(sensorOf(k)?sensorOf(k)[field]:null))}return out}
 
@@ -353,30 +347,27 @@ function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(
 function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
-function renderToday(){const p=getProfile(),cal=calibNights();
- const dstr=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+function renderToday(){const p=getProfile(),cal=calibNights(),t=sensorOf(tk());
  set('greet','Bonjour, '+p.name.toUpperCase()+'.');document.getElementById('avatar').textContent=(p.name[0]||'A').toUpperCase();
- document.querySelector('#v-today .hs').textContent=dstr.charAt(0).toUpperCase()+dstr.slice(1)+' \u2014 voici ton \u00e9tat.';
- const calib=cal<4;document.getElementById('calibBanner').style.display=calib?'block':'none';
- if(calib){set('calibTxt','Flint apprend ta baseline \u00b7 '+cal+'/4 nuits port\u00e9es. Ton score se d\u00e9bloque apr\u00e8s 4 nuits \u2014 comme Whoop, qui s\'adapte \u00e0 TA physiologie.');
-  set('headline','CALIBRATION');document.getElementById('heroRing').innerHTML=ringHTML(0,150,'Score','\u2014','var(--faint)');document.getElementById('heroRing').style.opacity='.55';renderDials();}
- else{document.getElementById('heroRing').style.opacity='1';const sf2=scoreFlint(),rv2=recovery(),col=rv2?rv2.color:'var(--accent)';
-  set('headline', sf2>=67?'PR\u00caT \u00c0 PERFORMER.' : sf2>=34?'VAS-Y AVEC T\u00caTE.' : 'R\u00c9CUP\u00c8RE.');
-  document.getElementById('heroRing').innerHTML=ringHTML(sf2,150,'Score Flint','/100',col);renderDials();}
- const sf=calib?null:scoreFlint(),rv=calib?null:recovery();
- if(!rv){set('stateBig','—');set('stateDesc','Va dans Profil → Simuler 28 jours, ou connecte ta Polar Loop.');set('stateKv','');document.getElementById('stateIcon').textContent='⌚'}
- else{const fat=fatigue();document.getElementById('stateIcon').textContent=rv.state==='PRÊT'?'🔥':rv.state==='OK'?'⚡':'🌙';
-  set('stateBig',rv.state);set('stateDesc',rv.reco);
-  set('stateKv','<div class="kv"><span class="k">Récup</span><span class="v acc">'+rv.s+'%</span></div><div class="kv"><span class="k">Fatigue</span><span class="v">'+fat+'%</span></div><div class="kv"><span class="k">Sommeil</span><span class="v">'+Math.floor(rv.today.sleepMin/60)+'h '+String(Math.round(rv.today.sleepMin%60)).padStart(2,'0')+'</span></div><div class="kv"><span class="k">FC repos</span><span class="v">'+(rv.today.rhr||'—')+' bpm</span></div>')}
- // load
+ const dstr=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});set('heroSub',dstr.charAt(0).toUpperCase()+dstr.slice(1));
+ const calib=cal<4;document.getElementById('heroRing').style.opacity=calib?'.65':'1';
+ if(calib){set('headline','EN CALIBRATION');document.getElementById('heroRing').innerHTML=ringHTML(Math.round(cal/4*100),152,'Calibration',cal+'/4','var(--faint)');
+  document.getElementById('stateIcon').textContent='⌚';set('stateBig','JOUR '+(cal+1)+'/4');
+  set('stateDesc','Flint apprend ta baseline. Ton score de récupération se débloque après 4 nuits portées — comme Whoop, qui s\'adapte à TA physiologie.');}
+ else{const sf=scoreFlint(),rv=recovery(),col=rv?rv.color:'var(--accent)';
+  set('headline', sf>=67?'PRÊT À PERFORMER.' : sf>=34?'VAS-Y AVEC TÊTE.' : 'RÉCUPÈRE.');
+  document.getElementById('heroRing').innerHTML=ringHTML(sf,152,'Score Flint','/100',col);
+  document.getElementById('stateIcon').textContent=rv.state==='PRÊT'?'\U0001F525':rv.state==='OK'?'⚡':'\U0001F319';
+  set('stateBig',rv.state);set('stateDesc',rv.reco);}
+ const rv2=calib?null:recovery(),fat=calib?null:fatigue();
+ const slH=t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—';
+ set('stateKv','<div class="kv"><span class="k">Récup</span><span class="v acc">'+(rv2?rv2.s+'%':'—')+'</span></div><div class="kv"><span class="k">Fatigue</span><span class="v">'+(fat!=null?fat+'%':'—')+'</span></div><div class="kv"><span class="k">Sommeil</span><span class="v">'+slH+'</span></div><div class="kv"><span class="k">FC repos</span><span class="v">'+(t&&t.rhr?t.rhr+' bpm':'—')+'</span></div>');
  const L=loadOf(tk()),tgt=loadTarget();set('loadVal',L);set('loadQual',L<tgt*0.6?'LÉGÈRE':L<=tgt?'OPTIMALE':'ÉLEVÉE');
  const week=[];for(let i=6;i>=0;i--)week.push(loadOf(tk(-i)));const mx=Math.max(tgt,...week,1);
- set('loadBars',week.map((v,i)=>'<i class="'+(i===6?'on':'')+'" style="height:'+Math.max(6,v/mx*46)+'px"></i>').join(''));
+ set('loadBars',week.map((v,i)=>'<i class="'+(i===6?'on':'')+'" style="height:'+Math.max(8,v/mx*48)+'px"></i>').join(''));
  const y=loadOf(tk(-1)),tr=y>0?Math.round((L-y)/y*100):0;set('loadTrend',(tr>=0?'+':'')+tr+'%');document.getElementById('loadTrend').style.color=tr>=0?'var(--green)':'var(--accent)';
- // HR
- const t=sensorOf(tk());set('hrVal',t&&t.rhr?t.rhr:'—');const hr=seriesBack('rhr',14);document.getElementById('hrSpark').innerHTML=lineSVG(hr,300,54,'var(--accent)');
- const bR=baseStat('rhr');set('hrSub',(t&&t.rhr&&bR)?(t.rhr<=bR.m+2?'Dans ta zone habituelle.':'Légèrement au-dessus de ta moyenne.'):'Connecte ton capteur.');
- document.getElementById('avatar').textContent=p.name[0]?p.name[0].toUpperCase():'🧑';
+ set('hrVal',t&&t.rhr?t.rhr:'—');document.getElementById('hrSpark').innerHTML=lineSVG(seriesBack('rhr',14),300,54,'var(--accent)');
+ const bR=baseStat('rhr');set('hrSub',(t&&t.rhr&&bR)?(t.rhr<=bR.m+2?'Dans ta zone habituelle.':'Légèrement au-dessus de ta moyenne.'):'En attente de tes données.');
 }
 function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/180))).toFixed(1)))}
@@ -443,7 +434,7 @@ function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v2';
+const APP_VERSION='flint-v3';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 persistRecov();
