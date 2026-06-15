@@ -53,9 +53,9 @@
   .ring{position:relative;flex:none}
   .ring svg{display:block}
   .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-  .ring .rc{gap:3px}
+  .ring .rc{gap:5px}
   .ring .rlab{font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.13em;text-transform:uppercase}
-  .ring .rval{font-family:var(--disp);color:var(--accent);line-height:.78}
+  .ring .rval{font-family:var(--disp);color:var(--accent);line-height:.68}
   .ring .rsub{font-size:11px;font-weight:700;color:var(--faint);margin-top:-2px}
 
   /* metric split card */
@@ -231,6 +231,7 @@
 <!-- ===================== CHARGE ===================== -->
 <section class="view" id="v-load"><div class="wrap">
   <div class="pgtitle">CHARGE</div>
+  <div class="card" style="text-align:center"><div class="ring" id="strainRing" style="margin:0 auto 4px"></div><div class="sci" id="strainTxt" style="margin-top:6px"></div></div>
   <div class="card splitc">
     <div class="left">
       <div class="ct">Charge du jour</div>
@@ -261,6 +262,7 @@
 <section class="view" id="v-trends"><div class="wrap">
   <div class="pgtitle">TENDANCES</div>
   <div class="seg" id="trSeg"></div>
+  <div class="seg" id="trPeriod" style="margin-top:-6px"></div>
   <div class="card">
     <div class="ct" id="trTitle">—</div>
     <svg class="spark" id="trChart" viewBox="0 0 320 120" preserveAspectRatio="none" style="height:120px"></svg>
@@ -335,11 +337,11 @@ function baseStat(field){const a=[];const d=new Date();d.setDate(d.getDate()-1);
 function loadOf(k){const ss=DB.get('sessions_'+k,[]);let L=0;ss.forEach(s=>L+=Math.round((s.dur||0)*(s.int||2)*1.7));const sen=sensorOf(k);if(sen&&sen.load)L=Math.max(L,sen.load);return L}
 function loadAvg(n,off){let t=0,c=0;const d=new Date();d.setDate(d.getDate()-(off||0));for(let i=0;i<n;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();t+=loadOf(k);c++;d.setDate(d.getDate()-1)}return c?t/c:0}
 function recovery(){const t=sensorOf(tk());if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Conditions optimales pour performer.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
-function fatigue(){const acute=loadAvg(5),chronic=loadAvg(28);if(chronic<1)return 35;const ratio=acute/chronic;return Math.max(8,Math.min(95,Math.round(40+(ratio-1)*55)))}
-function scoreFlint(){const rv=recovery();if(!rv)return null;const t=rv.today,need=(getProfile().need||8)*60;const sp=Math.min(1.1,(t.sleepMin||need*0.85)/need);const fat=fatigue();const s=Math.round(0.5*rv.s+0.3*(sp*100)+0.2*(100-fat));return Math.max(1,Math.min(100,s))}
+function fatigue(){const acute=loadAvg(5),chronic=loadAvg(28);if(chronic<1)return null;const ratio=acute/chronic;return Math.max(8,Math.min(95,Math.round(40+(ratio-1)*55)))}
+function scoreFlint(){const rv=recovery();if(!rv)return null;const t=rv.today,need=(getProfile().need||8)*60;const sp=Math.min(1.1,(t.sleepMin||need*0.85)/need);const fat=fatigue()||35;const s=Math.round(0.5*rv.s+0.3*(sp*100)+0.2*(100-fat));return Math.max(1,Math.min(100,s))}
 
 /* ---------- RING ---------- */
-function ringHTML(val,size,label,sub,color){color=color||'var(--accent)';const r=size/2-10,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+val);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".75"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="10"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc"><div class="rlab">'+label+'</div><div class="rval" style="font-size:'+Math.round(size*0.31)+'px;color:'+color+'">'+val+'</div><div class="rsub">'+sub+'</div></div>'}
+function ringHTML(val,size,label,sub,color,dispVal){color=color||'var(--accent)';const r=size/2-10,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+val);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".75"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="10"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc">'+(label?'<div class="rlab">'+label+'</div>':'')+'<div class="rval" style="font-size:'+Math.round(size*0.27)+'px;color:'+color+'">'+(dispVal!=null?dispVal:val)+'</div><div class="rsub">'+sub+'</div></div>'}
 function lineSVG(arr,W,H,color){const v=arr.filter(x=>x!=null);if(v.length<2)return '';const mn=Math.min(...v),mx=Math.max(...v),pad=6,gx=i=>pad+i*(W-2*pad)/(arr.length-1),gy=x=>H-pad-(mx===mn?H/2:(x-mn)/(mx-mn)*(H-2*pad));let p='',st=false;arr.forEach((x,i)=>{if(x==null)return;p+=(st?'L':'M')+gx(i).toFixed(1)+' '+gy(x).toFixed(1);st=true});const last=arr.map((x,i)=>x!=null?i:-1).filter(i=>i>=0).pop();return '<path d="'+p+'" fill="none" stroke="'+(color||'var(--accent)')+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+gx(last).toFixed(1)+'" cy="'+gy(arr[last]).toFixed(1)+'" r="3.4" fill="'+(color||'var(--accent)')+'"/>'}
 function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(-i);out.push(fn?fn(k):(sensorOf(k)?sensorOf(k)[field]:null))}return out}
 
@@ -362,34 +364,30 @@ function renderToday(){const p=getProfile(),cal=calibNights(),t=sensorOf(tk());
  const rv2=calib?null:recovery(),fat=calib?null:fatigue();
  const slH=t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—';
  set('stateKv','<div class="kv"><span class="k">Récup</span><span class="v acc">'+(rv2?rv2.s+'%':'—')+'</span></div><div class="kv"><span class="k">Fatigue</span><span class="v">'+(fat!=null?fat+'%':'—')+'</span></div><div class="kv"><span class="k">Sommeil</span><span class="v">'+slH+'</span></div><div class="kv"><span class="k">FC repos</span><span class="v">'+(t&&t.rhr?t.rhr+' bpm':'—')+'</span></div>');
- const L=loadOf(tk()),tgt=loadTarget();set('loadVal',L);set('loadQual',L<tgt*0.6?'LÉGÈRE':L<=tgt?'OPTIMALE':'ÉLEVÉE');
- const week=[];for(let i=6;i>=0;i--)week.push(loadOf(tk(-i)));const mx=Math.max(tgt,...week,1);
- set('loadBars',week.map((v,i)=>'<i class="'+(i===6?'on':'')+'" style="height:'+Math.max(8,v/mx*48)+'px"></i>').join(''));
- const y=loadOf(tk(-1)),tr=y>0?Math.round((L-y)/y*100):0;set('loadTrend',(tr>=0?'+':'')+tr+'%');document.getElementById('loadTrend').style.color=tr>=0?'var(--green)':'var(--accent)';
+ const L=loadOf(tk()),tgt=loadTarget();
+ if(!tgt){set('loadVal','—');set('loadQual','EN ATTENTE');set('loadBars','');set('loadTrend','—');document.getElementById('loadTrend').style.color='var(--faint)'}
+ else{set('loadVal',L);set('loadQual',L<tgt*0.6?'LÉGÈRE':L<=tgt?'OPTIMALE':'ÉLEVÉE');
+  const week=[];for(let i=6;i>=0;i--)week.push(loadOf(tk(-i)));const mx=Math.max(tgt,...week,1);
+  set('loadBars',week.map((v,i)=>'<i class="'+(i===6?'on':'')+'" style="height:'+Math.max(8,v/mx*48)+'px"></i>').join(''));
+  const y=loadOf(tk(-1)),tr=y>0?Math.round((L-y)/y*100):0;set('loadTrend',(tr>=0?'+':'')+tr+'%');document.getElementById('loadTrend').style.color=tr>=0?'var(--green)':'var(--accent)'}
  set('hrVal',t&&t.rhr?t.rhr:'—');document.getElementById('hrSpark').innerHTML=lineSVG(seriesBack('rhr',14),300,54,'var(--accent)');
  const bR=baseStat('rhr');set('hrSub',(t&&t.rhr&&bR)?(t.rhr<=bR.m+2?'Dans ta zone habituelle.':'Légèrement au-dessus de ta moyenne.'):'En attente de tes données.');
 }
 function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/180))).toFixed(1)))}
 function strainTarget(){const rv=recovery(),r=rv?rv.s:60;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
-function miniRing(pct,col,label,val){const size=94,r=size/2-7,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,pct))/100);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="7"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/><text x="'+size/2+'" y="'+(size/2+7)+'" text-anchor="middle" font-family="Anton" font-size="23" fill="'+col+'">'+val+'</text></svg><div style="font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;margin-top:1px">'+label+'</div>'}
-function renderDials(){const rv=recovery(),t=sensorOf(tk()),need=(getProfile().need||8)*60;const slp=t&&t.sleepMin?Math.min(120,Math.round(t.sleepMin/need*100)):null;const str=loadStrain();
- document.getElementById('dialRec').innerHTML=miniRing(rv?rv.s:0,rv?rv.color:'var(--track)','Recup',rv?rv.s:'\u2014');
- document.getElementById('dialSlp').innerHTML=miniRing(slp||0,'#6C7BD6','Sommeil',slp!=null?slp+'%':'\u2014');
- document.getElementById('dialStr').innerHTML=miniRing(str/21*100,'var(--accent)','Effort',str.toFixed(1));
- const tg=strainTarget();set('strainCoach',rv?('Cible d\'effort aujourd\'hui : <b>'+tg[0]+'\u2013'+tg[1]+'</b> / 21 selon ta r\u00e9cup'):'')}
-function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28))||400;const r=rv?rv.s:60;return Math.round(c*(r>=67?1.2:r>=34?1.0:0.7))}
+function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)return null;const r=rv?rv.s:60;return Math.round(c*(r>=67?1.2:r>=34?1.0:0.7))}
 function renderRecovery(){const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'Récup','%');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou simule des données dans Profil.');set('recContrib','');set('recVitals','');return}
- document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'Récup','%',rv.color);set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
+ document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'','%',rv.color);set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
  set('recContrib',rv.c.map(c=>{const col=c[2]>0.2?'var(--green)':c[2]<-0.2?'var(--accent)':'var(--faint)';return '<div class="cbar"><span class="cl">'+c[0]+'</span><span class="cn">'+c[1]+'</span><span class="ctrack"><span class="cfill" style="width:'+Math.round(Math.max(0,Math.min(1,0.5+c[2]/4))*100)+'%;background:'+col+'"></span></span></div>'}).join(''));
- const vit=[['HRV',rv.today.hrv,'ms',rv.bH],['FC repos',rv.today.rhr,'bpm',rv.bR],['Respiration',rv.today.resp,'/min',rv.bP]];
- set('recVitals',vit.filter(v=>v[1]!=null).map(v=>{const ar=v[3]?(v[1]>v[3].m+0.3*v[3].sd?'↑':v[1]<v[3].m-0.3*v[3].sd?'↓':'→'):'';return '<div class="stat"><div class="sl">'+v[0]+' '+ar+'</div><div class="sv">'+v[1]+'</div><div class="ss">'+v[2]+'</div></div>'}).join(''));
+ const vit=[['HRV',rv.today.hrv,'ms',rv.bH,1],['FC repos',rv.today.rhr,'bpm',rv.bR,-1],['Respiration',rv.today.resp,'/min',rv.bP,-1]];
+ set('recVitals',vit.filter(v=>v[1]!=null).map(v=>{const b=v[3];let st='✓',col='var(--green)',rng='';if(b){const lo=Math.round((b.m-b.sd)*10)/10,hi=Math.round((b.m+b.sd)*10)/10;rng='normale '+lo+'–'+hi;const dev=(v[1]-b.m)/b.sd,fav=v[4]>0?dev>=-0.5:dev<=0.5;st=fav?'✓':'!';col=fav?'var(--green)':'var(--accent)'}return '<div class="stat"><div class="sl">'+v[0]+' <span style="color:'+col+'">'+st+'</span></div><div class="sv">'+v[1]+'<small style="font-size:13px;font-weight:700;color:var(--ink2)"> '+v[2]+'</small></div><div class="ss">'+rng+'</div></div>'}).join(''));
  const age=fitnessAge();set('recAge',age?'🫀 Âge physiologique <b>'+age+' ans</b>':'');
  document.getElementById('recTrend').innerHTML=lineSVG(seriesBack(null,14,k=>DB.get('recov_'+k,null)),300,70,rv.color);
 }
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
 function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(!t||t.sleepMin==null){document.getElementById('sleepRing').innerHTML=ringHTML(0,160,'Sommeil','%');set('sleepLine','Connecte ton capteur.');return}
- const perf=Math.min(100,Math.round(t.sleepMin/need*100));document.getElementById('sleepRing').innerHTML=ringHTML(perf,160,'Sommeil','%','#6C7BD6');
+ const perf=Math.min(100,Math.round(t.sleepMin/need*100));document.getElementById('sleepRing').innerHTML=ringHTML(perf,160,'','%','#6C7BD6');
  set('sleepLine',(t.sleepMin/60).toFixed(1)+'h sur '+(need/60)+'h de besoin');
  set('slDur',Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'));
  const eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):95;set('slEff',eff+'%');
@@ -402,7 +400,12 @@ function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(
  set('slBars',arr.map(v=>'<i class="'+(v&&v>=need/60?'on':'')+'" style="height:'+(v?Math.max(6,v/mx*54):6)+'px;'+(v&&v<need/60?'background:var(--amber)':'')+'"></i>').join(''));
 }
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
-function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();set('loadVal2',L);set('loadProg',Math.min(100,L/tgt*100)+'%');document.getElementById('loadProg').style.width=Math.min(100,L/tgt*100)+'%';set('loadObj','Objectif '+tgt);set('loadTargetTxt',tgt);
+function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();
+ const str=loadStrain(),stg=strainTarget(),cat=str<10?'Léger':str<14?'Modéré':str<18?'Élevé':'Maximal';
+ document.getElementById('strainRing').innerHTML=ringHTML(str/21*100,168,'','/ 21','var(--accent)',str.toFixed(1));
+ set('strainTxt',(recovery()?'Cible <b>'+stg[0]+'–'+stg[1]+'</b>/21 selon ta récup':'Effort cumulé du jour')+' · 0–21 façon Whoop');
+ if(!tgt){set('loadVal2','—');set('loadProg','0%');document.getElementById('loadProg').style.width='0%';set('loadObj','En attente de séances');set('loadTargetTxt','—');set('loadBars14','');set('loadBalance','Ajoute des séances (ou connecte ton capteur) pour suivre ta charge.');set('seList','');return}
+ set('loadVal2',L);set('loadProg',Math.min(100,L/tgt*100)+'%');document.getElementById('loadProg').style.width=Math.min(100,L/tgt*100)+'%';set('loadObj','Objectif '+tgt);set('loadTargetTxt',tgt);
  const arr=seriesBack(null,14,k=>loadOf(k));const mx=Math.max(tgt,...arr,1);
  set('loadBars14',arr.map((v,i)=>'<i class="'+(i===13?'on':'')+'" style="height:'+Math.max(6,v/mx*60)+'px"></i>').join(''));
  const ac=loadAvg(5),ch=loadAvg(28),r=ch>0?(ac/ch):0;set('loadBalance',ch>0?('Ratio charge aiguë/chronique : <b>'+r.toFixed(2)+'</b> — '+(r>1.5?'⚠️ pic de charge, risque de surmenage':r<0.8?'tu peux pousser un peu':'zone optimale 👌')):'Ajoute des séances pour suivre ta charge.');
@@ -412,10 +415,11 @@ function addSession(){const dur=parseInt(document.getElementById('seDur').value)
 function delSession(i){const k=tk(),a=DB.get('sessions_'+k,[]);a.splice(i,1);DB.set('sessions_'+k,a);renderLoad()}
 function renderTrends(){const metrics=[['recov','Récupération','var(--accent)',k=>DB.get('recov_'+k,null)],['hrv','HRV (ms)','#6C7BD6',k=>{const s=sensorOf(k);return s?s.hrv:null}],['rhr','FC repos','#E0723A',k=>{const s=sensorOf(k);return s?s.rhr:null}],['sleep','Sommeil (h)','#3A4FB0',k=>{const s=sensorOf(k);return s?(s.sleepMin/60):null}],['load','Charge','#3FB57A',k=>loadOf(k)]];
  const cur=window._trM||0;set('trSeg',metrics.map((m,i)=>'<button class="'+(i===cur?'on':'')+'" data-m="'+i+'">'+m[1].split(' ')[0]+'</button>').join(''));document.querySelectorAll('#trSeg button').forEach(b=>b.onclick=()=>{window._trM=+b.dataset.m;renderTrends()});
- const m=metrics[cur];set('trTitle',m[1]+' · 30 jours');const arr=seriesBack(null,30,m[3]);document.getElementById('trChart').innerHTML=lineSVG(arr,320,120,m[2]);
+ const PER=[[7,'1 sem'],[30,'1 mois'],[180,'6 mois']];const pc=window._trP||1;set('trPeriod',PER.map((p,i)=>'<button class="'+(i===pc?'on':'')+'" data-p="'+i+'">'+p[1]+'</button>').join(''));document.querySelectorAll('#trPeriod button').forEach(b=>b.onclick=()=>{window._trP=+b.dataset.p;renderTrends()});const nd=PER[pc][0];
+ const m=metrics[cur];set('trTitle',m[1]+' · '+PER[pc][1]);const arr=seriesBack(null,nd,m[3]);document.getElementById('trChart').innerHTML=lineSVG(arr,320,120,m[2]);
  const v=arr.filter(x=>x!=null);set('trStat',v.length?('Moyenne '+(m[0]==='sleep'?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)+'h':Math.round(v.reduce((a,b)=>a+b,0)/v.length))):'Pas encore de données.');
  const a7=(fn,r)=>{let t=0,c=0;for(let i=0;i<7;i++){const x=fn(tk(-i));if(x!=null){t+=x;c++}}return c?(r?(t/c).toFixed(r):Math.round(t/c)):'—'};
- set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1)+'h');set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)));
+ set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',(function(){const x=a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1);return x==='—'?'—':x+'h'})());set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)));
 }
 function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;set('verLine','Version : '+APP_VERSION)}
 function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;DB.set('profile',p);toast('Profil enregistré');renderToday()}
@@ -434,7 +438,7 @@ function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v3';
+const APP_VERSION='flint-v4';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 persistRecov();
