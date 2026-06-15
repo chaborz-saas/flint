@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#F4F1EA">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>FLINT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F1EA; --bg2:#EFEBE2; --card:#FFFFFF;
+    --ink:#15140F; --ink2:#6E6A62; --faint:#A7A29A;
+    --accent:#F0492E; --accentL:#FF6A48; --accentD:#D63A20;
+    --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
+    --green:#3FB57A; --amber:#F2A93B;
+    --shadow:0 6px 22px rgba(20,18,12,.06); --shadowL:0 12px 32px rgba(240,73,46,.18);
+    --r:22px;
+    --disp:'Anton',-apple-system,'Arial Narrow',sans-serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+  input,textarea{user-select:auto}
+  html,body{margin:0;background:var(--bg)}
+  body{color:var(--ink);font-family:var(--sans);padding-bottom:88px;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(120% 60% at 50% -10%, #FBF8F2, transparent 60%), var(--bg);background-attachment:fixed}
+  .num{font-variant-numeric:tabular-nums}
+  .disp{font-family:var(--disp);font-weight:400;letter-spacing:.01em}
+  /* header */
+  header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
+  header .logo{font-family:var(--disp);font-size:26px;font-style:italic;letter-spacing:.02em;color:var(--ink);transform:skewX(-6deg)}
+  header .av{width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center;font-size:18px;overflow:hidden;background-size:cover;background-position:center}
+  .wrap{max-width:560px;margin:0 auto;padding:4px 16px 0}
+  .view{display:none}.view.on{display:block;animation:vin .32s cubic-bezier(.2,.8,.2,1)}
+  @keyframes vin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.18em;text-transform:uppercase}
+  .pgtitle{font-family:var(--disp);font-size:42px;text-align:center;letter-spacing:.01em;margin:2px 0 14px}
+  .card{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .ct{font-size:11px;font-weight:800;color:var(--faint);letter-spacing:.13em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .iconb{width:46px;height:46px;border-radius:50%;background:var(--peach);display:grid;place-items:center;font-size:20px;flex:none}
+  .sci{font-size:13px;color:var(--ink2);line-height:1.5}
+  .row{display:flex;align-items:center}
+  .big{font-family:var(--disp);line-height:.92;letter-spacing:.01em}
+
+  /* HERO */
+  .hero{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:6px 2px 18px}
+  .hero .hi{font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.04em;text-transform:uppercase}
+  .hero .hl{font-family:var(--disp);font-size:40px;line-height:.92;margin:6px 0 8px;text-transform:uppercase}
+  .hero .hs{font-size:13px;color:var(--ink2)}
+  .ring{position:relative;flex:none}
+  .ring svg{display:block}
+  .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .ring .rc{gap:3px}
+  .ring .rlab{font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.13em;text-transform:uppercase}
+  .ring .rval{font-family:var(--disp);color:var(--accent);line-height:.78}
+  .ring .rsub{font-size:11px;font-weight:700;color:var(--faint);margin-top:-2px}
+
+  /* metric split card */
+  .splitc{display:flex;gap:16px}
+  .splitc .left{flex:1;min-width:0}
+  .splitc .rightcol{flex:none;width:128px;border-left:1px solid var(--line);padding-left:14px;display:flex;flex-direction:column;gap:9px}
+  .kv{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .kv .k{font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+  .kv .v{font-size:14px;font-weight:800}
+  .kv .v.acc{color:var(--accent)}
+
+  .stbig{font-family:var(--disp);font-size:30px;text-transform:uppercase;margin:2px 0 6px}
+  .bars{display:flex;align-items:flex-end;gap:7px;height:46px;margin-top:12px}
+  .bars i{flex:1;border-radius:5px 5px 0 0;background:var(--track);min-height:6px;position:relative}
+  .bars i.on{background:var(--accent)}
+  .barlbl{display:flex;gap:7px;margin-top:5px}.barlbl span{flex:1;text-align:center;font-size:9px;font-weight:700;color:var(--faint)}
+  .trend{font-family:var(--disp);font-size:30px}
+  .progbar{height:12px;border-radius:8px;background:var(--track);overflow:hidden;margin-top:8px}
+  .progbar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accentL),var(--accent))}
+  .spark{width:100%;height:54px;display:block}
+  .pill{display:inline-block;background:var(--bg2);color:var(--ink2);font-weight:700;font-size:11.5px;border-radius:30px;padding:5px 11px;margin:3px 5px 0 0}
+  .banner{background:var(--accent);color:#fff;border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadowL);cursor:pointer}
+  .banner .iconb{background:rgba(255,255,255,.18)}
+  .banner b{font-family:var(--disp);font-size:17px;letter-spacing:.01em;text-transform:uppercase;display:block}
+  .banner p{margin:3px 0 0;font-size:12px;opacity:.92}
+  .banner .ar{margin-left:auto;font-size:20px;font-weight:800;opacity:.85}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{background:var(--card);border-radius:18px;padding:15px;box-shadow:var(--shadow)}
+  .stat .sl{font-size:10px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:.1em}
+  .stat .sv{font-family:var(--disp);font-size:30px;margin-top:4px}
+  .stat .ss{font-size:11px;color:var(--ink2);margin-top:2px}
+  .stage{display:flex;height:20px;border-radius:7px;overflow:hidden;margin-top:8px}.stage span{height:100%}
+  .seg{display:flex;background:var(--bg2);border-radius:14px;padding:4px;gap:4px;margin-bottom:14px}
+  .seg button{flex:1;border:0;background:transparent;min-height:40px;border-radius:10px;font-weight:800;color:var(--ink2);font-size:13px;cursor:pointer;font-family:inherit}
+  .seg button.on{background:#fff;color:var(--accent);box-shadow:var(--shadow)}
+  .field{display:flex;gap:8px;margin-top:8px}
+  .field input,.fin{flex:1;min-width:0;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:13px;padding:12px;font-size:15px;font-weight:600;font-family:inherit}
+  .field input:focus,.fin:focus{outline:none;border-color:var(--accent)}
+  .lab{font-size:10px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+  .btn{display:block;width:100%;border:0;border-radius:15px;min-height:52px;font-family:var(--sans);font-weight:800;font-size:15px;cursor:pointer;
+    background:linear-gradient(180deg,var(--accentL),var(--accent));color:#fff;box-shadow:var(--shadowL);transition:transform .12s}
+  .btn:active{transform:scale(.975)}
+  .btn.ghost{background:var(--bg2);color:var(--ink);box-shadow:none}
+  .btn.sm{min-height:44px;font-size:13px;border-radius:12px}
+  .contrib{margin-top:4px}
+  .cbar{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .cbar:last-child{border-bottom:0}
+  .cbar .cl{font-size:13px;font-weight:700;flex:1}
+  .cbar .cn{font-size:12px;color:var(--ink2);font-weight:700}
+  .cbar .ctrack{width:84px;height:7px;border-radius:6px;background:var(--track);overflow:hidden;flex:none}
+  .cbar .cfill{display:block;height:100%;border-radius:6px}
+
+  /* nav */
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+    background:rgba(244,241,234,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+  nav button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 1px;min-height:52px;cursor:pointer;color:var(--faint);font-size:9.5px;font-weight:700;font-family:inherit}
+  nav .ic{width:23px;height:23px;display:block}
+  nav button.on{color:var(--accent)}
+  .toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-14px) scale(.96);background:var(--ink);color:#fff;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 12px 30px rgba(20,18,12,.3);z-index:60;opacity:0;transition:.35s cubic-bezier(.3,1.3,.5,1);pointer-events:none;max-width:88vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(6px) scale(1)}
+  #updBanner{display:none;position:sticky;top:0;z-index:25;background:var(--accent);color:#fff;text-align:center;padding:11px;font-weight:800;font-size:13px;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">FLINT</div>
+  <div class="av" id="avatar">🧑</div>
+</header>
+<div id="updBanner" onclick="forceUpdate()"></div>
+
+<!-- ===================== AUJOURD'HUI ===================== -->
+<section class="view on" id="v-today"><div class="wrap">
+  <div class="hero">
+    <div style="flex:1;min-width:0">
+      <div class="hi" id="greet">Bonjour</div>
+      <div class="hl" id="headline">—</div>
+      <div class="hs">Voici ton état aujourd'hui.</div>
+    </div>
+    <div class="ring" id="heroRing"></div>
+  </div>
+  <div class="card" id="calibBanner" style="display:none;background:var(--peach)"><div class="disp" style="font-size:20px;text-align:center">CALIBRATION EN COURS</div><p class="sci" id="calibTxt" style="text-align:center;margin-top:4px"></p></div>
+  <div class="card" id="dialsCard"><div class="row" style="justify-content:space-around;gap:6px"><div style="text-align:center" id="dialRec"></div><div style="text-align:center" id="dialSlp"></div><div style="text-align:center" id="dialStr"></div></div><div class="sci" id="strainCoach" style="text-align:center;margin-top:10px"></div></div>
+
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct"><span class="iconb" id="stateIcon">🔥</span><span>État du jour</span></div>
+      <div class="stbig" id="stateBig">—</div>
+      <div class="sci" id="stateDesc"></div>
+    </div>
+    <div class="rightcol" id="stateKv"></div>
+  </div>
+
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct">Charge d'entraînement</div>
+      <div class="big" style="font-size:40px" id="loadVal">0</div>
+      <div class="eyebrow" id="loadQual" style="color:var(--accent);margin-top:2px">—</div>
+      <div class="bars" id="loadBars"></div>
+      <div class="barlbl"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    </div>
+    <div class="rightcol" style="justify-content:center">
+      <div class="iconb" style="margin-bottom:6px">📈</div>
+      <div class="eyebrow">Tendance</div>
+      <div class="trend" id="loadTrend">—</div>
+      <div class="sci" id="loadTrendSub">vs hier</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct"><span class="iconb">❤️</span><span>Fréquence cardiaque</span></div>
+    <div class="row" style="gap:14px;align-items:flex-end">
+      <div><span class="big" style="font-size:36px" id="hrVal">—</span> <span class="eyebrow">bpm</span></div>
+      <svg class="spark" id="hrSpark" viewBox="0 0 300 54" preserveAspectRatio="none" style="flex:1"></svg>
+    </div>
+    <div class="sci" id="hrSub" style="margin-top:6px">Dans ta zone habituelle.</div>
+  </div>
+
+  <div class="banner" onclick="go('trends')">
+    <div class="iconb">🏆</div>
+    <div><b>Le progrès, pas la perfection.</b><p>Continue d'accumuler les bonnes journées.</p></div>
+    <div class="ar">›</div>
+  </div>
+</div></section>
+
+<!-- ===================== RÉCUPÉRATION ===================== -->
+<section class="view" id="v-recovery"><div class="wrap">
+  <div class="pgtitle">RÉCUPÉRATION</div>
+  <div class="card" style="text-align:center">
+    <div class="ring" id="recRing" style="margin:0 auto 6px"></div>
+    <div class="disp" id="recZone" style="font-size:24px;text-transform:uppercase;margin-top:8px">—</div>
+    <div class="sci" id="recReco" style="max-width:320px;margin:6px auto 0"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Ce qui compose ta récupération</div>
+    <div class="contrib" id="recContrib"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Vitaux nocturnes</div>
+    <div class="grid2" id="recVitals" style="gap:10px"></div>
+    <p class="sci" id="recAge" style="margin-top:10px"></p>
+  </div>
+  <div class="card">
+    <div class="ct">Récupération · 14 jours</div>
+    <svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg>
+  </div>
+</div></section>
+
+<!-- ===================== SOMMEIL ===================== -->
+<section class="view" id="v-sleep"><div class="wrap">
+  <div class="pgtitle">SOMMEIL</div>
+  <div class="card" style="text-align:center">
+    <div class="ring" id="sleepRing" style="margin:0 auto 4px"></div>
+    <div class="sci" id="sleepLine" style="margin-top:6px"></div>
+  </div>
+  <div class="grid2">
+    <div class="stat"><div class="sl">Durée</div><div class="sv" id="slDur">—</div><div class="ss">cette nuit</div></div>
+    <div class="stat"><div class="sl">Efficacité</div><div class="sv" id="slEff">—</div><div class="ss">temps endormi</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Stades de sommeil</div>
+    <div class="stage" id="slStages"></div>
+    <div class="sci" id="slStagesTxt" style="margin-top:8px"></div>
+  </div>
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct">Dette de sommeil · 14j</div>
+      <div class="big" style="font-size:36px" id="slDebt">—</div>
+      <div class="sci" id="slDebtSub"></div>
+    </div>
+    <div class="rightcol" style="justify-content:center"><div class="iconb">🌙</div><div class="sci" id="slPlan"></div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Sommeil · 14 nuits</div>
+    <div class="bars" id="slBars" style="height:54px"></div>
+  </div>
+</div></section>
+
+<!-- ===================== CHARGE ===================== -->
+<section class="view" id="v-load"><div class="wrap">
+  <div class="pgtitle">CHARGE</div>
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct">Charge du jour</div>
+      <div class="big" style="font-size:46px" id="loadVal2">0</div>
+      <div class="progbar"><i id="loadProg" style="width:0%"></i></div>
+      <div class="sci" id="loadObj" style="margin-top:6px;text-align:right">Objectif —</div>
+    </div>
+    <div class="rightcol" style="justify-content:center"><div class="iconb">⚡</div><div class="eyebrow">Cible</div><div class="trend" id="loadTargetTxt" style="font-size:20px">—</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Charge · 14 jours</div>
+    <div class="bars" id="loadBars14" style="height:60px"></div>
+    <div class="sci" id="loadBalance" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Ajouter une séance</div>
+    <div class="grid2" style="gap:8px">
+      <div><div class="lab">Durée (min)</div><input id="seDur" class="fin" type="number" inputmode="numeric" placeholder="60"></div>
+      <div><div class="lab">Intensité</div><select id="seInt" class="fin"><option value="1">Légère</option><option value="2" selected>Modérée</option><option value="3">Soutenue</option><option value="4">Max</option></select></div>
+    </div>
+    <input id="seName" class="fin" placeholder="Nom (ex : Course, Muscu…)" style="margin-top:8px;width:100%">
+    <button class="btn" style="margin-top:10px" onclick="addSession()">＋ Enregistrer la séance</button>
+    <div id="seList" style="margin-top:10px"></div>
+  </div>
+</div></section>
+
+<!-- ===================== TENDANCES (within nav as Profil swap?) ===================== -->
+<section class="view" id="v-trends"><div class="wrap">
+  <div class="pgtitle">TENDANCES</div>
+  <div class="seg" id="trSeg"></div>
+  <div class="card">
+    <div class="ct" id="trTitle">—</div>
+    <svg class="spark" id="trChart" viewBox="0 0 320 120" preserveAspectRatio="none" style="height:120px"></svg>
+    <div class="sci" id="trStat" style="margin-top:8px"></div>
+  </div>
+  <div class="grid2">
+    <div class="stat"><div class="sl">Récup moy · 7j</div><div class="sv" id="tr7rec">—</div></div>
+    <div class="stat"><div class="sl">Sommeil moy · 7j</div><div class="sv" id="tr7sl">—</div></div>
+    <div class="stat"><div class="sl">HRV moy · 7j</div><div class="sv" id="tr7hrv">—</div></div>
+    <div class="stat"><div class="sl">Charge · 7j</div><div class="sv" id="tr7load">—</div></div>
+  </div>
+</div></section>
+
+<!-- ===================== PROFIL ===================== -->
+<section class="view" id="v-profile"><div class="wrap">
+  <div class="pgtitle">PROFIL</div>
+  <div class="card">
+    <div class="ct">Toi</div>
+    <div class="grid2" style="gap:8px">
+      <div><div class="lab">Prénom</div><input id="pfName" class="fin"></div>
+      <div><div class="lab">Âge</div><input id="pfAge" class="fin" type="number" inputmode="numeric"></div>
+    </div>
+    <div class="grid2" style="gap:8px;margin-top:8px">
+      <div><div class="lab">Réveil cible</div><input id="pfWake" class="fin" type="time"></div>
+      <div><div class="lab">Besoin sommeil (h)</div><input id="pfNeed" class="fin" type="number" step="0.5"></div>
+    </div>
+    <button class="btn ghost sm" style="margin-top:10px" onclick="saveProfile()">💾 Enregistrer</button>
+  </div>
+  <div class="card">
+    <div class="ct">⌚ Capteur · Polar Loop / Health Connect</div>
+    <button class="btn sm" onclick="pullHealthConnect()">🔄 Synchroniser mon capteur</button>
+    <div class="lab" style="margin-top:12px">Ou saisir la nuit à la main</div>
+    <div class="grid2" style="gap:8px">
+      <div><div class="lab">HRV (ms)</div><input id="snHrv" class="fin" type="number" inputmode="decimal"></div>
+      <div><div class="lab">FC repos</div><input id="snRhr" class="fin" type="number" inputmode="numeric"></div>
+      <div><div class="lab">Resp /min</div><input id="snResp" class="fin" type="number" inputmode="decimal"></div>
+      <div><div class="lab">Sommeil (h)</div><input id="snSleep" class="fin" type="number" inputmode="decimal" step="0.1"></div>
+    </div>
+    <button class="btn ghost sm" style="margin-top:10px" onclick="saveSensorManual()">💾 Enregistrer la nuit</button>
+    <button class="btn ghost sm" style="margin-top:8px" onclick="simulateData()">🎲 Simuler 28 jours (démo)</button>
+    <p class="sci" style="margin-top:8px">Sur Android, ta Polar Loop remplit ça automatiquement via Health Connect. ~4 nuits pour calibrer ta baseline.</p>
+  </div>
+  <div class="card">
+    <div class="ct">App</div>
+    <button class="btn ghost sm" onclick="forceUpdate()">🔄 Forcer la mise à jour</button>
+    <p class="sci" id="verLine" style="margin-top:6px"></p>
+    <button class="btn ghost sm" style="margin-top:8px" onclick="exportData()">📤 Exporter mes données</button>
+  </div>
+</div></section>
+
+<nav id="nav">
+  <button data-v="today" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Aujourd'hui</button>
+  <button data-v="recovery"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>Récup</button>
+  <button data-v="sleep"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Sommeil</button>
+  <button data-v="load"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg>Charge</button>
+  <button data-v="profile"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+const DB={get:(k,d)=>{try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const tk=(off)=>{const d=new Date();if(off)d.setDate(d.getDate()+off);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const tmin=s=>{const a=(s||'07:00').split(':').map(Number);return a[0]*60+a[1]};
+function getProfile(){return Object.assign({name:'Arthur',age:28,wake:'07:00',need:8},DB.get('profile',{}))}
+let toastT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2200)}
+function set(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
+
+/* ---------- DATA MODEL ---------- */
+function sensorOf(k){return DB.get('sensor_'+k,null)}
+function baseStat(field){const a=[];const d=new Date();d.setDate(d.getDate()-1);for(let i=0;i<30;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const s=DB.get('sensor_'+k,null);if(s&&s[field]!=null)a.push(s[field]);d.setDate(d.getDate()-1)}if(a.length<3)return null;const m=a.reduce((x,y)=>x+y,0)/a.length;const sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)||1;return {m,sd,n:a.length}}
+/* training load: TRIMP-ish = duration*intensity*factor ; daily = sum of sessions */
+function loadOf(k){const ss=DB.get('sessions_'+k,[]);let L=0;ss.forEach(s=>L+=Math.round((s.dur||0)*(s.int||2)*1.7));const sen=sensorOf(k);if(sen&&sen.load)L=Math.max(L,sen.load);return L}
+function loadAvg(n,off){let t=0,c=0;const d=new Date();d.setDate(d.getDate()-(off||0));for(let i=0;i<n;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();t+=loadOf(k);c++;d.setDate(d.getDate()-1)}return c?t/c:0}
+function recovery(){const t=sensorOf(tk());if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Conditions optimales pour performer.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
+function fatigue(){const acute=loadAvg(5),chronic=loadAvg(28);if(chronic<1)return 35;const ratio=acute/chronic;return Math.max(8,Math.min(95,Math.round(40+(ratio-1)*55)))}
+function scoreFlint(){const rv=recovery();if(!rv)return null;const t=rv.today,need=(getProfile().need||8)*60;const sp=Math.min(1.1,(t.sleepMin||need*0.85)/need);const fat=fatigue();const s=Math.round(0.5*rv.s+0.3*(sp*100)+0.2*(100-fat));return Math.max(1,Math.min(100,s))}
+
+/* ---------- RING ---------- */
+function ringHTML(val,size,label,sub,color){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-val/100);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc"><div class="rlab">'+label+'</div><div class="rval" style="font-size:'+Math.round(size*0.30)+'px;color:'+color+'">'+val+'</div><div class="rsub">'+sub+'</div></div>'}
+function lineSVG(arr,W,H,color){const v=arr.filter(x=>x!=null);if(v.length<2)return '';const mn=Math.min(...v),mx=Math.max(...v),pad=6,gx=i=>pad+i*(W-2*pad)/(arr.length-1),gy=x=>H-pad-(mx===mn?H/2:(x-mn)/(mx-mn)*(H-2*pad));let p='',st=false;arr.forEach((x,i)=>{if(x==null)return;p+=(st?'L':'M')+gx(i).toFixed(1)+' '+gy(x).toFixed(1);st=true});const last=arr.map((x,i)=>x!=null?i:-1).filter(i=>i>=0).pop();return '<path d="'+p+'" fill="none" stroke="'+(color||'var(--accent)')+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+gx(last).toFixed(1)+'" cy="'+gy(arr[last]).toFixed(1)+'" r="3.4" fill="'+(color||'var(--accent)')+'"/>'}
+function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(-i);out.push(fn?fn(k):(sensorOf(k)?sensorOf(k)[field]:null))}return out}
+
+/* ---------- RENDER ---------- */
+function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+function renderToday(){const p=getProfile(),cal=calibNights();
+ const dstr=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+ set('greet','Bonjour, '+p.name.toUpperCase()+'.');document.getElementById('avatar').textContent=(p.name[0]||'A').toUpperCase();
+ document.querySelector('#v-today .hs').textContent=dstr.charAt(0).toUpperCase()+dstr.slice(1)+' \u2014 voici ton \u00e9tat.';
+ const calib=cal<4;document.getElementById('calibBanner').style.display=calib?'block':'none';
+ if(calib){set('calibTxt','Flint apprend ta baseline \u00b7 '+cal+'/4 nuits port\u00e9es. Ton score se d\u00e9bloque apr\u00e8s 4 nuits \u2014 comme Whoop, qui s\'adapte \u00e0 TA physiologie.');
+  set('headline','CALIBRATION');document.getElementById('heroRing').innerHTML=ringHTML(0,150,'Score','\u2014','var(--faint)');document.getElementById('heroRing').style.opacity='.55';renderDials();}
+ else{document.getElementById('heroRing').style.opacity='1';const sf2=scoreFlint(),rv2=recovery(),col=rv2?rv2.color:'var(--accent)';
+  set('headline', sf2>=67?'PR\u00caT \u00c0 PERFORMER.' : sf2>=34?'VAS-Y AVEC T\u00caTE.' : 'R\u00c9CUP\u00c8RE.');
+  document.getElementById('heroRing').innerHTML=ringHTML(sf2,150,'Score Flint','/100',col);renderDials();}
+ const sf=calib?null:scoreFlint(),rv=calib?null:recovery();
+ if(!rv){set('stateBig','—');set('stateDesc','Va dans Profil → Simuler 28 jours, ou connecte ta Polar Loop.');set('stateKv','');document.getElementById('stateIcon').textContent='⌚'}
+ else{const fat=fatigue();document.getElementById('stateIcon').textContent=rv.state==='PRÊT'?'🔥':rv.state==='OK'?'⚡':'🌙';
+  set('stateBig',rv.state);set('stateDesc',rv.reco);
+  set('stateKv','<div class="kv"><span class="k">Récup</span><span class="v acc">'+rv.s+'%</span></div><div class="kv"><span class="k">Fatigue</span><span class="v">'+fat+'%</span></div><div class="kv"><span class="k">Sommeil</span><span class="v">'+Math.floor(rv.today.sleepMin/60)+'h '+String(Math.round(rv.today.sleepMin%60)).padStart(2,'0')+'</span></div><div class="kv"><span class="k">FC repos</span><span class="v">'+(rv.today.rhr||'—')+' bpm</span></div>')}
+ // load
+ const L=loadOf(tk()),tgt=loadTarget();set('loadVal',L);set('loadQual',L<tgt*0.6?'LÉGÈRE':L<=tgt?'OPTIMALE':'ÉLEVÉE');
+ const week=[];for(let i=6;i>=0;i--)week.push(loadOf(tk(-i)));const mx=Math.max(tgt,...week,1);
+ set('loadBars',week.map((v,i)=>'<i class="'+(i===6?'on':'')+'" style="height:'+Math.max(6,v/mx*46)+'px"></i>').join(''));
+ const y=loadOf(tk(-1)),tr=y>0?Math.round((L-y)/y*100):0;set('loadTrend',(tr>=0?'+':'')+tr+'%');document.getElementById('loadTrend').style.color=tr>=0?'var(--green)':'var(--accent)';
+ // HR
+ const t=sensorOf(tk());set('hrVal',t&&t.rhr?t.rhr:'—');const hr=seriesBack('rhr',14);document.getElementById('hrSpark').innerHTML=lineSVG(hr,300,54,'var(--accent)');
+ const bR=baseStat('rhr');set('hrSub',(t&&t.rhr&&bR)?(t.rhr<=bR.m+2?'Dans ta zone habituelle.':'Légèrement au-dessus de ta moyenne.'):'Connecte ton capteur.');
+ document.getElementById('avatar').textContent=p.name[0]?p.name[0].toUpperCase():'🧑';
+}
+function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
+function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/180))).toFixed(1)))}
+function strainTarget(){const rv=recovery(),r=rv?rv.s:60;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
+function miniRing(pct,col,label,val){const size=94,r=size/2-7,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,pct))/100);return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="7"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/><text x="'+size/2+'" y="'+(size/2+7)+'" text-anchor="middle" font-family="Anton" font-size="23" fill="'+col+'">'+val+'</text></svg><div style="font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;margin-top:1px">'+label+'</div>'}
+function renderDials(){const rv=recovery(),t=sensorOf(tk()),need=(getProfile().need||8)*60;const slp=t&&t.sleepMin?Math.min(120,Math.round(t.sleepMin/need*100)):null;const str=loadStrain();
+ document.getElementById('dialRec').innerHTML=miniRing(rv?rv.s:0,rv?rv.color:'var(--track)','Recup',rv?rv.s:'\u2014');
+ document.getElementById('dialSlp').innerHTML=miniRing(slp||0,'#6C7BD6','Sommeil',slp!=null?slp+'%':'\u2014');
+ document.getElementById('dialStr').innerHTML=miniRing(str/21*100,'var(--accent)','Effort',str.toFixed(1));
+ const tg=strainTarget();set('strainCoach',rv?('Cible d\'effort aujourd\'hui : <b>'+tg[0]+'\u2013'+tg[1]+'</b> / 21 selon ta r\u00e9cup'):'')}
+function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28))||400;const r=rv?rv.s:60;return Math.round(c*(r>=67?1.2:r>=34?1.0:0.7))}
+function renderRecovery(){const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'Récup','%');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou simule des données dans Profil.');set('recContrib','');set('recVitals','');return}
+ document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'Récup','%',rv.color);set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
+ set('recContrib',rv.c.map(c=>{const col=c[2]>0.2?'var(--green)':c[2]<-0.2?'var(--accent)':'var(--faint)';return '<div class="cbar"><span class="cl">'+c[0]+'</span><span class="cn">'+c[1]+'</span><span class="ctrack"><span class="cfill" style="width:'+Math.round(Math.max(0,Math.min(1,0.5+c[2]/4))*100)+'%;background:'+col+'"></span></span></div>'}).join(''));
+ const vit=[['HRV',rv.today.hrv,'ms',rv.bH],['FC repos',rv.today.rhr,'bpm',rv.bR],['Respiration',rv.today.resp,'/min',rv.bP]];
+ set('recVitals',vit.filter(v=>v[1]!=null).map(v=>{const ar=v[3]?(v[1]>v[3].m+0.3*v[3].sd?'↑':v[1]<v[3].m-0.3*v[3].sd?'↓':'→'):'';return '<div class="stat"><div class="sl">'+v[0]+' '+ar+'</div><div class="sv">'+v[1]+'</div><div class="ss">'+v[2]+'</div></div>'}).join(''));
+ const age=fitnessAge();set('recAge',age?'🫀 Âge physiologique <b>'+age+' ans</b>':'');
+ document.getElementById('recTrend').innerHTML=lineSVG(seriesBack(null,14,k=>DB.get('recov_'+k,null)),300,70,rv.color);
+}
+function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
+function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(!t||t.sleepMin==null){document.getElementById('sleepRing').innerHTML=ringHTML(0,160,'Sommeil','%');set('sleepLine','Connecte ton capteur.');return}
+ const perf=Math.min(100,Math.round(t.sleepMin/need*100));document.getElementById('sleepRing').innerHTML=ringHTML(perf,160,'Sommeil','%','#6C7BD6');
+ set('sleepLine',(t.sleepMin/60).toFixed(1)+'h sur '+(need/60)+'h de besoin');
+ set('slDur',Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'));
+ const eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):95;set('slEff',eff+'%');
+ const st=[['Profond',t.deep,'#3A4FB0'],['REM',t.rem,'#6C7BD6'],['Léger',t.light,'#B9C2EA'],['Éveillé',t.awake,'#E7E3DA']].filter(x=>x[1]);const tot=st.reduce((a,b)=>a+b[1],0)||1;
+ set('slStages',st.map(s=>'<span style="width:'+(s[1]/tot*100)+'%;background:'+s[2]+'"></span>').join(''));
+ set('slStagesTxt',st.map(s=>s[0]+' '+Math.round(s[1])+'min').join(' · '));
+ const debt=sleepDebt();set('slDebt',Math.floor(debt)+'h'+String(Math.round(debt%1*60)).padStart(2,'0'));set('slDebtSub',debt<1?'Pas de dette 💪':'à rembourser');
+ const wake=tmin(getProfile().wake),bed=((wake-need-Math.min(120,debt*15))%1440+1440)%1440;set('slPlan','Couche-toi vers '+String(Math.floor(bed/60)).padStart(2,'0')+':'+String(bed%60).padStart(2,'0'));
+ const arr=seriesBack('sleepMin',14).map(x=>x?x/60:null);const mx=Math.max(...arr.filter(x=>x),9);
+ set('slBars',arr.map(v=>'<i class="'+(v&&v>=need/60?'on':'')+'" style="height:'+(v?Math.max(6,v/mx*54):6)+'px;'+(v&&v<need/60?'background:var(--amber)':'')+'"></i>').join(''));
+}
+function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
+function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();set('loadVal2',L);set('loadProg',Math.min(100,L/tgt*100)+'%');document.getElementById('loadProg').style.width=Math.min(100,L/tgt*100)+'%';set('loadObj','Objectif '+tgt);set('loadTargetTxt',tgt);
+ const arr=seriesBack(null,14,k=>loadOf(k));const mx=Math.max(tgt,...arr,1);
+ set('loadBars14',arr.map((v,i)=>'<i class="'+(i===13?'on':'')+'" style="height:'+Math.max(6,v/mx*60)+'px"></i>').join(''));
+ const ac=loadAvg(5),ch=loadAvg(28),r=ch>0?(ac/ch):0;set('loadBalance',ch>0?('Ratio charge aiguë/chronique : <b>'+r.toFixed(2)+'</b> — '+(r>1.5?'⚠️ pic de charge, risque de surmenage':r<0.8?'tu peux pousser un peu':'zone optimale 👌')):'Ajoute des séances pour suivre ta charge.');
+ const ss=DB.get('sessions_'+tk(),[]);set('seList',ss.map((s,i)=>'<div class="kv" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="k">'+(s.name||'Séance')+' · '+s.dur+'min</span><span class="v">'+Math.round(s.dur*s.int*1.7)+' <span style="cursor:pointer;color:var(--faint)" onclick="delSession('+i+')">✕</span></span></div>').join(''));
+}
+function addSession(){const dur=parseInt(document.getElementById('seDur').value)||0;if(!dur)return;const int=+document.getElementById('seInt').value;const name=document.getElementById('seName').value||'Séance';const k=tk(),a=DB.get('sessions_'+k,[]);a.push({name,dur,int});DB.set('sessions_'+k,a);document.getElementById('seDur').value='';document.getElementById('seName').value='';toast('Séance ajoutée ⚡');renderLoad()}
+function delSession(i){const k=tk(),a=DB.get('sessions_'+k,[]);a.splice(i,1);DB.set('sessions_'+k,a);renderLoad()}
+function renderTrends(){const metrics=[['recov','Récupération','var(--accent)',k=>DB.get('recov_'+k,null)],['hrv','HRV (ms)','#6C7BD6',k=>{const s=sensorOf(k);return s?s.hrv:null}],['rhr','FC repos','#E0723A',k=>{const s=sensorOf(k);return s?s.rhr:null}],['sleep','Sommeil (h)','#3A4FB0',k=>{const s=sensorOf(k);return s?(s.sleepMin/60):null}],['load','Charge','#3FB57A',k=>loadOf(k)]];
+ const cur=window._trM||0;set('trSeg',metrics.map((m,i)=>'<button class="'+(i===cur?'on':'')+'" data-m="'+i+'">'+m[1].split(' ')[0]+'</button>').join(''));document.querySelectorAll('#trSeg button').forEach(b=>b.onclick=()=>{window._trM=+b.dataset.m;renderTrends()});
+ const m=metrics[cur];set('trTitle',m[1]+' · 30 jours');const arr=seriesBack(null,30,m[3]);document.getElementById('trChart').innerHTML=lineSVG(arr,320,120,m[2]);
+ const v=arr.filter(x=>x!=null);set('trStat',v.length?('Moyenne '+(m[0]==='sleep'?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)+'h':Math.round(v.reduce((a,b)=>a+b,0)/v.length))):'Pas encore de données.');
+ const a7=(fn,r)=>{let t=0,c=0;for(let i=0;i<7;i++){const x=fn(tk(-i));if(x!=null){t+=x;c++}}return c?(r?(t/c).toFixed(r):Math.round(t/c)):'—'};
+ set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1)+'h');set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)));
+}
+function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;set('verLine','Version : '+APP_VERSION)}
+function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;DB.set('profile',p);toast('Profil enregistré');renderToday()}
+function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
+async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));persistRecov();toast('Capteur synchronisé ⌚');go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
+function simulateData(){for(let i=0;i<28;i++){const k=tk(-i);const sleepMin=Math.round(410+Math.random()*100),deep=Math.round(70+Math.random()*45),rem=Math.round(85+Math.random()*40),awake=Math.round(10+Math.random()*22),light=Math.max(30,sleepMin-deep-rem-awake);DB.set('sensor_'+k,{hrv:Math.round(58+Math.random()*30),rhr:Math.round(46+Math.random()*12),resp:+(13+Math.random()*2.4).toFixed(1),deep,rem,light,awake,sleepMin,source:'sim'});if(Math.random()>0.35){DB.set('sessions_'+k,[{name:'Séance',dur:40+Math.round(Math.random()*50),int:1+Math.round(Math.random()*3)}])}}
+ // compute & persist recov for each day (baseline-relative, approx)
+ for(let i=27;i>=0;i--){const k=tk(-i);persistRecovFor(k)}
+ toast('28 jours simulés 🎲');go('today')}
+function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[],ps=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr);if(ss.resp!=null)ps.push(ss.resp)}}
+ if(hs.length<3){DB.set('recov_'+k,Math.round(50+(s.hrv-65)));return}
+ const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
+ const zH=(s.hrv-mean(hs))/sd(hs),zR=(s.rhr-mean(rs))/sd(rs),sp=Math.min(1.1,s.sleepMin/((getProfile().need||8)*60)),zS=(sp-1)*3;
+ const Z=0.55*zH-0.22*zR+0.18*zS;DB.set('recov_'+k,Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z))))))}
+function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
+function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
+
+/* ---------- UPDATE / INIT ---------- */
+const APP_VERSION='flint-v2';
+async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
+async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
+persistRecov();
+renderToday();
+checkUpdate();
+if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
