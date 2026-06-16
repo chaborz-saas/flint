@@ -209,30 +209,15 @@
   </div>
   <div class="card">
     <div class="acthd"><span class="att">Activités du jour</span><span class="actmeta" id="actMeta"></span></div>
+    <div class="sci" style="font-size:11px;margin:-2px 0 2px">⚡ Détectées automatiquement par ta Polar Loop</div>
     <div id="actList"></div>
-    <button class="addact" onclick="openActSheet()">＋ Ajouter une activité</button>
+    <button class="addact" onclick="openActSheet()">＋ Ajouter à la main</button>
   </div>
   <div class="card nutrow" onclick="go('nutrition')">
     <div class="nutic">🍲</div>
     <div class="nuttx"><b>Nutrition</b><p id="nutSummary">—</p></div>
     <div class="ndar">›</div>
   </div>
-</div></section>
-
-<!-- ===================== MUSCU ===================== -->
-<section class="view" id="v-muscu"><div class="wrap">
-  <div class="pgtitle">MUSCU</div>
-  <div class="grid2">
-    <div class="stat"><div class="sl">Séances · 7j</div><div class="sv" id="muSess">—</div></div>
-    <div class="stat"><div class="sl">Volume · 7j</div><div class="sv" id="muVol">—</div><div class="ss">kg soulevés</div></div>
-  </div>
-  <div class="card">
-    <div class="ct">Séance du jour</div>
-    <div id="muList"></div>
-    <div class="field" style="margin-top:12px"><input id="muEx" class="fin" placeholder="Exercice (ex : Développé couché)"></div>
-    <button class="btn ghost sm" style="margin-top:8px" onclick="addExercise()">＋ Ajouter un exercice</button>
-  </div>
-  <div class="card"><div class="ct">Volume · 14 jours</div><div class="chartbox" id="muBars"></div></div>
 </div></section>
 
 <!-- ===================== NUTRITION ===================== -->
@@ -360,7 +345,7 @@
     </div>
     <button class="btn ghost sm" style="margin-top:10px" onclick="saveSensorManual()">💾 Enregistrer la nuit</button>
     <button class="btn ghost sm" style="margin-top:8px" onclick="simulateData()">🎲 Recharger la démo (28 jours)</button>
-    <p class="sci" style="margin-top:8px">Sur Android, ta Polar Loop remplit ça automatiquement via Health Connect. ~4 nuits pour calibrer ta baseline.</p>
+    <p class="sci" style="margin-top:8px">Sur Android, ta Polar Loop remplit ça via Health Connect : nuit (HRV/sommeil) <b>et tes séances de sport détectées automatiquement</b> (type + intensité). ~4 nuits pour calibrer ta baseline.</p>
   </div>
   <div class="card">
     <div class="ct">App</div>
@@ -392,7 +377,6 @@
 
 <nav id="nav">
   <button data-v="today" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Aujourd'hui</button>
-  <button data-v="muscu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg>Muscu</button>
   <button data-v="nutrition"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8H11a8 8 0 0 1-8-8z"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M12 2v2"/></svg>Nutrition</button>
   <button data-v="recovery"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>Récup</button>
   <button data-v="trends"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Tendances</button>
@@ -438,7 +422,7 @@ function areaSVG(arr,W,H,color,opts){opts=opts||{};const v=arr.filter(x=>x!=null
 function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,pad=3,top=8,bot=H-(opts.lab?13:5);const gap=(W-2*pad)/n,bw=Math.min(gap*0.62,16);const vals=arr.map(v=>(v==null||isNaN(v))?0:v);const mx=Math.max(opts.max||0,Math.max.apply(null,vals.concat([opts.ref||0])),1);let bars='';for(let i=0;i<n;i++){const h=vals[i]?Math.max(3,vals[i]/mx*(bot-top)):3,x=pad+i*gap+(gap-bw)/2,y=bot-h,col=opts.colorFn?opts.colorFn(arr[i],i,i===n-1):'var(--accent)';bars+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(bw/2.6).toFixed(1)+'" fill="'+col+'"/>'}let extra='';if(opts.ref){const ry=bot-Math.min(1,opts.ref/mx)*(bot-top);extra+='<line x1="'+pad+'" y1="'+ry.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+ry.toFixed(1)+'" stroke="'+(opts.refColor||'var(--ink2)')+'" stroke-width="1.3" stroke-dasharray="4 3" opacity=".55"/>';if(opts.refLabel)extra+='<text x="'+(W-pad)+'" y="'+(ry-3).toFixed(1)+'" text-anchor="end" font-size="8.5" font-weight="800" fill="'+(opts.refColor||'var(--ink2)')+'">'+opts.refLabel+'</text>'}let lab='';if(opts.lab)lab='<text x="'+pad+'" y="'+(H-2)+'" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[0]+'</text><text x="'+(W-pad)+'" y="'+(H-2)+'" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[1]+'</text>';return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px;display:block">'+bars+extra+lab+'</svg>'}
 
 /* ---------- NAV ---------- */
-function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,muscu:renderMuscu,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
+function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 // ===================== WHOOP-FAITHFUL MODULES =====================
@@ -489,8 +473,10 @@ function renderToday(){
 }
 function renderActivities(){const ss=DB.get('sessions_'+tk(),[]);
  set('actMeta',ss.length?ss.length+' · CUMUL '+loadStrain().toFixed(1).replace('.',','):'');
- set('actList',ss.length?ss.map((s,i)=>{const nap=s.type==='nap';const ic=s.icon||sportIcon(s.name);const eff=nap?'RÉCUP +5%':'EFFORT '+actStrain(s).toFixed(1).replace('.',',');const cls=nap?'ap green':'ap';const time=(s.start?s.start:'')+(s.start&&s.dur?' · ':'')+(s.dur?fmtDur(s.dur):'');return '<div class="actrow"><div class="ai">'+ic+'</div><div style="min-width:0"><div class="an">'+(s.name||'Séance')+'</div><div class="at">'+time+'</div></div><span class="'+cls+'">'+eff+'</span><span class="ax" onclick="event.stopPropagation();delAct('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="padding:6px 0">Aucune activité aujourd\'hui. Ajoute ta première séance.</p>')}
+ set('actList',ss.length?ss.map((s,i)=>{const nap=s.type==='nap';const ic=s.icon||sportIcon(s.name);const eff=nap?'RÉCUP +5%':'EFFORT '+actStrain(s).toFixed(1).replace('.',',');const cls=nap?'ap green':'ap';const time=(s.start?s.start:'')+(s.start&&s.dur?' · ':'')+(s.dur?fmtDur(s.dur):'')+(s.auto?' · <span style="color:var(--accent);font-weight:800">AUTO</span>':'');return '<div class="actrow"><div class="ai">'+ic+'</div><div style="min-width:0"><div class="an">'+(s.name||'Séance')+'</div><div class="at">'+time+'</div></div><span class="'+cls+'">'+eff+'</span><span class="ax" onclick="event.stopPropagation();delAct('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="padding:6px 0">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
 function delAct(i){const k=tk(),a=DB.get('sessions_'+k,[]);a.splice(i,1);DB.set('sessions_'+k,a);renderToday()}
+/* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
+function importDetectedSessions(items){if(!items||!items.length)return 0;const k=tk(),a=DB.get('sessions_'+k,[]);let n=0;items.forEach(it=>{const start=it.start||'';if(a.some(s=>s.auto&&s.start===start&&s.name===(it.sport||'Activité')))return;a.push({name:it.sport||'Activité',icon:sportIcon(it.sport),start:start,dur:it.dur||30,int:it.int||2,auto:true});n++});if(n)DB.set('sessions_'+k,a);return n}
 function renderNutSummary(){const tt=nutTotals(),g=getNutGoals();const reste=g.kcal-tt.kcal;set('nutSummary',fmtN(tt.kcal)+' / '+fmtN(g.kcal)+' KCAL · '+(reste>=0?'RESTE '+fmtN(reste):'DÉPASSÉ '+fmtN(-reste)))}
 
 /* ---------- ADD ACTIVITY SHEET ---------- */
@@ -504,19 +490,6 @@ function saveAct(){const nap=document.getElementById('asNap').checked,sp=window.
  const k=tk(),a=DB.get('sessions_'+k,[]);
  if(nap)a.push({type:'nap',name:'Sieste',icon:'😴',start:time,dur});else a.push({name:sp[0],icon:sp[1],start:time,dur,int});
  DB.set('sessions_'+k,a);closeActSheet();toast(nap?'Sieste ajoutée 😴':'Activité ajoutée ⚡');renderToday()}
-
-/* ---------- MUSCU ---------- */
-function muscuOf(k){return DB.get('muscu_'+(k||tk()),[])}
-function exVolume(ex){return ex.sets.reduce((a,s)=>a+(+s.reps||0)*(+s.kg||0),0)}
-function dayVolume(k){return muscuOf(k).reduce((a,e)=>a+exVolume(e),0)}
-function renderMuscu(){const list=muscuOf();let sess=0,vol7=0;for(let i=0;i<7;i++){const k=tk(-i);if(muscuOf(k).length){sess++;vol7+=dayVolume(k)}}
- set('muSess',sess);set('muVol',fmtN(vol7));
- set('muList',list.length?list.map((e,ei)=>'<div class="exrow"><div class="exh"><span class="exn">'+e.ex+'</span><span class="exv">'+fmtN(exVolume(e))+' kg<span class="ax" onclick="delExercise('+ei+')">✕</span></span></div>'+(e.sets.length?'<div class="sets">'+e.sets.map((s,si)=>'<span class="setchip" onclick="delSet('+ei+','+si+')">'+s.reps+'×'+s.kg+'kg</span>').join('')+'</div>':'')+'<div class="field" style="margin-top:8px"><input id="muR'+ei+'" class="fin" type="number" inputmode="numeric" placeholder="Reps"><input id="muK'+ei+'" class="fin" type="number" inputmode="numeric" placeholder="kg"><button class="btn ghost sm" style="flex:none;width:52px;min-height:44px" onclick="addSet('+ei+')">＋</button></div></div>').join(''):'<p class="sci">Aucun exercice aujourd\'hui. Ajoute le premier.</p>');
- document.getElementById('muBars').innerHTML=barsSVG(seriesBack(null,14,k=>dayVolume(k)),{h:66,lab:['−14j','auj.'],colorFn:function(v,i,last){return v?(last?'var(--indigo)':'rgba(108,123,214,.55)'):'var(--track)'}})}
-function addExercise(){const n=document.getElementById('muEx').value.trim();if(!n)return;const k=tk(),a=muscuOf(k);a.push({ex:n,sets:[]});DB.set('muscu_'+k,a);document.getElementById('muEx').value='';renderMuscu()}
-function addSet(ei){const r=parseInt(document.getElementById('muR'+ei).value)||0,kg=parseFloat(document.getElementById('muK'+ei).value)||0;if(!r){toast('Indique les reps');return}const k=tk(),a=muscuOf(k);a[ei].sets.push({reps:r,kg});DB.set('muscu_'+k,a);renderMuscu()}
-function delExercise(ei){const k=tk(),a=muscuOf(k);a.splice(ei,1);DB.set('muscu_'+k,a);renderMuscu()}
-function delSet(ei,si){const k=tk(),a=muscuOf(k);a[ei].sets.splice(si,1);DB.set('muscu_'+k,a);renderMuscu()}
 
 /* ---------- NUTRITION ---------- */
 function getNutGoals(){const p=getProfile();return {kcal:p.kcalGoal||2400,prot:p.protGoal||150}}
@@ -607,7 +580,7 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
 function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal()}
 function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;DB.set('profile',p);toast('Profil enregistré');renderToday()}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
-async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚');go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
+async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();let added=0;if(HC.readSessions){try{const sg=await HC.readSessions();added=importDetectedSessions(sg&&sg.items)}catch(e){}}const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚'+(added?' · '+added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''):''));go('today')}else if(added){DB.set('demo',0);toast(added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''));go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
 
 /* ---------- DEMO / RECOV ---------- */
 function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportintense','magnesium','meditation','repastard','hydrate'];
@@ -615,18 +588,16 @@ function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportinten
   let pen=0;if(j.alcool)pen-=9;if(j.cafeine)pen-=4;if(j.ecrans)pen-=3;if(j.repastard)pen-=2;if(j.magnesium)pen+=3;if(j.meditation)pen+=3;if(j.hydrate)pen+=2;
   const sleepMin=Math.round(410+Math.random()*100),deep=Math.round(70+Math.random()*45),rem=Math.round(85+Math.random()*40),awake=Math.round(10+Math.random()*22),light=Math.max(30,sleepMin-deep-rem-awake);
   DB.set('sensor_'+k,{hrv:Math.round(58+Math.random()*30+pen),rhr:Math.round(46+Math.random()*12-pen*0.3),resp:+(13+Math.random()*2.4).toFixed(1),deep,rem,light,awake,sleepMin,source:'sim'});
-  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3),nm=['Course','Muscu','Vélo','HIIT'][Math.floor(Math.random()*4)];DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),dur,int}])}}
+  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3),nm=['Course','Renfo','Vélo','HIIT'][Math.floor(Math.random()*4)];DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),dur,int,auto:true}])}}
  for(let i=27;i>=0;i--){persistRecovFor(tk(-i))}DB.set('demo',1);
  if(!silent){seedTodayShowcase();renderProfile();toast('Démo rechargée 🎲');go('today')}}
 function seedTodayShowcase(){const sleepMin=462,deep=104,rem=118,awake=12,light=sleepMin-deep-rem;
  DB.set('sensor_'+tk(),{hrv:96,rhr:47,resp:13.4,deep,rem,light,awake,sleepMin,source:'sim'});
- DB.set('sessions_'+tk(),[{name:'Marche',icon:'🚶',start:'09:15',dur:45,int:1},{name:'Padel',icon:'🎾',start:'12:30',dur:75,int:2},{type:'nap',name:'Sieste',icon:'😴',start:'15:00',dur:25},{name:'Football',icon:'⚽',start:'18:00',dur:75,int:3}]);
+ DB.set('sessions_'+tk(),[{name:'Marche',icon:'🚶',start:'09:15',dur:45,int:1,auto:true},{name:'Padel',icon:'🎾',start:'12:30',dur:75,int:2,auto:true},{type:'nap',name:'Sieste',icon:'😴',start:'15:00',dur:25},{name:'Football',icon:'⚽',start:'18:00',dur:75,int:3,auto:true}]);
  DB.set('meals_'+tk(),[{name:'Petit-déj — flocons & œufs',kcal:520,prot:32,carb:60,fat:16},{name:'Déjeuner — poulet riz',kcal:760,prot:55,carb:80,fat:18},{name:'Collation — skyr & banane',kcal:280,prot:22,carb:38,fat:4},{name:'Snack — amandes',kcal:290,prot:10,carb:10,fat:24}]);
- DB.set('muscu_'+tk(),[{ex:'Développé couché',sets:[{reps:10,kg:60},{reps:8,kg:65},{reps:8,kg:65}]},{ex:'Tractions',sets:[{reps:10,kg:0},{reps:8,kg:0}]},{ex:'Squat',sets:[{reps:10,kg:80},{reps:8,kg:90}]}]);
  persistRecov()}
 function ensureDemo(){if(DB.get('seeded'))return;simulateData(true);seedTodayShowcase();
  for(let i=1;i<=13;i++){const k=tk(-i);DB.set('meals_'+k,[{name:'Journée',kcal:Math.round(1950+Math.random()*650),prot:Math.round(120+Math.random()*70),carb:Math.round(180+Math.random()*120),fat:Math.round(55+Math.random()*45)}])}
- [2,3,5,6,9,11].forEach(i=>{const k=tk(-i);DB.set('muscu_'+k,[{ex:'Séance',sets:[{reps:10,kg:Math.round(40+Math.random()*60)},{reps:8,kg:Math.round(50+Math.random()*60)},{reps:8,kg:Math.round(50+Math.random()*60)}]}])});
  DB.set('seeded',1)}
 function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[],ps=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr);if(ss.resp!=null)ps.push(ss.resp)}}
  if(hs.length<3)return;const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
@@ -637,7 +608,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v11';
+const APP_VERSION='flint-v12';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
