@@ -104,6 +104,19 @@
   .bars i.on{background:linear-gradient(180deg,var(--accentL),var(--accent))}
   .barlbl{display:flex;gap:7px;margin-top:5px}.barlbl span{flex:1;text-align:center;font-size:9px;font-weight:700;color:var(--faint)}
   .chartbox{width:100%}.chartbox svg{width:100%;display:block}
+  .coachline{display:flex;align-items:center;gap:10px;margin:10px 0 4px}
+  .coachline .cend{text-align:center;flex:none;min-width:72px}
+  .coachline .cei{font-size:22px;line-height:1}
+  .coachline .cet{font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+  .coachline .cev{font-family:var(--disp);font-size:23px;margin-top:1px}
+  .coachline .cbar{flex:1;height:8px;border-radius:6px;background:linear-gradient(90deg,#3A4FB0,#9AA4DD,var(--amber));position:relative}
+  .coachline .cdur{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--ink2);white-space:nowrap}
+  .trow{display:flex;align-items:center;gap:10px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;margin-top:8px;cursor:pointer}
+  .trow.on{border-color:var(--accent);background:var(--peach)}
+  .trow .tdot{width:10px;height:10px;border-radius:50%;flex:none}
+  .trow .tn{font-weight:800;font-size:13px;flex:1}
+  .trow .th{font-size:12px;font-weight:700;color:var(--ink2)}
+  .trow .tb{font-family:var(--disp);font-size:18px;margin-left:10px;min-width:52px;text-align:right}
   .trend{font-family:var(--disp);font-size:32px;line-height:1}
   .progbar{height:12px;border-radius:8px;background:var(--track);overflow:hidden;margin-top:8px}
   .progbar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accentL),var(--accent))}
@@ -270,6 +283,7 @@
   <div class="card"><div class="ct">Hypnogramme · ta nuit</div><div id="hypnoCard"></div></div>
   <div class="card"><div class="ct">Besoin de sommeil</div><div id="sleepNeedCard"></div></div>
   <div class="card"><div class="ct">Sous-scores du sommeil</div><div class="grid2" id="subScores" style="gap:10px"></div></div>
+  <div class="card" id="coachCard"></div>
   <div class="card splitc">
     <div class="left"><div class="ct">Dette de sommeil · 14j</div><div class="big" style="font-size:36px" id="slDebt">—</div><div class="sci" id="slDebtSub"></div></div>
     <div class="rightcol" style="justify-content:center"><div class="iconb">🌙</div><div class="sci" id="slPlan"></div></div>
@@ -430,7 +444,7 @@ document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v
 // ===================== WHOOP-FAITHFUL MODULES =====================
 function hypnoSeq(s){const cyc=Math.max(3,Math.min(6,Math.round(s.sleepMin/95)));const seq=[];const dP=s.deep/cyc,rP=s.rem/cyc,lP=s.light/cyc;if(s.awake>3)seq.push([3,Math.round(s.awake*0.35)]);for(let c=0;c<cyc;c++){seq.push([1,Math.round(lP*0.45)]);const dw=Math.round(dP*Math.max(0.3,(2-c*1.4/cyc)));if(dw>2)seq.push([0,dw]);seq.push([1,Math.round(lP*0.3)]);const rw=Math.round(rP*(0.4+c*1.2/cyc));if(rw>2)seq.push([2,rw]);seq.push([1,Math.round(lP*0.25)])}if(s.awake>3)seq.push([3,Math.round(s.awake*0.3)]);return seq}
 function drawHypno(date){const s=sensorOf(date||tk());if(!s||!s.sleepMin)return '<p class="sci">Pas de données de sommeil.</p>';const seq=hypnoSeq(s);const W=320,H=108,gx=46,aw=W-gx-6,total=seq.reduce((a,b)=>a+b[1],0)||1;const yC={3:16,2:42,1:66,0:90},col={0:'#3A4FB0',1:'#9AA4DD',2:'#5E6FCC',3:'#D8C9A2'};let x=gx,r='';seq.forEach(seg=>{const w=seg[1]/total*aw;r+='<rect x="'+x.toFixed(1)+'" y="'+(yC[seg[0]]-5)+'" width="'+Math.max(2,w-1).toFixed(1)+'" height="10" rx="3" fill="'+col[seg[0]]+'"/>';x+=w});const lab=[[16,'Éveillé'],[42,'REM'],[66,'Léger'],[90,'Profond']].map(l=>'<text x="2" y="'+(l[0]+3)+'" font-size="8.5" fill="var(--faint)" font-weight="800">'+l[1]+'</text>').join('');return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px">'+lab+r+'</svg>'}
-function sleepNeedCalc(){const base=(getProfile().need||8)*60;const debt=Math.round(sleepDebt()*60*0.35);const strain=Math.round(loadStrain()*3.2);const nap=0;const need=Math.max(base,base+debt+strain-nap);return {base,debt,strain,nap,need}}
+function sleepNeedCalc(){const base=(getProfile().need||8)*60;const debt=Math.min(75,Math.round(sleepDebt()*60*0.35));const strain=Math.min(55,Math.round(loadStrain()*3.2));const nap=0;const need=base+debt+strain-nap;return {base,debt,strain,nap,need}}
 function sleepConsistency(){const a=[];for(let i=0;i<5;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)a.push(s.sleepMin)}if(a.length<3)return null;const m=a.reduce((x,y)=>x+y,0)/a.length,sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length);return Math.max(40,Math.min(100,Math.round(100-sd/2.4)))}
 function sleepSubscores(t){const need=(getProfile().need||8)*60;return [['Suffisance',Math.min(100,Math.round(t.sleepMin/need*100))],['Efficacité',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):null],['Réparateur',Math.round((t.deep+t.rem)/Math.max(1,t.sleepMin)*100)],['Régularité',sleepConsistency()]]}
 function stressLevel(){const bH=baseStat('hrv'),t=sensorOf(tk());if(!bH||!t||t.hrv==null)return null;const z=(t.hrv-bH.m)/bH.sd;return Math.max(0,Math.min(3,+(1.5-z*0.85).toFixed(1)))}
@@ -538,13 +552,31 @@ function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(
  set('slStages',st.map(s=>'<span style="width:'+(s[1]/tot*100)+'%;background:'+s[2]+'"></span>').join(''));
  set('slStagesTxt',st.map(s=>s[0]+' '+Math.round(s[1])+'min').join(' · '));
  const debt=sleepDebt();set('slDebt',Math.floor(debt)+'h'+String(Math.round(debt%1*60)).padStart(2,'0'));set('slDebtSub',debt<1?'Pas de dette 💪':'à rembourser');
- const wake=tmin(getProfile().wake),bed=Math.round(((wake-need-Math.min(120,debt*15))%1440+1440)%1440);set('slPlan','Couche-toi vers '+String(Math.floor(bed/60)).padStart(2,'0')+':'+String(bed%60).padStart(2,'0'));
+ set('slPlan',debt<1?'Tu es à jour 👌':'Comble-la en visant ton besoin chaque nuit.');renderSleepCoach();
  const arr=seriesBack('sleepMin',14).map(x=>x?x/60:null);
  set('slBars',barsSVG(arr,{h:66,ref:need/60,refLabel:'besoin',refColor:'var(--indigo)',lab:['−14 nuits','auj.'],colorFn:function(v){return v==null?'var(--track)':(v>=need/60?'#6C7BD6':'var(--amber)')}}));
  set('hypnoCard',drawHypno());
  const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map((c,i)=>'<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>').join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
  set('subScores',sleepSubscores(t).map(s=>{const v=s[1];const col=v==null?'var(--faint)':v>=85?'var(--green)':v>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+(v==null?'—':v+'%')+'</div></div>'}).join(''))}
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
+/* ---- Coach sommeil (planificateur façon Whoop) ---- */
+const _coachFmtT=m=>{m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const _coachFmtH=m=>Math.floor(m/60)+'h'+String(Math.round(m%60)).padStart(2,'0');
+function renderSleepCoach(){const host=document.getElementById('coachCard');if(!host)return;
+ const nd=sleepNeedCalc().need,t=sensorOf(tk());
+ const eff=(t&&t.awake!=null&&t.sleepMin)?Math.max(0.82,Math.min(0.97,t.sleepMin/(t.sleepMin+t.awake))):0.9;
+ const wake=tmin(getProfile().wake);
+ const tiers=[['Pic de forme',1.0,'var(--green)','100%'],['Performer',0.85,'var(--amber)','85%'],['Tenir',0.70,'var(--accent)','70%']];
+ const sel=window._sleepTier==null?0:window._sleepTier,f=tiers[sel],inBed=nd*f[1]/eff,bedT=wake-inBed;
+ host.innerHTML='<div class="ct">🌙 Coach sommeil · planifie ta nuit</div>'
+ +'<div style="text-align:center;margin:2px 0 2px"><div class="big" style="font-size:42px;color:var(--accent)">'+_coachFmtH(inBed)+'</div><div class="eyebrow" style="margin-top:4px">au lit · objectif '+f[3]+' de ton besoin</div></div>'
+ +'<div class="coachline"><div class="cend"><div class="cei">🌙</div><div class="cet">Coucher</div><div class="cev">'+_coachFmtT(bedT)+'</div></div><div class="cbar"><span class="cdur">'+_coachFmtH(inBed)+'</span></div><div class="cend"><div class="cei">☀️</div><div class="cet">Réveil</div><div class="cev">'+_coachFmtT(wake)+'</div></div></div>'
+ +'<div class="lab" style="margin-top:16px">Heure de réveil cible</div><input id="coachWake" class="fin" type="time" value="'+getProfile().wake+'" onchange="setCoachWake(this.value)">'
+ +'<div class="lab" style="margin-top:14px">Choisis ton objectif</div>'
+ +tiers.map((tt,i)=>{const ib=nd*tt[1]/eff,bt=wake-ib;return '<div class="trow'+(i===sel?' on':'')+'" onclick="setSleepTier('+i+')"><span class="tdot" style="background:'+tt[2]+'"></span><span class="tn">'+tt[0]+'</span><span class="th">'+_coachFmtH(ib)+' au lit</span><span class="tb">'+_coachFmtT(bt)+'</span></div>'}).join('')
+ +'<p class="sci" style="margin-top:10px">Couche-toi à l\'heure indiquée pour réveil à '+_coachFmtT(wake)+'. Tu vises plus de sommeil quand ta dette ou ta charge monte — comme Whoop.</p>';}
+function setSleepTier(i){window._sleepTier=i;renderSleepCoach()}
+function setCoachWake(v){const p=getProfile();p.wake=v||'07:00';DB.set('profile',p);renderSleepCoach()}
 
 /* ---------- CHARGE ---------- */
 function renderLoad(){const L=loadOf(tk()),tgt=loadTarget();
@@ -605,7 +637,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v10';
+const APP_VERSION='flint-v11';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
