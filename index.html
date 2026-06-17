@@ -347,6 +347,12 @@
   </div>
   <div class="card" id="journalCard"></div>
   <div class="card">
+    <div class="ct">📡 Connexion directe · Polar Loop (Bluetooth)</div>
+    <button class="btn sm" onclick="connectPolarBle()">📡 Connecter ma Polar Loop</button>
+    <div class="sci" id="polarBleStatus" style="margin-top:10px">Non connectée.</div>
+    <p class="sci" style="margin-top:8px;color:var(--faint)">Connexion Bluetooth directe à la Loop via le SDK Polar. Dispo sur l'app Android (réinstalle l'APK pour activer).</p>
+  </div>
+  <div class="card">
     <div class="ct">⌚ Capteur · Polar Loop / Health Connect</div>
     <button class="btn sm" onclick="pullHealthConnect()">🔄 Synchroniser mon capteur</button>
     <div class="lab" style="margin-top:12px">Ou saisir la nuit à la main</div>
@@ -667,7 +673,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v15';
+const APP_VERSION='flint-v16';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -677,6 +683,38 @@ renderToday();
 scheduleNotifs();
 checkUpdate();
 if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+<script>
+/* Connexion directe Polar Loop via le plugin natif PolarBle (SDK Polar BLE) */
+(function(){
+  var listenersSet=false, connecting=false;
+  function st(m){var e=document.getElementById('polarBleStatus');if(e)e.textContent=m;}
+  window.connectPolarBle=async function(){
+    var P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.PolarBle;
+    if(!P){st('Indisponible ici — ouvre l\'app Android (APK).');if(window.toast)toast('Dispo sur l\'app Android');return;}
+    try{
+      var perm=await P.ensurePermissions();
+      if(!perm||!perm.granted){st('Autorise le Bluetooth pour continuer.');return;}
+      if(!listenersSet){
+        listenersSet=true;
+        P.addListener('deviceFound',function(d){
+          var n=(d.name||'').toLowerCase();
+          if(!connecting&&n.indexOf('polar')>-1){connecting=true;st('Connexion à '+(d.name||d.deviceId)+'…');P.stopScan();P.connect({deviceId:d.deviceId});}
+        });
+        P.addListener('status',function(s){
+          if(s.status==='connected'){st('✅ Connectée ('+s.deviceId+')');if(window.toast)toast('Polar Loop connectée ✅');}
+          else if(s.status==='connecting'){st('Connexion…');}
+          else if(s.status==='disconnected'){connecting=false;st('Déconnectée.');}
+        });
+        P.addListener('hr',function(h){st('✅ Connectée · '+h.hr+' bpm'+(h.rr&&h.rr.length?' · RR '+h.rr.join('/')+' ms':''));});
+      }
+      connecting=false;
+      st('🔍 Recherche de ta Polar Loop…');
+      await P.scan();
+      setTimeout(function(){if(!connecting)st('Aucune Polar trouvée — vérifie qu\'elle est proche, chargée et pas déjà connectée ailleurs.');},12000);
+    }catch(e){st('Erreur Bluetooth.');if(window.toast)toast('Erreur Bluetooth');}
+  };
+})();
 </script>
 </body>
 </html>
