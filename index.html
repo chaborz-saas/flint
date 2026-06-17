@@ -11,9 +11,10 @@
 <title>FLINT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
 <style>
   :root{
-    --bg:#F3EFE7; --bg2:#EBE6DC; --card:#FFFFFF;
+    --bg:#FAF8F5; --bg2:#EBE6DC; --card:#FFFFFF;
     --ink:#15140F; --ink2:#6E6A62; --faint:#A7A29A;
     --accent:#F0492E; --accentL:#FF6A48; --accentD:#D63A20;
     --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
@@ -193,187 +194,919 @@
   .toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-14px) scale(.96);background:var(--ink);color:#fff;padding:12px 20px;border-radius:30px;font-weight:700;font-size:14px;box-shadow:0 12px 30px rgba(20,18,12,.3);z-index:60;opacity:0;transition:.35s cubic-bezier(.3,1.3,.5,1);pointer-events:none;max-width:88vw;text-align:center}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(6px) scale(1)}
   #updBanner{display:none;position:sticky;top:0;z-index:25;background:var(--accent);color:#fff;text-align:center;padding:11px;font-weight:800;font-size:13px;cursor:pointer}
+  /* ===== "Notre version" — accueil combiné + addictif (greffé sur la vraie app) ===== */
+  .card{transition:transform .14s ease}
+  .card:active{transform:scale(.99)}
+  .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--disp);font-style:italic;font-size:12.5px;color:var(--accentD);background:var(--peach);padding:6px 12px;border-radius:20px}
+  .rcombo{display:flex;align-items:center;gap:6px;cursor:pointer}
+  .rcLeft{flex:0 0 156px;text-align:center}
+  .rcName{font-family:var(--disp);font-style:italic;font-size:13px;color:var(--ink);margin-top:6px;text-transform:uppercase}
+  .rcZone{font-family:var(--disp);font-style:italic;font-size:13px;margin-top:1px;text-transform:uppercase}
+  .delta{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-family:var(--sans);font-weight:800;font-size:11px;padding:4px 10px;border-radius:20px}
+  .delta.up{color:var(--green);background:rgba(63,181,122,.14)}
+  .delta.down{color:var(--accent);background:var(--peach)}
+  .rcDiv{width:1px;align-self:stretch;background:var(--line);margin:10px 2px}
+  .rcRight{flex:1;min-width:0}
+  .rcS{display:flex;align-items:center;gap:11px;padding:7px 0}
+  .rcSi{width:38px;height:38px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .rcSl{font-family:var(--disp);font-style:italic;font-size:11px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase}
+  .rcSv{font-family:var(--disp);font-size:23px;line-height:1;white-space:nowrap}
+  .rcSv .u{font-size:12px;color:var(--ink2)}
+  .rcSs{font-size:11px;color:var(--ink2);margin-top:1px;white-space:nowrap}
+  /* ===== ÉCRAN AUJOURD'HUI = maquette "flint-aujourdhui" à l'identique (scopé .flhome) ===== */
+  .flhome{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+  .flhome .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+  .flhome .muted{color:#9A988F}
+  .flhome .greet{font-family:'Anton';font-style:italic;font-size:32px;margin:8px 2px 0;text-transform:none;line-height:1.05}
+  .flhome .date{font-size:14px;font-weight:500;color:#9A988F;margin:2px 2px 0}
+  .flhome .daynav{display:flex;align-items:center;gap:9px;margin:7px 0 0;position:relative}
+  .flhome .dnav{width:30px;height:30px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#161512;font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto;transition:transform .12s ease,opacity .12s}
+  .flhome .dnav:active{transform:scale(.88)}
+  .flhome .dnav:disabled{opacity:.3;cursor:default}
+  .flhome .dlabel{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:#9A988F;background:none;border:0;padding:3px 4px;cursor:pointer;font-family:inherit}
+  .flhome .dlabel:active{transform:scale(.96)}
+  .flhome .dcaret{font-size:14px;opacity:.55}
+  .flhome #flDatePick{position:absolute;left:46px;bottom:-4px;width:1px;height:1px;opacity:0;border:0;padding:0}
+  .flhome #flFcCard.fcpast .ecgsvg{display:none}
+  .flhome #flFcCard.fcpast .rip{display:none}
+  .flhome #flFcCard.fcpast .heart{animation:none}
+  .flhome .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-family:'Anton';font-style:italic;font-size:12.5px;color:#C0492C;background:#FBEAE5;padding:6px 12px;border-radius:20px;letter-spacing:.3px}
+  .flhome .streakchip i{font-size:15px}
+  .flhome .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);cursor:pointer}
+  .flhome .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.08;letter-spacing:.3px}
+  .flhome .banner .sub{color:#E7E1D8;font-size:13px;font-weight:500;margin-top:6px;line-height:1.35}
+  .flhome .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
+  .flhome .banner>*{position:relative;z-index:1}
+  .flhome .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);transition:transform .14s ease}
+  .flhome .card:active{transform:scale(.985)}
+  .flhome .recup{display:flex;align-items:center;gap:4px;padding:14px 10px}
+  .flhome .ringw{flex:0 0 152px;text-align:center}
+  .flhome .nm{font-family:'Anton';font-style:italic;font-size:13px;color:#37372F;margin-top:6px}
+  .flhome .se{font-family:'Anton';font-style:italic;font-size:13px;color:#E8674A;margin-top:1px}
+  .flhome .vline{width:1px;align-self:stretch;background:#F1EBE3;margin:14px 2px}
+  .flhome .side{flex:1;padding-left:10px;min-width:0}
+  .flhome .stat{display:flex;align-items:center;gap:11px;padding:8px 0;background:none;box-shadow:none;border-radius:0}
+  .flhome .icob{width:40px;height:40px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#5F5E58;font-size:19px;flex-shrink:0}
+  .flhome .sl{font-family:'Anton';font-style:italic;font-size:12px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
+  .flhome .sv{font-family:'Anton';font-size:25px;line-height:1;white-space:nowrap;margin-top:0;color:#161512}
+  .flhome .stat .muted{white-space:nowrap}
+  .flhome .row{display:flex;align-items:center;justify-content:space-between}
+  .flhome .mini{display:flex;align-items:center;gap:14px}
+  .flhome .li{display:flex;justify-content:space-between;align-items:center;padding:12px 2px;border-bottom:1px solid #F1EBE3}
+  .flhome .li:last-child{border:none}
+  .flhome .acti{font-size:23px;color:#E8674A;width:28px;text-align:center}
+  .flhome .pill{font-family:'Anton';font-style:italic;font-size:13px;background:#FBEAE5;color:#C0492C;padding:7px 13px;border-radius:20px;white-space:nowrap}
+  .flhome .grn{background:#EAF3DE;color:#3B6D11}
+  .flhome .chev{color:#C9C5BC;font-size:19px;margin-left:10px}
+  .flhome .delta{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-family:'Inter';font-weight:700;font-size:11px;color:#3B6D11;background:#EAF3DE;padding:4px 10px;border-radius:20px}
+  .flhome .delta.down{color:#C0492C;background:#FBEAE5}
+  .flhome .addact{width:100%;margin-top:8px;background:none;border:1px dashed #E0D9CE;color:#9A988F;font-family:'Inter';font-weight:700;font-size:13px;padding:10px;border-radius:14px;cursor:pointer}
+  .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill 1.25s cubic-bezier(.25,.8,.3,1) .35s both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
+  .fllogo{font-family:'Anton';font-style:italic;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
+  .fllogo-img{height:30px;width:auto;display:block;cursor:pointer}
+  .flhome .ecg{animation:flEcg 2.4s linear infinite}
+  .flhome .rip{transform-box:fill-box;transform-origin:center;animation:flRipple 1.9s ease-out infinite}
+  .flhome .rip2{animation-delay:.95s}
+  .flhome .heart{transform-box:fill-box;transform-origin:center;animation:flBeat 1.5s ease-in-out infinite}
+  .flhome .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45))}
+  .flhome .greet,.flhome .date,.flhome .streakchip,.flhome .banner,.flhome .card{animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+  @keyframes flRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes flRingFill{from{stroke-dashoffset:289}to{stroke-dashoffset:var(--off,38)}}
+  @keyframes flEcg{to{transform:translateX(-130px)}}
+  @keyframes flRipple{0%{transform:scale(.45);opacity:.5}70%{opacity:0}100%{transform:scale(1.55);opacity:0}}
+  @keyframes flBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.16)}28%{transform:scale(1)}42%{transform:scale(1.07)}56%{transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.flhome *{animation:none!important;transition:none!important}.flhome .ring-fill{stroke-dashoffset:var(--off,38)}}
+  /* === Desktop : centrer l'app en colonne mobile (sinon plein écran = moche) === */
+  .flsleep .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .flsleep .vit{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:14px;padding:12px 6px;text-align:center}
+  .flsleep .vit .vl{font-family:'Anton';font-style:italic;font-size:10.5px;letter-spacing:.3px;color:#9A988F;text-transform:uppercase}
+  .flsleep .vit .vv{font-family:'Anton';font-style:italic;font-size:22px;margin-top:4px;color:#161512}
+  .flsleep .vit .vv small{font-size:11px;font-weight:600;color:#9A988F;font-family:'Inter';font-style:normal}
+  .flsleep #slRecharge{height:80px}
+  .flsleep .plk{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.45;color:#37372F}
+  .flsleep .plk i{font-size:20px;flex:none;margin-top:1px}
+  .flsleep .anomaly{border-color:#F2C7BD;background:#FCF1ED}
+  .flsleep .anomaly .ct{color:#C0492C}
+  .flsleep .ssrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
+  .flsleep .ssrow:last-child{border-bottom:0}
+  .flsleep .ssl{font-family:'Anton';font-style:italic;font-size:13.5px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+  .flsleep .ssr{display:inline-flex;align-items:center;gap:11px}
+  .flsleep .segs{display:inline-flex;gap:3px}
+  .flsleep .seg{width:15px;height:5px;border-radius:3px;display:inline-block}
+  .flsleep .ssv{font-family:'Anton';font-style:italic;font-size:17px;width:50px;text-align:right}
+  .flsleep .seglegend{display:flex;gap:14px;justify-content:center;margin-top:13px;font-size:10.5px;color:#9A988F}
+  .flsleep .seglegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:4px}
+  .flsleep .lever{display:flex;align-items:center;gap:12px;background:#FBEAE5;border-color:#F6D9CF}
+  .flsleep .lvi{width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#C0492C;font-size:21px;flex:none}
+  .flsleep .lever .sci{color:#7a2c18}
+  .flsleep .explore{width:100%;margin-top:6px;background:none;border:1px solid #E0D9CE;color:#37372F;font-family:'Anton';font-style:italic;font-size:14px;padding:13px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:transform .12s ease,background .12s}
+  .flsleep .explore:active{transform:scale(.98);background:#FBF8F2}
+  .flsleep .regrow text{font-family:'Inter';font-weight:700}
+  @media (min-width:560px){
+    html{background:#E7E2D7}
+    body{max-width:440px;margin:0 auto;min-height:100vh;box-shadow:0 0 44px rgba(20,18,12,.13)}
+    nav{left:50%;right:auto;transform:translateX(-50%);width:440px}
+  }
+
+/* ===== ÉCRAN RÉCUPÉRATION — niveau "flhome" (scopé .flrecovery) ===== */
+.flrecovery{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+.flrecovery .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flrecovery .muted{color:#9A988F}
+
+/* Titre de page façon greeting Anton italic, aligné gauche */
+.flrecovery .rhead{margin:6px 2px 2px}
+.flrecovery .rhead .greet{font-family:'Anton';font-style:italic;font-size:30px;line-height:1.04;text-transform:none}
+.flrecovery .rhead .date{font-size:13.5px;font-weight:500;color:#9A988F;margin-top:3px}
+
+/* Cartes crème comme l'accueil */
+.flrecovery .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flrecovery .card.tap{transition:transform .14s ease;cursor:pointer}
+.flrecovery .card.tap:active{transform:scale(.985)}
+
+/* Libellés de section : Anton italic CAPS, petit gris + icône Tabler */
+.flrecovery .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px;font-weight:400}
+.flrecovery .ct i{font-size:16px;color:#C0492C}
+.flrecovery .sci{font-size:13px;color:#6E6A62;line-height:1.5}
+
+/* ---- Carte héro : anneau récup à couleur dynamique ---- */
+.flrecovery .hero{text-align:center;padding:22px 18px 20px}
+.flrecovery .hero .ring{margin:0 auto 6px}
+.flrecovery .ring .rval{font-family:'Anton';font-style:italic;line-height:1}
+.flrecovery .ring .rlab{font-family:'Anton';font-style:italic;font-size:10px;letter-spacing:.1em;color:#9A988F}
+.flrecovery .ring circle[stroke-linecap="round"]{filter:drop-shadow(0 2px 6px rgba(20,18,12,.18))}
+.flrecovery .hero .disp{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px}
+.flrecovery .hero .sci{max-width:320px;margin:8px auto 0}
+
+/* Bandeau d'état (pill) sous le titre de zone — rappel des pills accueil */
+.flrecovery .zonechip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:'Anton';font-style:italic;font-size:12px;color:#C0492C;background:#FBEAE5;padding:6px 13px;border-radius:20px;letter-spacing:.3px}
+.flrecovery .zonechip i{font-size:14px}
+
+/* ---- Contributions : barres ---- */
+.flrecovery .contrib{margin-top:2px}
+.flrecovery .cbar{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #F1EBE3}
+.flrecovery .cbar:last-child{border-bottom:0}
+.flrecovery .cbar .cl{font-family:'Anton';font-style:italic;font-size:13.5px;flex:1;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+.flrecovery .cbar .cn{font-size:12.5px;color:#6E6A62;font-weight:700;white-space:nowrap}
+.flrecovery .cbar .ctrack{width:84px;height:7px;border-radius:6px;background:#ECE7DD;overflow:hidden;flex:none}
+.flrecovery .cbar .cfill{display:block;height:100%;border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+/* ---- Vitaux nocturnes : mini-cartes en grille 2 ---- */
+.flrecovery .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flrecovery .grid2 .stat{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:16px;padding:13px 14px;box-shadow:none}
+.flrecovery .grid2 .stat .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.flrecovery .grid2 .stat .sv{font-family:'Anton';font-style:italic;font-size:26px;line-height:1;margin-top:5px;color:#161512}
+.flrecovery .grid2 .stat .ss{font-size:11px;color:#6E6A62;margin-top:3px}
+.flrecovery #recAge{margin-top:12px;display:flex;align-items:center;gap:7px}
+.flrecovery #recAge:before{font-family:'tabler-icons';content:"\f0db";color:#C0492C;font-size:16px;font-style:normal}
+
+/* ---- Health Monitor : lignes ---- */
+.flrecovery .hm{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
+.flrecovery .hm:last-of-type{border-bottom:0}
+.flrecovery .hm .hl{font-family:'Anton';font-style:italic;font-size:13px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+.flrecovery .hm .hv{font-family:'Inter';font-weight:700;font-size:14px;color:#161512}
+
+/* ---- Stress ---- */
+.flrecovery #stressCard .big{font-family:'Anton';font-style:italic;color:#E8674A}
+.flrecovery #stressCard .eyebrow{font-size:11px;font-weight:800;color:#9A988F;letter-spacing:.16em;text-transform:uppercase}
+
+/* ---- Tendance 14 jours ---- */
+.flrecovery .spark{width:100%;display:block}
+
+/* ---- Footer Sommeil & Charge ---- */
+.flrecovery .splitc{display:flex;align-items:center;gap:16px}
+.flrecovery .splitc .left{flex:1;min-width:0}
+.flrecovery .splitc .left .ct{margin:0}
+.flrecovery .splitc .rightcol{flex:none;display:flex;flex-direction:row;gap:8px}
+.flrecovery .qbtn{display:inline-flex;align-items:center;gap:6px;font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.3px;background:#fff;border:1px solid #ECE6DD;color:#37372F;padding:9px 14px;border-radius:20px;cursor:pointer;transition:transform .12s ease,background .12s}
+.flrecovery .qbtn i{font-size:15px;color:#C0492C}
+.flrecovery .qbtn:active{transform:scale(.94);background:#FBF8F2}
+
+@keyframes flRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.flrecovery *{animation:none!important;transition:none!important}}
+
+/* ===== ÉCRAN SOMMEIL — design FLINT (scopé .flsleep), aligné sur .flhome ===== */
+.flsleep{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+.flsleep .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flsleep .muted{color:#9A988F}
+
+/* En-tête de page : retour + titre, façon accueil */
+.flsleep .pghd{position:relative;display:flex;align-items:center;justify-content:center;margin:6px 0 4px}
+.flsleep .bk{position:absolute;left:0;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ECE6DD;background:#fff;border-radius:50%;font-size:20px;line-height:1;color:#161512;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;padding-bottom:2px;transition:transform .12s ease}
+.flsleep .bk:active{transform:translateY(-50%) scale(.88)}
+.flsleep .pgtitle{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:30px;letter-spacing:.4px;color:#161512;line-height:1}
+
+/* Libellés de section : Anton italic CAPS petits gris, comme l'accueil */
+.flsleep .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12.5px;letter-spacing:.5px;color:#9A988F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.flsleep .ct i{font-size:16px;color:#E8674A;font-style:normal}
+.flsleep .eyebrow{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11.5px;letter-spacing:.5px;color:#9A988F}
+.flsleep .sci{font-size:13px;color:#5F5E58;line-height:1.5}
+.flsleep .big{font-family:'Anton';line-height:.92;letter-spacing:.01em}
+.flsleep .lab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;margin-bottom:6px}
+
+/* Cartes blanches FLINT */
+.flsleep .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);transition:transform .14s ease}
+.flsleep .card:active{transform:scale(.992)}
+
+/* Bandeau coaching noir dégradé, flamme contour + stries — identique accueil */
+.flsleep .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22)}
+.flsleep .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:18px;line-height:1.1;letter-spacing:.3px}
+.flsleep .banner .sub{color:#E7E1D8;font-size:13px;font-weight:500;margin-top:6px;line-height:1.4}
+.flsleep .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
+.flsleep .banner .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45))}
+.flsleep .banner>*{position:relative;z-index:1}
+
+/* Carte score principale : anneau centré + ligne, halo dynamique */
+.flsleep .scorecard{text-align:center;padding:20px 16px 18px}
+.flsleep .ring{position:relative;display:inline-block}
+.flsleep .ring svg{display:block}
+.flsleep .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px}
+.flsleep .ring .rlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
+.flsleep .ring .rval{font-family:'Anton';font-style:italic;line-height:1;letter-spacing:.01em}
+.flsleep .ring .rsub{font-size:12px;font-weight:700;color:#9A988F;line-height:1}
+.flsleep .ring circle[stroke^="url"],.flsleep .ring circle[stroke="#6C7BD6"]{filter:drop-shadow(0 2px 6px rgba(108,123,214,.34))}
+.flsleep .scoreline{font-size:14px;font-weight:600;color:#5F5E58;margin-top:10px}
+
+/* Pastilles d'en-tête de la carte score */
+.flsleep .scorepills{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.flsleep .pill{font-family:'Anton';font-style:italic;font-size:12.5px;background:#FBEAE5;color:#C0492C;padding:6px 13px;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.flsleep .pill i{font-size:14px;font-style:normal}
+.flsleep .pill.indigo{background:#EAECF8;color:#46509A}
+
+/* Grille des 2 stats (Durée / Efficacité) — cartes blanches FLINT */
+.flsleep .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.flsleep .stat{background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:15px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
+.flsleep .stat .sl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
+.flsleep .stat .sv{font-family:'Anton';font-style:italic;font-size:30px;line-height:1;margin-top:5px;color:#161512}
+.flsleep .stat .ss{font-size:11px;color:#9A988F;margin-top:3px}
+/* le sub-scores écrit set() dans #subScores sans marge, on neutralise la marge de grille */
+.flsleep #subScores{margin:0}
+
+/* Stades de sommeil : barre empilée (généré par render → .stage span) */
+.flsleep .stage{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-top:8px;box-shadow:inset 0 0 0 1px rgba(20,18,12,.03)}
+.flsleep .stage span{height:100%}
+
+/* Graphe "Besoin de sommeil" (généré : .wf .c .cn2 .cb .cl2 + .hvn .f .tick) */
+.flsleep .wf{display:flex;align-items:flex-end;gap:8px;height:74px;margin:6px 0 4px}
+.flsleep .wf .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
+.flsleep .wf .cb{width:100%;border-radius:7px;min-height:6px}
+.flsleep .wf .cl2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;text-align:center;line-height:1.1}
+.flsleep .wf .cn2{font-family:'Anton';font-style:italic;font-size:12.5px;color:#161512}
+.flsleep .hvn{height:14px;border-radius:8px;background:#F0E9E0;position:relative;margin-top:10px;overflow:visible}
+.flsleep .hvn .f{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#9AA4DD,#6C7BD6)}
+.flsleep .hvn .tick{position:absolute;top:-4px;width:3px;height:22px;background:#161512;border-radius:2px}
+
+/* Hypnogramme / barres 14 nuits */
+.flsleep .chartbox{width:100%}
+.flsleep .chartbox svg,.flsleep #hypnoCard svg{width:100%;display:block}
+
+/* Coach sommeil : tout l'innerHTML est généré par renderSleepCoach() */
+.flsleep #coachCard .big{color:#E8674A}
+.flsleep .coachline{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.flsleep .coachline .cend{text-align:center;flex:none;min-width:72px}
+.flsleep .coachline .cei{display:flex;justify-content:center;line-height:1}
+.flsleep .coachline .cet{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;margin-top:4px}
+.flsleep .coachline .cev{font-family:'Anton';font-style:italic;font-size:22px;margin-top:1px;color:#161512}
+.flsleep .coachline .cbar{flex:1;height:8px;border-radius:6px;background:linear-gradient(90deg,#3A4FB0,#9AA4DD,#F0902E);position:relative}
+.flsleep .coachline .cdur{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:'Anton';font-style:italic;font-size:11.5px;color:#5F5E58;white-space:nowrap}
+.flsleep .fin{width:100%;border:1px solid #ECE6DD;background:#fff;color:#161512;border-radius:13px;padding:12px;font-size:15px;font-weight:600;font-family:inherit}
+.flsleep .fin:focus{outline:none;border-color:#E8674A}
+.flsleep .trow{display:flex;align-items:center;gap:10px;padding:12px 13px;border:1px solid #F1EBE3;border-radius:14px;margin-top:8px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.flsleep .trow:active{transform:scale(.985)}
+.flsleep .trow.on{border-color:#E8674A;background:#FBEAE5}
+.flsleep .trow .tdot{width:10px;height:10px;border-radius:50%;flex:none}
+.flsleep .trow .tn{font-weight:700;font-size:13px;flex:1}
+.flsleep .trow .th{font-size:12px;font-weight:600;color:#5F5E58}
+.flsleep .trow .tb{font-family:'Anton';font-style:italic;font-size:18px;margin-left:10px;min-width:52px;text-align:right;color:#161512}
+
+/* Carte dette (split) : libellé + gros chiffre + colonne lune/plan */
+.flsleep .splitc{display:flex;gap:18px;align-items:stretch}
+.flsleep .splitc .left{flex:1;min-width:0}
+.flsleep .splitc .rightcol{flex:none;width:138px;border-left:1px solid #F1EBE3;padding-left:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.flsleep .iconb{width:46px;height:46px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#46509A;flex:none}
+.flsleep .iconb i{font-size:23px}
+.flsleep #slDebt{font-family:'Anton';font-style:italic;color:#161512;margin-top:4px}
+
+/* Animation d'entrée, cohérente avec l'accueil */
+.flsleep .pghd,.flsleep .card,.flsleep .grid2{animation:flRise .55s cubic-bezier(.2,.7,.2,1) backwards}
+.flsleep .card:nth-of-type(2){animation-delay:.04s}
+.flsleep .card:nth-of-type(3){animation-delay:.08s}
+@media (prefers-reduced-motion:reduce){.flsleep *{animation:none!important;transition:none!important}}
+
+/* ===== ÉCRAN CHARGE — design FLINT (scopé .flload, calqué sur .flhome) ===== */
+.flload{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+.flload .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flload .muted{color:#9A988F}
+
+/* En-tête de page */
+.flload .pghd{display:flex;align-items:center;gap:10px;margin:6px 2px 2px}
+.flload .bk{width:34px;height:34px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#161512;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto;transition:transform .12s ease}
+.flload .bk:active{transform:scale(.88)}
+.flload .ptitle{font-family:'Anton';font-style:italic;font-size:30px;text-transform:uppercase;line-height:1;letter-spacing:.3px}
+
+/* Bandeau coaching noir */
+.flload .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0 14px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22)}
+.flload .banner>*{position:relative;z-index:1}
+.flload .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
+.flload .banner .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45));flex-shrink:0}
+.flload .banner .blab{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.5px;color:#E8674A;text-transform:uppercase}
+.flload .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.1;letter-spacing:.3px;margin-top:3px}
+
+/* Cartes */
+.flload .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
+.flload .ct{font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase;line-height:1;margin-bottom:2px}
+
+/* Carte anneau d'effort (strain) */
+.flload .strainc{text-align:center;padding:20px 16px 18px}
+.flload .strainc .ring{margin:0 auto 6px;filter:drop-shadow(0 4px 14px rgba(232,103,74,.18))}
+.flload #strainTxt{font-size:12.5px;font-weight:500;color:#6E6A62;max-width:300px;margin:8px auto 0;line-height:1.35}
+.flload #strainTxt b{font-family:'Anton';font-style:italic;font-weight:400;color:#161512;font-size:13.5px}
+
+/* Carte charge du jour */
+.flload .splitc{display:flex;align-items:stretch;gap:14px;padding:18px 16px}
+.flload .splitc .left{flex:1;min-width:0;display:flex;flex-direction:column}
+.flload .bigval{font-family:'Anton';font-style:italic;font-size:48px;line-height:.95;color:#161512;margin-top:4px}
+.flload .progbar{height:9px;border-radius:20px;background:#F0E9E0;overflow:hidden;margin-top:12px}
+.flload .progbar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#F6B59E,#E8674A);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.flload #loadObj{font-size:11px;font-weight:700;letter-spacing:.4px;color:#9A988F;margin-top:7px;text-align:right;text-transform:uppercase}
+.flload .vline{width:1px;align-self:stretch;background:#F1EBE3;margin:2px 0}
+.flload .target{flex:0 0 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.flload .target .icob{width:42px;height:42px;border-radius:50%;background:#FBEAE5;display:flex;align-items:center;justify-content:center;color:#E8674A;font-size:21px}
+.flload .target .eyebrow{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase}
+.flload .target #loadTargetTxt{font-family:'Anton';font-style:italic;font-size:26px;color:#161512;line-height:1}
+
+/* Carte chart 14j */
+.flload .chartbox{margin-top:8px}
+.flload #loadBalance{font-size:12.5px;font-weight:500;color:#6E6A62;margin-top:12px;line-height:1.4;padding-top:12px;border-top:1px solid #F1EBE3}
+.flload #loadBalance b{font-family:'Anton';font-style:italic;font-weight:400;color:#161512}
+
+/* Carte ajout de séance */
+.flload .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.flload .lab{font-size:10px;font-weight:800;color:#9A988F;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.flload .fin{width:100%;border:1px solid #ECE6DD;background:#FAF8F5;color:#161512;border-radius:13px;padding:12px;font-size:15px;font-weight:600;font-family:inherit}
+.flload .fin:focus{outline:none;border-color:#E8674A;background:#fff}
+.flload select.fin{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239A988F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.flload .btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;border:0;border-radius:15px;min-height:52px;background:#161512;color:#fff;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.4px;font-size:15px;cursor:pointer;transition:transform .12s ease}
+.flload .btn:active{transform:scale(.97)}
+.flload .btn i{font-size:18px}
+.flload #seList{margin-top:6px}
+.flload #seList:empty{margin:0}
+
+/* ===== NUTRITION — design FLINT (scopé .flnutrition), aligné sur .flhome ===== */
+.flnutrition{font-family:var(--sans);color:#161512;padding:2px 2px 18px}
+.flnutrition .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flnutrition .muted{color:#9A988F}
+
+/* En-tête de page */
+.flnutrition .pghd{margin:8px 2px 2px}
+.flnutrition .pgt{font-family:'Anton';font-style:italic;font-size:32px;line-height:1.05;text-transform:none}
+.flnutrition .pgs{font-size:14px;font-weight:500;color:#9A988F;margin-top:2px}
+
+/* Cartes */
+.flnutrition .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);transition:transform .14s ease}
+.flnutrition .card:active{transform:scale(.985)}
+
+/* Libellés de section façon accueil */
+.flnutrition .seclab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;display:flex;align-items:center;gap:9px;margin:0 0 12px}
+.flnutrition .seclab i{font-size:16px;color:#E8674A}
+
+/* Carte anneau calories */
+.flnutrition .calcard{text-align:center;padding:20px 16px 18px}
+.flnutrition .calcard .ring{position:relative;display:inline-block;margin:0 auto}
+.flnutrition .calcard .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px}
+.flnutrition .calcard .ring .rlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
+.flnutrition .calcard .ring .rval{font-family:'Anton';font-style:italic;line-height:1;letter-spacing:.01em}
+.flnutrition .calcard .ring .rsub{font-size:12px;font-weight:700;color:#9A988F;line-height:1}
+.flnutrition .calline{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:'Anton';font-style:italic;font-size:13px;color:#C0492C;background:#FBEAE5;padding:7px 14px;border-radius:20px;letter-spacing:.3px;line-height:1.1}
+.flnutrition .calline i{font-size:15px}
+
+/* Macros — 3 cartes blanches indépendantes */
+.flnutrition .macrogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin:14px 0}
+.flnutrition #nutMacros{display:contents}
+.flnutrition #nutMacros .stat{display:block;background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:13px 12px 14px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);min-width:0}
+.flnutrition #nutMacros .stat .sl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.06em;color:#9A988F;display:block}
+.flnutrition #nutMacros .stat .sv{font-family:'Anton';font-style:normal;line-height:1;color:#161512;margin-top:7px}
+.flnutrition #nutMacros .stat .progbar{height:8px;border-radius:8px;background:#ECE7DD;overflow:hidden;margin-top:9px}
+.flnutrition #nutMacros .stat .progbar i{display:block;height:100%;border-radius:8px}
+
+/* Repas du jour */
+.flnutrition #mealList .mealrow{display:flex;align-items:center;gap:11px;padding:12px 2px;border-bottom:1px solid #F1EBE3}
+.flnutrition #mealList .mealrow:last-child{border-bottom:0}
+.flnutrition #mealList .mealrow .an{font-family:'Anton';font-style:italic;text-transform:none;font-size:14px;color:#161512;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flnutrition #mealList .mealrow .at{font-size:11px;color:#6E6A62;font-weight:600;margin-top:2px}
+.flnutrition #mealList .mealrow .mkcal{margin-left:auto;font-family:'Anton';font-style:italic;font-size:21px;color:#161512;white-space:nowrap}
+.flnutrition #mealList .mealrow .mkcal::after{content:' kcal';font-family:var(--sans);font-style:normal;font-size:10px;font-weight:700;color:#A7A29A}
+.flnutrition #mealList .mealrow .ax{color:#C9C5BC;font-size:13px;cursor:pointer;padding:6px;flex:0 0 auto;transition:color .12s}
+.flnutrition #mealList .mealrow .ax:active{color:#E14434}
+.flnutrition #mealList .sci{font-size:13px;color:#6E6A62;line-height:1.5;padding:14px 2px;text-align:center}
+
+/* Formulaire d'ajout */
+.flnutrition .addzone{margin-top:14px;padding-top:16px;border-top:1px solid #F1EBE3}
+.flnutrition .field{display:flex;gap:8px}
+.flnutrition .fin{flex:1;min-width:0;width:100%;border:1px solid #ECE6DD;background:#FCFBF9;color:#161512;border-radius:14px;padding:12px 13px;font-size:15px;font-weight:600;font-family:var(--sans);transition:border-color .14s,background .14s}
+.flnutrition .fin::placeholder{color:#A7A29A;font-weight:500}
+.flnutrition .fin:focus{outline:none;border-color:#E8674A;background:#fff}
+.flnutrition .formgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:9px}
+.flnutrition .lab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:10px;letter-spacing:.08em;color:#9A988F;margin-bottom:6px}
+.flnutrition .addbtn{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:#161512;color:#fff;border:0;border-radius:15px;min-height:50px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.04em;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(22,18,12,.18);transition:transform .12s ease}
+.flnutrition .addbtn i{font-size:18px;color:#E8674A}
+.flnutrition .addbtn:active{transform:scale(.975)}
+
+/* Graphe 14 jours */
+.flnutrition .chartbox{margin-top:2px}
+.flnutrition .chartfoot{display:flex;align-items:center;gap:7px;margin-top:10px;font-size:11px;font-weight:600;color:#9A988F}
+.flnutrition .chartfoot .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+
+.flnutrition .pgt,.flnutrition .pgs,.flnutrition .card{animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flnutrition .card:nth-of-type(2){animation-delay:.05s}
+.flnutrition .card:nth-of-type(3){animation-delay:.1s}
+@media (prefers-reduced-motion:reduce){.flnutrition *{animation:none!important;transition:none!important}}
+
+.fltrends{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+.fltrends .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.fltrends .muted{color:#9A988F}
+.fltrends .head{margin:8px 2px 2px}
+.fltrends .ttl{font-family:'Anton';font-style:italic;font-size:32px;line-height:1.04;text-transform:none}
+.fltrends .sub{font-size:14px;font-weight:500;color:#9A988F;margin:2px 2px 0}
+.fltrends .seclbl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;margin:18px 2px 8px}
+.fltrends .seg{display:flex;gap:6px;background:#F2ECE3;border:1px solid #ECE6DD;border-radius:18px;padding:4px;margin:0}
+.fltrends #trPeriod{margin-top:8px}
+.fltrends .seg button{flex:1;border:0;background:none;cursor:pointer;font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.3px;color:#86847C;padding:9px 6px;border-radius:14px;text-transform:uppercase;transition:transform .12s ease,background .15s,color .15s;white-space:nowrap}
+.fltrends .seg button:active{transform:scale(.94)}
+.fltrends .seg button.on{background:#fff;color:#C0492C;box-shadow:0 1px 2px rgba(20,18,12,.05),0 4px 12px rgba(20,18,12,.06)}
+.fltrends .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px 18px 16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
+.fltrends .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#37372F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.fltrends .ct i{color:#E8674A;font-size:18px}
+.fltrends .chartcard .spark{display:block;width:100%;height:128px;margin-top:2px;overflow:visible}
+.fltrends .chartcard .sci{font-family:'Anton';font-style:italic;font-size:14px;color:#9A988F;margin-top:10px;letter-spacing:.3px}
+.fltrends .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fltrends .statcell{background:#FBF8F3;border:1px solid #F1EBE3;border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px}
+.fltrends .statcell .icob{width:38px;height:38px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#5F5E58;font-size:18px;flex-shrink:0}
+.fltrends .statcell .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
+.fltrends .statcell .sv{font-family:'Anton';font-size:24px;line-height:1.02;color:#161512;margin-top:1px}
+.fltrends #weeklyCard .grid2{margin-top:0}
+.fltrends #weeklyCard .stat{display:block;background:#FBF8F3;border:1px solid #F1EBE3;border-radius:16px;padding:12px 14px;box-shadow:none}
+.fltrends #weeklyCard .stat .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
+.fltrends #weeklyCard .stat .sv{font-family:'Anton';font-size:26px;line-height:1.02;color:#161512;margin-top:3px;white-space:nowrap}
+.fltrends #weeklyCard .stat .ss{font-family:'Inter';font-weight:700;font-size:11px;margin-top:5px}
+.fltrends #corrCard .cor{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #F1EBE3}
+.fltrends #corrCard .cor:last-child{border:none}
+.fltrends #corrCard .cl{flex:1;font-weight:600;font-size:13.5px;color:#37372F;min-width:0}
+.fltrends #corrCard .cbarw{flex:0 0 88px;height:7px;border-radius:6px;background:#F0E9E0;overflow:hidden}
+.fltrends #corrCard .cbarf{display:block;height:100%;border-radius:6px}
+.fltrends #corrCard .sci{font-size:13px;color:#6E6A62;line-height:1.5}
+.fltrends .seclbl,.fltrends .head,.fltrends .seg,.fltrends #trPeriod,.fltrends .card{animation:flRise .55s cubic-bezier(.2,.7,.2,1) backwards}
+.fltrends #trPeriod{animation-delay:.04s}.fltrends .chartcard{animation-delay:.08s}.fltrends .grid2.tr7{animation-delay:.12s}
+@media (prefers-reduced-motion:reduce){.fltrends *{animation:none!important;transition:none!important}}
+
+.flprofile{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
+.flprofile .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flprofile .muted{color:#9A988F}
+/* Header bandeau noir façon coaching accueil */
+.flprofile .pfhero{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:6px 0 16px;display:flex;align-items:center;gap:15px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile .pfhero .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
+.flprofile .pfhero>*{position:relative;z-index:1}
+.flprofile .pfhero .bk2{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid #3C3A35;background:rgba(255,255,255,.06);color:#fff;font-size:22px;line-height:0;padding-bottom:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .12s ease}
+.flprofile .pfhero .bk2:active{transform:scale(.9)}
+.flprofile .pfhero .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:21px;line-height:1.08;letter-spacing:.4px}
+.flprofile .pfhero .sub{color:#E7E1D8;font-size:12.5px;font-weight:500;margin-top:4px;line-height:1.35}
+.flprofile .pfhero .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45));flex:0 0 auto}
+/* Cartes FLINT */
+.flprofile .flcard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile .sect{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+.flprofile .sect i{font-size:17px;color:#E8674A;font-style:normal}
+/* Champs */
+.flprofile .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flprofile .fgrid.three{grid-template-columns:1fr 1fr}
+.flprofile .fld{display:flex;flex-direction:column;gap:5px}
+.flprofile .flab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F}
+.flprofile .fin2{width:100%;box-sizing:border-box;border:1px solid #ECE6DD;background:#FBF9F6;border-radius:14px;padding:11px 13px;font-family:'Inter';font-weight:600;font-size:15px;color:#161512;outline:none;transition:border-color .15s ease,background .15s ease}
+.flprofile .fin2:focus{border-color:#E8674A;background:#fff}
+.flprofile .fin2::placeholder{color:#C0BBB2;font-weight:500}
+/* Boutons */
+.flprofile .fbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;border-radius:15px;padding:13px 16px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:14px;cursor:pointer;border:0;transition:transform .12s ease,filter .12s ease}
+.flprofile .fbtn:active{transform:scale(.97)}
+.flprofile .fbtn i{font-size:18px;font-style:normal}
+.flprofile .fbtn.primary{background:#E8674A;color:#fff;box-shadow:0 6px 16px rgba(232,103,74,.28)}
+.flprofile .fbtn.primary:active{filter:brightness(.96)}
+.flprofile .fbtn.ghost{background:#F6F2EC;color:#37372F;border:1px solid #ECE6DD}
+.flprofile .fbtn.dark{background:linear-gradient(135deg,#1d1b16,#141210);color:#fff;box-shadow:0 8px 20px rgba(22,18,12,.2)}
+.flprofile .fbtn.danger{background:#FBEAE5;color:#C0492C;border:1px solid #F2D6CD}
+.flprofile .fbtn+.fbtn{margin-top:9px}
+.flprofile .hint{font-size:12.5px;color:#6E6A62;line-height:1.5;margin:10px 0 0}
+.flprofile .hint b{color:#37372F;font-weight:700}
+.flprofile .divlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F;margin:16px 0 9px;display:flex;align-items:center;gap:10px}
+.flprofile .divlab::after{content:'';flex:1;height:1px;background:#F1EBE3}
+/* Journal card (rempli par renderJournal -> .ct/.chips/.bchip globaux) : on l'aligne au look FLINT */
+.flprofile #journalCard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile #journalCard .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px}
+.flprofile #journalCard .bchip{border:1px solid #ECE6DD;background:#FBF9F6;color:#6E6A62;font-family:'Inter';font-weight:600;font-size:12.5px;border-radius:30px;padding:9px 14px;cursor:pointer;transition:transform .12s ease}
+.flprofile #journalCard .bchip:active{transform:scale(.94)}
+.flprofile #journalCard .bchip.on{background:#FBEAE5;color:#C0492C;border-color:#F2D6CD;font-weight:700}
+.flprofile #journalCard .sci{font-size:12.5px;color:#6E6A62;line-height:1.5}
+/* Switch rows */
+.flprofile .swrow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid #F1EBE3}
+.flprofile .swrow:last-of-type{border-bottom:0}
+.flprofile .swt{font-family:'Inter';font-weight:700;font-size:14px;color:#161512}
+.flprofile .sws{font-size:12px;color:#6E6A62;margin-top:2px;line-height:1.35}
+.flprofile .switch{position:relative;display:inline-block;width:46px;height:27px;flex:0 0 auto}
+.flprofile .switch input{opacity:0;width:0;height:0}
+.flprofile .sl2{position:absolute;inset:0;background:#E2DCD3;border-radius:30px;cursor:pointer;transition:background .2s ease}
+.flprofile .sl2::before{content:'';position:absolute;height:21px;width:21px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.flprofile .switch input:checked+.sl2{background:#E8674A}
+.flprofile .switch input:checked+.sl2::before{transform:translateX(19px)}
+.flprofile .ntnote{font-size:12px;color:#6E6A62;line-height:1.5;margin-top:10px}
+.flprofile .verline{font-size:12px;color:#9A988F;line-height:1.5;margin:4px 0 0;font-weight:600}
+@media (prefers-reduced-motion:reduce){.flprofile *{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <header>
-  <img class="logo" src="logo.png" alt="FLINT">
-  <div class="av" id="avatar" onclick="go('profile')">A</div>
+  <img class="logo" src="logo.png" alt="FLINT" onclick="go('today')" style="height:24px">
+  <!-- avatar : photo démo ; Félix branche la vraie photo/initiale du user -->
+  <div class="av" id="avatar" onclick="go('profile')" style="background:url('https://randomuser.me/api/portraits/men/32.jpg') center/cover;color:transparent">A</div>
 </header>
 <div id="updBanner" onclick="forceUpdate()"></div>
 
 <!-- ===================== AUJOURD'HUI ===================== -->
-<section class="view on" id="v-today"><div class="wrap">
-  <div class="todayhead">
-    <div class="greet2" id="greet">BONJOUR.</div>
-    <div class="datel" id="dateLine">—</div>
+<section class="view on" id="v-today"><div class="flhome">
+  <div class="greet">Bonjour, <span id="flName">Arthur</span>.</div>
+  <div class="daynav">
+    <button class="dnav" onclick="flDay(-1)" aria-label="Jour précédent">‹</button>
+    <button class="dlabel" id="flDateBtn" onclick="flOpenPicker()"><span id="flDate">Aujourd'hui</span><i class="ti ti-chevron-down dcaret"></i></button>
+    <button class="dnav" id="dNext" onclick="flDay(1)" aria-label="Jour suivant">›</button>
+    <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
   </div>
-  <div class="hero2" id="heroBanner" onclick="go('recovery')">
-    <div class="hb-ic" id="heroIcon">🔥</div>
-    <div class="hb-tx"><b id="heroTitle">—</b><p id="heroSub1"></p><p id="heroSub2"></p></div>
-    <div class="hb-ar">›</div>
+  <div class="streakchip" id="flStreak" style="display:none"></div>
+
+  <div class="banner" onclick="go('recovery')">
+    <svg class="strk" width="150" height="120" viewBox="0 0 150 120" preserveAspectRatio="none"><g stroke="#3C3A35" stroke-width="3.4" stroke-linecap="round"><line x1="70" y1="20" x2="140" y2="20"/><line x1="95" y1="34" x2="150" y2="34"/><line x1="55" y1="48" x2="148" y2="48"/><line x1="90" y1="62" x2="150" y2="62"/><line x1="65" y1="76" x2="142" y2="76"/><line x1="100" y1="90" x2="150" y2="90"/><line x1="78" y1="104" x2="146" y2="104"/></g></svg>
+    <svg class="flame" width="34" height="42" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"/></svg>
+    <div style="flex:1;"><div class="ttl" id="flCoachT">—</div><div class="sub" id="flCoachM"></div></div>
   </div>
-  <div class="rings3" id="rings3"></div>
-  <div class="card hrcard" onclick="go('recovery')">
-    <div class="hh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.7 6.6a5 5 0 0 0-7.8-.6L12 7l-.9-1a5 5 0 1 0-7 7l7.9 8 7.9-8a5 5 0 0 0 .8-6.4z"/></svg></div>
-    <div style="white-space:nowrap"><span class="hv" id="hrVal">—</span><span class="eyebrow"> bpm</span><div class="hu" id="hrLbl">au repos</div></div>
-    <div class="hsp"><svg class="spark" id="hrSpark" viewBox="0 0 300 46" preserveAspectRatio="none" style="height:46px"></svg></div>
-    <div class="hb-ar" style="color:var(--faint)">›</div>
+
+  <div class="card recup" onclick="go('recovery')">
+    <div class="ringw">
+      <svg width="150" height="150" viewBox="0 0 120 120">
+        <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#F6B59E"/><stop offset="1" stop-color="#E8674A"/></linearGradient></defs>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#F0E9E0" stroke-width="9"/>
+        <circle class="ring-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <text x="61" y="73" text-anchor="middle" font-family="Anton" font-style="italic" font-size="37" fill="#161512"><tspan id="flRecup">87</tspan><tspan font-size="20" dx="1">%</tspan></text>
+      </svg>
+      <div class="nm">Récupération</div>
+      <div class="se" id="flZone">Haute</div>
+      <div class="delta" id="flDelta" style="display:none"></div>
+    </div>
+    <div class="vline"></div>
+    <div class="side">
+      <div class="stat"><div class="icob"><i class="ti ti-moon"></i></div><div><div class="sl">SOMMEIL</div><div class="sv" id="flSleep">—</div><div class="muted" style="font-size:12px;" id="flSleepS"></div></div></div>
+      <div class="stat"><div class="icob"><i class="ti ti-bolt"></i></div><div><div class="sl">CHARGE</div><div class="sv"><span id="flLoad">—</span><span style="font-size:13px;" class="muted"> /21</span></div><div class="muted" style="font-size:12px;" id="flLoadT"></div></div></div>
+      <div class="stat"><div class="icob"><i class="ti ti-flame"></i></div><div><div class="sl">CALORIES</div><div class="sv"><span id="flKcal">—</span><span style="font-size:13px;" class="muted"> kcal</span></div><div class="muted" style="font-size:12px;">Brûlées</div></div></div>
+    </div>
   </div>
+
+  <div class="card row" id="flFcCard" style="padding:18px 16px;" onclick="go('recovery')">
+    <span class="mini">
+      <svg width="52" height="46" viewBox="0 0 52 46"><g fill="none" stroke="#E8674A" stroke-linecap="round"><circle class="rip" cx="17" cy="23" r="13" stroke-width="2"/><circle class="rip rip2" cx="17" cy="23" r="13" stroke-width="2"/></g><path class="heart" d="M17 31c-4.3-2.8-7.6-5.3-7.6-8.7a3.7 3.7 0 0 1 7-1.7l.6 1.1 .6-1.1a3.7 3.7 0 0 1 7 1.7c0 3.4-3.3 5.9-7.6 8.7z" fill="#E8674A"/></svg>
+      <span><span class="an" style="font-size:28px;" id="flBpm">—</span> <span class="muted" style="font-size:13px;font-weight:600;">BPM</span><div class="muted" style="font-size:11px;font-weight:700;letter-spacing:.6px;white-space:nowrap;" id="flHrMode">EN DIRECT</div></span>
+    </span>
+    <span class="mini">
+      <svg class="ecgsvg" width="130" height="34" viewBox="0 0 130 34"><g class="ecg"><polyline fill="none" stroke="#E8674A" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" points="0,19 24,19 30,7 36,28 43,13 49,19 74,19 82,19 89,9 95,26 101,19 130,19 154,19 160,7 166,28 173,13 179,19 204,19 212,19 219,9 225,26 231,19 260,19"/></g></svg>
+      <i class="ti ti-chevron-right chev"></i>
+    </span>
+  </div>
+
   <div class="card">
-    <div class="acthd"><span class="att">Activités du jour</span><span class="actmeta" id="actMeta"></span></div>
-    <div class="sci" style="font-size:11px;margin:-2px 0 2px">⚡ Détectées automatiquement par ta Polar Loop</div>
-    <div id="actList"></div>
+    <div class="row" style="margin-bottom:4px;">
+      <span class="mini" style="gap:8px;">
+        <svg width="22" height="14" viewBox="0 0 22 14"><g stroke="#E8674A" stroke-width="2.4" stroke-linecap="round"><line x1="1" y1="3" x2="13" y2="3"/><line x1="4" y1="7" x2="18" y2="7"/><line x1="1" y1="11" x2="13" y2="11"/></g></svg>
+        <span class="an" style="font-size:18px;">Activités du jour</span>
+      </span>
+      <span class="muted" style="font-size:13px;" id="flActMeta"></span>
+    </div>
+    <div id="flActList"></div>
     <button class="addact" onclick="openActSheet()">＋ Ajouter à la main</button>
   </div>
-  <div class="card nutrow" onclick="go('nutrition')">
-    <div class="nutic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M12 4.2v2.6M9 5.2v1.6M15 5.2v1.6"/></svg></div>
-    <div class="nuttx"><b>Nutrition</b><p id="nutSummary">—</p></div>
-    <div class="ndar">›</div>
+
+  <div class="card row" style="padding:14px 16px;" onclick="go('nutrition')">
+    <span class="mini"><div class="icob"><i class="ti ti-plant-2"></i></div><span><div class="an" style="font-size:18px;">Nutrition</div><div class="muted" style="font-size:12.5px;white-space:nowrap;" id="flNut">—</div></span></span>
+    <span class="mini" style="gap:8px;"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#ECE6DD" stroke-width="3.5"/><circle id="flNutRing" cx="18" cy="18" r="14" fill="none" stroke="#E8674A" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="68 88" transform="rotate(-90 18 18)"/></svg><i class="ti ti-chevron-right chev"></i></span>
   </div>
 </div></section>
+
 
 <!-- ===================== NUTRITION ===================== -->
-<section class="view" id="v-nutrition"><div class="wrap">
-  <div class="pgtitle">NUTRITION</div>
-  <div class="card" style="text-align:center"><div class="ring" id="nutRing" style="margin:0 auto 4px"></div><div class="sci" id="nutLine" style="margin-top:6px"></div></div>
-  <div class="grid3" id="nutMacros" style="margin-bottom:13px"></div>
-  <div class="card">
-    <div class="ct">Repas du jour</div>
-    <div id="mealList"></div>
-    <div class="field" style="margin-top:12px"><input id="nmName" class="fin" placeholder="Repas (ex : Poulet riz)"></div>
-    <div class="grid3" style="gap:8px;margin-top:8px">
-      <div><div class="lab">Kcal</div><input id="nmKcal" class="fin" type="number" inputmode="numeric"></div>
-      <div><div class="lab">Prot. (g)</div><input id="nmProt" class="fin" type="number" inputmode="numeric"></div>
-      <div><div class="lab">Gluc. (g)</div><input id="nmCarb" class="fin" type="number" inputmode="numeric"></div>
-    </div>
-    <div style="margin-top:8px"><div class="lab">Lipides (g)</div><input id="nmFat" class="fin" type="number" inputmode="numeric"></div>
-    <button class="btn ghost sm" style="margin-top:10px" onclick="addMeal()">＋ Ajouter le repas</button>
+<section class="view" id="v-nutrition">
+<div class="flnutrition">
+  <div class="pghd">
+    <div class="pgt">Nutrition.</div>
+    <div class="pgs">Tes apports du jour, sans abonnement.</div>
   </div>
-  <div class="card"><div class="ct">Calories · 14 jours</div><div class="chartbox" id="nutBars"></div></div>
-</div></section>
+
+  <div class="card calcard">
+    <div class="ring" id="nutRing" style="margin:0 auto"></div>
+    <div class="sci calline" id="nutLine"></div>
+  </div>
+
+  <div class="seclab" style="margin:18px 2px 0"><i class="ti ti-chart-pie"></i>Macronutriments</div>
+  <div class="macrogrid">
+    <div class="grid3" id="nutMacros"></div>
+  </div>
+
+  <div class="card">
+    <div class="seclab"><i class="ti ti-tools-kitchen-2"></i>Repas du jour</div>
+    <div id="mealList"></div>
+
+    <div class="addzone">
+      <div class="field"><input id="nmName" class="fin" placeholder="Repas (ex : Poulet riz)"></div>
+      <div class="formgrid">
+        <div><div class="lab">Kcal</div><input id="nmKcal" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
+        <div><div class="lab">Prot. (g)</div><input id="nmProt" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
+        <div><div class="lab">Gluc. (g)</div><input id="nmCarb" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <div style="margin-top:9px"><div class="lab">Lipides (g)</div><input id="nmFat" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
+      <button class="addbtn" onclick="addMeal()"><i class="ti ti-plus"></i>Ajouter le repas</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="seclab"><i class="ti ti-flame"></i>Calories · 14 jours</div>
+    <div class="chartbox" id="nutBars"></div>
+    <div class="chartfoot"><span class="dot" style="background:var(--accent)"></span>aujourd'hui<span class="dot" style="background:var(--amber);margin-left:12px"></span>au-dessus de l'objectif</div>
+  </div>
+</div>
+</section>
 
 <!-- ===================== RÉCUPÉRATION ===================== -->
-<section class="view" id="v-recovery"><div class="wrap">
-  <div class="pgtitle">RÉCUPÉRATION</div>
-  <div class="card" style="text-align:center">
-    <div class="ring" id="recRing" style="margin:0 auto 6px"></div>
-    <div class="disp" id="recZone" style="font-size:24px;text-transform:uppercase;margin-top:8px">—</div>
-    <div class="sci" id="recReco" style="max-width:320px;margin:6px auto 0"></div>
+<section class="view" id="v-recovery">
+<div class="flrecovery">
+  <div class="rhead">
+    <div class="greet">Récupération</div>
+    <div class="date">Lecture de ton corps · aujourd'hui</div>
   </div>
-  <div class="card"><div class="ct">Ce qui compose ta récupération</div><div class="contrib" id="recContrib"></div></div>
-  <div class="card"><div class="ct">Vitaux nocturnes</div><div class="grid2" id="recVitals" style="gap:10px"></div><p class="sci" id="recAge" style="margin-top:10px"></p></div>
+
+  <div class="card hero">
+    <div class="ring" id="recRing"></div>
+    <div class="disp" id="recZone" style="font-size:24px;text-transform:uppercase;margin-top:8px">—</div>
+    <div class="sci" id="recReco"></div>
+  </div>
+
+  <div class="card">
+    <div class="ct"><i class="ti ti-adjustments-horizontal"></i>Ce qui compose ta récupération</div>
+    <div class="contrib" id="recContrib"></div>
+  </div>
+
+  <div class="card">
+    <div class="ct"><i class="ti ti-moon-stars"></i>Vitaux nocturnes</div>
+    <div class="grid2" id="recVitals" style="gap:10px"></div>
+    <p class="sci" id="recAge" style="margin-top:12px"></p>
+  </div>
+
   <div class="card" id="healthCard"></div>
+
   <div class="card" id="stressCard"></div>
-  <div class="card"><div class="ct">Récupération · 14 jours</div><svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg></div>
-  <div class="card splitc" style="align-items:center"><div class="left"><div class="ct" style="margin:0">Sommeil & Charge</div><div class="sci" style="margin-top:6px">Tape les anneaux de l'accueil ou ouvre le détail.</div></div><div class="rightcol" style="border:0;width:auto;padding:0;flex-direction:row;gap:8px"><button class="btn ghost sm" style="width:auto;padding:0 14px" onclick="go('sleep')">🌙 Sommeil</button><button class="btn ghost sm" style="width:auto;padding:0 14px" onclick="go('load')">⚡ Charge</button></div></div>
-</div></section>
+
+  <div class="card">
+    <div class="ct"><i class="ti ti-activity-heartbeat"></i>Récupération · 14 jours</div>
+    <svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg>
+  </div>
+
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct" style="margin:0"><i class="ti ti-route"></i>Sommeil &amp; Charge</div>
+      <div class="sci" style="margin-top:6px">Tape les anneaux de l'accueil ou ouvre le détail.</div>
+    </div>
+    <div class="rightcol">
+      <button class="qbtn" onclick="go('sleep')"><i class="ti ti-moon"></i>Sommeil</button>
+      <button class="qbtn" onclick="go('load')"><i class="ti ti-bolt"></i>Charge</button>
+    </div>
+  </div>
+</div>
+</section>
 
 <!-- ===================== SOMMEIL ===================== -->
-<section class="view" id="v-sleep"><div class="wrap">
-  <div class="pghd"><button class="bk" onclick="go('today')">‹</button><div class="pgtitle">SOMMEIL</div></div>
-  <div class="card" style="text-align:center"><div class="ring" id="sleepRing" style="margin:0 auto 4px"></div><div class="sci" id="sleepLine" style="margin-top:6px"></div></div>
+<section class="view" id="v-sleep">
+<div class="flsleep">
+  <div class="pghd"><button class="bk" onclick="go('today')">‹</button><div class="pgtitle">Sommeil</div></div>
+
+  <div class="banner">
+    <svg class="strk" width="150" height="120" viewBox="0 0 150 120" preserveAspectRatio="none"><g stroke="#3C3A35" stroke-width="3.4" stroke-linecap="round"><line x1="70" y1="20" x2="140" y2="20"/><line x1="95" y1="34" x2="150" y2="34"/><line x1="55" y1="48" x2="148" y2="48"/><line x1="90" y1="62" x2="150" y2="62"/><line x1="65" y1="76" x2="142" y2="76"/><line x1="100" y1="90" x2="150" y2="90"/><line x1="78" y1="104" x2="146" y2="104"/></g></svg>
+    <svg class="flame" width="32" height="40" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"/></svg>
+    <div style="flex:1"><div class="ttl">La nuit recharge ta forme</div><div class="sub">Ton sommeil pilote ta récup. Vise ton besoin chaque nuit pour rester dans le rouge le moins possible.</div></div>
+  </div>
+
+  <div class="card scorecard">
+    <div class="ring" id="sleepRing" style="margin:0 auto 4px"></div>
+    <div class="scoreline sci" id="sleepLine" style="margin-top:4px"></div>
+  </div>
+
+  <div class="card">
+    <div class="subscores" id="slSub"></div>
+    <div class="seglegend"><span><span class="dot" style="background:#E14434"></span>Insuffisant</span><span><span class="dot" style="background:#F2922B"></span>Suffisant</span><span><span class="dot" style="background:#2FA86A"></span>Optimal</span></div>
+  </div>
+
+  <div class="card lever" id="slLever"></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-arrows-exchange"></i>Sommeil &amp; performance</div><div id="slPerfLink"></div></div>
+
+  <button class="explore" onclick="go('sleepdetail')">Explorer le détail<i class="ti ti-chevron-right"></i></button>
+</div>
+</section>
+
+<!-- ===================== SOMMEIL · DÉTAIL ===================== -->
+<section class="view" id="v-sleepdetail">
+<div class="flsleep">
+  <div class="pghd"><button class="bk" onclick="go('sleep')">‹</button><div class="pgtitle">Détail · Sommeil</div></div>
+
   <div class="grid2">
     <div class="stat"><div class="sl">Durée</div><div class="sv" id="slDur">—</div><div class="ss">cette nuit</div></div>
     <div class="stat"><div class="sl">Efficacité</div><div class="sv" id="slEff">—</div><div class="ss">temps endormi</div></div>
   </div>
-  <div class="card"><div class="ct">Stades de sommeil</div><div class="stage" id="slStages"></div><div class="sci" id="slStagesTxt" style="margin-top:8px"></div></div>
-  <div class="card"><div class="ct">Hypnogramme · ta nuit</div><div id="hypnoCard"></div></div>
-  <div class="card"><div class="ct">Besoin de sommeil</div><div id="sleepNeedCard"></div></div>
-  <div class="card"><div class="ct">Sous-scores du sommeil</div><div class="grid2" id="subScores" style="gap:10px"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-stack-2"></i>Stades de sommeil</div><div class="stage" id="slStages"></div><div class="sci" id="slStagesTxt" style="margin-top:8px"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-wave-sine"></i>Hypnogramme · ta nuit</div><div class="chartbox" id="hypnoCard"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-repeat"></i>Régularité · coucher / réveil</div><div id="slRegulChart"></div><div class="splitc" style="margin-top:12px"><div class="left"><div class="big" style="font-size:30px" id="slRegul">—</div><div class="sci" id="slRegulSub"></div></div><div class="rightcol"><div class="iconb"><i class="ti ti-moon"></i></div><div class="sci" id="slIdealBed"></div></div></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-battery-charging"></i>Recharge nocturne</div><div id="slRecharge"></div><div class="sci" id="slRechargeTxt" style="margin-top:8px"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-activity-heartbeat"></i>Vitaux de la nuit</div><div class="grid3" id="slVitals"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-bed"></i>Besoin de sommeil</div><div id="sleepNeedCard"></div></div>
+
+  <div class="card"><div class="ct"><i class="ti ti-chart-radar"></i>Sous-scores du sommeil</div><div class="grid2" id="subScores" style="gap:10px"></div></div>
+
   <div class="card" id="coachCard"></div>
+
   <div class="card splitc">
-    <div class="left"><div class="ct">Dette de sommeil · 14j</div><div class="big" style="font-size:36px" id="slDebt">—</div><div class="sci" id="slDebtSub"></div></div>
-    <div class="rightcol" style="justify-content:center"><div class="iconb">🌙</div><div class="sci" id="slPlan"></div></div>
+    <div class="left"><div class="ct"><i class="ti ti-clock-pause"></i>Dette de sommeil · 14j</div><div class="big" style="font-size:36px" id="slDebt">—</div><div class="sci" id="slDebtSub"></div></div>
+    <div class="rightcol"><div class="iconb"><i class="ti ti-moon"></i></div><div class="sci" id="slPlan"></div></div>
   </div>
-  <div class="card"><div class="ct">Sommeil · 14 nuits</div><div class="chartbox" id="slBars"></div></div>
-</div></section>
+
+  <div class="card"><div class="ct"><i class="ti ti-chart-bar"></i>Sommeil · 14 nuits</div><div class="chartbox" id="slBars"></div></div>
+
+  <div class="card anomaly" id="slAnomaly" style="display:none"><div class="ct"><i class="ti ti-alert-triangle"></i>Nuit atypique</div><div class="sci" id="slAnomalyTxt"></div></div>
+</div>
+</section>
 
 <!-- ===================== CHARGE ===================== -->
-<section class="view" id="v-load"><div class="wrap">
-  <div class="pghd"><button class="bk" onclick="go('today')">‹</button><div class="pgtitle">CHARGE</div></div>
-  <div class="card" style="text-align:center"><div class="ring" id="strainRing" style="margin:0 auto 4px"></div><div class="sci" id="strainTxt" style="margin-top:6px"></div></div>
-  <div class="card splitc">
-    <div class="left"><div class="ct">Charge du jour</div><div class="big" style="font-size:46px" id="loadVal2">—</div><div class="progbar"><i id="loadProg" style="width:0%"></i></div><div class="sci" id="loadObj" style="margin-top:6px;text-align:right">Objectif —</div></div>
-    <div class="rightcol" style="justify-content:center"><div class="iconb">⚡</div><div class="eyebrow">Cible</div><div class="trend" id="loadTargetTxt" style="font-size:20px">—</div></div>
+<section class="view" id="v-load">
+<div class="flload">
+  <div class="pghd">
+    <button class="bk" onclick="go('today')" aria-label="Retour">‹</button>
+    <div class="ptitle">Charge</div>
   </div>
-  <div class="card"><div class="ct">Charge · 14 jours</div><div class="chartbox" id="loadBars14"></div><div class="sci" id="loadBalance" style="margin-top:10px"></div></div>
-  <div class="card">
-    <div class="ct">Ajouter une séance</div>
-    <div class="grid2" style="gap:8px">
-      <div><div class="lab">Durée (min)</div><input id="seDur" class="fin" type="number" inputmode="numeric" placeholder="60"></div>
-      <div><div class="lab">Intensité</div><select id="seInt" class="fin"><option value="1">Légère</option><option value="2" selected>Modérée</option><option value="3">Soutenue</option><option value="4">Max</option></select></div>
+
+  <div class="banner">
+    <svg class="strk" width="150" height="120" viewBox="0 0 150 120" preserveAspectRatio="none"><g stroke="#3C3A35" stroke-width="3.4" stroke-linecap="round"><line x1="70" y1="20" x2="140" y2="20"/><line x1="95" y1="34" x2="150" y2="34"/><line x1="55" y1="48" x2="148" y2="48"/><line x1="90" y1="62" x2="150" y2="62"/><line x1="65" y1="76" x2="142" y2="76"/><line x1="100" y1="90" x2="150" y2="90"/><line x1="78" y1="104" x2="146" y2="104"/></g></svg>
+    <svg class="flame" width="34" height="42" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"/></svg>
+    <div style="flex:1">
+      <div class="blab">Effort du jour</div>
+      <div class="ttl">Doser ta charge, c'est progresser sans casser.</div>
     </div>
-    <input id="seName" class="fin" placeholder="Nom (ex : Course, Muscu…)" style="margin-top:8px;width:100%">
-    <button class="btn" style="margin-top:10px" onclick="addSession()">＋ Enregistrer la séance</button>
-    <div id="seList" style="margin-top:10px"></div>
   </div>
-</div></section>
+
+  <div class="card strainc">
+    <div class="ring" id="strainRing" style="margin:0 auto 4px"></div>
+    <div id="strainTxt"></div>
+  </div>
+
+  <div class="card splitc">
+    <div class="left">
+      <div class="ct">Charge du jour</div>
+      <div class="bigval" id="loadVal2">—</div>
+      <div class="progbar"><i id="loadProg" style="width:0%"></i></div>
+      <div id="loadObj">Objectif —</div>
+    </div>
+    <div class="vline"></div>
+    <div class="target">
+      <div class="icob"><i class="ti ti-bolt"></i></div>
+      <div class="eyebrow">Cible</div>
+      <div id="loadTargetTxt">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">Charge · 14 jours</div>
+    <div class="chartbox" id="loadBars14"></div>
+    <div id="loadBalance"></div>
+  </div>
+
+  <div class="card">
+    <div class="ct" style="margin-bottom:8px">Ajouter une séance</div>
+    <div class="grid2">
+      <div>
+        <div class="lab">Durée (min)</div>
+        <input id="seDur" class="fin" type="number" inputmode="numeric" placeholder="60">
+      </div>
+      <div>
+        <div class="lab">Intensité</div>
+        <select id="seInt" class="fin">
+          <option value="1">Légère</option>
+          <option value="2" selected>Modérée</option>
+          <option value="3">Soutenue</option>
+          <option value="4">Max</option>
+        </select>
+      </div>
+    </div>
+    <input id="seName" class="fin" placeholder="Nom (ex : Course, Muscu…)" style="margin-top:10px">
+    <button class="btn" onclick="addSession()"><i class="ti ti-plus"></i> Enregistrer la séance</button>
+    <div id="seList"></div>
+  </div>
+</div>
+</section>
 
 <!-- ===================== TENDANCES ===================== -->
-<section class="view" id="v-trends"><div class="wrap">
-  <div class="pgtitle">TENDANCES</div>
-  <div class="seg" id="trSeg"></div>
-  <div class="seg" id="trPeriod" style="margin-top:-6px"></div>
-  <div class="card"><div class="ct" id="trTitle">—</div><svg class="spark" id="trChart" viewBox="0 0 320 120" preserveAspectRatio="none" style="height:120px"></svg><div class="sci" id="trStat" style="margin-top:8px"></div></div>
-  <div class="grid2">
-    <div class="stat"><div class="sl">Récup moy · 7j</div><div class="sv" id="tr7rec">—</div></div>
-    <div class="stat"><div class="sl">Sommeil moy · 7j</div><div class="sv" id="tr7sl">—</div></div>
-    <div class="stat"><div class="sl">HRV moy · 7j</div><div class="sv" id="tr7hrv">—</div></div>
-    <div class="stat"><div class="sl">Charge · 7j</div><div class="sv" id="tr7load">—</div></div>
+<section class="view" id="v-trends">
+<div class="fltrends">
+  <div class="head">
+    <div class="ttl">Tendances</div>
+    <div class="sub">Comment ton corps évolue dans le temps.</div>
   </div>
+
+  <div class="seclbl">Métrique suivie</div>
+  <div class="seg" id="trSeg"></div>
+  <div class="seg" id="trPeriod" style="margin-top:8px"></div>
+
+  <div class="card chartcard">
+    <div class="ct"><i class="ti ti-chart-line" aria-hidden="true"></i><span id="trTitle">—</span></div>
+    <svg class="spark" id="trChart" viewBox="0 0 320 120" preserveAspectRatio="none" style="height:128px"></svg>
+    <div class="sci" id="trStat"></div>
+  </div>
+
+  <div class="seclbl">Tes moyennes · 7 jours</div>
+  <div class="grid2 tr7">
+    <div class="statcell"><div class="icob"><i class="ti ti-heartbeat" aria-hidden="true"></i></div><div><div class="sl">Récup moy</div><div class="sv" id="tr7rec">—</div></div></div>
+    <div class="statcell"><div class="icob"><i class="ti ti-moon" aria-hidden="true"></i></div><div><div class="sl">Sommeil moy</div><div class="sv" id="tr7sl">—</div></div></div>
+    <div class="statcell"><div class="icob"><i class="ti ti-activity" aria-hidden="true"></i></div><div><div class="sl">HRV moy</div><div class="sv" id="tr7hrv">—</div></div></div>
+    <div class="statcell"><div class="icob"><i class="ti ti-bolt" aria-hidden="true"></i></div><div><div class="sl">Charge</div><div class="sv" id="tr7load">—</div></div></div>
+  </div>
+
   <div class="card" id="weeklyCard"></div>
   <div class="card" id="corrCard"></div>
-</div></section>
+</div>
+</section>
 
 <!-- ===================== PROFIL ===================== -->
-<section class="view" id="v-profile"><div class="wrap">
-  <div class="pghd"><button class="bk" onclick="go('today')">‹</button><div class="pgtitle">PROFIL</div></div>
-  <div class="card">
-    <div class="ct">Toi</div>
-    <div class="grid2" style="gap:8px">
-      <div><div class="lab">Prénom</div><input id="pfName" class="fin"></div>
-      <div><div class="lab">Âge</div><input id="pfAge" class="fin" type="number" inputmode="numeric"></div>
-    </div>
-    <div class="grid2" style="gap:8px;margin-top:8px">
-      <div><div class="lab">Réveil cible</div><input id="pfWake" class="fin" type="time"></div>
-      <div><div class="lab">Besoin sommeil (h)</div><input id="pfNeed" class="fin" type="number" step="0.5"></div>
-    </div>
-    <div class="grid2" style="gap:8px;margin-top:8px">
-      <div><div class="lab">Objectif kcal</div><input id="pfKcal" class="fin" type="number" inputmode="numeric"></div>
-      <div><div class="lab">Objectif protéines (g)</div><input id="pfProt" class="fin" type="number" inputmode="numeric"></div>
-    </div>
-    <button class="btn ghost sm" style="margin-top:10px" onclick="saveProfile()">💾 Enregistrer</button>
+<section class="view" id="v-profile">
+<div class="flprofile">
+  <div class="pfhero">
+    <svg class="strk" width="150" height="120" viewBox="0 0 150 120" preserveAspectRatio="none"><g stroke="#3C3A35" stroke-width="3.4" stroke-linecap="round"><line x1="70" y1="20" x2="140" y2="20"/><line x1="95" y1="34" x2="150" y2="34"/><line x1="55" y1="48" x2="148" y2="48"/><line x1="90" y1="62" x2="150" y2="62"/><line x1="65" y1="76" x2="142" y2="76"/><line x1="100" y1="90" x2="150" y2="90"/><line x1="78" y1="104" x2="146" y2="104"/></g></svg>
+    <button class="bk2" onclick="go('today')" aria-label="Retour">‹</button>
+    <svg class="flame" width="30" height="38" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"/></svg>
+    <div style="flex:1;min-width:0"><div class="ttl">Profil</div><div class="sub">Tes objectifs, ton capteur et tes réglages.</div></div>
   </div>
-  <div class="card" id="journalCard"></div>
-  <div class="card">
-    <div class="ct">⌚ Capteur · Polar Loop / Health Connect</div>
-    <button class="btn sm" onclick="pullHealthConnect()">🔄 Synchroniser mon capteur</button>
-    <div class="lab" style="margin-top:12px">Ou saisir la nuit à la main</div>
-    <div class="grid2" style="gap:8px">
-      <div><div class="lab">HRV (ms)</div><input id="snHrv" class="fin" type="number" inputmode="decimal"></div>
-      <div><div class="lab">FC repos</div><input id="snRhr" class="fin" type="number" inputmode="numeric"></div>
-      <div><div class="lab">Resp /min</div><input id="snResp" class="fin" type="number" inputmode="decimal"></div>
-      <div><div class="lab">Sommeil (h)</div><input id="snSleep" class="fin" type="number" inputmode="decimal" step="0.1"></div>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-user"></i>Toi</div>
+    <div class="fgrid">
+      <div class="fld"><span class="flab">Prénom</span><input id="pfName" class="fin2"></div>
+      <div class="fld"><span class="flab">Âge</span><input id="pfAge" class="fin2" type="number" inputmode="numeric"></div>
     </div>
-    <button class="btn ghost sm" style="margin-top:10px" onclick="saveSensorManual()">💾 Enregistrer la nuit</button>
-    <button class="btn ghost sm" style="margin-top:8px" onclick="simulateData()">🎲 Recharger la démo (28 jours)</button>
-    <p class="sci" style="margin-top:8px">Sur Android, ta Polar Loop remplit ça via Health Connect : nuit (HRV/sommeil) <b>et tes séances de sport détectées automatiquement</b> (type + intensité). ~4 nuits pour calibrer ta baseline.</p>
+    <div class="fgrid" style="margin-top:10px">
+      <div class="fld"><span class="flab">Réveil cible</span><input id="pfWake" class="fin2" type="time"></div>
+      <div class="fld"><span class="flab">Besoin sommeil (h)</span><input id="pfNeed" class="fin2" type="number" step="0.5"></div>
+    </div>
+    <div class="fgrid" style="margin-top:10px">
+      <div class="fld"><span class="flab">Objectif kcal</span><input id="pfKcal" class="fin2" type="number" inputmode="numeric"></div>
+      <div class="fld"><span class="flab">Objectif protéines (g)</span><input id="pfProt" class="fin2" type="number" inputmode="numeric"></div>
+    </div>
+    <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
   </div>
-  <div class="card">
-    <div class="ct"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2.5 6 2.5 6h-17S6 14 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Notifications</div>
+
+  <div class="flcard" id="journalCard"></div>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-watch"></i>Capteur · Polar Loop</div>
+    <button class="fbtn dark" onclick="pullHealthConnect()"><i class="ti ti-refresh"></i>Synchroniser mon capteur</button>
+    <div class="divlab">Ou saisir la nuit à la main</div>
+    <div class="fgrid">
+      <div class="fld"><span class="flab">HRV (ms)</span><input id="snHrv" class="fin2" type="number" inputmode="decimal"></div>
+      <div class="fld"><span class="flab">FC repos</span><input id="snRhr" class="fin2" type="number" inputmode="numeric"></div>
+      <div class="fld"><span class="flab">Resp /min</span><input id="snResp" class="fin2" type="number" inputmode="decimal"></div>
+      <div class="fld"><span class="flab">Sommeil (h)</span><input id="snSleep" class="fin2" type="number" inputmode="decimal" step="0.1"></div>
+    </div>
+    <button class="fbtn ghost" style="margin-top:14px" onclick="saveSensorManual()"><i class="ti ti-device-floppy"></i>Enregistrer la nuit</button>
+    <button class="fbtn ghost" onclick="simulateData()"><i class="ti ti-dice-5"></i>Recharger la démo (28 jours)</button>
+    <p class="hint">Sur Android, ta Polar Loop remplit ça via Health Connect : nuit (HRV/sommeil) <b>et tes séances de sport détectées automatiquement</b> (type + intensité). ~4 nuits pour calibrer ta baseline.</p>
+  </div>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-bell"></i>Notifications</div>
     <div class="swrow"><div><div class="swt">Rappel de coucher</div><div class="sws">Pour atteindre ton objectif de sommeil</div></div><label class="switch"><input type="checkbox" id="ntBed" onchange="toggleNotif('bed',this.checked)"><span class="sl2"></span></label></div>
     <div class="swrow"><div><div class="swt">Récup du matin</div><div class="sws">Ton score dès le réveil</div></div><label class="switch"><input type="checkbox" id="ntMorning" onchange="toggleNotif('morning',this.checked)"><span class="sl2"></span></label></div>
-    <p class="sci" id="ntNote" style="margin-top:8px"></p>
+    <p class="ntnote" id="ntNote"></p>
   </div>
-  <div class="card">
-    <div class="ct">App</div>
-    <button class="btn ghost sm" onclick="forceUpdate()">🔄 Forcer la mise à jour</button>
-    <p class="sci" id="verLine" style="margin-top:6px"></p>
-    <button class="btn ghost sm" style="margin-top:8px" onclick="exportData()">📤 Exporter mes données</button>
-    <button class="btn ghost sm" style="margin-top:8px;color:var(--accent)" onclick="wipeData()">🗑️ Vider les données (vraies données capteur)</button>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-settings"></i>App</div>
+    <button class="fbtn ghost" onclick="forceUpdate()"><i class="ti ti-refresh"></i>Forcer la mise à jour</button>
+    <p class="verline" id="verLine"></p>
+    <button class="fbtn ghost" style="margin-top:14px" onclick="exportData()"><i class="ti ti-upload"></i>Exporter mes données</button>
+    <button class="fbtn danger" onclick="wipeData()"><i class="ti ti-trash"></i>Vider les données capteur</button>
   </div>
-</div></section>
+</div>
+</section>
 
 <!-- ===================== ADD ACTIVITY SHEET ===================== -->
 <div class="sheet" id="actSheet">
@@ -396,9 +1129,10 @@
 
 <nav id="nav">
   <button data-v="today" class="on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Aujourd'hui</button>
-  <button data-v="nutrition"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8H11a8 8 0 0 1-8-8z"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M12 2v2"/></svg>Nutrition</button>
   <button data-v="recovery"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>Récup</button>
-  <button data-v="trends"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Tendances</button>
+  <button data-v="sleep"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Sommeil</button>
+  <button data-v="load"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Effort</button>
+  <button data-v="nutrition"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8H11a8 8 0 0 1-8-8z"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M12 2v2"/></svg>Nutrition</button>
 </nav>
 <div class="toast" id="toast"></div>
 
@@ -468,7 +1202,7 @@ function areaSVG(arr,W,H,color,opts){opts=opts||{};const v=arr.filter(x=>x!=null
 function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,pad=3,top=8,bot=H-(opts.lab?13:5);const gap=(W-2*pad)/n,bw=Math.min(gap*0.62,16);const vals=arr.map(v=>(v==null||isNaN(v))?0:v);const mx=Math.max(opts.max||0,Math.max.apply(null,vals.concat([opts.ref||0])),1);let bars='';for(let i=0;i<n;i++){const h=vals[i]?Math.max(3,vals[i]/mx*(bot-top)):3,x=pad+i*gap+(gap-bw)/2,y=bot-h,col=opts.colorFn?opts.colorFn(arr[i],i,i===n-1):'var(--accent)';bars+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(bw/2.6).toFixed(1)+'" fill="'+col+'"/>'}let extra='';if(opts.ref){const ry=bot-Math.min(1,opts.ref/mx)*(bot-top);extra+='<line x1="'+pad+'" y1="'+ry.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+ry.toFixed(1)+'" stroke="'+(opts.refColor||'var(--ink2)')+'" stroke-width="1.3" stroke-dasharray="4 3" opacity=".55"/>';if(opts.refLabel)extra+='<text x="'+(W-pad)+'" y="'+(ry-3).toFixed(1)+'" text-anchor="end" font-size="8.5" font-weight="800" fill="'+(opts.refColor||'var(--ink2)')+'">'+opts.refLabel+'</text>'}let lab='';if(opts.lab)lab='<text x="'+pad+'" y="'+(H-2)+'" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[0]+'</text><text x="'+(W-pad)+'" y="'+(H-2)+'" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[1]+'</text>';return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px;display:block">'+bars+extra+lab+'</svg>'}
 
 /* ---------- NAV ---------- */
-function go(v){haptic(7);document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
+function go(v){haptic(7);document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 // ===================== WHOOP-FAITHFUL MODULES =====================
@@ -494,29 +1228,62 @@ function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){con
 function renderWeekly(){const host=document.getElementById('weeklyCard');if(!host)return;const w=assess(7),pw=(()=>{let rec=0,rn=0;for(let i=7;i<14;i++){const r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;rn++}}return rn?Math.round(rec/rn):null})();const d=(w.rec!=null&&pw!=null)?w.rec-pw:null;host.innerHTML='<div class="ct">Bilan de la semaine</div><div class="grid2" style="gap:10px"><div class="stat"><div class="sl">Récup moy</div><div class="sv">'+(w.rec!=null?w.rec+'%':'—')+'</div><div class="ss">'+(d!=null?(d>=0?'+':'')+d+' vs sem. dernière':'')+'</div></div><div class="stat"><div class="sl">Sommeil moy</div><div class="sv">'+(w.sl!=null?Math.floor(w.sl)+'h'+String(Math.round(w.sl%1*60)).padStart(2,'0'):'—')+'</div></div><div class="stat"><div class="sl">Effort cumulé</div><div class="sv">'+w.str+'</div></div><div class="stat"><div class="sl">Séances</div><div class="sv">'+w.ses+'</div></div></div>'}
 
 /* ---------- AUJOURD'HUI ---------- */
+function rcStat(ic,l,v,s){return '<div class="rcS"><div class="rcSi">'+svgIcon(ic,{size:18,color:'var(--ink2)'})+'</div><div style="min-width:0"><div class="rcSl">'+l+'</div><div class="rcSv">'+v+'</div><div class="rcSs">'+s+'</div></div></div>'}
+function countUpEl(el,target,suffix,useFmt){suffix=suffix||'';const F=v=>(useFmt?fmtN(v):v)+suffix;if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=F(target);return}let s=null;function tick(t){if(s==null)s=t;const p=Math.min(1,(t-s)/1000),e=1-Math.pow(1-p,3);el.textContent=F(Math.round(target*e));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+function flActIcon(name,nap){if(nap)return 'zzz';const n=String(name||'').toLowerCase();if(/padel|tennis|squash|badmin/.test(n))return 'ball-tennis';if(/foot|soccer/.test(n))return 'ball-football';if(/course|run|jog|trail/.test(n))return 'run';if(/marche|walk/.test(n))return 'walk';if(/muscu|renfo|force|gym|hyrox|cross|halt/.test(n))return 'barbell';if(/velo|vélo|bike|cycl/.test(n))return 'bike';if(/nage|natation|swim/.test(n))return 'swimming';if(/yoga|mobilit|stretch|pilates/.test(n))return 'yoga';return 'activity'}
+function flRenderActivities(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);
+ set('flActMeta',ss.length?ss.length+' activité'+(ss.length>1?'s':'')+' · cumul '+loadStrain(k).toFixed(1).replace('.',','):'');
+ set('flActList',ss.length?ss.map((s,i)=>{const nap=s.type==='nap';const ic=flActIcon(s.name,nap);const eff=nap?'Récup +5%':'Effort '+actStrain(s).toFixed(1).replace('.',',');const time=(s.start||'')+(s.start&&s.dur?' · ':'')+(s.dur?fmtDur(s.dur):'')+(s.auto?' · <span style="color:#E8674A;font-weight:800">AUTO</span>':'');return '<div class="li"><span class="mini"><i class="ti ti-'+ic+' acti"'+(nap?' style="color:#3B6D11"':'')+'></i><span style="min-width:0"><div class="an" style="font-size:18px">'+(s.name||'Séance')+'</div><div class="muted" style="font-size:13px">'+time+'</div></span></span><span class="mini" style="gap:0"><span class="pill'+(nap?' grn':'')+'">'+eff+'</span><i class="ti ti-chevron-right chev"></i></span></div>'}).join(''):'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
+function recovStreak(){let n=0;for(let i=0;i<90;i++){const has=i===0?recovery()!=null:DB.get('recov_'+tk(-i),null)!=null;if(has)n++;else break}return n}
+/* estimation des calories brûlées (l'app ne stocke pas l'énergie active) — à affiner par Félix avec le poids du user */
+function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);const kpm={1:6,2:8,3:10,4:13};let act=0;ss.forEach(s=>{if(s.type==='nap')return;act+=(s.dur||30)*(kpm[s.int||2]||8)});const now=new Date();const frac=k===tk()?(now.getHours()*60+now.getMinutes())/1440:1;return Math.round(act+1600*frac)}
+var gDay=0;
+function flDay(d){gDay=Math.min(0,gDay+d);renderToday();}
+function _fmtD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function flOpenPicker(){var i=document.getElementById('flDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.focus();i.click()}}else{i.focus();i.click()}}
+function flPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var d=new Date(val+'T00:00:00');var off=Math.round((d-t)/86400000);gDay=Math.min(0,off);renderToday();window.scrollTo(0,0)}
 function renderToday(){
- const p=getProfile(),cal=calibNights(),t=sensorOf(tk()),calib=cal<4,rv=calib?null:recovery();
- set('greet','BONJOUR, '+(p.name||'').toUpperCase()+'.');document.getElementById('avatar').textContent=(p.name[0]||'A').toUpperCase();
- const d=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
- set('dateLine',d+(DB.get('demo')?' <span class="demotag">· DÉMO</span>':''));
+ const p=getProfile(),K=tk(gDay),today=gDay===0,t=sensorOf(K),cal=calibNights(),calib=today&&cal<4;
+ let rv=null;
+ if(!calib){if(today){rv=recovery()}else{const _s=DB.get('recov_'+K,null);if(_s!=null)rv={s:_s}}}
+ const has=rv!=null;
+ const av=document.getElementById('avatar');if(av)av.textContent=(p.name[0]||'A').toUpperCase();
+ set('flName',p.name||'Arthur');
+ let lbl;
+ if(today)lbl='Aujourd\'hui'+(DB.get('demo')?' · <span style="color:var(--accent);font-weight:700">DÉMO</span>':'');
+ else if(gDay===-1)lbl='Hier';
+ else{const dt=new Date();dt.setDate(dt.getDate()+gDay);let ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}
+ set('flDate',lbl);
+ const dn=document.getElementById('dNext');if(dn)dn.disabled=today;
+ const sc=document.getElementById('flStreak');
+ if(sc){const stk=recovStreak();if(today&&stk>=2){sc.innerHTML='<i class="ti ti-flame"></i><span>'+stk+' jours d\'affilée</span>';sc.style.display='inline-flex'}else sc.style.display='none'}
  const tg=strainTarget();
- if(calib){set('heroIcon',svgIcon('moon',{size:24,color:'var(--accentL)'}));set('heroTitle','EN CALIBRATION · '+cal+'/4 NUITS');set('heroSub1','Flint apprend ta baseline.');set('heroSub2','Ton score se débloque après 4 nuits portées.');}
- else if(!rv){set('heroIcon',svgIcon('moon',{size:24,color:'var(--accentL)'}));set('heroTitle','EN ATTENTE DE TA NUIT');set('heroSub1','Synchronise ta Polar Loop.');set('heroSub2','Ta récup du jour s\'affiche après la nuit portée.');}
- else{set('heroIcon',svgIcon(rv.s>=67?'flame':rv.s>=34?'bolt':'moon',{size:24,color:'var(--accentL)'}));set('heroTitle','RÉCUP '+rv.zone+' — '+(rv.s>=67?'PRÊT À CHARGER':rv.s>=34?'CHARGE AVEC TÊTE':'JOURNÉE REPOS'));set('heroSub1',rv.s>=67?'Ton corps a bien encaissé.':rv.s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.');set('heroSub2','Vise un effort de '+tg[0]+'—'+tg[1]+' aujourd\'hui.');}
+ if(calib){set('flCoachT','En calibration · '+cal+'/4 nuits');set('flCoachM','Flint apprend ta baseline.<br>Ton score se débloque après 4 nuits portées.')}
+ else if(!has){set('flCoachT',today?'En attente de ta nuit':'Pas de données');set('flCoachM',today?'Synchronise ta Polar Loop.<br>Ta récup s\'affiche après la nuit portée.':'Aucune nuit enregistrée pour cette date.')}
+ else{const s=rv.s;set('flCoachT','Récup '+(s>=80?'haute':s>=30?'modérée':'basse')+' — '+(s>=80?'prêt à charger':s>=30?'charge avec tête':'journée repos'));set('flCoachM',(s>=80?'Ton corps a bien encaissé.':s>=30?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.')+(today?'<br>Vise un effort de '+tg[0]+'-'+tg[1]+' aujourd\'hui.':''))}
+ // couleur récup : ≥80 vert · 30-79 orange · <30 rouge
+ const sv2=has?rv.s:(calib?Math.round(cal/4*100):0);
+ const col=!has?'#9A988F':sv2>=80?'#2FA86A':sv2>=30?'#F2922B':'#E14434';
+ const colL=!has?'#E2DCD2':sv2>=80?'#8FD6AF':sv2>=30?'#F8C887':'#F2A99E';
+ set('flZone',has?(sv2>=80?'Haute':sv2>=30?'Modérée':'Basse'):(calib?'Calibration':'—'));
+ const ez=document.getElementById('flZone');if(ez)ez.style.color=col;
+ const gs=document.querySelectorAll('#flRingGrad stop');if(gs[0]){gs[0].setAttribute('stop-color',colL);gs[1].setAttribute('stop-color',col)}
+ const rc=document.querySelector('#v-today .ring-fill');if(rc){rc.style.setProperty('--off',(289*(1-Math.max(0,Math.min(100,has?sv2:0))/100)).toFixed(1));rc.style.filter='drop-shadow(0 2px 7px '+col+'66)'}
  const need=(p.need||8)*60,perf=t&&t.sleepMin?t.sleepMin/need:0;
- const slH=t&&t.sleepMin?Math.floor(t.sleepMin/60)+'H'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—';
- const slQual=!t||!t.sleepMin?'—':perf>=.85?'SUFFISANT':perf>=.65?'CORRECT':'INSUFFISANT';
- const str=loadStrain(),obj=Math.round((tg[0]+tg[1])/2);
- let r1;
- if(calib)r1=miniRing(cal/4*100,'var(--faint)',{top:'CALIBRATION',big:cal+'/4',bot:'EN COURS',botColor:'var(--faint)'},"go('recovery')");
- else if(rv)r1=miniRing(rv.s,rv.color,{top:'RÉCUPÉRATION',big:rv.s+'%',bot:rv.zone,botColor:rv.color},"go('recovery')");
- else r1=miniRing(0,'var(--track)',{top:'RÉCUPÉRATION',big:'—'},"go('recovery')");
- const r2=miniRing(Math.min(100,perf*100),'var(--ink)',{top:'SOMMEIL',big:slH,bot:slQual,botColor:'var(--ink2)'},"go('sleep')");
- const r3=miniRing(str/21*100,'var(--accent)',{top:'EFFORT',big:str.toFixed(1).replace('.',','),sub:'/ 21',bot:'OBJECTIF '+obj,botColor:'var(--faint)'},"go('load')");
- set('rings3',r1+r2+r3);
- set('hrVal',t&&t.rhr?t.rhr:'—');set('hrLbl',t&&t.rhr?'au repos · cette nuit':'capteur requis');
- document.getElementById('hrSpark').innerHTML=areaSVG(seriesBack('rhr',14),300,46,'var(--accent)',{sw:2.4,fill:.22});
- renderActivities();renderNutSummary();
+ set('flSleep',t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—');
+ set('flSleepS',!t||!t.sleepMin?'':perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant');
+ const str=loadStrain(K),obj=Math.round((tg[0]+tg[1])/2);
+ set('flLoad',str.toFixed(1).replace('.',','));set('flLoadT','Objectif '+obj);
+ const kcalB=caloriesBurned(K);
+ set('flBpm',t&&t.rhr?t.rhr:'—');set('flHrMode',today?'EN DIRECT':'AU REPOS');var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
+ const yRec=DB.get('recov_'+tk(gDay-1),null),dlt=(has&&yRec!=null)?rv.s-yRec:null,dl=document.getElementById('flDelta');
+ if(dl){if(dlt!=null){dl.className='delta '+(dlt>=0?'up':'down');dl.textContent=(dlt>=0?'▲ +'+dlt:'▼ '+dlt)+' pts vs '+(today?'hier':'veille');dl.style.display='inline-flex'}else dl.style.display='none'}
+ const tt=nutTotals(K),g=getNutGoals(),reste=g.kcal-tt.kcal;
+ set('flNut',fmtN(tt.kcal)+' / '+fmtN(g.kcal)+' kcal · '+(reste>=0?'reste '+fmtN(reste):'dépassé '+fmtN(-reste)));
+ const nr=document.getElementById('flNutRing');if(nr){const c=2*Math.PI*14,pct=Math.max(0,Math.min(1,tt.kcal/g.kcal));nr.setAttribute('stroke-dasharray',(c*pct).toFixed(1)+' 999')}
+ flRenderActivities(K);
+ const rn=document.getElementById('flRecup');if(rn){if(has)countUpEl(rn,rv.s,'');else rn.textContent=calib?cal+'/4':'—'}
+ const kn=document.getElementById('flKcal');if(kn)countUpEl(kn,kcalB,'',true);
 }
 function renderActivities(){const ss=DB.get('sessions_'+tk(),[]);
  set('actMeta',ss.length?ss.length+' · CUMUL '+loadStrain().toFixed(1).replace('.',','):'');
@@ -563,21 +1330,48 @@ function renderRecovery(){renderHealth();renderStress();const rv=recovery();if(!
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
 
 /* ---------- SOMMEIL ---------- */
-function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(!t||t.sleepMin==null){document.getElementById('sleepRing').innerHTML=ringHTML(0,160,'SOMMEIL','','var(--faint)','—');set('sleepLine','Connecte ton capteur.');return}
- const perf=Math.min(100,Math.round(t.sleepMin/need*100));document.getElementById('sleepRing').innerHTML=ringHTML(perf,160,'','','#6C7BD6',perf+'%');
- set('sleepLine',(t.sleepMin/60).toFixed(1)+'h sur '+(need/60)+'h de besoin');
+function renderSleep(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;
+ if(!t||t.sleepMin==null){document.getElementById('sleepRing').innerHTML=ringHTML(0,160,'','SCORE SOMMEIL','var(--faint)','—');set('sleepLine','Connecte ton capteur.');set('slSub','');set('slLever','<div class="sci">En attente de ta première nuit portée.</div>');set('slPerfLink','');return}
+ const heures=Math.min(100,Math.round(t.sleepMin/need*100));
+ const eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):null;
+ const regul=sleepConsistency();
+ var recupN=null;(function(){var hv=[],hr=[];for(var i=1;i<=14;i++){var s=sensorOf(tk(-i));if(s){if(s.hrv!=null)hv.push(s.hrv);if(s.rhr!=null)hr.push(s.rhr);}}function av(a){return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null}var bH=av(hv),bR=av(hr);if(t.hrv!=null&&bH&&t.rhr!=null&&bR)recupN=Math.max(0,Math.min(100,Math.round(60+(t.hrv-bH)/bH*130+(bR-t.rhr)/bR*130)));else if(t.hrv!=null&&bH)recupN=Math.max(0,Math.min(100,Math.round(60+(t.hrv-bH)/bH*160)));})();
+ const parts=[[heures,0.45],[eff!=null?eff:heures,0.25],[regul!=null?regul:75,0.15],[recupN!=null?recupN:75,0.15]];
+ const score=Math.round(parts.reduce(function(a,p){return a+p[0]*p[1]},0));
+ const col=score>=80?'#2FA86A':score>=60?'#F2922B':'#E14434';
+ document.getElementById('sleepRing').innerHTML=ringHTML(score,160,'','SCORE SOMMEIL',col,score+'%');
+ set('sleepLine',(t.sleepMin/60).toFixed(1).replace('.',',')+'h dormies · besoin '+(need/60).toFixed(0)+'h');
+ const lvl=function(v){return v==null?{c:'#C9C5BC',n:0}:v>=85?{c:'#2FA86A',n:3}:v>=70?{c:'#F2922B',n:2}:{c:'#E14434',n:1}};
+ const rows=[['Heures vs besoins',heures],['Régularité',regul],['Efficacité',eff],['Récup nocturne',recupN]];
+ set('slSub',rows.map(function(r){var L=lvl(r[1]),segs='';for(var i=0;i<3;i++)segs+='<span class="seg" style="background:'+(i<L.n?L.c:'#ECE6DD')+'"></span>';return '<div class="ssrow"><span class="ssl">'+r[0]+'</span><span class="ssr"><span class="segs">'+segs+'</span><b class="ssv" style="color:'+(r[1]==null?'#9A988F':L.c)+'">'+(r[1]==null?'—':r[1]+'%')+'</b></span></div>'}).join(''));
+ var wk=(getProfile().wake||'07:00').split(':'),bd=((((+wk[0])*60+(+wk[1]))-sleepNeedCalc().need)%1440+1440)%1440;
+ var tips={'Heures vs besoins':'vise +30 min cette nuit — au lit avant '+_coachFmtT(bd)+'.','Régularité':'garde des horaires stables — au lit vers '+_coachFmtT(bd)+' ce soir.','Efficacité':'coupe écrans et caféine 2 h avant le coucher.','Récup nocturne':'soirée calme : évite l’alcool et l’effort intense tard.'};
+ var valid=rows.filter(function(r){return r[1]!=null}).sort(function(a,b){return a[1]-b[1]}),low=valid[0];
+ set('slLever','<div class="lvi"><i class="ti ti-bulb"></i></div><div><b class="an" style="font-size:14px">1 levier ce soir</b><div class="sci" style="margin-top:3px">'+(low&&low[1]<85?'Ton point faible : <b>'+low[0]+'</b> ('+low[1]+'%) — '+tips[low[0]]:'Nuit solide sur tous les plans — garde le rythme 👌')+'</div></div>');
+ (function(){var rv=recovery();var give=rv?('Ta nuit te donne <b style="color:'+rv.color+'">'+rv.s+'% de récup</b> aujourd’hui.'):'Ta récup du jour s’affiche après la nuit portée.';var ss=DB.get('sessions_'+tk(),[]).concat(DB.get('sessions_'+tk(-1),[]));var late=ss.filter(function(s){return s.start&&parseInt(s.start,10)>=20&&s.type!=='nap'});var cost=late.length?('Ta séance de <b>'+late[0].start+'</b> a sûrement grignoté ton sommeil profond.'):'Pas d’effort tardif : sommeil préservé. 👍';set('slPerfLink','<div class="plk"><i class="ti ti-arrow-up-right" style="color:var(--green)"></i><div>'+give+'</div></div><div class="plk" style="margin-top:11px"><i class="ti ti-arrow-down-right" style="color:#C0492C"></i><div>'+cost+'</div></div>');})();
+}
+function renderSleepDetail(){const t=sensorOf(tk()),need=(getProfile().need||8)*60;if(!t||t.sleepMin==null)return;
  set('slDur',Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'));
  set('slEff',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100)+'%':'—');
- const st=[['Profond',t.deep,'#3A4FB0'],['REM',t.rem,'#6C7BD6'],['Léger',t.light,'#B9C2EA'],['Éveillé',t.awake,'#E7E3DA']].filter(x=>x[1]);const tot=st.reduce((a,b)=>a+b[1],0)||1;
- set('slStages',st.map(s=>'<span style="width:'+(s[1]/tot*100)+'%;background:'+s[2]+'"></span>').join(''));
- set('slStagesTxt',st.map(s=>s[0]+' '+Math.round(s[1])+'min').join(' · '));
+ const st=[['Profond',t.deep,'#3A4FB0'],['REM',t.rem,'#6C7BD6'],['Léger',t.light,'#B9C2EA'],['Éveillé',t.awake,'#E7E3DA']].filter(function(x){return x[1]});const tot=st.reduce(function(a,b){return a+b[1]},0)||1;
+ set('slStages',st.map(function(s){return '<span style="width:'+(s[1]/tot*100)+'%;background:'+s[2]+'"></span>'}).join(''));
+ set('slStagesTxt',st.map(function(s){return s[0]+' '+Math.round(s[1])+'min'}).join(' · '));
  const debt=sleepDebt();set('slDebt',Math.floor(debt)+'h'+String(Math.round(debt%1*60)).padStart(2,'0'));set('slDebtSub',debt<1?'Pas de dette 💪':'à rembourser');
  set('slPlan',debt<1?'Tu es à jour 👌':'Comble-la en visant ton besoin chaque nuit.');renderSleepCoach();
- const arr=seriesBack('sleepMin',14).map(x=>x?x/60:null);
+ const arr=seriesBack('sleepMin',14).map(function(x){return x?x/60:null});
  set('slBars',barsSVG(arr,{h:66,ref:need/60,refLabel:'besoin',refColor:'var(--indigo)',lab:['−14 nuits','auj.'],colorFn:function(v){return v==null?'var(--track)':(v>=need/60?'#6C7BD6':'var(--amber)')}}));
  set('hypnoCard',drawHypno());
- const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map((c,i)=>'<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>').join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
- set('subScores',sleepSubscores(t).map(s=>{const v=s[1];const col=v==null?'var(--faint)':v>=85?'var(--green)':v>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+(v==null?'—':v+'%')+'</div></div>'}).join(''))}
+ const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map(function(c,i){return '<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>'}).join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
+ set('subScores',sleepSubscores(t).map(function(s){var v=s[1],col=v==null?'var(--faint)':v>=85?'var(--green)':v>=65?'var(--amber)':'var(--accent)';return '<div class="stat"><div class="sl">'+s[0]+'</div><div class="sv" style="color:'+col+'">'+(v==null?'—':v+'%')+'</div></div>'}).join(''));
+ set('slVitals',[['HRV',t.hrv!=null?t.hrv+' <small>ms</small>':'—','#6C7BD6'],['FC repos',t.rhr!=null?t.rhr+' <small>bpm</small>':'—','#E0723A'],['Respiration',t.resp!=null?t.resp+' <small>/min</small>':'—','#3FB57A']].map(function(v){return '<div class="vit"><div class="vl">'+v[0]+'</div><div class="vv" style="color:'+v[2]+'">'+v[1]+'</div></div>'}).join(''));
+ (function(){var host=document.getElementById('slRecharge');if(!host)return;var n=26,hr0=(t.rhr||50)+13,hrLow=(t.rhr||50)-2,hv=t.hrv||70,W=300,H=80,pad=8;var hrA=[],hvA=[];for(var i=0;i<n;i++){var p=i/(n-1),dip=Math.sin(p*Math.PI);hrA.push(hr0-(hr0-hrLow)*dip);hvA.push(hv*(0.68+0.5*dip));}function ln(a,c){var mn=Math.min.apply(0,a),mx=Math.max.apply(0,a);if(mn===mx){mn--;mx++;}return '<path d="'+a.map(function(x,i){return (i?'L':'M')+(pad+i*(W-2*pad)/(n-1)).toFixed(1)+' '+(H-7-(x-mn)/(mx-mn)*(H-16)).toFixed(1)}).join(' ')+'" fill="none" stroke="'+c+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>'}host.innerHTML='<svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none" style="display:block">'+ln(hrA,'#E0723A')+ln(hvA,'#6C7BD6')+'</svg>';})();
+ set('slRechargeTxt','<b style="color:#6C7BD6">HRV ↑</b> ta variabilité remonte · <b style="color:#E0723A">FC ↓</b> ton cœur ralentit — pic de récupération au cœur de la nuit. <span class="muted">(courbe indicative)</span>');
+ var reg=sleepConsistency();set('slRegul',reg!=null?reg+'%':'—');set('slRegulSub',reg==null?'Quelques nuits de plus pour la mesurer':reg>=85?'Très régulier — garde le cap 👌':reg>=65?'Assez régulier':'Irrégulier — stabilise tes horaires');
+ var wk=(getProfile().wake||'07:00').split(':'),wakeH=(+wk[0])+(+wk[1])/60,bd=((((+wk[0])*60+(+wk[1]))-sleepNeedCalc().need)%1440+1440)%1440;
+ set('slIdealBed','Vise le lit vers <b>'+_coachFmtT(bd)+'</b> pour couvrir ton besoin avant '+(getProfile().wake||'07:00')+'.');
+ (function(){var host=document.getElementById('slRegulChart');if(!host)return;var W=320,H=132,padL=30,top=10,padB=20,lo=20,hi=33;function np(c){return c<12?c+24:c}function y(v){return top+(v-lo)/(hi-lo)*(H-padB-top)}var bars='',gw=(W-padL-8)/7;var bedI=((wakeH-sleepNeedCalc().need/60)%24+24)%24;var g='<line x1="'+padL+'" y1="'+y(np(bedI)).toFixed(1)+'" x2="'+(W-8)+'" y2="'+y(np(bedI)).toFixed(1)+'" stroke="#C9C5BC" stroke-width="1" stroke-dasharray="4 4"/><line x1="'+padL+'" y1="'+y(np(wakeH)).toFixed(1)+'" x2="'+(W-8)+'" y2="'+y(np(wakeH)).toFixed(1)+'" stroke="#C9C5BC" stroke-width="1" stroke-dasharray="4 4"/>';var yl='';[[21,'21h'],[27,'03h'],[33,'09h']].forEach(function(l){yl+='<text x="3" y="'+(y(l[0])+3).toFixed(1)+'" font-size="8" fill="#C9C5BC">'+l[1]+'</text>'});for(var i=6;i>=0;i--){var s=sensorOf(tk(-i));var cx=padL+(6-i)*gw+gw/2;var dl=new Date();dl.setDate(dl.getDate()-i);bars+='<text x="'+cx.toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="8.5" fill="#9A988F">'+['dim','lun','mar','mer','jeu','ven','sam'][dl.getDay()]+'</text>';if(s&&s.sleepMin){var durH=s.sleepMin/60,bedC=((wakeH-durH)%24+24)%24,yb=y(np(bedC)),yw=y(np(wakeH)),c=i===0?'#E8674A':'#9AA4DD';bars+='<rect x="'+(cx-9).toFixed(1)+'" y="'+yb.toFixed(1)+'" width="18" height="'+Math.max(4,yw-yb).toFixed(1)+'" rx="6" fill="'+c+'"/>'}}host.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px" class="regrow">'+yl+g+bars+'</svg>';})();
+ (function(){var host=document.getElementById('slAnomaly');if(!host)return;var rs=[],hs=[];for(var i=1;i<=14;i++){var s=sensorOf(tk(-i));if(s){if(s.resp!=null)rs.push(s.resp);if(s.rhr!=null)hs.push(s.rhr);}}function av(a){return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null}var ra=av(rs),ha=av(hs),m=[];if(ra&&t.resp!=null&&t.resp>ra*1.12)m.push('respiration +'+Math.round((t.resp/ra-1)*100)+'%');if(ha&&t.rhr!=null&&t.rhr>ha*1.10)m.push('FC repos +'+Math.round((t.rhr/ha-1)*100)+'%');if(m.length){host.style.display='';set('slAnomalyTxt','Cette nuit : '+m.join(' · ')+' vs ta normale. Possible alcool, stress ou début de maladie — lève le pied aujourd’hui.');}else{host.style.display='none';}})();
+}
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
 /* ---- Coach sommeil (planificateur façon Whoop) ---- */
 const _coachFmtT=m=>{m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
@@ -667,7 +1461,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v15';
+const APP_VERSION='flint-v30';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
