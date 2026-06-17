@@ -1463,7 +1463,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v34';
+const APP_VERSION='flint-v35';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -1486,7 +1486,7 @@ if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.regist
     log('1. Plugin PolarBle : '+(P?'OK ✅':'ABSENT ❌'));
     var uaM=(navigator.userAgent||'').match(/Android\s+([\d.]+)/); log('   Android : '+(uaM?uaM[1]:'?'));
     if(!P){log('→ Tu n\'es pas sur le vrai APK Android.');return;}
-    try{ var info=await P.getInfo(); log('   Plugin natif : v'+info.version+' · API '+info.api+' · perm déjà ok: '+info.granted); }
+    try{ var info=await P.getInfo(); log('   Plugin natif : v'+info.version+' · API '+info.api+' · perm:'+info.granted+' · BT allumé:'+info.bluetoothOn); }
     catch(e){ log('   ⚠️ ANCIEN APK (pas de getInfo) → désinstalle FLINT puis réinstalle le dernier APK.'); }
     if(!listenersSet){
       listenersSet=true;
@@ -1497,6 +1497,7 @@ if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.regist
       });
       P.addListener('status',function(s){log('état : '+s.status);});
       P.addListener('hr',function(h){log('❤️ '+h.hr+' bpm'+(h.rr&&h.rr.length?' · RR '+h.rr.join('/'):''));});
+      P.addListener('error',function(e){log('❌ erreur native : '+(e&&e.message?e.message:e));});
     }
     try{
       log('2. Demande permissions…');
