@@ -106,7 +106,18 @@
   .chartbox{width:100%}.chartbox svg{width:100%;display:block}
   .coachline{display:flex;align-items:center;gap:10px;margin:10px 0 4px}
   .coachline .cend{text-align:center;flex:none;min-width:72px}
-  .coachline .cei{font-size:22px;line-height:1}
+  .coachline .cei{display:flex;justify-content:center;line-height:1}
+  @keyframes ringfill{from{stroke-dashoffset:var(--rc)}to{stroke-dashoffset:var(--ro)}}
+  .sportbtn .se{display:flex;justify-content:center;height:22px}
+  .swrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .swrow:last-of-type{border-bottom:0}
+  .swt{font-weight:800;font-size:13.5px}.sws{font-size:11.5px;color:var(--ink2);margin-top:2px}
+  .switch{position:relative;width:46px;height:28px;flex:none}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch .sl2{position:absolute;inset:0;background:var(--track);border-radius:30px;transition:.2s;cursor:pointer}
+  .switch .sl2:before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .switch input:checked + .sl2{background:var(--accent)}
+  .switch input:checked + .sl2:before{transform:translateX(18px)}
   .coachline .cet{font-size:9px;font-weight:800;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
   .coachline .cev{font-family:var(--disp);font-size:23px;margin-top:1px}
   .coachline .cbar{flex:1;height:8px;border-radius:6px;background:linear-gradient(90deg,#3A4FB0,#9AA4DD,var(--amber));position:relative}
@@ -202,7 +213,7 @@
   </div>
   <div class="rings3" id="rings3"></div>
   <div class="card hrcard" onclick="go('recovery')">
-    <div class="hh">❤️</div>
+    <div class="hh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.7 6.6a5 5 0 0 0-7.8-.6L12 7l-.9-1a5 5 0 1 0-7 7l7.9 8 7.9-8a5 5 0 0 0 .8-6.4z"/></svg></div>
     <div style="white-space:nowrap"><span class="hv" id="hrVal">—</span><span class="eyebrow"> bpm</span><div class="hu" id="hrLbl">au repos</div></div>
     <div class="hsp"><svg class="spark" id="hrSpark" viewBox="0 0 300 46" preserveAspectRatio="none" style="height:46px"></svg></div>
     <div class="hb-ar" style="color:var(--faint)">›</div>
@@ -214,7 +225,7 @@
     <button class="addact" onclick="openActSheet()">＋ Ajouter à la main</button>
   </div>
   <div class="card nutrow" onclick="go('nutrition')">
-    <div class="nutic">🍲</div>
+    <div class="nutic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M12 4.2v2.6M9 5.2v1.6M15 5.2v1.6"/></svg></div>
     <div class="nuttx"><b>Nutrition</b><p id="nutSummary">—</p></div>
     <div class="ndar">›</div>
   </div>
@@ -348,6 +359,12 @@
     <p class="sci" style="margin-top:8px">Sur Android, ta Polar Loop remplit ça via Health Connect : nuit (HRV/sommeil) <b>et tes séances de sport détectées automatiquement</b> (type + intensité). ~4 nuits pour calibrer ta baseline.</p>
   </div>
   <div class="card">
+    <div class="ct"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2.5 6 2.5 6h-17S6 14 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Notifications</div>
+    <div class="swrow"><div><div class="swt">Rappel de coucher</div><div class="sws">Pour atteindre ton objectif de sommeil</div></div><label class="switch"><input type="checkbox" id="ntBed" onchange="toggleNotif('bed',this.checked)"><span class="sl2"></span></label></div>
+    <div class="swrow"><div><div class="swt">Récup du matin</div><div class="sws">Ton score dès le réveil</div></div><label class="switch"><input type="checkbox" id="ntMorning" onchange="toggleNotif('morning',this.checked)"><span class="sl2"></span></label></div>
+    <p class="sci" id="ntNote" style="margin-top:8px"></p>
+  </div>
+  <div class="card">
     <div class="ct">App</div>
     <button class="btn ghost sm" onclick="forceUpdate()">🔄 Forcer la mise à jour</button>
     <p class="sci" id="verLine" style="margin-top:6px"></p>
@@ -392,9 +409,36 @@ const fmtDur=m=>m>=60?Math.floor(m/60)+'H'+String(m%60).padStart(2,'0'):m+' MIN'
 function getProfile(){return Object.assign({name:'Arthur',age:28,wake:'07:00',need:8,kcalGoal:2400,protGoal:150},DB.get('profile',{}))}
 let toastT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2200)}
 function set(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
+function haptic(ms){try{const H=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Haptics;if(H&&H.impact){H.impact({style:'LIGHT'})}else if(navigator.vibrate){navigator.vibrate(ms||8)}}catch(e){}}
 
-const SPORTS=[['Course','🏃'],['Muscu','🏋️'],['Vélo','🚴'],['Natation','🏊'],['Football','⚽'],['Padel','🎾'],['Tennis','🎾'],['Marche','🚶'],['Rando','🥾'],['HIIT','🔥'],['Yoga','🧘'],['Boxe','🥊'],['Basket','🏀'],['Autre','💪']];
-function sportIcon(n){if(!n)return '💪';const f=SPORTS.find(s=>s[0].toLowerCase()===String(n).toLowerCase());return f?f[1]:'💪'}
+const SPORTS=[['Course','run'],['Renfo','strength'],['Vélo','bike'],['Natation','swim'],['Football','foot'],['Padel','racket'],['Tennis','racket'],['Marche','walk'],['Rando','hike'],['HIIT','hiit'],['Yoga','yoga'],['Boxe','box'],['Basket','basket'],['Autre','spark']];
+function sportIcon(n){if(!n)return 'spark';const f=SPORTS.find(s=>s[0].toLowerCase()===String(n).toLowerCase());return f?f[1]:'spark'}
+/* ---- icônes SVG monochromes custom (fini les emoji) ---- */
+const IC={
+ run:'<path d="M14 5.5a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2z"/><path d="M9 21l2.2-4.5L9 14l1.4-5 3.2 1.8 1 2.7 2.9 1"/><path d="M11.4 9.2L6.8 11 5 9.6"/>',
+ walk:'<path d="M13 5a1.6 1.6 0 1 0 0-3.2A1.6 1.6 0 0 0 13 5z"/><path d="M10 21l1.6-5.5L10 12l1-5 3 1.5.7 3.2L17 13"/><path d="M11 11.5L8 13"/>',
+ bike:'<circle cx="6" cy="16.5" r="3.2"/><circle cx="18" cy="16.5" r="3.2"/><path d="M6 16.5l4-6.5h5"/><path d="M9.5 10h-2"/><path d="M14.5 10l3.5 6.5"/><path d="M13 6.5h2"/>',
+ swim:'<path d="M8.5 8.2a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2z"/><path d="M5 13l3.5-2 3 1.8L18 9"/><path d="M3 17.5c1.8 1.3 3.2 1.3 5 0s3.2-1.3 5 0 3.2 1.3 5 0"/>',
+ foot:'<circle cx="12" cy="12" r="9"/><path d="M12 8.2l3.2 2.3-1.2 3.8h-4l-1.2-3.8z"/><path d="M12 3.2v3M4.7 8.6l2.6 1.4M19.3 8.6l-2.6 1.4M8.3 19.4l1.5-2.7M15.7 19.4l-1.5-2.7"/>',
+ racket:'<ellipse cx="9.5" cy="9" rx="5" ry="6"/><path d="M12.8 13.4L18.5 19.2"/><path d="M6.5 6.8l6 4.4M12.2 6.5l-5.4 4.6"/>',
+ basket:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.5 5.5c3.2 2.8 3.2 10.2 0 13M18.5 5.5c-3.2 2.8-3.2 10.2 0 13"/>',
+ hiit:'<path d="M13 2L4.5 13.5H10l-1 8.5L19.5 10H13z"/>',
+ yoga:'<path d="M12 5a1.7 1.7 0 1 0 0-3.4A1.7 1.7 0 0 0 12 5z"/><path d="M12 7v5M5 19c1.8-3.6 4.5-4.5 7-4.5s5.2.9 7 4.5M7.5 12h9"/>',
+ box:'<path d="M8 5h4.5a3.5 3.5 0 0 1 3.5 3.5v2A3.5 3.5 0 0 1 12.5 14H10v4a1.8 1.8 0 0 1-3.6 0V8A3 3 0 0 1 8 5z"/>',
+ hike:'<path d="M3.5 20h17M7 20l4.2-12 3 5.5 2-3 4.3 9.5"/><path d="M11.2 4.5a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8z"/>',
+ strength:'<path d="M6 7v10M18 7v10M3 9.5v5M21 9.5v5M6 12h12"/>',
+ moon:'<path d="M20 13.2A8 8 0 1 1 10.8 4a6.3 6.3 0 0 0 9.2 9.2z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/>',
+ flame:'<path d="M12 3c.6 2.5 2 3.4 3 4.8 1.4 1.9 1.6 4.4.2 6.3a5 5 0 0 1-8.4 0c-.9-1.3-1-3 .2-4.6.5 1 1.2 1.6 2.3 1.7C9.7 9.4 9.4 6 12 3z"/>',
+ bolt:'<path d="M13 2L4.5 13.5H10l-1 8.5L19.5 10H13z"/>',
+ heart:'<path d="M20.7 6.6a5 5 0 0 0-7.8-.6L12 7l-.9-1a5 5 0 1 0-7 7l7.9 8 7.9-8a5 5 0 0 0 .8-6.4z"/>',
+ bowl:'<path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/><path d="M12 4.2v2.6M9 5.2v1.6M15 5.2v1.6"/>',
+ spark:'<path d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9z"/>',
+ trophy:'<path d="M8 4h8v4.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H5v1A3 3 0 0 0 8 9.5M16 5.5h3v1a3 3 0 0 1-3 3M9.5 20h5M12 13.5V20"/>',
+ chart:'<path d="M4 20V11M9 20V5M14 20v-6M19 20V8"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>'
+};
+function svgIcon(k,o){o=o||{};const s=o.size||22,sw=o.sw||2,c=o.color||'currentColor';return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-linejoin="round" style="display:block">'+(IC[k]||IC.spark)+'</svg>'}
 
 /* ---------- DATA MODEL ---------- */
 function sensorOf(k){return DB.get('sensor_'+k,null)}
@@ -411,8 +455,8 @@ function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)
 function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
 
 /* ---------- RINGS / CHARTS ---------- */
-function ringHTML(val,size,label,sub,color,dispVal){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+(+val||0));const fs=Math.round(size*0.225);return '<div style="position:relative;display:inline-block;width:'+size+'px;height:'+size+'px;vertical-align:top"><svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="display:block"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".7"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc">'+(label?'<div class="rlab">'+label+'</div>':'')+'<div class="rval" style="font-size:'+fs+'px;color:'+color+'">'+(dispVal!=null?dispVal:val)+'</div>'+(sub?'<div class="rsub">'+sub+'</div>':'')+'</div></div>'}
-function miniRing(pct,stroke,o,click){const size=108,sw=8,r=size/2-sw/2-1,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,pct||0))/100);return '<div class="mring"'+(click?' onclick="'+click+'"':'')+'><svg viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="'+sw+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="mrc">'+(o.top?'<div class="mrt">'+o.top+'</div>':'')+'<div class="mrv">'+o.big+'</div>'+(o.sub?'<div class="mrs">'+o.sub+'</div>':'')+(o.bot?'<div class="mrb" style="color:'+(o.botColor||'var(--faint)')+'">'+o.bot+'</div>':'')+'</div></div>'}
+function ringHTML(val,size,label,sub,color,dispVal){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+(+val||0));const fs=Math.round(size*0.225);return '<div style="position:relative;display:inline-block;width:'+size+'px;height:'+size+'px;vertical-align:top"><svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="display:block"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".7"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .9s cubic-bezier(.2,.8,.2,1) both" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc">'+(label?'<div class="rlab">'+label+'</div>':'')+'<div class="rval" style="font-size:'+fs+'px;color:'+color+'">'+(dispVal!=null?dispVal:val)+'</div>'+(sub?'<div class="rsub">'+sub+'</div>':'')+'</div></div>'}
+function miniRing(pct,stroke,o,click){const size=108,sw=8,r=size/2-sw/2-1,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,pct||0))/100);return '<div class="mring"'+(click?' onclick="'+click+'"':'')+'><svg viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="'+sw+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill 1s cubic-bezier(.2,.8,.2,1) both" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="mrc">'+(o.top?'<div class="mrt">'+o.top+'</div>':'')+'<div class="mrv">'+o.big+'</div>'+(o.sub?'<div class="mrs">'+o.sub+'</div>':'')+(o.bot?'<div class="mrb" style="color:'+(o.botColor||'var(--faint)')+'">'+o.bot+'</div>':'')+'</div></div>'}
 function lineSVG(arr,W,H,color){const v=arr.filter(x=>x!=null);if(v.length<2)return '';const mn=Math.min(...v),mx=Math.max(...v),pad=6,gx=i=>pad+i*(W-2*pad)/(arr.length-1),gy=x=>H-pad-(mx===mn?H/2:(x-mn)/(mx-mn)*(H-2*pad));let p='',st=false;arr.forEach((x,i)=>{if(x==null)return;p+=(st?'L':'M')+gx(i).toFixed(1)+' '+gy(x).toFixed(1);st=true});const last=arr.map((x,i)=>x!=null?i:-1).filter(i=>i>=0).pop();return '<path d="'+p+'" fill="none" stroke="'+(color||'var(--accent)')+'" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+gx(last).toFixed(1)+'" cy="'+gy(arr[last]).toFixed(1)+'" r="3.4" fill="'+(color||'var(--accent)')+'"/>'}
 function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(-i);out.push(fn?fn(k):(sensorOf(k)?sensorOf(k)[field]:null))}return out}
 function barsHTML(arr,goal){const mx=Math.max(goal||1,...arr.filter(x=>x),1);return arr.map((v,i)=>'<i class="'+(i===arr.length-1&&v?'on':'')+'" style="height:'+(v?Math.max(6,v/mx*54):6)+'px"></i>').join('')}
@@ -422,7 +466,7 @@ function areaSVG(arr,W,H,color,opts){opts=opts||{};const v=arr.filter(x=>x!=null
 function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,pad=3,top=8,bot=H-(opts.lab?13:5);const gap=(W-2*pad)/n,bw=Math.min(gap*0.62,16);const vals=arr.map(v=>(v==null||isNaN(v))?0:v);const mx=Math.max(opts.max||0,Math.max.apply(null,vals.concat([opts.ref||0])),1);let bars='';for(let i=0;i<n;i++){const h=vals[i]?Math.max(3,vals[i]/mx*(bot-top)):3,x=pad+i*gap+(gap-bw)/2,y=bot-h,col=opts.colorFn?opts.colorFn(arr[i],i,i===n-1):'var(--accent)';bars+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(bw/2.6).toFixed(1)+'" fill="'+col+'"/>'}let extra='';if(opts.ref){const ry=bot-Math.min(1,opts.ref/mx)*(bot-top);extra+='<line x1="'+pad+'" y1="'+ry.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+ry.toFixed(1)+'" stroke="'+(opts.refColor||'var(--ink2)')+'" stroke-width="1.3" stroke-dasharray="4 3" opacity=".55"/>';if(opts.refLabel)extra+='<text x="'+(W-pad)+'" y="'+(ry-3).toFixed(1)+'" text-anchor="end" font-size="8.5" font-weight="800" fill="'+(opts.refColor||'var(--ink2)')+'">'+opts.refLabel+'</text>'}let lab='';if(opts.lab)lab='<text x="'+pad+'" y="'+(H-2)+'" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[0]+'</text><text x="'+(W-pad)+'" y="'+(H-2)+'" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--faint)">'+opts.lab[1]+'</text>';return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px;display:block">'+bars+extra+lab+'</svg>'}
 
 /* ---------- NAV ---------- */
-function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
+function go(v){haptic(7);document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,load:renderLoad,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 // ===================== WHOOP-FAITHFUL MODULES =====================
@@ -454,8 +498,9 @@ function renderToday(){
  const d=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
  set('dateLine',d+(DB.get('demo')?' <span class="demotag">· DÉMO</span>':''));
  const tg=strainTarget();
- if(calib){set('heroIcon','⌚');set('heroTitle','EN CALIBRATION · '+cal+'/4 NUITS');set('heroSub1','Flint apprend ta baseline.');set('heroSub2','Ton score se débloque après 4 nuits portées.');}
- else{set('heroIcon',rv.s>=67?'🔥':rv.s>=34?'⚡':'🌙');set('heroTitle','RÉCUP '+rv.zone+' — '+(rv.s>=67?'PRÊT À CHARGER':rv.s>=34?'CHARGE AVEC TÊTE':'JOURNÉE REPOS'));set('heroSub1',rv.s>=67?'Ton corps a bien encaissé.':rv.s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.');set('heroSub2','Vise un effort de '+tg[0]+'—'+tg[1]+' aujourd\'hui.');}
+ if(calib){set('heroIcon',svgIcon('moon',{size:24,color:'var(--accentL)'}));set('heroTitle','EN CALIBRATION · '+cal+'/4 NUITS');set('heroSub1','Flint apprend ta baseline.');set('heroSub2','Ton score se débloque après 4 nuits portées.');}
+ else if(!rv){set('heroIcon',svgIcon('moon',{size:24,color:'var(--accentL)'}));set('heroTitle','EN ATTENTE DE TA NUIT');set('heroSub1','Synchronise ta Polar Loop.');set('heroSub2','Ta récup du jour s\'affiche après la nuit portée.');}
+ else{set('heroIcon',svgIcon(rv.s>=67?'flame':rv.s>=34?'bolt':'moon',{size:24,color:'var(--accentL)'}));set('heroTitle','RÉCUP '+rv.zone+' — '+(rv.s>=67?'PRÊT À CHARGER':rv.s>=34?'CHARGE AVEC TÊTE':'JOURNÉE REPOS'));set('heroSub1',rv.s>=67?'Ton corps a bien encaissé.':rv.s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.');set('heroSub2','Vise un effort de '+tg[0]+'—'+tg[1]+' aujourd\'hui.');}
  const need=(p.need||8)*60,perf=t&&t.sleepMin?t.sleepMin/need:0;
  const slH=t&&t.sleepMin?Math.floor(t.sleepMin/60)+'H'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—';
  const slQual=!t||!t.sleepMin?'—':perf>=.85?'SUFFISANT':perf>=.65?'CORRECT':'INSUFFISANT';
@@ -473,7 +518,7 @@ function renderToday(){
 }
 function renderActivities(){const ss=DB.get('sessions_'+tk(),[]);
  set('actMeta',ss.length?ss.length+' · CUMUL '+loadStrain().toFixed(1).replace('.',','):'');
- set('actList',ss.length?ss.map((s,i)=>{const nap=s.type==='nap';const ic=s.icon||sportIcon(s.name);const eff=nap?'RÉCUP +5%':'EFFORT '+actStrain(s).toFixed(1).replace('.',',');const cls=nap?'ap green':'ap';const time=(s.start?s.start:'')+(s.start&&s.dur?' · ':'')+(s.dur?fmtDur(s.dur):'')+(s.auto?' · <span style="color:var(--accent);font-weight:800">AUTO</span>':'');return '<div class="actrow"><div class="ai">'+ic+'</div><div style="min-width:0"><div class="an">'+(s.name||'Séance')+'</div><div class="at">'+time+'</div></div><span class="'+cls+'">'+eff+'</span><span class="ax" onclick="event.stopPropagation();delAct('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="padding:6px 0">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
+ set('actList',ss.length?ss.map((s,i)=>{const nap=s.type==='nap';const ic=svgIcon(nap?'moon':sportIcon(s.name),{size:19,color:'var(--accent)'});const eff=nap?'RÉCUP +5%':'EFFORT '+actStrain(s).toFixed(1).replace('.',',');const cls=nap?'ap green':'ap';const time=(s.start?s.start:'')+(s.start&&s.dur?' · ':'')+(s.dur?fmtDur(s.dur):'')+(s.auto?' · <span style="color:var(--accent);font-weight:800">AUTO</span>':'');return '<div class="actrow"><div class="ai">'+ic+'</div><div style="min-width:0"><div class="an">'+(s.name||'Séance')+'</div><div class="at">'+time+'</div></div><span class="'+cls+'">'+eff+'</span><span class="ax" onclick="event.stopPropagation();delAct('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="padding:6px 0">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
 function delAct(i){const k=tk(),a=DB.get('sessions_'+k,[]);a.splice(i,1);DB.set('sessions_'+k,a);renderToday()}
 /* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
 function importDetectedSessions(items){if(!items||!items.length)return 0;const k=tk(),a=DB.get('sessions_'+k,[]);let n=0;items.forEach(it=>{const start=it.start||'';if(a.some(s=>s.auto&&s.start===start&&s.name===(it.sport||'Activité')))return;a.push({name:it.sport||'Activité',icon:sportIcon(it.sport),start:start,dur:it.dur||30,int:it.int||2,auto:true});n++});if(n)DB.set('sessions_'+k,a);return n}
@@ -481,7 +526,7 @@ function renderNutSummary(){const tt=nutTotals(),g=getNutGoals();const reste=g.k
 
 /* ---------- ADD ACTIVITY SHEET ---------- */
 function openActSheet(){window._asSport=null;document.getElementById('asNap').checked=false;document.getElementById('asDur').value='';document.getElementById('asTime').value='';
- set('sportGrid',SPORTS.map((s,i)=>'<button class="sportbtn" data-i="'+i+'" onclick="pickSport('+i+')"><span class="se">'+s[1]+'</span>'+s[0]+'</button>').join(''));
+ set('sportGrid',SPORTS.map((s,i)=>'<button class="sportbtn" data-i="'+i+'" onclick="pickSport('+i+')"><span class="se">'+svgIcon(s[1],{size:22})+'</span>'+s[0]+'</button>').join(''));
  document.getElementById('actSheet').classList.add('on')}
 function pickSport(i){window._asSport=SPORTS[i];document.querySelectorAll('#sportGrid .sportbtn').forEach(b=>b.classList.toggle('on',+b.dataset.i===i))}
 function closeActSheet(){document.getElementById('actSheet').classList.remove('on')}
@@ -541,9 +586,9 @@ function renderSleepCoach(){const host=document.getElementById('coachCard');if(!
  const wake=tmin(getProfile().wake);
  const tiers=[['Pic de forme',1.0,'var(--green)','100%'],['Performer',0.85,'var(--amber)','85%'],['Tenir',0.70,'var(--accent)','70%']];
  const sel=window._sleepTier==null?0:window._sleepTier,f=tiers[sel],inBed=nd*f[1]/eff,bedT=wake-inBed;
- host.innerHTML='<div class="ct">🌙 Coach sommeil · planifie ta nuit</div>'
+ host.innerHTML='<div class="ct">Coach sommeil · planifie ta nuit</div>'
  +'<div style="text-align:center;margin:2px 0 2px"><div class="big" style="font-size:42px;color:var(--accent)">'+_coachFmtH(inBed)+'</div><div class="eyebrow" style="margin-top:4px">au lit · objectif '+f[3]+' de ton besoin</div></div>'
- +'<div class="coachline"><div class="cend"><div class="cei">🌙</div><div class="cet">Coucher</div><div class="cev">'+_coachFmtT(bedT)+'</div></div><div class="cbar"><span class="cdur">'+_coachFmtH(inBed)+'</span></div><div class="cend"><div class="cei">☀️</div><div class="cet">Réveil</div><div class="cev">'+_coachFmtT(wake)+'</div></div></div>'
+ +'<div class="coachline"><div class="cend"><div class="cei">'+svgIcon('moon',{size:22,color:'var(--indigo)'})+'</div><div class="cet">Coucher</div><div class="cev">'+_coachFmtT(bedT)+'</div></div><div class="cbar"><span class="cdur">'+_coachFmtH(inBed)+'</span></div><div class="cend"><div class="cei">'+svgIcon('sun',{size:22,color:'var(--amber)'})+'</div><div class="cet">Réveil</div><div class="cev">'+_coachFmtT(wake)+'</div></div></div>'
  +'<div class="lab" style="margin-top:16px">Heure de réveil cible</div><input id="coachWake" class="fin" type="time" value="'+getProfile().wake+'" onchange="setCoachWake(this.value)">'
  +'<div class="lab" style="margin-top:14px">Choisis ton objectif</div>'
  +tiers.map((tt,i)=>{const ib=nd*tt[1]/eff,bt=wake-ib;return '<div class="trow'+(i===sel?' on':'')+'" onclick="setSleepTier('+i+')"><span class="tdot" style="background:'+tt[2]+'"></span><span class="tn">'+tt[0]+'</span><span class="th">'+_coachFmtH(ib)+' au lit</span><span class="tb">'+_coachFmtT(bt)+'</span></div>'}).join('')
@@ -577,10 +622,22 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
  renderWeekly();renderCorr();set('tr7rec',a7(k=>DB.get('recov_'+k,null)));set('tr7sl',(function(){const x=a7(k=>{const s=sensorOf(k);return s?s.sleepMin/60:null},1);return x==='—'?'—':x+'h'})());set('tr7hrv',a7(k=>{const s=sensorOf(k);return s?s.hrv:null}));set('tr7load',Math.round(loadAvg(7)))}
 
 /* ---------- PROFIL ---------- */
-function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal()}
+function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal();
+ const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;renderNotifNote(!!_LN())}
 function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;DB.set('profile',p);toast('Profil enregistré');renderToday()}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
 async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();let added=0;if(HC.readSessions){try{const sg=await HC.readSessions();added=importDetectedSessions(sg&&sg.items)}catch(e){}}const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚'+(added?' · '+added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''):''));go('today')}else if(added){DB.set('demo',0);toast(added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''));go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
+
+/* ---------- NOTIFICATIONS INTELLIGENTES ---------- */
+function notifPrefs(){return Object.assign({bed:false,morning:false},DB.get('notifs',{}))}
+function bedtimeMinutes(){const nd=sleepNeedCalc().need,t=sensorOf(tk());const eff=(t&&t.awake!=null&&t.sleepMin)?Math.max(0.82,Math.min(0.97,t.sleepMin/(t.sleepMin+t.awake))):0.9;const wake=tmin(getProfile().wake);const inBed=nd*0.85/eff;return Math.round(((wake-inBed)%1440+1440)%1440)}
+function _LN(){return window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications}
+async function scheduleNotifs(){const LN=_LN();const p=notifPrefs();if(!LN)return false;try{await LN.requestPermissions()}catch(e){}try{await LN.cancel({notifications:[{id:1},{id:2}]})}catch(e){}const list=[];const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+ if(p.bed){const bed=bedtimeMinutes(),rem=((bed-15)%1440+1440)%1440;list.push({id:1,title:'🌙 Bientôt l\'heure de dormir',body:'Couche-toi vers '+hm(bed)+' pour viser ta récup.',schedule:{on:{hour:Math.floor(rem/60),minute:rem%60},repeats:true}})}
+ if(p.morning){const w=tmin(getProfile().wake);list.push({id:2,title:'☀️ Ta récup du jour est prête',body:'Ouvre Flint pour ton score et ta cible d\'effort.',schedule:{on:{hour:Math.floor(w/60),minute:w%60},repeats:true}})}
+ if(list.length){try{await LN.schedule({notifications:list})}catch(e){}}return true}
+function renderNotifNote(native){const el=document.getElementById('ntNote');if(!el)return;el.textContent=native?'⏰ Rappels programmés sur ton téléphone.':'⏰ Les rappels programmés s\'activent sur l\'app Android (APK).'}
+function toggleNotif(k,v){const p=notifPrefs();p[k]=v;DB.set('notifs',p);haptic();scheduleNotifs().then(native=>renderNotifNote(native))}
 
 /* ---------- DEMO / RECOV ---------- */
 function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportintense','magnesium','meditation','repastard','hydrate'];
@@ -608,12 +665,14 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v12';
+const APP_VERSION='flint-v13';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
+if(DB.get('demo')&&!sensorOf(tk()))seedTodayShowcase();
 persistRecov();
 renderToday();
+scheduleNotifs();
 checkUpdate();
 if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
