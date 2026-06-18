@@ -326,22 +326,24 @@
   .flhome .chev{color:#C9C5BC;font-size:19px;margin-left:10px}
   .flhome .delta{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-family:'Inter';font-weight:700;font-size:11px;color:#3B6D11;background:#EAF3DE;padding:4px 10px;border-radius:20px}
   .flhome .delta.down{color:#C0492C;background:#FBEAE5}
-  .flhome .addact{width:100%;margin-top:8px;background:none;border:1px dashed #E0D9CE;color:#9A988F;font-family:'Inter';font-weight:700;font-size:13px;padding:10px;border-radius:14px;cursor:pointer}
-  /* ===== activité tiles (forme journée) ===== */
-  .flhome .flact{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid #F1EBE3;cursor:pointer;transition:transform .12s ease}
+  .flhome .addact{width:100%;margin-top:10px;background:none;border:1.5px dashed #E0D9CE;color:#8F8982;font-family:'Inter';font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em;padding:13px;border-radius:18px;cursor:pointer;transition:border-color .14s,color .14s}
+  .flhome .addact:hover,.flhome .addact:active{border-color:var(--accent);color:var(--accent)}
+  /* ===== activité — lignes journée (timeline) ===== */
+  .flhome .flact{display:grid;grid-template-columns:104px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 8px;border-bottom:1px solid #F1EBE3;cursor:pointer;border-radius:14px;transition:background .14s ease;-webkit-tap-highlight-color:transparent}
   .flhome .flact:last-of-type{border-bottom:0}
-  .flhome .flact:active{transform:scale(.99)}
-  .flhome .flact .tile{flex:none;width:96px;height:56px;border-radius:16px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 6px 16px rgba(232,103,74,.22)}
-  .flhome .flact .tile.sleep{background:#6C7BD6;box-shadow:0 6px 16px rgba(108,123,214,.22)}
+  .flhome .flact:hover,.flhome .flact:active{background:#FAF8F5}
+  .flhome .flact .tile{width:104px;height:58px;border-radius:16px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(240,73,46,.20)}
+  .flhome .flact .tile.sleep{background:#6C7BD6;box-shadow:0 6px 16px rgba(108,123,214,.20)}
   .flhome .flact .tile i{font-size:21px;line-height:1;opacity:.95}
-  .flhome .flact .tile b{font-family:'Anton';font-style:italic;font-size:22px;line-height:1;letter-spacing:.01em}
-  .flhome .flact .nm{flex:1;min-width:0;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:19px;color:#161512;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .flhome .flact .tm{display:flex;align-items:stretch;gap:9px;flex:none}
-  .flhome .flact .tm .tt{display:flex;flex-direction:column;justify-content:space-between;text-align:right;min-height:38px;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
-  .flhome .flact .tm .t1{color:#44403A}
-  .flhome .flact .tm .t2{color:#9A988F}
-  .flhome .flact .tm .bar{width:3px;border-radius:3px;background:#E8674A;align-self:stretch}
-  .flhome .flact .tm .bar.sleep{background:#6C7BD6}
+  .flhome .flact .tile b{font-family:'Anton';font-style:italic;font-size:24px;line-height:1;letter-spacing:.01em}
+  .flhome .flact .md{min-width:0}
+  .flhome .flact .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:21px;color:#161512;line-height:1;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .flhome .flact .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .flhome .flact .tl{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:4px;padding-right:6px}
+  .flhome .flact .tl .s{font-size:13px;font-weight:800;color:#3E3A35;font-variant-numeric:tabular-nums;line-height:1}
+  .flhome .flact .tl .e{font-size:13px;font-weight:800;color:#8F8982;font-variant-numeric:tabular-nums;line-height:1}
+  .flhome .flact .tl .b{width:3px;height:13px;border-radius:3px;background:var(--accent)}
+  .flhome .flact .tl .b.sleep{background:#6C7BD6}
   .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill 1.25s cubic-bezier(.25,.8,.3,1) .35s both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
   .fllogo{font-family:'Anton';font-style:italic;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
   .fllogo-img{height:30px;width:auto;display:block;cursor:pointer}
@@ -563,6 +565,36 @@
 .flrecovery .grid2 .stat .ss{font-size:11px;color:#6E6A62;margin-top:3px}
 .flrecovery #recAge{margin-top:12px;display:flex;align-items:center;gap:7px}
 .flrecovery #recAge:before{font-family:'tabler-icons';content:"\f0db";color:#C0492C;font-size:16px;font-style:normal}
+
+/* ---- Hero récup (anneau gauche + texte droite, façon maquette) ---- */
+.flrecovery .rhero{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;padding:20px 16px}
+.flrecovery .rheroart{position:absolute;inset:0;pointer-events:none;background:radial-gradient(58% 78% at 25% 50%,rgba(63,181,122,.07),transparent 62%)}
+.flrecovery .rhring{flex:0 0 132px;position:relative;z-index:1}
+.flrecovery .rhring .rc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.flrecovery .rhring .rval{font-family:'Anton';font-style:italic;line-height:1}
+.flrecovery .rhside{flex:1;min-width:0;position:relative;z-index:1}
+.flrecovery .rhpill{display:inline-flex;align-items:center;gap:7px;border:1px solid #D7E6CC;background:#fff;border-radius:30px;padding:6px 13px;font-size:13px;font-weight:800;color:#2E7D32}
+.flrecovery .rhpill .d{width:8px;height:8px;border-radius:50%;background:#3FB57A;flex:none}
+.flrecovery .rhzone{font-size:42px;line-height:.9;margin-top:12px;color:#2E7D32}
+.flrecovery .rhrule{width:38px;height:4px;border-radius:3px;background:#2E7D32;margin:11px 0}
+.flrecovery .rhdesc{font-size:15px;line-height:1.4;color:#6E6A62}
+/* ---- Composition : entête + lignes avec barres ---- */
+.flrecovery .rch{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.flrecovery .rch .ic{width:36px;height:36px;border-radius:50%;background:#EFF6E7;display:grid;place-items:center;color:#3B6D11;font-size:18px;flex:none}
+.flrecovery .rch b{flex:1;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;font-weight:400}
+.flrecovery .rch .cv{color:#E8674A;font-size:20px;flex:none}
+.flrecovery .rrow{display:grid;grid-template-columns:38px 94px auto 1fr;align-items:center;gap:11px;padding:12px 0;border-top:1px solid #F1EBE3}
+.flrecovery .rrow:first-child{border-top:0}
+.flrecovery .rrow .rric{width:38px;height:38px;border-radius:50%;background:#EFF6E7;display:grid;place-items:center;color:#3B6D11;font-size:18px;flex:none}
+.flrecovery .rrow .rrl{font-size:15px;font-weight:700;color:#161512;white-space:nowrap}
+.flrecovery .rrow .rrv{font-size:14px;font-weight:800;color:#37372F;white-space:nowrap}
+.flrecovery .rrow .rrtrack{height:9px;border-radius:6px;background:#ECE7DD;overflow:hidden}
+.flrecovery .rrow .rrfill{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5BBA57,#2E7D32);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+/* ---- Insight du jour ---- */
+.flrecovery .rinsight{display:flex;align-items:center;gap:14px;padding:16px}
+.flrecovery .rinic{width:46px;height:46px;border-radius:50%;background:#FBEAE5;display:grid;place-items:center;color:#E8674A;font-size:22px;flex:none}
+.flrecovery .rintx{flex:1;font-size:14.5px;line-height:1.42;color:#37372F;font-weight:600;min-width:0}
+.flrecovery .rinsight .cv2{color:#C9C5BC;font-size:20px;flex:none}
 
 /* ---- Health Monitor : lignes ---- */
 .flrecovery .hm{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
@@ -1533,7 +1565,7 @@ header{padding:11px 16px 7px}
       <span class="muted" style="font-size:13px;" id="flActMeta"></span>
     </div>
     <div id="flActList"></div>
-    <button class="addact" onclick="openActSheet()">＋ Ajouter à la main</button>
+    <button class="addact" onclick="openActSheet()">＋ Ajouter une activité</button>
   </div>
 
   <div class="card flad">
@@ -1599,41 +1631,33 @@ header{padding:11px 16px 7px}
     <div class="date">Lecture de ton corps · aujourd'hui</div>
   </div>
 
-  <div class="card hero">
-    <div class="ring" id="recRing"></div>
-    <div class="disp" id="recZone" style="font-size:24px;text-transform:uppercase;margin-top:8px">—</div>
-    <div class="sci" id="recReco"></div>
+  <div class="card rhero">
+    <div class="rheroart"></div>
+    <div class="rhring" id="recRing"></div>
+    <div class="rhside">
+      <div class="rhpill" id="recPill"><span class="d"></span><span id="recPillT">—</span></div>
+      <div class="rhzone an" id="recZone">—</div>
+      <div class="rhrule"></div>
+      <div class="rhdesc" id="recReco"></div>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="ct"><i class="ti ti-adjustments-horizontal"></i>Ce qui compose ta récupération</div>
-    <div class="contrib" id="recContrib"></div>
+  <div class="card rcompo">
+    <div class="rch"><span class="ic"><i class="ti ti-activity"></i></span><b>Ce qui compose ta récupération</b><i class="ti ti-chevron-right cv"></i></div>
+    <div id="recContrib"></div>
   </div>
 
-  <div class="card">
-    <div class="ct"><i class="ti ti-moon-stars"></i>Vitaux nocturnes</div>
-    <div class="grid2" id="recVitals" style="gap:10px"></div>
-    <p class="sci" id="recAge" style="margin-top:12px"></p>
+  <div class="card rinsight">
+    <div class="rinic"><i class="ti ti-bolt"></i></div>
+    <div class="rintx" id="recInsight">—</div>
+    <i class="ti ti-chevron-right cv2"></i>
   </div>
 
   <div class="card" id="healthCard"></div>
-
   <div class="card" id="stressCard"></div>
-
   <div class="card">
     <div class="ct"><i class="ti ti-activity-heartbeat"></i>Récupération · 14 jours</div>
     <svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg>
-  </div>
-
-  <div class="card splitc">
-    <div class="left">
-      <div class="ct" style="margin:0"><i class="ti ti-route"></i>Sommeil &amp; Charge</div>
-      <div class="sci" style="margin-top:6px">Tape les anneaux de l'accueil ou ouvre le détail.</div>
-    </div>
-    <div class="rightcol">
-      <button class="qbtn" onclick="go('sleep')"><i class="ti ti-moon"></i>Sommeil</button>
-      <button class="qbtn" onclick="go('load')"><i class="ti ti-bolt"></i>Charge</button>
-    </div>
   </div>
 </div>
 </section>
@@ -2176,11 +2200,13 @@ function flNightScore(k){const t=sensorOf(k||tk());if(!t||t.sleepMin==null)retur
 function flHM(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
 function flDurHM(min){min=Math.max(0,Math.round(min||0));return Math.floor(min/60)+':'+String(min%60).padStart(2,'0')}
 function flEndTime(start,min){if(!start)return '';var p=String(start).split(':');return flHM((+p[0])*60+(+p[1])+(min||0))}
-function flNightRow(k){const nm=sleepNight(k||tk());if(!nm)return '';return '<div class="flact" onclick="openSleepNight()"><div class="tile sleep"><i class="ti ti-moon"></i><b>'+flDurHM(nm.asleep)+'</b></div><div class="nm">Nuit</div><div class="tm"><div class="tt"><span class="t1">'+flHM(nm.bedMin)+'</span><span class="t2">'+flHM(nm.wakeMin)+'</span></div><span class="bar sleep"></span></div></div>'}
+function flRow(opt){var sl=opt.sleep?' sleep':'';var meta=(opt.start?opt.start+(opt.end?' → '+opt.end:''):'')+((opt.start||opt.end)?' · ':'')+opt.tag;var tl=opt.start?'<div class="tl"><span class="s">'+opt.start+'</span><span class="b'+sl+'"></span><span class="e">'+(opt.end||'')+'</span></div>':'<div class="tl"></div>';return '<div class="flact" onclick="'+opt.onc+'"><div class="tile'+sl+'"><i class="ti ti-'+opt.icon+'"></i><b>'+opt.value+'</b></div><div class="md"><div class="nm">'+opt.title+'</div><div class="mt">'+meta+'</div></div>'+tl+'</div>'}
+function flNightRow(k){const nm=sleepNight(k||tk());if(!nm)return '';return flRow({sleep:true,icon:'moon',value:flDurHM(nm.asleep),title:'Nuit',start:flHM(nm.bedMin),end:flHM(nm.wakeMin),tag:'sommeil',onc:'openSleepNight()'})}
 function flRenderActivities(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);
- set('flActMeta',ss.length?ss.length+' activité'+(ss.length>1?'s':'')+' · cumul '+loadStrain(k).toFixed(1).replace('.',','):'');
  const nightHTML=flNightRow(k);
- const dayHTML=ss.map((s,i)=>{const nap=s.type==='nap';const oi=nap?-1:ss.slice(0,i+1).filter(x=>x.type!=='nap').length-1;const ic=nap?'moon':flActIcon(s.name,nap);const val=nap?flDurHM(s.dur):actStrain(s).toFixed(1).replace('.',',');const tcls=nap?' sleep':'';const start=s.start||'';const end=start?flEndTime(start,s.dur):'';const onc=nap?'openNapDetail('+i+')':'openActivity('+oi+')';return '<div class="flact" onclick="'+onc+'"><div class="tile'+tcls+'"><i class="ti ti-'+ic+'"></i><b>'+val+'</b></div><div class="nm">'+(s.name||'Séance')+'</div><div class="tm"><div class="tt"><span class="t1">'+start+'</span><span class="t2">'+end+'</span></div><span class="bar'+tcls+'"></span></div></div>'}).join('');
+ const nRows=(nightHTML?1:0)+ss.length;
+ set('flActMeta',nRows?nRows+' entrée'+(nRows>1?'s':'')+' · cumul '+loadStrain(k).toFixed(1).replace('.',','):'');
+ const dayHTML=ss.map((s,i)=>{const nap=s.type==='nap';const oi=nap?-1:ss.slice(0,i+1).filter(x=>x.type!=='nap').length-1;const start=s.start||'';return flRow({sleep:nap,icon:nap?'moon':flActIcon(s.name,nap),value:nap?flDurHM(s.dur):actStrain(s).toFixed(1).replace('.',','),title:(s.name||'Séance'),start:start,end:start?flEndTime(start,s.dur):'',tag:nap?'sommeil':(s.auto?'auto':'manuel'),onc:nap?'openNapDetail('+i+')':'openActivity('+oi+')'})}).join('');
  set('flActList',(nightHTML+dayHTML)||'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
 function flWkData(range){var out=[];
  if(range==='4S'||range==='12S'){var weeks=range==='4S'?4:12;for(var w=weeks-1;w>=0;w--){var sum=0;for(var j=0;j<7;j++)sum+=loadStrain(tk(gDay-(w*7+j)));var dd=new Date();dd.setDate(dd.getDate()+gDay-w*7);out.push({lab:dd.getDate()+'/'+(dd.getMonth()+1),v:+(sum/7).toFixed(1)})}}
@@ -2364,12 +2390,24 @@ function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName'
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 
 /* ---------- RÉCUP ---------- */
-function renderRecovery(){renderHealth();renderStress();const rv=recovery();if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,170,'RÉCUP','','var(--faint)','—');set('recZone','PAS DE DONNÉES');set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recContrib','');set('recVitals','');set('recAge','');return}
- document.getElementById('recRing').innerHTML=ringHTML(rv.s,168,'','',rv.color,rv.s+'%');set('recZone',rv.zone);document.getElementById('recZone').style.color=rv.color;set('recReco',rv.reco);
- set('recContrib',rv.c.map(c=>{const col=c[2]>0.2?'var(--green)':c[2]<-0.2?'var(--accent)':'var(--faint)';return '<div class="cbar"><span class="cl">'+c[0]+'</span><span class="cn">'+c[1]+'</span><span class="ctrack"><span class="cfill" style="width:'+Math.round(Math.max(0,Math.min(1,0.5+c[2]/4))*100)+'%;background:'+col+'"></span></span></div>'}).join(''));
- const vit=[['HRV',rv.today.hrv,'ms',rv.bH,1],['FC repos',rv.today.rhr,'bpm',rv.bR,-1],['Respiration',rv.today.resp,'/min',rv.bP,-1]];
- set('recVitals',vit.filter(v=>v[1]!=null).map(v=>{const b=v[3];let st='✓',col='var(--green)',rng='';if(b){const lo=Math.round((b.m-b.sd)*10)/10,hi=Math.round((b.m+b.sd)*10)/10;rng='normale '+lo+'–'+hi;const dev=(v[1]-b.m)/b.sd,fav=v[4]>0?dev>=-0.5:dev<=0.5;st=fav?'✓':'!';col=fav?'var(--green)':'var(--accent)'}return '<div class="stat"><div class="sl">'+v[0]+' <span style="color:'+col+'">'+st+'</span></div><div class="sv">'+v[1]+'<small style="font-size:13px;font-weight:700;color:var(--ink2)"> '+v[2]+'</small></div><div class="ss">'+rng+'</div></div>'}).join(''));
- const age=fitnessAge();set('recAge',age?'🫀 Âge physiologique <b>'+age+' ans</b>':'');
+function renderRecovery(){renderHealth();renderStress();const rv=recovery();
+ var pe=document.getElementById('recPill');
+ if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recContrib','');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';return}
+ if(pe)pe.style.display='';
+ var rc=rv.s>=67?'#3FB57A':rv.s>=34?'#F2A93B':'#F0492E',rcl=rv.s>=67?'#EFF6E7':rv.s>=34?'#FBF1DD':'#FBEAE5';
+ document.getElementById('recRing').innerHTML=ringHTML(rv.s,132,'','',rv.color,rv.s+'%');
+ set('recZone',rv.zone);document.getElementById('recZone').style.color=rc;set('recReco',rv.reco);
+ set('recPillT',rv.s>=67?'Très bon état':rv.s>=34?'État correct':'À surveiller');
+ if(pe){pe.style.color=rc;pe.style.borderColor=rc+'55';var dot=pe.querySelector('.d');if(dot)dot.style.background=rc}
+ var rule=document.querySelector('#v-recovery .rhrule');if(rule)rule.style.background=rc;
+ var ic=document.querySelector('#v-recovery .rch .ic');if(ic){ic.style.background=rcl;ic.style.color=rc}
+ var t=rv.today,need=(getProfile().need||8)*60,cl=function(x){return Math.max(.04,Math.min(1,x))};
+ function fH(){return (!rv.bH||t.hrv==null)?.72:cl((t.hrv-(rv.bH.m-2*rv.bH.sd))/(4*rv.bH.sd))}
+ function fR(){return (!rv.bR||t.rhr==null)?.72:cl(((rv.bR.m+2*rv.bR.sd)-t.rhr)/(4*rv.bR.sd))}
+ function fP(){return (!rv.bP||t.resp==null)?.72:cl(((rv.bP.m+2*rv.bP.sd)-t.resp)/(4*rv.bP.sd))}
+ var rows=[['ti-activity','HRV',t.hrv!=null?t.hrv+' ms':'—',fH()],['ti-heart','FC repos',t.rhr!=null?t.rhr+' bpm':'—',fR()],['ti-moon','Sommeil',t.sleepMin!=null?(t.sleepMin/60).toFixed(1).replace('.',',')+' h':'—',cl(t.sleepMin/need)],['ti-lungs','Respiration',t.resp!=null?t.resp+' /min':'—',fP()]];
+ set('recContrib',rows.map(function(r){return '<div class="rrow"><span class="rric" style="background:'+rcl+';color:'+rc+'"><i class="ti '+r[0]+'"></i></span><span class="rrl">'+r[1]+'</span><span class="rrv">'+r[2]+'</span><span class="rrtrack"><span class="rrfill" style="width:'+Math.round(r[3]*100)+'%;background:linear-gradient(90deg,'+rc+'cc,'+rc+')"></span></span></div>'}).join(''));
+ set('recInsight',rv.s>=67?'HRV élevée et FC repos basse : ton système est prêt à encaisser une charge utile.':rv.s>=34?'Signaux corrects. Une charge modérée est le bon dosage aujourd\'hui.':'HRV basse et FC repos haute : ton corps réclame du repos. Lève le pied aujourd\'hui.');
  document.getElementById('recTrend').innerHTML=areaSVG(seriesBack(null,14,k=>DB.get('recov_'+k,null)),300,70,rv.color,{avg:true,labels:[[0,'−14j','start'],[13,'auj.','end']]})}
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
 
@@ -2942,7 +2980,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v76';
+const APP_VERSION='flint-v79';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
