@@ -33,6 +33,8 @@
   .disp{font-family:var(--disp);font-weight:400;letter-spacing:.01em}
   header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
     padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
+  header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
+  header.has-title .logo{height:17px !important}
   header .logo{height:21px;width:auto;display:block}
   header .hdright{display:flex;align-items:center;gap:11px}
   header .av{width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center;font-size:18px;font-weight:800;cursor:pointer;overflow:hidden;background-size:cover;background-position:center}
@@ -595,6 +597,49 @@
 .flrecovery .rinic{width:46px;height:46px;border-radius:50%;background:#FBEAE5;display:grid;place-items:center;color:#E8674A;font-size:22px;flex:none}
 .flrecovery .rintx{flex:1;font-size:14.5px;line-height:1.42;color:#37372F;font-weight:600;min-width:0}
 .flrecovery .rinsight .cv2{color:#C9C5BC;font-size:20px;flex:none}
+
+/* ---- Vitaux nocturnes (tuiles) + Health Monitor (maquette) ---- */
+.flrecovery .rvit,.flrecovery .rhealth{padding:18px 16px}
+.flrecovery .rvh{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.flrecovery .rvh .ic{color:#E8674A;font-size:22px;display:grid;place-items:center}
+.flrecovery .rvh b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512;font-weight:400}
+.flrecovery .vgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px}
+.flrecovery .vtile{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:18px;padding:14px;min-width:0;overflow:hidden}
+.flrecovery .vtile .vt{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.flrecovery .vtile .vti{width:34px;height:34px;border-radius:50%;background:#FBEAE5;display:grid;place-items:center;color:#E8674A;font-size:17px;flex:none}
+.flrecovery .vtile .vtl{flex:1;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#7A756E;line-height:1.05}
+.flrecovery .vtile .tck{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex:none}
+.flrecovery .vtile .tck.ok{background:#E7F4E2;color:#3FB57A}
+.flrecovery .vtile .tck.bad{background:#FBEAE5;color:#E8674A}
+.flrecovery .vtile .vv{font-family:'Anton';font-style:italic;font-size:34px;line-height:.9;color:#161512;display:flex;align-items:baseline;gap:5px}
+.flrecovery .vtile .vv small{font-family:'Inter';font-style:normal;font-size:14px;font-weight:700;color:#9A988F}
+.flrecovery .vtile .vrng{font-size:12px;color:#9A988F;margin-top:7px}
+.flrecovery .vtile .vverdict{font-size:14px;font-weight:800;margin-top:6px}
+.flrecovery .vtile .vsl{position:relative;height:6px;border-radius:5px;background:#F2DAD0;margin-top:10px}
+.flrecovery .vtile .vsl .band{position:absolute;top:0;height:100%;border-radius:5px;background:#F6C0AE}
+.flrecovery .vtile .vsl .dot{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#E8674A;border:2px solid #fff;box-shadow:0 1px 3px rgba(232,103,74,.5);transform:translate(-50%,-50%)}
+.flrecovery .vtile .vlh{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;font-weight:700;color:#9A988F}
+.flrecovery .vglob{display:flex;align-items:center;gap:13px;width:100%;text-align:left;margin-top:12px;background:#FBF6F0;border:1px solid #F1EBE3;border-radius:16px;padding:13px 14px;cursor:pointer;font-family:inherit}
+.flrecovery .vglob .gi{width:42px;height:42px;border-radius:50%;background:#FBEAE5;display:grid;place-items:center;color:#E8674A;font-size:20px;flex:none}
+.flrecovery .vglob .gt{flex:1;min-width:0}
+.flrecovery .vglob .gt b{display:block;font-size:15px;font-weight:800;color:#161512}
+.flrecovery .vglob .gt span{font-size:13px;color:#7A756E}
+.flrecovery .vglob .gc{color:#C9C5BC;font-size:20px;flex:none}
+.flrecovery .hmr{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #F1EBE3}
+.flrecovery .hmr:first-of-type{border-top:0}
+.flrecovery .hmr .hi{color:#E8674A;font-size:19px;width:24px;text-align:center;flex:none}
+.flrecovery .hmr .hl{flex:1;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13.5px;letter-spacing:.3px;color:#37372F}
+.flrecovery .hmr .hv{font-size:14.5px;font-weight:800;color:#161512;white-space:nowrap}
+.flrecovery .hmr .hv.muted{font-weight:600;color:#9A988F}
+.flrecovery .hmr .hs{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex:none}
+.flrecovery .hmr .hs.ok{background:#E7F4E2;color:#3FB57A}
+.flrecovery .hmr .hs.bad{background:#FBEAE5;color:#E8674A}
+.flrecovery .hmr .hs.none{background:#F0ECE4;color:#B7B2AA}
+.flrecovery .hmleg{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:14px;padding:12px 14px;background:#FBF8F2;border-radius:14px}
+.flrecovery .hmleg>span{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#7A756E}
+.flrecovery .hmleg .hs{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+.flrecovery .hmleg .hs.ok{background:#E7F4E2;color:#3FB57A}
+.flrecovery .hmleg .hs.bad{background:#FBEAE5;color:#E8674A}
 
 /* ---- Health Monitor : lignes ---- */
 .flrecovery .hm{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
@@ -1322,6 +1367,50 @@
 .flslhome .shlasth b{font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#9A988F}
 .flslhome .shlasth i{color:#C9C5BC;font-size:18px}
 .flslhome .shlast svg{width:100%;height:auto;display:block}
+/* ===== SOMMEIL — page maquette ===== */
+.flsleep.slx{padding:2px 2px 20px}
+.slx .slx-badgerow{text-align:right;margin-bottom:2px}
+.slx .slx-badge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:9px 15px;font-size:14px;font-weight:600;color:#161512;box-shadow:0 4px 14px rgba(22,21,18,.05)}
+.slx .slx-badge i{color:#7D6FE0;font-size:17px}
+.slx .slx-badge b{font-weight:700}
+.slx .card{background:#fff;border:1px solid #F1EBE3;border-radius:24px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 10px 26px rgba(20,18,12,.045);margin:14px 0}
+.slx .slx-main{padding:26px 20px 16px}
+.slx .slx-ringwrap{position:relative;width:250px;max-width:80%;margin:4px auto 0;aspect-ratio:1}
+.slx .slx-ring svg{width:100%;height:auto;display:block}
+.slx .slx-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.slx .slx-rc .mn{color:#7D6FE0;font-size:30px;line-height:1;margin-bottom:8px}
+.slx .slx-rc .vv{font-family:'Anton';font-style:italic;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
+.slx .slx-rc .ll{font-size:16px;font-weight:500;color:#8F8982;margin-top:4px}
+.slx .slx-coach{text-align:center;margin:18px 0 2px}
+.slx .slx-coach b{display:block;font-size:21px;font-weight:800;color:#161512}
+.slx .slx-coach span{font-size:15px;color:#8F8982}
+.slx .slx-stages{border-top:1px solid #F1EBE3;margin-top:16px}
+.slx .slx-stages .row{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:14px;padding:11px 2px;border-bottom:1px solid #F4EEE6}
+.slx .slx-stages .row:last-child{border-bottom:0}
+.slx .slx-stages .dot{width:13px;height:13px;border-radius:50%}
+.slx .slx-stages .nm{font-size:16px;font-weight:700;color:#161512}
+.slx .slx-stages .pc{font-size:16px;font-weight:800;color:#161512;text-align:right;font-variant-numeric:tabular-nums}
+.slx .slx-stages .tm{font-size:15px;font-weight:600;color:#8F8982;width:52px;text-align:right;font-variant-numeric:tabular-nums}
+.slx .slx-time{display:grid;grid-template-columns:1fr 1fr;padding:18px 8px}
+.slx .slx-th{display:flex;align-items:center;justify-content:center;gap:13px}
+.slx .slx-th+.slx-th{border-left:1px solid #F1EBE3}
+.slx .slx-th .ic{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:23px;background:#EFEAFB;color:#7D6FE0;flex:none}
+.slx .slx-th .tt .l{display:block;font-size:14px;font-weight:600;color:#8F8982;margin-bottom:2px}
+.slx .slx-th .tt b{font-family:'Anton';font-style:italic;font-size:26px;color:#161512;line-height:1}
+.slx .slx-q{padding:18px 20px}
+.slx .slx-qhd{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9A988F;margin-bottom:8px}
+.slx .slx-qv{font-family:'Anton';font-style:italic;font-size:40px;color:#161512;line-height:1}
+.slx .slx-qv small{font-family:'Inter';font-style:normal;font-size:18px;font-weight:700;color:#B9B4AE}
+.slx .slx-qbar{height:9px;border-radius:6px;background:#ECE7DF;overflow:hidden;margin:13px 0}
+.slx .slx-qbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5B43E0,#B45CE8);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.slx .slx-qc{font-size:17px;font-weight:800;color:#161512}
+.slx .slx-insight{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;font-family:inherit;padding:16px 18px}
+.slx .slx-insight:active{transform:scale(.99)}
+.slx .slx-insight .ii{width:52px;height:52px;border-radius:50%;background:#FBE6DE;color:#E8674A;display:grid;place-items:center;font-size:24px;flex:none}
+.slx .slx-insight .it{flex:1;min-width:0}
+.slx .slx-insight .it b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512}
+.slx .slx-insight .it p{margin:4px 0 0;font-size:14.5px;line-height:1.4;color:#8F8982}
+.slx .slx-insight .cv{color:#C9C5BC;font-size:22px;flex:none}
 /* ===== Tendances calories — inspection tactile ===== */
 .flcal .caltop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 0 16px}
 .flcal .caltop .caltt{flex:1;text-align:center;font-size:14px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:#161512}
@@ -1469,6 +1558,7 @@ header{padding:11px 16px 7px}
 <body>
 <header>
   <img class="logo" src="logo.png" alt="FLINT" onclick="go('today')" style="height:24px">
+  <div class="hdtitle" id="hdTitle"></div>
   <!-- avatar : photo démo ; Félix branche la vraie photo/initiale du user -->
   <div class="hdright">
     <div class="av" id="avatar" onclick="go('profile')" style="background:url('https://randomuser.me/api/portraits/men/32.jpg') center/cover;color:transparent">A</div>
@@ -1653,35 +1743,41 @@ header{padding:11px 16px 7px}
     <i class="ti ti-chevron-right cv2"></i>
   </div>
 
-  <div class="card" id="healthCard"></div>
-  <div class="card" id="stressCard"></div>
-  <div class="card">
-    <div class="ct"><i class="ti ti-activity-heartbeat"></i>Récupération · 14 jours</div>
-    <svg class="spark" id="recTrend" viewBox="0 0 300 70" preserveAspectRatio="none" style="height:70px"></svg>
-  </div>
+  <div class="card rvit" id="vitauxCard"></div>
+  <div class="card rhealth" id="healthCard"></div>
 </div>
 </section>
 
 <!-- ===================== SOMMEIL ===================== -->
 <section class="view" id="v-sleep">
-<div class="flsleep flslhome">
-  <div class="shtop"><span class="shmenu"><i class="ti ti-menu-2"></i></span><div class="shtit">Sommeil</div><div class="shbadge"><i class="ti ti-moon"></i><span id="shStreak">—</span></div></div>
+<div class="flsleep slx">
+  <div class="slx-badgerow"><span class="slx-badge"><i class="ti ti-moon"></i> <b id="shStreak">26</b> nuits</span></div>
 
-  <button class="shring" type="button" onclick="openTrend('sl_heures')">
-    <div class="shringwrap"><div id="shRing"></div><div class="shrc"><span class="mn"><i class="ti ti-moon"></i></span><div class="vv" id="shHours">—</div><div class="ll">Heures de sommeil</div></div></div>
-    <div class="shcoach"><b>Nuit correcte.</b><span>Tu peux viser un peu plus long.</span></div>
-  </button>
-
-  <div class="shtime">
-    <span class="sht"><i class="ti ti-moon"></i><b id="shBed">—</b><i class="lab2">Coucher</i></span>
-    <span class="sht r"><i class="lab2">Réveil</i><b id="shWake">—</b><i class="ti ti-sun"></i></span>
+  <div class="card slx-main">
+    <div class="slx-ringwrap">
+      <div id="shRing" class="slx-ring"></div>
+      <div class="slx-rc"><span class="mn"><i class="ti ti-moon-stars"></i></span><div class="vv" id="shHours">—</div><div class="ll">Heures de sommeil</div></div>
+    </div>
+    <div class="slx-coach"><b id="shCoachT">Nuit correcte.</b><span id="shCoachS">Tu peux viser un peu plus long.</span></div>
+    <div class="slx-stages" id="shStages"></div>
   </div>
 
-  <div class="card shmet" id="shMet"></div>
+  <div class="card slx-time">
+    <div class="slx-th"><div class="ic ic-bed"><i class="ti ti-bed"></i></div><div class="tt"><span class="l">Coucher</span><b id="shBed">—</b></div></div>
+    <div class="slx-th"><div class="ic ic-sun"><i class="ti ti-sunrise"></i></div><div class="tt"><span class="l">Réveil</span><b id="shWake">—</b></div></div>
+  </div>
 
-  <button class="card shlast" type="button" onclick="openSleepNight()">
-    <div class="shlasth"><b>Dernières nuits</b><i class="ti ti-chevron-right"></i></div>
-    <div id="shLastChart"></div>
+  <div class="card slx-q">
+    <div class="slx-qhd">Qualité du sommeil</div>
+    <div class="slx-qv" id="shScore">—</div>
+    <div class="slx-qbar"><i id="shScoreBar"></i></div>
+    <div class="slx-qc" id="shScoreC">Nuit correcte.</div>
+  </div>
+
+  <button class="card slx-insight" type="button" onclick="openSleepNight()">
+    <div class="ii"><i class="ti ti-bolt"></i></div>
+    <div class="it"><b>FLINT INSIGHT</b><p id="shInsight">Viser 30–60 min de sommeil en plus pour booster ta récupération.</p></div>
+    <i class="ti ti-chevron-right cv"></i>
   </button>
 </div>
 </section>
@@ -2165,7 +2261,7 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd)_hd.classList.toggle('has-title',!!_tt)}({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -2178,9 +2274,38 @@ function sleepConsistency(){const a=[];for(let i=0;i<5;i++){const s=sensorOf(tk(
 function sleepSubscores(t){const need=(getProfile().need||8)*60;return [['Suffisance',Math.min(100,Math.round(t.sleepMin/need*100))],['Efficacité',t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):null],['Réparateur',Math.round((t.deep+t.rem)/Math.max(1,t.sleepMin)*100)],['Régularité',sleepConsistency()]]}
 function stressLevel(){const bH=baseStat('hrv'),t=sensorOf(tk());if(!bH||!t||t.hrv==null)return null;const z=(t.hrv-bH.m)/bH.sd;return Math.max(0,Math.min(3,+(1.5-z*0.85).toFixed(1)))}
 function drawStress(){const lv=stressLevel();if(lv==null)return '';const W=300,H=60;let p='M0 '+H;for(let i=0;i<=24;i++){const hr=i,base=lv*(0.6+0.4*Math.sin((hr-9)/24*Math.PI*2));const y=H-8-Math.max(0,Math.min(3,base))/3*(H-16);p+=' L'+(i/24*W).toFixed(1)+' '+y.toFixed(1)}return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px"><path d="'+p+' L'+W+' '+H+' Z" fill="rgba(240,73,46,.12)"/><path d="'+p.replace(/^M0 \d+/,'M0 '+(H-8))+'" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>'}
-function renderHealth(){const host=document.getElementById('healthCard');if(!host)return;const t=sensorOf(tk());if(!t){host.innerHTML='<div class="ct">Health Monitor</div><p class="sci">Connecte ton capteur.</p>';return}
- const rows=[['HRV',t.hrv,'ms',baseStat('hrv'),1],['FC repos',t.rhr,'bpm',baseStat('rhr'),-1],['Fréquence resp.',t.resp,'/min',baseStat('resp'),-1],['Oxygène (SpO₂)',t.spo2,'%',null,1],['Temp. de peau',t.skinTemp,'°',null,1]];
- host.innerHTML='<div class="ct">Health Monitor</div>'+rows.map(v=>{if(v[1]==null)return '<div class="hm"><span class="hl">'+v[0]+'</span><span class="hv" style="color:var(--faint)">non mesuré (Polar Loop)</span></div>';const b=v[3];let st='✓',col='var(--green)';if(b){const dev=(v[1]-b.m)/b.sd,fav=v[4]>0?dev>=-0.6:dev<=0.6;st=fav?'✓':'!';col=fav?'var(--green)':'var(--accent)'}return '<div class="hm"><span class="hl">'+v[0]+'</span><span class="hv">'+v[1]+' '+v[2]+' <span style="color:'+col+';font-weight:900">'+st+'</span></span></div>'}).join('')+'<p class="sci" style="margin-top:8px">✓ dans ta plage normale · ! hors plage (signal à surveiller).</p>'}
+function renderHealth(){var host=document.getElementById('healthCard');if(!host)return;var t=sensorOf(tk());
+ if(!t){host.innerHTML='<div class="rvh"><span class="ic"><i class="ti ti-activity"></i></span><b>Health Monitor</b></div><p class="sci">Connecte ton capteur.</p>';return}
+ var rows=[['ti-heartbeat','HRV',t.hrv,'ms',baseStat('hrv'),1],['ti-heart','FC repos',t.rhr,'bpm',baseStat('rhr'),-1],['ti-lungs','Fréquence resp.',t.resp,'/min',baseStat('resp'),-1],['ti-droplet','Oxygène (SpO₂)',t.spo2,'%',null,1],['ti-temperature','Temp. de peau',t.skinTemp,'°',null,1]];
+ var body=rows.map(function(v){
+  if(v[2]==null)return '<div class="hmr"><span class="hi"><i class="ti '+v[0]+'"></i></span><span class="hl">'+v[1]+'</span><span class="hv muted">non mesuré (Polar Loop)</span><span class="hs none"><i class="ti ti-minus"></i></span></div>';
+  var b=v[4],fav=true;if(b){var dev=(v[2]-b.m)/b.sd;fav=v[5]>0?dev>=-0.6:dev<=0.6;}
+  return '<div class="hmr"><span class="hi"><i class="ti '+v[0]+'"></i></span><span class="hl">'+v[1]+'</span><span class="hv">'+v[2]+' '+v[3]+'</span><span class="hs '+(fav?'ok':'bad')+'"><i class="ti ti-'+(fav?'check':'alert-triangle')+'"></i></span></div>';
+ }).join('');
+ host.innerHTML='<div class="rvh"><span class="ic"><i class="ti ti-activity"></i></span><b>Health Monitor</b></div>'+body+'<div class="hmleg"><span><span class="hs ok"><i class="ti ti-check"></i></span>Dans la plage normale</span><span><span class="hs bad"><i class="ti ti-alert-triangle"></i></span>Hors plage (signal à surveiller)</span></div>';}
+function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)return;var t=sensorOf(tk());
+ var H='<div class="rvh"><span class="ic"><i class="ti ti-moon-stars"></i></span><b>Vitaux nocturnes</b></div>';
+ if(!t||t.hrv==null){host.innerHTML=H+'<p class="sci" style="padding:4px 2px">En attente de ta nuit.</p>';return}
+ function r1(x){return Math.round(x*10)/10}
+ function tile(icon,label,val,unit,b,higher){
+  var lo,hi,dotPct=50,bandL=28,bandW=44,fav=true,sl='';
+  if(b&&val!=null){lo=b.m-b.sd;hi=b.m+b.sd;var span=(hi-lo)||1,smin=lo-span*0.6,smax=hi+span*0.6;dotPct=Math.max(5,Math.min(95,(val-smin)/(smax-smin)*100));bandL=(lo-smin)/(smax-smin)*100;bandW=(hi-lo)/(smax-smin)*100;var dev=(val-b.m)/b.sd;fav=higher?dev>=-0.6:dev<=0.6;
+   sl='<div class="vsl"><span class="band" style="left:'+bandL.toFixed(0)+'%;width:'+bandW.toFixed(0)+'%"></span><span class="dot" style="left:'+dotPct.toFixed(0)+'%"></span></div><div class="vlh"><span>'+r1(lo)+'</span><span>'+r1(hi)+'</span></div>';}
+  var rng=b&&val!=null?'normale '+r1(lo)+'–'+r1(hi):'';
+  var chk='<span class="tck '+(fav?'ok':'bad')+'"><i class="ti ti-'+(fav?'check':'alert-triangle')+'"></i></span>';
+  return '<div class="vtile"><div class="vt"><span class="vti"><i class="ti '+icon+'"></i></span><span class="vtl">'+label+'</span>'+chk+'</div><div class="vv"><b>'+(val!=null?val:'—')+'</b><small>'+unit+'</small></div><div class="vrng">'+rng+'</div>'+sl+'</div>';
+ }
+ var age=fitnessAge(),uAge=getProfile().age||28,verdict,vtxt,vcol;
+ if(age==null){verdict='—';vtxt='';vcol='#9A988F';}
+ else if(age<=uAge-3){verdict='Excellent';vtxt='Ton corps récupère très bien.';vcol='#2E7D32';}
+ else if(age<=uAge+3){verdict='Bon';vtxt='Récupération dans la norme.';vcol='#9A8038';}
+ else{verdict='À surveiller';vtxt='Pense à plus de repos.';vcol='#C0492C';}
+ var ageTile='<div class="vtile"><div class="vt"><span class="vti"><i class="ti ti-user"></i></span><span class="vtl">Âge physiologique</span></div><div class="vv"><b>'+(age!=null?age:'—')+'</b><small>ans</small></div><div class="vverdict" style="color:'+vcol+'">'+verdict+'</div><div class="vrng" style="margin-top:2px">'+vtxt+'</div></div>';
+ var grid='<div class="vgrid">'+tile('ti-heartbeat','HRV',t.hrv,'ms',baseStat('hrv'),true)+tile('ti-heart','FC repos',t.rhr,'bpm',baseStat('rhr'),false)+tile('ti-lungs','Respiration',t.resp,'/min',baseStat('resp'),false)+ageTile+'</div>';
+ var out=0;[['hrv',t.hrv,true],['rhr',t.rhr,false],['resp',t.resp,false]].forEach(function(v){var b=baseStat(v[0]);if(b&&v[1]!=null){var dev=(v[1]-b.m)/b.sd,fav=v[2]?dev>=-0.6:dev<=0.6;if(!fav)out++;}});
+ var stable=out===0;
+ var banner='<button class="vglob" type="button"><span class="gi"><i class="ti ti-'+(stable?'shield-check':'alert-triangle')+'"></i></span><span class="gt"><b>'+(stable?'Lecture globale stable':'Signal à surveiller')+'</b><span>'+(stable?'Aucun signal critique détecté cette nuit.':out+' vital'+(out>1?'aux':'')+' hors plage cette nuit.')+'</span></span><i class="ti ti-chevron-right gc"></i></button>';
+ host.innerHTML=H+grid+banner;}
 function renderStress(){const host=document.getElementById('stressCard');if(!host)return;const lv=stressLevel();if(lv==null){host.innerHTML='<div class="ct">Stress du jour</div><p class="sci">En attente de données.</p>';return}const lbl=lv<1?'Bas':lv<2?'Modéré':'Élevé';host.innerHTML='<div class="ct">Stress du jour</div><div class="row" style="align-items:flex-end;gap:12px"><div><span class="big" style="font-size:34px;color:var(--accent)">'+lv.toFixed(1)+'</span><span class="eyebrow"> / 3</span><div class="eyebrow" style="margin-top:2px">'+lbl+'</div></div><div style="flex:1">'+drawStress()+'</div></div>'}
 const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
 function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr()}
@@ -2390,7 +2515,7 @@ function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName'
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 
 /* ---------- RÉCUP ---------- */
-function renderRecovery(){renderHealth();renderStress();const rv=recovery();
+function renderRecovery(){renderHealth();renderVitaux();const rv=recovery();
  var pe=document.getElementById('recPill');
  if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recContrib','');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';return}
  if(pe)pe.style.display='';
@@ -2408,7 +2533,7 @@ function renderRecovery(){renderHealth();renderStress();const rv=recovery();
  var rows=[['ti-activity','HRV',t.hrv!=null?t.hrv+' ms':'—',fH()],['ti-heart','FC repos',t.rhr!=null?t.rhr+' bpm':'—',fR()],['ti-moon','Sommeil',t.sleepMin!=null?(t.sleepMin/60).toFixed(1).replace('.',',')+' h':'—',cl(t.sleepMin/need)],['ti-lungs','Respiration',t.resp!=null?t.resp+' /min':'—',fP()]];
  set('recContrib',rows.map(function(r){return '<div class="rrow"><span class="rric" style="background:'+rcl+';color:'+rc+'"><i class="ti '+r[0]+'"></i></span><span class="rrl">'+r[1]+'</span><span class="rrv">'+r[2]+'</span><span class="rrtrack"><span class="rrfill" style="width:'+Math.round(r[3]*100)+'%;background:linear-gradient(90deg,'+rc+'cc,'+rc+')"></span></span></div>'}).join(''));
  set('recInsight',rv.s>=67?'HRV élevée et FC repos basse : ton système est prêt à encaisser une charge utile.':rv.s>=34?'Signaux corrects. Une charge modérée est le bon dosage aujourd\'hui.':'HRV basse et FC repos haute : ton corps réclame du repos. Lève le pied aujourd\'hui.');
- document.getElementById('recTrend').innerHTML=areaSVG(seriesBack(null,14,k=>DB.get('recov_'+k,null)),300,70,rv.color,{avg:true,labels:[[0,'−14j','start'],[13,'auj.','end']]})}
+}
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
 
 /* ---------- SOMMEIL ---------- */
@@ -2426,24 +2551,34 @@ function shLastSVG(){var W=320,H=140,padB=28,top=14,n=7,arr=[];for(var i=6;i>=0;
  });
  return s+'</svg>';
 }
+function slDonutSVG(stages){var size=240,r=98,sw=16,cx=size/2,cy=size/2,C=2*Math.PI*r;
+ var tot=stages.reduce(function(a,s){return a+s.v},0)||1,gap=C*0.026,acc=0,segs='';
+ stages.forEach(function(s){var frac=s.v/tot,len=Math.max(0.5,frac*C-gap);
+  segs+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+s.color+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-acc).toFixed(2)+'" transform="rotate(-90 '+cx+' '+cy+')"/>';
+  acc+=frac*C});
+ return '<svg viewBox="0 0 '+size+' '+size+'">'+segs+'</svg>'}
 function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
  function ft(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
- var stk=recovStreak();set('shStreak',stk||26);
- if(!t||t.sleepMin==null){window._sleepScore=null;set('shHours','—');var rg0=document.getElementById('shRing');if(rg0)rg0.innerHTML=shRingSVG(0);set('shBed','—');set('shWake','—');set('shMet','<p class="sci" style="padding:8px 4px;color:#9A988F">Connecte ta Polar Loop — ton analyse s\'affiche après la nuit portée.</p>');set('shLastChart','');return}
+ set('shStreak',recovStreak()||26);
+ var rg=document.getElementById('shRing');
+ if(!t||t.sleepMin==null){window._sleepScore=null;set('shHours','—');if(rg)rg.innerHTML=slDonutSVG([{v:1,color:'#ECE7DF'}]);set('shBed','—');set('shWake','—');set('shStages','');set('shScore','—');var sb0=document.getElementById('shScoreBar');if(sb0)sb0.style.width='0%';set('shCoachT','Pas de données');set('shCoachS','Connecte ta Polar Loop.');set('shScoreC','—');set('shInsight','Branche ta Polar Loop pour analyser tes nuits.');return}
  var nm=sleepNight(tk());
- var heures=Math.min(100,Math.round(t.sleepMin/need*100)),eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):heures,regul=sleepConsistency()||75;
- window._sleepScore=Math.round(heures*0.5+eff*0.3+regul*0.2);
  set('shHours',hhmm(t.sleepMin));
- var rg=document.getElementById('shRing');if(rg)rg.innerHTML=shRingSVG(t.sleepMin/need);
+ var stages=[{k:'Réveil',v:nm.awake,color:'#F4A98A'},{k:'Léger',v:nm.light,color:'#A9A6F5'},{k:'Profond',v:nm.deep,color:'#5B47E0'},{k:'REM',v:nm.rem,color:'#B45CE8'}];
+ if(rg)rg.innerHTML=slDonutSVG(stages);
+ var tot=(nm.awake+nm.light+nm.deep+nm.rem)||1;
+ set('shStages',stages.map(function(s){return '<div class="row"><span class="dot" style="background:'+s.color+'"></span><span class="nm">'+s.k+'</span><span class="pc">'+Math.round(s.v/tot*100)+' %</span><span class="tm">'+hhmm(s.v)+'</span></div>'}).join(''));
  set('shBed',ft(nm.bedMin));set('shWake',ft(nm.wakeMin));
- var tot=(nm.deep+nm.rem+nm.light+nm.awake)||1,repair=Math.round((nm.deep+nm.rem)/tot*100);
- var phases=[['Réveil',nm.awake,'#B9B4AE'],['Léger',nm.light,'#A99AF7'],['Sol profond',nm.deep,'#E78AE7'],['SP',nm.rem,'#8E63E9']];
- var html='<button class="shrow shrepair" type="button" onclick="openTrend(\'sl_repair\')"><span class="ic"><i class="ti ti-sparkles"></i></span><span class="lb">Sommeil réparateur</span><span class="vl"><b>'+repair+' %</b></span><i class="ti ti-chevron-right cv"></i></button>';
- html+=phases.map(function(p){return '<div class="shrow"><span class="dot" style="background:'+p[2]+'"></span><span class="lb">'+p[0]+'</span><span class="vl"><b>'+Math.round(p[1]/tot*100)+' %</b><span class="sd">'+hhmm(p[1])+'</span></span></div>'}).join('');
- html+='<button class="shrow shfc" type="button" onclick="openTrend(\'sl_fcnoct\')"><span class="ic fc"><i class="ti ti-heart"></i></span><span class="lb">FC nocturne</span><span class="vl"><b>'+(nm.rhr!=null?nm.rhr:'—')+' bpm</b></span><i class="ti ti-chevron-right cv"></i></button>';
- set('shMet',html);
- set('shLastChart',shLastSVG());
+ var heures=Math.min(100,Math.round(t.sleepMin/need*100)),eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):heures,regul=sleepConsistency()||75;
+ var score=Math.round(heures*0.5+eff*0.3+regul*0.2);window._sleepScore=score;
+ set('shScore',score+'<small> / 100</small>');
+ var sb=document.getElementById('shScoreBar');if(sb)sb.style.width=Math.max(4,Math.min(100,score))+'%';
+ var verdict=score>=80?'Excellente nuit.':score>=60?'Nuit correcte.':score>=40?'Nuit légère.':'Nuit courte.';
+ set('shCoachT',verdict);set('shScoreC',verdict);
+ set('shCoachS',t.sleepMin<need-30?'Tu peux viser un peu plus long.':t.sleepMin>need+30?'Beau volume de sommeil.':'Tu es dans ta cible.');
+ var deficit=Math.round((need-t.sleepMin)/15)*15;
+ set('shInsight',deficit>0?'Viser '+deficit+'–'+(deficit+30)+' min de sommeil en plus pour booster ta récupération.':'Continue comme ça : ton sommeil soutient bien ta récupération.');
 }
 function slStageSegs2(nm){return (nm.stages&&nm.stages.length)?nm.stages:flStageSegs({deep:nm.deep,rem:nm.rem,light:nm.light,awake:nm.awake})}
 var SL_COL={awake:'#C9C5BC',light:'#B9A9E8',deep:'#EFA8D6',rem:'#9B5DE5'};
@@ -2980,7 +3115,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v79';
+const APP_VERSION='flint-v81';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
