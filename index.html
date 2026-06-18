@@ -35,6 +35,11 @@
     padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
   header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
   header.has-title .logo{height:17px !important}
+  header .wbatt{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:700;color:#161512;box-shadow:0 4px 12px rgba(22,21,18,.06);cursor:pointer;font-variant-numeric:tabular-nums;flex:none}
+  header .wbatt i{font-size:17px;color:#3FB57A}
+  header .wbatt.mid i{color:#F2A93B}
+  header .wbatt.low i{color:#F0492E}
+  header .wbatt.low span{color:#F0492E}
   header .logo{height:21px;width:auto;display:block}
   header .hdright{display:flex;align-items:center;gap:11px}
   header .av{width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center;font-size:18px;font-weight:800;cursor:pointer;overflow:hidden;background-size:cover;background-position:center}
@@ -331,13 +336,13 @@
   .flhome .addact{width:100%;margin-top:10px;background:none;border:1.5px dashed #E0D9CE;color:#8F8982;font-family:'Inter';font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em;padding:13px;border-radius:18px;cursor:pointer;transition:border-color .14s,color .14s}
   .flhome .addact:hover,.flhome .addact:active{border-color:var(--accent);color:var(--accent)}
   /* ===== activité — lignes journée (timeline) ===== */
-  .flhome .flact{display:grid;grid-template-columns:80px minmax(0,1fr) auto;align-items:center;gap:13px;padding:11px 8px;border-bottom:1px solid #F1EBE3;cursor:pointer;border-radius:14px;transition:background .14s ease;-webkit-tap-highlight-color:transparent}
+  .flhome .flact{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:13px;padding:10px 8px;border-bottom:1px solid #F1EBE3;cursor:pointer;border-radius:14px;transition:background .14s ease;-webkit-tap-highlight-color:transparent}
   .flhome .flact:last-of-type{border-bottom:0}
   .flhome .flact:hover,.flhome .flact:active{background:#FAF8F5}
-  .flhome .flact .tile{width:80px;height:46px;border-radius:13px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 13px rgba(240,73,46,.20)}
-  .flhome .flact .tile.sleep{background:#6C7BD6;box-shadow:0 5px 13px rgba(108,123,214,.20)}
-  .flhome .flact .tile i{font-size:17px;line-height:1;opacity:.95}
-  .flhome .flact .tile b{font-family:'Anton';font-style:italic;font-size:19px;line-height:1;letter-spacing:.01em}
+  .flhome .flact .tile{width:72px;height:42px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 12px rgba(240,73,46,.20)}
+  .flhome .flact .tile.sleep{background:#6C7BD6;box-shadow:0 5px 12px rgba(108,123,214,.20)}
+  .flhome .flact .tile i{font-size:15px;line-height:1;opacity:.95}
+  .flhome .flact .tile b{font-family:'Anton';font-style:italic;font-size:17px;line-height:1;letter-spacing:.01em}
   .flhome .flact .md{min-width:0}
   .flhome .flact .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:21px;color:#161512;line-height:1;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .flhome .flact .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1561,6 +1566,7 @@ header{padding:11px 16px 7px}
   <div class="hdtitle" id="hdTitle"></div>
   <!-- avatar : photo démo ; Félix branche la vraie photo/initiale du user -->
   <div class="hdright">
+    <div class="wbatt" id="wbatt" onclick="go('profile')" title="Batterie de la montre"><i class="ti ti-device-watch"></i><span id="wbattV">—</span></div>
     <div class="av" id="avatar" onclick="go('profile')" style="background:url('https://randomuser.me/api/portraits/men/32.jpg') center/cover;color:transparent">A</div>
     <button class="hbell" aria-label="Notifications" onclick="toast('Aucune nouvelle notification')"><i class="ti ti-bell"></i><span class="hdot"></span></button>
   </div>
@@ -2261,7 +2267,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd)_hd.classList.toggle('has-title',!!_tt)}({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+v).classList.add('on');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd)_hd.classList.toggle('has-title',!!_tt)}
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -2353,6 +2360,7 @@ function flRenderWk(){var r=window._flWk||'7J';document.querySelectorAll('#flWkS
 function recovStreak(){let n=0;for(let i=0;i<90;i++){const has=i===0?recovery()!=null:DB.get('recov_'+tk(-i),null)!=null;if(has)n++;else break}return n}
 /* estimation des calories brûlées (l'app ne stocke pas l'énergie active) — à affiner par Félix avec le poids du user */
 function flStepsOf(k){k=k||tk();var seed=trSeed('steps|'+k);var v=8800+((seed%5200)-2600);return Math.max(3200,v)}
+function flWatchBatt(){var el=document.getElementById('wbatt'),v=document.getElementById('wbattV');if(!el||!v)return;var seed=trSeed('batt|'+tk());var pct=58+(seed%39);v.textContent=pct+' %';el.classList.toggle('mid',pct<40);el.classList.toggle('low',pct<20)}
 function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);const kpm={1:6,2:8,3:10,4:13};let act=0;ss.forEach(s=>{if(s.type==='nap')return;act+=(s.dur||30)*(kpm[s.int||2]||8)});const now=new Date();const frac=k===tk()?(now.getHours()*60+now.getMinutes())/1440:1;return Math.round(act+1600*frac)}
 var gDay=0;
 function flDay(d){gDay=Math.min(0,gDay+d);renderToday();}
