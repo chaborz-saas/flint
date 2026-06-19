@@ -1619,6 +1619,41 @@ header{padding:11px 16px 7px}
 .flhome .stepscard{position:relative;overflow:hidden}
 .flhome .stepscard .steptrail{position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;background:radial-gradient(85% 120% at 95% 60%,rgba(232,103,74,.10),transparent 60%)}
 .flhome .stepscard>*{position:relative;z-index:1}
+/* ===== accueil — bande de jours + timeline (concept 1) ===== */
+.flhome .wkstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin:2px 0 4px;border-bottom:1px solid #EFEAE3;padding-bottom:12px}
+.flhome .wkd{background:none;border:0;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;padding:4px 0;-webkit-tap-highlight-color:transparent}
+.flhome .wkd .wkl{font-size:12px;font-weight:700;letter-spacing:.02em;color:#A8A299}
+.flhome .wkd.on .wkl{color:#161512}
+.flhome .wkd .wkn{font-family:'Inter';font-size:20px;font-weight:700;color:#161512;width:42px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:15px;position:relative}
+.flhome .wkd.fut{cursor:default}
+.flhome .wkd.fut .wkn{color:#C7C0B6}
+.flhome .wkd.on .wkn{background:#161512;color:#fff}
+.flhome .wkd.on .wkn::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:18px;height:3px;border-radius:2px;background:#E8674A}
+.flhome .actwrap2{margin-top:6px}
+.flhome .actmeta2{font-size:14px;font-weight:600;color:#8F8982;margin:2px 2px 14px}
+.flhome .timeline{position:relative}
+.flhome .tlrow{display:flex;align-items:center;padding:9px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.flhome .tlrow .tltime{width:54px;flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.flhome .tlrow .tltime .s{font-size:14px;font-weight:800;color:#161512;font-variant-numeric:tabular-nums;line-height:1}
+.flhome .tlrow .tltime .e{font-size:14px;font-weight:700;color:#9A988F;font-variant-numeric:tabular-nums;line-height:1}
+.flhome .tlrow .tlnode{position:relative;width:34px;flex:none;align-self:stretch;display:flex;align-items:center;justify-content:center}
+.flhome .tlrow .tlnode::before{content:'';position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:2px;background:#E6DFD5;z-index:0}
+.flhome .tlrow:first-child .tlnode::before{top:50%}
+.flhome .tlrow:last-child .tlnode::before{bottom:50%}
+.flhome .tlrow .tlnode .nd{position:relative;z-index:1;width:24px;height:24px;border-radius:50%;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 0 0 4px var(--bg)}
+.flhome .tlrow.sleep .tlnode .nd{background:#6C7BD6}
+.flhome .tlrow .tlcard{flex:1;min-width:0;display:flex;align-items:center;gap:13px;background:#FCEFE9;border-radius:20px;padding:12px 14px;margin-left:6px}
+.flhome .tlrow.sleep .tlcard{background:#EEECFB}
+.flhome .tlrow .tlcard .tile{width:72px;height:46px;border-radius:14px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;flex:none;box-shadow:0 5px 12px rgba(232,103,74,.2)}
+.flhome .tlrow.sleep .tlcard .tile{background:#6C7BD6;box-shadow:0 5px 12px rgba(108,123,214,.2)}
+.flhome .tlrow .tlcard .tile i{font-size:16px;opacity:.95}
+.flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:italic;font-size:19px;line-height:1}
+.flhome .tlrow .tlcard .md{min-width:0}
+.flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .tlrow .tlcard .mt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
+.flhome .addbig:active{transform:scale(.985)}
+.flhome .addbig i{font-size:20px}
 </style>
 </head>
 <body>
@@ -1636,11 +1671,8 @@ header{padding:11px 16px 7px}
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
-  <div class="toprow2">
-    <button class="datepill" id="flDateBtn" onclick="flOpenPicker()"><i class="ti ti-calendar dpi"></i><span id="flDate">Aujourd'hui</span><i class="ti ti-chevron-down dcaret"></i></button>
-    <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
-    <div class="streak2" id="flStreak" style="display:none"></div>
-  </div>
+  <div class="wkstrip" id="flWkStrip"></div>
+  <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
 
   <div class="card rec2" onclick="go('recovery')">
     <div class="recart"></div>
@@ -1705,16 +1737,10 @@ header{padding:11px 16px 7px}
     </div>
   </div>
 
-  <div class="card">
-    <div class="row" style="margin-bottom:4px;">
-      <span class="mini" style="gap:8px;">
-        <svg width="22" height="14" viewBox="0 0 22 14"><g stroke="#E8674A" stroke-width="2.4" stroke-linecap="round"><line x1="1" y1="3" x2="13" y2="3"/><line x1="4" y1="7" x2="18" y2="7"/><line x1="1" y1="11" x2="13" y2="11"/></g></svg>
-        <span class="an" style="font-size:18px;">Activités du jour</span>
-      </span>
-      <span class="muted" style="font-size:13px;" id="flActMeta"></span>
-    </div>
-    <div id="flActList"></div>
-    <button class="addact" onclick="openActSheet()">＋ Ajouter une activité</button>
+  <div class="actwrap2">
+    <div class="actmeta2" id="flActMeta"></div>
+    <div class="timeline" id="flActList"></div>
+    <button class="addbig" onclick="openActSheet()"><i class="ti ti-plus"></i> Ajouter une activité</button>
   </div>
 
   <div class="card flad">
@@ -2388,7 +2414,20 @@ function flActIcon(name,nap){if(nap)return 'zzz';const n=String(name||'').toLowe
 function flHM(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
 function flDurHM(min){min=Math.max(0,Math.round(min||0));return Math.floor(min/60)+':'+String(min%60).padStart(2,'0')}
 function flEndTime(start,min){if(!start)return '';var p=String(start).split(':');return flHM((+p[0])*60+(+p[1])+(min||0))}
-function flRow(opt){var sl=opt.sleep?' sleep':'';var meta=(opt.start?opt.start+(opt.end?' → '+opt.end:''):'')+((opt.start||opt.end)?' · ':'')+opt.tag;var tl=opt.start?'<div class="tl"><span class="s">'+opt.start+'</span><span class="b'+sl+'"></span><span class="e">'+(opt.end||'')+'</span></div>':'<div class="tl"></div>';return '<div class="flact" onclick="'+opt.onc+'"><div class="tile'+sl+'"><i class="ti ti-'+opt.icon+'"></i><b>'+opt.value+'</b></div><div class="md"><div class="nm">'+esc(opt.title)+'</div><div class="mt">'+meta+'</div></div>'+tl+'</div>'}
+function flRow(opt){var sl=opt.sleep?' sleep':'';var meta=(opt.start?opt.start+(opt.end?' → '+opt.end:''):'')+((opt.start||opt.end)?' · ':'')+opt.tag;
+ return '<div class="tlrow'+sl+'" onclick="'+opt.onc+'">'
+  +'<div class="tltime"><span class="s">'+(opt.start||'')+'</span><span class="e">'+(opt.end||'')+'</span></div>'
+  +'<div class="tlnode"><span class="nd"><i class="ti ti-'+opt.icon+'"></i></span></div>'
+  +'<div class="tlcard'+sl+'"><div class="tile'+sl+'"><i class="ti ti-'+opt.icon+'"></i><b>'+opt.value+'</b></div>'
+  +'<div class="md"><div class="nm">'+esc(opt.title)+'</div><div class="mt">'+meta+'</div></div></div>'
+  +'</div>'}
+function flSetDay(off){if(off>0)return;gDay=off;renderToday();window.scrollTo(0,0)}
+function flRenderWkStrip(){var host=document.getElementById('flWkStrip');if(!host)return;var DOW=['LUN','MAR','MER','JEU','VEN','SAM','DIM'];
+ var today=new Date();today.setHours(0,0,0,0);var sel=new Date(today);sel.setDate(sel.getDate()+gDay);
+ var mon=new Date(sel);mon.setDate(mon.getDate()-((mon.getDay()+6)%7));var html='';
+ for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(d.getDate()+i);var off=Math.round((d-today)/86400000);var isSel=off===gDay,fut=off>0;
+  html+='<button class="wkd'+(isSel?' on':'')+(fut?' fut':'')+'"'+(fut?' disabled':' onclick="flSetDay('+off+')"')+'><span class="wkl">'+DOW[i]+'</span><span class="wkn">'+d.getDate()+'</span></button>'}
+ host.innerHTML=html}
 function flNightRow(k){const nm=sleepNight(k||tk());if(!nm)return '';return flRow({sleep:true,icon:'moon',value:flDurHM(nm.asleep),title:'Nuit',start:flHM(nm.bedMin),end:flHM(nm.wakeMin),tag:'sommeil',onc:'openSleepNight()'})}
 function flRenderActivities(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);
  const nightHTML=flNightRow(k);
@@ -2478,7 +2517,7 @@ function renderToday(){
  set('flLoad',str.toFixed(1).replace('.',','));set('flLoadT','Objectif : '+obj);
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
- flWatchBatt();
+ flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,7,function(k){return caloriesBurned(k)}),'#E8674A'));
  var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
@@ -3173,7 +3212,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v86';
+const APP_VERSION='flint-v87';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
