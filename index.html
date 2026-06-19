@@ -1783,6 +1783,32 @@ header{padding:11px 16px 7px}
 .flhome .mjtitle{font-family:'Anton';font-style:italic;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
 .flhome .mjtitle::after{content:'';display:block;width:118px;height:4px;border-radius:3px;margin-top:9px;background:linear-gradient(90deg,#E8674A 0 80%,transparent 80% 88%,#E8674A 88%)}
 .flhome .actwrap2 .actmeta2{margin-top:14px}
+/* ===== Accueil — Objectif hebdo + FC (maquette) ===== */
+.flhome .objhebdo{padding:20px 18px}
+.flhome .objhebdo .ohtop{display:flex;align-items:center;gap:16px}
+.flhome .objhebdo .ohring{width:128px;flex:none}
+.flhome .objhebdo .ohsep{width:1px;align-self:stretch;background:#F1ECE4;margin:8px 0}
+.flhome .objhebdo .ohinfo{flex:1;min-width:0}
+.flhome .objhebdo .ohl{font-size:18px;font-weight:700;color:#161512}
+.flhome .objhebdo .ohv{font-family:'Inter',sans-serif;font-weight:800;font-size:44px;line-height:1;color:#161512;margin-top:7px;letter-spacing:-.01em}
+.flhome .objhebdo .ohv small{font-weight:700;font-size:21px;color:#B9B4AE;letter-spacing:0}
+.flhome .objhebdo .ohrem{font-size:14px;font-weight:600;color:#E8674A;margin-top:11px}
+.flhome .objhebdo .ohrem b{font-weight:800}
+.flhome .objhebdo .ohbars{margin-top:16px}
+.flhome .fcnew{display:flex;align-items:stretch;gap:0;padding:0;overflow:hidden}
+.flhome .fcnew .fcL{flex:0 0 43%;background:#EAF5EE;padding:18px 15px;display:flex;flex-direction:column;align-items:flex-start}
+.flhome .fcnew .fcLtop{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.flhome .fcnew .fcic{width:40px;height:40px;border-radius:50%;background:#FCE0D7;color:#E8674A;display:grid;place-items:center;font-size:19px;flex:none}
+.flhome .fcnew .fcnow{font-size:15px;font-weight:800;color:#2FAE67}
+.flhome .fcnew .fcbpm2{font-family:'Inter',sans-serif;font-weight:900;font-size:42px;line-height:1;color:#161512}
+.flhome .fcnew .fcbpm2 small{font-size:16px;font-weight:700;color:#8A857D;margin-left:4px}
+.flhome .fcnew .fczone{display:inline-flex;align-items:center;gap:7px;border-radius:30px;padding:7px 12px;font-size:12.5px;font-weight:800;margin-top:13px;background:#D6EDDD;color:#1E7D46}
+.flhome .fcnew .fczone .zd{width:8px;height:8px;border-radius:50%;background:#2FAE67;flex:none}
+.flhome .fcnew .fcmsg{font-size:12.5px;color:#5F7A68;line-height:1.4;margin-top:13px}
+.flhome .fcnew .fcR{flex:1;min-width:0;padding:18px 14px 12px}
+.flhome .fcnew .fcrt{font-size:16px;font-weight:700;color:#161512}
+.flhome .fcnew .fcrs{font-size:13px;color:#9A988F;margin-top:2px}
+.flhome .fcnew .fcchart2{margin-top:10px}
 </style>
 </head>
 <body>
@@ -1837,32 +1863,30 @@ header{padding:11px 16px 7px}
     <div class="steptrail"></div>
   </div>
 
-  <div class="card flwk" onclick="openTrend('charge')">
-    <div class="wkhd">
-      <span class="wktt"><i class="ti ti-trending-up"></i><b>Tendances de la semaine</b></span>
-      <div class="wkseg" id="flWkSeg" onclick="event.stopPropagation()">
-        <button type="button" class="on" data-r="7J" onclick="flSetWk('7J')">7J</button>
-        <button type="button" data-r="4S" onclick="flSetWk('4S')">4S</button>
-        <button type="button" data-r="12S" onclick="flSetWk('12S')">12S</button>
+  <div class="card objhebdo" onclick="openTrend('charge')">
+    <div class="ohtop">
+      <div class="ohring" id="flObjRing"></div>
+      <div class="ohsep"></div>
+      <div class="ohinfo">
+        <div class="ohl">Objectif hebdo</div>
+        <div class="ohv"><b id="flObjVal">—</b> <small>/ <span id="flObjGoal">16</span></small></div>
+        <div class="ohrem" id="flObjRem"></div>
       </div>
     </div>
-    <div id="flWkChart"></div>
+    <div class="ohbars" id="flWkChart"></div>
   </div>
 
-  <div class="card" id="flFcCard" onclick="go('fcdetail')">
-    <div class="fctop">
-      <span class="fchi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 13.6 12 21l-7.5-7.4A5 5 0 1 1 12 6a5 5 0 1 1 7.5 7.6z" fill="#E8674A" fill-opacity=".16"/><path d="M3.5 12.5h4l1.5 3 3-9 2 6 1.5-3h4"/></svg></span>
-      <div>
-        <div class="fclab">Fréquence cardiaque</div>
-        <div class="fcbpm"><span class="v" id="flBpm">—</span><span class="u">BPM</span></div>
-        <div class="fclive"><span class="d"></span><span id="flHrMode">EN DIRECT</span></div>
-      </div>
-      <div class="fcchart" id="flFcMini"></div>
+  <div class="card fcnew" id="flFcCard" onclick="go('fcdetail')">
+    <div class="fcL">
+      <div class="fcLtop"><span class="fcic"><i class="ti ti-heart"></i></span><span class="fcnow" id="flHrMode">Maintenant</span></div>
+      <div class="fcbpm2"><b id="flBpm">—</b> <small>BPM</small></div>
+      <span class="fczone" id="flFcZone"></span>
+      <div class="fcmsg">Ton système cardiovasculaire est calme.</div>
     </div>
-    <div class="fcins">
-      <span class="fchi"><i class="ti ti-heart" style="font-size:19px"></i></span>
-      <div class="it"><b>Dans ta zone de repos</b><p>Ton système cardiovasculaire est calme.</p></div>
-      <i class="ti ti-chevron-right cv"></i>
+    <div class="fcR">
+      <div class="fcrt">Fréquence cardiaque</div>
+      <div class="fcrs">Dernières heures</div>
+      <div class="fcchart2" id="flFcMini"></div>
     </div>
   </div>
 
@@ -2583,7 +2607,27 @@ function flWkSVG(data,showVals){var W=360,L=32,R=22,top=14,bot=150,plotH=bot-top
   if(showVals)s+='<text x="'+x.toFixed(1)+'" y="186" text-anchor="middle" font-size="11.5" font-weight="800" fill="'+(isT?'#F04A32':'#7C7770')+'" font-family="Inter,sans-serif">'+String(p.v).replace('.',',')+'</text>'});
  return s+'</svg>'}
 function flSetWk(r){window._flWk=r;flRenderWk()}
-function flRenderWk(){var r=window._flWk||'7J';document.querySelectorAll('#flWkSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.r===r)});set('flWkChart',flWkSVG(flWkData(r),r==='7J'))}
+function flRenderWk(){set('flWkChart',flObjBarsSVG(flWkData('7J')))}
+function flObjRingSVG(pct){var c=2*Math.PI*54,off=c*(1-Math.max(0,Math.min(100,pct))/100);
+ return '<svg viewBox="0 0 130 130" style="width:100%;height:auto;display:block"><defs><linearGradient id="ohrg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FF9B2F"/><stop offset="1" stop-color="#F04A32"/></linearGradient></defs><circle cx="65" cy="65" r="54" fill="none" stroke="#F1E7DD" stroke-width="9"/><circle cx="65" cy="65" r="54" fill="none" stroke="url(#ohrg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 65 65)"/><text x="65" y="64" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="31" fill="#161512">'+Math.round(pct)+'<tspan font-size="17" dx="1">%</tspan></text><text x="65" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="11.5" fill="#8A857D">objectif atteint</text></svg>'}
+function flObjBarsSVG(data){var W=360,L=8,R=8,barTop=8,barBot=150,plotH=barBot-barTop,n=data.length,slot=(W-L-R)/n,bw=Math.min(26,slot*0.42),vbH=200,max=Math.max(1,Math.max.apply(null,data.map(function(p){return p.v})));
+ var s='<svg viewBox="0 0 '+W+' '+vbH+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="ohbar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F" stop-opacity=".7"/></linearGradient></defs>';
+ s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+barBot+'" y2="'+barBot+'" stroke="rgba(22,21,18,.08)" stroke-dasharray="4 6"/>';
+ var todayI=n-1;
+ data.forEach(function(p,i){var h=Math.max(bw,(p.v/max)*plotH),x=L+i*slot+slot/2,y=barBot-h,isT=i===todayI;
+  s+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+(bw/2).toFixed(1)+'" fill="url(#ohbar)"/>';
+  s+='<text x="'+x.toFixed(1)+'" y="173" text-anchor="middle" font-size="12" font-weight="800" fill="#8A857D" font-family="Inter,sans-serif">'+p.lab+'</text>';
+  s+='<text x="'+x.toFixed(1)+'" y="193" text-anchor="middle" font-size="13" font-weight="800" fill="'+(isT?'#F04A32':'#5F5E5A')+'" font-family="Inter,sans-serif">'+String(p.v).replace('.',',')+'</text>'});
+ return s+'</svg>'}
+function flFcLineSVG(bpm){bpm=bpm||50;var W=300,H=120,padL=6,padR=30,padT=10,padB=22,lo=20,hi=80;
+ function y(v){return padT+(hi-Math.max(lo,Math.min(hi,v)))/(hi-lo)*(H-padT-padB)}
+ var b=bpm+15,pts=[b-2,b+1,b-3,b+2,b+3,b-1,bpm],n=pts.length;
+ function x(i){return padL+i*(W-padL-padR)/(n-1)}
+ var d=pts.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' ');
+ var area=d+' L'+x(n-1).toFixed(1)+' '+(H-padB)+' L'+x(0).toFixed(1)+' '+(H-padB)+' Z';
+ var yl='';[20,40,60,80].forEach(function(v){yl+='<line x1="'+padL+'" x2="'+(W-padR)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="rgba(22,21,18,.06)" stroke-dasharray="4 6"/><text x="'+(W-padR+5)+'" y="'+(y(v)+4).toFixed(1)+'" font-size="11" font-weight="700" fill="#B9B4AE" font-family="Inter,sans-serif">'+v+'</text>'});
+ var XL=['-6h','-5h','-4h','-3h','-2h','-1h','Maint.'],xl='';XL.forEach(function(l,i){xl+='<text x="'+x(i).toFixed(1)+'" y="'+(H-5)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#B9B4AE" font-family="Inter,sans-serif">'+l+'</text>'});
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="fcag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32" stop-opacity=".16"/><stop offset="1" stop-color="#F04A32" stop-opacity="0"/></linearGradient></defs>'+yl+xl+'<path d="'+area+'" fill="url(#fcag)"/><path d="'+d+'" fill="none" stroke="#F04A32" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+x(n-1).toFixed(1)+'" cy="'+y(bpm).toFixed(1)+'" r="5" fill="#fff" stroke="#F04A32" stroke-width="3"/></svg>'}
 function recovStreak(){let n=0;for(let i=0;i<90;i++){const has=i===0?recovery()!=null:DB.get('recov_'+tk(-i),null)!=null;if(has)n++;else break}return n}
 /* estimation des calories brûlées (l'app ne stocke pas l'énergie active) — à affiner par Félix avec le poids du user */
 function flStepsOf(k){k=k||tk();var seed=trSeed('steps|'+k);var v=8800+((seed%5200)-2600);return Math.max(3200,v)}
@@ -2647,13 +2691,21 @@ function renderToday(){
  set('flSleepS',!t||!t.sleepMin?'':perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant');
  const str=loadStrain(K),obj=Math.round((tg[0]+tg[1])/2);
  set('flLoad',str.toFixed(1).replace('.',','));set('flLoadT','Objectif : '+obj);
+ var objPct=obj>0?Math.min(100,Math.round(str/obj*100)):0;var _or=document.getElementById('flObjRing');if(_or)_or.innerHTML=flObjRingSVG(objPct);
+ set('flObjVal',str.toFixed(1).replace('.',','));set('flObjGoal',obj);
+ var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
  flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,7,function(k){return caloriesBurned(k)}),'#E8674A'));
  var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
- set('flBpm',t&&t.rhr?t.rhr:'—');set('flHrMode',today?'EN DIRECT':'AU REPOS');var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
+ set('flBpm',t&&t.rhr?t.rhr:'—');set('flHrMode','Maintenant');
+ var _bpm=t&&t.rhr?t.rhr:null,_z=_bpm==null?['—','#9A988F','#9A988F','#F1EDE7']:_bpm<60?['Zone de repos','#2FAE67','#1E7D46','#D6EDDD']:_bpm<100?['Zone légère','#E0A012','#9A6B0A','#FCEFD8']:['Zone active','#E8674A','#C0492C','#FBE0D8'];
+ var _hm=document.getElementById('flHrMode');if(_hm)_hm.style.color=_z[1];
+ var _fz=document.getElementById('flFcZone');if(_fz){_fz.innerHTML='<span class="zd"></span>'+_z[0];_fz.style.color=_z[2];_fz.style.background=_z[3];var _zd=_fz.querySelector('.zd');if(_zd)_zd.style.background=_z[1]}
+ var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcLineSVG(_bpm);
+ var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  const yRec=DB.get('recov_'+tk(gDay-1),null),dlt=(has&&yRec!=null)?rv.s-yRec:null,dl=document.getElementById('flDelta');
  if(dl){if(dlt!=null){dl.className='delta '+(dlt>=0?'up':'down');dl.textContent=(dlt>=0?'▲ +'+dlt:'▼ '+dlt)+' pts vs '+(today?'hier':'veille');dl.style.display='inline-flex'}else dl.style.display='none'}
  const tt=nutTotals(K),g=getNutGoals(),reste=g.kcal-tt.kcal;
@@ -3330,7 +3382,7 @@ function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportinten
   const rhr=Math.round(46+Math.random()*12-pen*0.3),hrv=Math.round(58+Math.random()*30+pen),resp=+(13+Math.random()*2.4).toFixed(1),skinTemp=+(36.3+Math.random()*0.5).toFixed(1);
   const timeInBed=sleepMin+awake+Math.round(8+Math.random()*18),latency=Math.round(5+Math.random()*22),wakeEvents=Math.round(6+Math.random()*14),lowestHr=rhr-Math.round(2+Math.random()*3),wakeMin=420+Math.round(-25+Math.random()*50),bedMin=((wakeMin-timeInBed)%1440+1440)%1440;
   DB.set('sensor_'+k,{hrv,rhr,resp,skinTemp,deep,rem,light,awake,sleepMin,timeInBed,latency,wakeEvents,lowestHr,bedMin,wakeMin,source:'sim'});
-  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3),nm=['Course','Renfo','Vélo','HIIT'][Math.floor(Math.random()*4)];const sh=7+Math.floor(Math.random()*12),sm=Math.floor(Math.random()*60),start=String(sh).padStart(2,'0')+':'+String(sm).padStart(2,'0');DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),start:start,dur,int,auto:true}])}else{DB.set('sessions_'+k,[])}}
+  if(Math.random()>0.12){const dur=45+Math.round(Math.random()*55),int=1+Math.round(Math.random()*3),nm=['Course','Renfo','Vélo','HIIT','Padel','Marche'][Math.floor(Math.random()*6)];const sh=7+Math.floor(Math.random()*12),sm=Math.floor(Math.random()*60),start=String(sh).padStart(2,'0')+':'+String(sm).padStart(2,'0');DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),start:start,dur,int,auto:true}])}else{DB.set('sessions_'+k,[])}}
  for(let i=27;i>=0;i--){persistRecovFor(tk(-i))}DB.set('demo',1);
  if(!silent){seedTodayShowcase();renderProfile();toast('Démo rechargée 🎲');go('today')}}
 function flStageSegs(s){var seq=hypnoSeq({deep:s.deep,rem:s.rem,light:s.light,awake:s.awake,sleepMin:s.deep+s.rem+s.light});var nm={0:'deep',1:'light',2:'rem',3:'awake'},out=[],t=0;seq.forEach(function(g){out.push({stage:nm[g[0]],startMin:t,durMin:g[1]});t+=g[1]});return out}
@@ -3341,9 +3393,9 @@ function seedTodayShowcase(){const sleepMin=462,deep=104,rem=118,awake=12,light=
  DB.set('sessions_'+tk(),[{name:'Marche',icon:'🚶',start:'09:15',dur:45,int:1,auto:true},{name:'Padel',icon:'🎾',start:'12:30',dur:75,int:2,auto:true},{type:'nap',name:'Sieste',icon:'😴',start:'15:00',dur:25},{name:'Football',icon:'⚽',start:'18:00',dur:75,int:3,auto:true}]);
  DB.set('meals_'+tk(),[{name:'Petit-déj — flocons & œufs',kcal:520,prot:32,carb:60,fat:16},{name:'Déjeuner — poulet riz',kcal:760,prot:55,carb:80,fat:18},{name:'Collation — skyr & banane',kcal:280,prot:22,carb:38,fat:4},{name:'Snack — amandes',kcal:290,prot:10,carb:10,fat:24}]);
  persistRecov()}
-function ensureDemo(){if(DB.get('seeded')===8)return;simulateData(true);seedTodayShowcase();
+function ensureDemo(){if(DB.get('seeded')===9)return;simulateData(true);seedTodayShowcase();
  for(let i=1;i<=13;i++){const k=tk(-i);DB.set('meals_'+k,[{name:'Journée',kcal:Math.round(1950+Math.random()*650),prot:Math.round(120+Math.random()*70),carb:Math.round(180+Math.random()*120),fat:Math.round(55+Math.random()*45)}])}
- DB.set('seeded',8)}
+ DB.set('seeded',9)}
 function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr)}}
  if(hs.length<3)return;const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
  const zH=(s.hrv-mean(hs))/sd(hs),zR=(s.rhr-mean(rs))/sd(rs),sp=Math.min(1.1,s.sleepMin/((getProfile().need||8)*60)),zS=(sp-1)*3;
@@ -3353,7 +3405,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v91';
+const APP_VERSION='flint-v92';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
