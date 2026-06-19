@@ -1654,17 +1654,17 @@ header{padding:11px 16px 7px}
 .flhome .tlrow .tlnode::before{content:'';position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:2px;background:#E6DFD5;z-index:0}
 .flhome .tlrow:first-child .tlnode::before{top:50%}
 .flhome .tlrow:last-child .tlnode::before{bottom:50%}
-.flhome .tlrow .tlnode .nd{position:relative;z-index:1;width:24px;height:24px;border-radius:50%;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 0 0 4px var(--bg)}
+.flhome .tlrow .tlnode .nd{position:relative;z-index:1;width:24px;height:24px;border-radius:50%;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 0 0 4px #fff}
 .flhome .tlrow.sleep .tlnode .nd{background:#6C7BD6}
-.flhome .tlrow .tlcard{flex:1;min-width:0;display:flex;align-items:center;gap:13px;background:#FCEFE9;border-radius:20px;padding:12px 14px;margin-left:6px}
+.flhome .tlrow .tlcard{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:#FCEFE9;border-radius:20px;padding:12px 12px;margin-left:6px}
 .flhome .tlrow.sleep .tlcard{background:#EEECFB}
-.flhome .tlrow .tlcard .tile{width:58px;height:38px;border-radius:12px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;box-shadow:0 4px 10px rgba(232,103,74,.2)}
+.flhome .tlrow .tlcard .tile{width:54px;height:38px;border-radius:13px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;box-shadow:0 4px 10px rgba(232,103,74,.2)}
 .flhome .tlrow.sleep .tlcard .tile{background:#6C7BD6;box-shadow:0 4px 10px rgba(108,123,214,.2)}
 .flhome .tlrow .tlcard .tile i{font-size:13px;opacity:.95}
 .flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:italic;font-size:15px;line-height:1}
 .flhome .tlrow .tlcard .md{min-width:0}
 .flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.flhome .tlrow .tlcard .mt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .tlrow .tlcard .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
 .flhome .addbig:active{transform:scale(.985)}
 .flhome .addbig i{font-size:20px}
@@ -1796,6 +1796,21 @@ header{padding:11px 16px 7px}
 .flhome .mjtitle{font-family:'Anton';font-style:italic;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
 .flhome .mjtitle::after{content:'';display:block;width:118px;height:4px;border-radius:3px;margin-top:9px;background:linear-gradient(90deg,#E8674A 0 80%,transparent 80% 88%,#E8674A 88%)}
 .flhome .actwrap2 .actmeta2{margin-top:14px}
+.flhome .actcard{background:#FFFDF9;border:1px solid rgba(22,21,18,.08);border-radius:28px;box-shadow:0 12px 32px rgba(120,110,95,.10);padding:18px 16px;margin-top:6px}
+.flhome .acthd{display:flex;align-items:center;justify-content:space-between}
+.flhome .actlbl{font-size:13px;font-weight:800;letter-spacing:1.6px;color:#161512}
+.flhome .actexp{color:#8F8982;font-size:19px;cursor:pointer}
+.flhome .actinner{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:24px;box-shadow:0 4px 16px rgba(120,110,95,.07);padding:14px;margin-top:14px}
+.flhome .actnuit{display:flex;align-items:center;gap:12px;background:rgba(109,120,232,.10);border:1px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 8px 18px rgba(109,120,232,.14);padding:13px 14px;margin-bottom:8px;cursor:pointer}
+.flhome .actnuit .anpast{width:46px;height:46px;border-radius:50%;background:#6C7BD6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
+.flhome .actnuit .anbadge{font-family:'Anton';font-style:italic;background:#6C7BD6;color:#fff;border-radius:13px;padding:8px 13px;font-size:20px;line-height:1;flex:none}
+.flhome .actnuit .annt{min-width:0}
+.flhome .actnuit .annm{font-family:'Anton';font-style:italic;font-size:20px;color:#161512;line-height:1}
+.flhome .actnuit .anmt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:4px}
+.flhome .actsep{height:1px;background:rgba(22,21,18,.08);margin:12px 4px 0}
+.flhome .actcta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:none;border:0;padding:15px 0 5px;color:#8F8982;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .12s}
+.flhome .actcta .p{color:#E8674A;font-size:18px;display:inline-flex}
+.flhome .actcta:active{transform:scale(.99)}
 /* ===== Accueil — Objectif hebdo + FC (maquette) ===== */
 .flhome .objhebdo{padding:20px 18px}
 .flhome .objhebdo .ohtop{display:flex;align-items:center;gap:16px}
@@ -1951,8 +1966,15 @@ header{padding:11px 16px 7px}
   <div class="actwrap2">
     <div class="mjtitle">Ma journée</div>
     <div class="actmeta2" id="flActMeta"></div>
-    <div class="timeline" id="flActList"></div>
-    <button class="addbig" onclick="openActSheet()"><i class="ti ti-plus"></i> Ajouter une activité</button>
+    <div class="actcard">
+      <div class="acthd"><span class="actlbl">ACTIVITÉS</span><i class="ti ti-arrows-diagonal actexp" role="button" aria-label="Voir le détail" onclick="go('load')"></i></div>
+      <div class="actinner">
+        <div id="flActNight"></div>
+        <div class="acttl" id="flActList"></div>
+        <div class="actsep"></div>
+        <button class="actcta" onclick="openActSheet()"><span class="p"><i class="ti ti-plus"></i></span>Ajouter une activité</button>
+      </div>
+    </div>
   </div>
 
   <div class="card objhebdo" onclick="openTrend('charge')">
@@ -2665,13 +2687,19 @@ function flRenderWkStrip(){var host=document.getElementById('flWkStrip');if(!hos
  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(d.getDate()+i);var off=Math.round((d-today)/86400000);var isSel=off===gDay,fut=off>0;
   html+='<button class="wkd'+(isSel?' on':'')+(fut?' fut':'')+'"'+(fut?' disabled':' onclick="flSetDay('+off+')"')+'><span class="wkl">'+DOW[i]+'</span><span class="wkn">'+d.getDate()+'</span></button>'}
  host.innerHTML=html}
-function flNightRow(k){const nm=sleepNight(k||tk());if(!nm)return '';return flRow({sleep:true,icon:'moon',value:flDurHM(nm.asleep),title:'Nuit',start:flHM(nm.bedMin),end:flHM(nm.wakeMin),tag:'sommeil',onc:'openSleepNight()'})}
+function flNightCard(k){const nm=sleepNight(k||tk());if(!nm)return '';
+ return '<div class="actnuit" onclick="openSleepNight()">'
+  +'<span class="anpast"><i class="ti ti-moon"></i></span>'
+  +'<span class="anbadge">'+flDurHM(nm.asleep)+'</span>'
+  +'<div class="annt"><div class="annm">NUIT</div><div class="anmt">'+flHM(nm.bedMin)+' → '+flHM(nm.wakeMin)+' · sommeil</div></div>'
+  +'</div>'}
 function flRenderActivities(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);
- const nightHTML=flNightRow(k);
+ const nightHTML=flNightCard(k);
  const nRows=(nightHTML?1:0)+ss.length;
  set('flActMeta',nRows?nRows+' entrée'+(nRows>1?'s':'')+' · cumul '+loadStrain(k).toFixed(1).replace('.',','):'');
+ var _an=document.getElementById('flActNight');if(_an)_an.innerHTML=nightHTML;
  const dayHTML=ss.map((s,i)=>{const nap=s.type==='nap';const oi=nap?-1:ss.slice(0,i+1).filter(x=>x.type!=='nap').length-1;const start=s.start||'';return flRow({sleep:nap,icon:nap?'moon':flActIcon(s.name,nap),value:nap?flDurHM(s.dur):actStrain(s).toFixed(1).replace('.',','),title:(s.name||'Séance'),start:start,end:start?flEndTime(start,s.dur):'',tag:nap?'sommeil':(s.auto?'auto':'manuel'),onc:nap?'openNapDetail('+i+')':'openActivity('+oi+')'})}).join('');
- set('flActList',(nightHTML+dayHTML)||'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>')}
+ set('flActList',dayHTML||(nightHTML?'':'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>'))}
 function flWkData(range){var out=[];
  if(range==='4S'||range==='12S'){var weeks=range==='4S'?4:12;for(var w=weeks-1;w>=0;w--){var sum=0;for(var j=0;j<7;j++)sum+=loadStrain(tk(gDay-(w*7+j)));var dd=new Date();dd.setDate(dd.getDate()+gDay-w*7);out.push({lab:dd.getDate()+'/'+(dd.getMonth()+1),v:+(sum/7).toFixed(1)})}}
  else{for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()+gDay-i);out.push({lab:['DIM','LUN','MAR','MER','JEU','VEN','SAM'][d.getDay()],v:+loadStrain(tk(gDay-i)).toFixed(1)})}}
@@ -3494,7 +3522,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v98';
+const APP_VERSION='flint-v99';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
