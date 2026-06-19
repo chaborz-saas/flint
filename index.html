@@ -1861,6 +1861,15 @@ header{padding:11px 16px 7px}
 .flhome .gwtx{flex:none}
 .flhome .gwide .gchartw{flex:1;min-width:0;height:42px;margin-top:0}
 .flhome .etat-score{position:relative;width:248px;height:248px;margin:16px auto 24px;cursor:pointer}
+.flhome .etat-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 22px}
+.flhome .etat-row .etat-score{margin:0;flex:none;width:226px;height:226px}
+.flhome .stepside{flex:none;width:108px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:26px;box-shadow:0 12px 30px rgba(120,110,95,.10);padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:inherit;cursor:pointer}
+.flhome .stepside:active{transform:scale(.98)}
+.flhome .stepside .ssic{color:#2FA86A;font-size:30px;line-height:1}
+.flhome .stepside .ssl{font-size:11px;font-weight:800;letter-spacing:.12em;color:#77736C;margin-top:12px}
+.flhome .stepside .ssv{font-family:'Anton';font-style:italic;font-size:25px;color:#161512;line-height:1;margin-top:7px}
+.flhome .stepside .ssu{font-size:12px;font-weight:700;color:#9A988F;margin-top:3px}
+.flhome .stepside .ssarc{margin-top:11px}
 .flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
 .flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(120,110,95,.18),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
@@ -1923,6 +1932,7 @@ header{padding:11px 16px 7px}
 <section class="view on" id="v-today"><div class="flhome">
   <div class="etat-title">État du jour</div>
 
+  <div class="etat-row">
   <div class="etat-score" onclick="go('recovery')">
     <svg class="es-ring" viewBox="0 0 120 120">
       <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
@@ -1932,6 +1942,14 @@ header{padding:11px 16px 7px}
     <div class="es-disc"></div>
     <div class="es-ctr"><div class="es-pct"><span id="flRecup">87</span><small>%</small></div><div class="es-lbl">Récupération</div><div class="es-zone" id="flZone">Haute</div></div>
     <div class="es-chk" id="flCheck"><i class="ti ti-check"></i></div>
+  </div>
+  <button class="stepside" type="button" onclick="openTrend('steps')">
+    <i class="ti ti-walk ssic" aria-hidden="true"></i>
+    <div class="ssl">PAS</div>
+    <div class="ssv" id="flSteps">—</div>
+    <div class="ssu">pas</div>
+    <svg class="ssarc" width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><path d="M6,7 A28,28 0 0 0 58,7" fill="none" stroke="rgba(120,110,95,.18)" stroke-width="5" stroke-linecap="round"/><path id="flStepArc" d="M6,7 A28,28 0 0 0 58,7" fill="none" stroke="#2FA86A" stroke-width="5" stroke-linecap="round" stroke-dasharray="67" stroke-dashoffset="67"/></svg>
+  </button>
   </div>
 
   <div class="caldate" style="position:relative">
@@ -2001,16 +2019,6 @@ header{padding:11px 16px 7px}
       </div>
     </div>
     <div class="ohbars" id="flWkChart"></div>
-  </div>
-
-  <div class="card stepscard" onclick="openTrend('steps')">
-    <div class="stico"><i class="ti ti-run"></i></div>
-    <div class="sttxt">
-      <div class="stl">Mes pas du jour</div>
-      <div class="stv"><span id="flSteps">—</span> <small>pas</small></div>
-    </div>
-    <i class="ti ti-chevron-right stcv"></i>
-    <div class="steptrail"></div>
   </div>
 
   <div class="card flad">
@@ -2828,6 +2836,7 @@ function renderToday(){
  var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
+ var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='67';_sa.style.strokeDashoffset=(67*(1-_sp)).toFixed(1)}
  flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,9,function(k){return caloriesBurned(k)}),'#E8674A'));
@@ -3536,7 +3545,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v102';
+const APP_VERSION='flint-v103';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
