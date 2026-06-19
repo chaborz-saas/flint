@@ -1586,6 +1586,39 @@ header{padding:11px 16px 7px}
 .flsleep .slhr .v{font-size:36px}
 /* Effort (accueil univers) */
 .flload{padding:2px 2px 14px}
+/* ===== accueil — refonte maquette v2 ===== */
+.flhome .datepill{display:inline-flex;align-items:center;gap:9px;border:1px solid #ECE6DD;background:#fff;border-radius:30px;padding:11px 17px;font-size:15px;font-weight:700;color:#161512;box-shadow:0 6px 18px rgba(22,21,18,.04);cursor:pointer;font-family:inherit;line-height:1}
+.flhome .datepill .dpi{color:#E8674A;font-size:18px}
+.flhome .datepill .dcaret{color:#9A988F;font-size:16px}
+.flhome .rec2{gap:12px;padding:22px 18px;align-items:center}
+.flhome .rec2 .recart{background:radial-gradient(120% 95% at 88% 22%,rgba(63,181,122,.16),transparent 52%);-webkit-mask-image:none;mask-image:none}
+.flhome .rec2 .recside{flex:1;min-width:0;padding-left:6px;display:flex;flex-direction:column;justify-content:center}
+.flhome .rec2 .recside .rectitle{font-family:'Anton';font-style:italic;font-size:28px;line-height:1;color:#161512;margin:0}
+.flhome .rec2 .recside .se{font-family:'Anton';font-style:italic;font-size:19px;line-height:1;margin-top:7px}
+.flhome .rec2 .reccv{margin-left:auto;align-self:center;color:#C9C5BC;font-size:24px;flex:none;position:relative;z-index:1}
+.flhome .statcard3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+.flhome .scard{position:relative;background:#fff;border:1px solid #F1EBE3;border-radius:20px;padding:14px 11px 12px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
+.flhome .scard:active{transform:scale(.96)}
+.flhome .scard .sccv{position:absolute;top:12px;right:11px;color:#C9C5BC;font-size:17px}
+.flhome .scard .scico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:19px;margin-bottom:11px}
+.flhome .scard .scico.vio{background:rgba(94,111,230,.12);color:#5E6FE6}
+.flhome .scard .scico.amb{background:rgba(242,169,59,.18);color:#D98E12}
+.flhome .scard .scico.emb{background:rgba(232,103,74,.12);color:#E8674A}
+.flhome .scard .scl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#9A988F;text-transform:uppercase}
+.flhome .scard .scv{font-family:'Anton';font-style:italic;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
+.flhome .scard .scv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
+.flhome .scard .scs{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:700}
+.flhome .scard .scs .d{width:7px;height:7px;border-radius:50%;flex:none}
+.flhome .scard .scs.vio{color:#5E6FE6}.flhome .scard .scs.vio .d{background:#5E6FE6}
+.flhome .scard .scs.amb{color:#9A8038}.flhome .scard .scs.amb .d{background:#E0A012}
+.flhome .scard .scs.emb{color:#C0492C}.flhome .scard .scs.emb .d{background:#E8674A}
+.flhome .scard .scchart{display:flex;align-items:flex-end;gap:3px;height:26px;margin-top:11px}
+.flhome .scard .scchart i{flex:1;border-radius:3px;min-height:4px;display:block}
+.flhome .scard .scbar{height:8px;border-radius:5px;background:#ECE7DF;margin-top:auto;overflow:hidden}
+.flhome .scard .scbar i{display:block;height:100%;border-radius:5px;background:#F2A93B}
+.flhome .stepscard{position:relative;overflow:hidden}
+.flhome .stepscard .steptrail{position:absolute;right:0;top:0;bottom:0;width:50%;pointer-events:none;background:radial-gradient(85% 120% at 95% 60%,rgba(232,103,74,.10),transparent 60%)}
+.flhome .stepscard>*{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -1603,52 +1636,44 @@ header{padding:11px 16px 7px}
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
-  <div class="greet">Bonjour, <span id="flName">Arthur</span>.</div>
-  <div class="greetsub">Prêt à performer aujourd'hui.</div>
   <div class="toprow2">
-    <div class="daynav">
-      <button class="dnav" onclick="flDay(-1)" aria-label="Jour précédent">‹</button>
-      <button class="dlabel" id="flDateBtn" onclick="flOpenPicker()"><span id="flDate">Aujourd'hui</span><i class="ti ti-chevron-down dcaret"></i></button>
-      <button class="dnav" id="dNext" onclick="flDay(1)" aria-label="Jour suivant">›</button>
-      <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
-    </div>
+    <button class="datepill" id="flDateBtn" onclick="flOpenPicker()"><i class="ti ti-calendar dpi"></i><span id="flDate">Aujourd'hui</span><i class="ti ti-chevron-down dcaret"></i></button>
+    <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
     <div class="streak2" id="flStreak" style="display:none"></div>
   </div>
 
+  <div class="card rec2" onclick="go('recovery')">
+    <div class="recart"></div>
+    <div class="ringw">
+      <svg width="150" height="150" viewBox="0 0 120 120">
+        <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#EAF1EC" stroke-width="9"/>
+        <circle class="ring-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <text x="61" y="73" text-anchor="middle" font-family="Anton" font-style="italic" font-size="37" fill="#161512"><tspan id="flRecup">87</tspan><tspan font-size="20" dx="1">%</tspan></text>
+      </svg>
+      <div class="ckbadge" id="flCheck"><i class="ti ti-check"></i></div>
+    </div>
+    <div class="recside">
+      <div class="rectitle">Récupération</div>
+      <div class="se" id="flZone">Haute</div>
+    </div>
+    <i class="ti ti-chevron-right reccv"></i>
+  </div>
+
+  <div class="statcard3">
+    <button class="scard" type="button" onclick="go('sleep')"><i class="ti ti-chevron-right sccv"></i><div class="scico vio"><i class="ti ti-moon"></i></div><div class="scl">Sommeil</div><div class="scv" id="flSleep">—</div><div class="scs vio"><span class="d"></span><span id="flSleepS">—</span></div><div class="scchart" id="flSleepBars"></div></button>
+    <button class="scard" type="button" onclick="go('load')"><i class="ti ti-chevron-right sccv"></i><div class="scico amb"><i class="ti ti-bolt"></i></div><div class="scl">Charge</div><div class="scv"><span id="flLoad">—</span> <small>/21</small></div><div class="scs amb"><span class="d"></span><span id="flLoadT">—</span></div><div class="scbar"><i id="flLoadBar"></i></div></button>
+    <button class="scard" type="button" onclick="go('caltrend')"><i class="ti ti-chevron-right sccv"></i><div class="scico emb"><i class="ti ti-flame"></i></div><div class="scl">Calories</div><div class="scv"><span id="flKcal">—</span> <small>kcal</small></div><div class="scs emb"><span class="d"></span>Brûlées</div><div class="scchart" id="flKcalBars"></div></button>
+  </div>
+
   <div class="card stepscard" onclick="openTrend('steps')">
-    <div class="stico"><i class="ti ti-walk"></i></div>
+    <div class="stico"><i class="ti ti-run"></i></div>
     <div class="sttxt">
       <div class="stl">Mes pas du jour</div>
       <div class="stv"><span id="flSteps">—</span> <small>pas</small></div>
     </div>
     <i class="ti ti-chevron-right stcv"></i>
-  </div>
-
-  <div class="card rec2" onclick="go('recovery')">
-    <div class="recart"><span class="sun"></span><span class="mtn"></span></div>
-    <div class="ringw">
-      <svg width="150" height="150" viewBox="0 0 120 120">
-        <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#F6B59E"/><stop offset="1" stop-color="#E8674A"/></linearGradient></defs>
-        <circle cx="60" cy="60" r="46" fill="none" stroke="#F0E9E0" stroke-width="9"/>
-        <circle class="ring-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <text x="61" y="73" text-anchor="middle" font-family="Anton" font-style="italic" font-size="37" fill="#161512"><tspan id="flRecup">87</tspan><tspan font-size="20" dx="1">%</tspan></text>
-      </svg>
-      <div class="nm">Récupération</div>
-      <div class="se" id="flZone">Haute</div>
-      <div class="ckbadge" id="flCheck"><i class="ti ti-check"></i></div>
-    </div>
-    <div class="recside">
-      <div class="receyb"><i class="ti ti-trending-up"></i><span id="flRecEyb">Ton corps est prêt.</span></div>
-      <div class="rectitle" id="flRecTitle">Récupération élevée</div>
-      <div class="recdesc" id="flRecDesc">Excellente récupération globale. Tu es prêt pour une charge élevée aujourd'hui.</div>
-      <button class="recbtn" onclick="event.stopPropagation();go('recovery')"><i class="ti ti-sparkles sp"></i> Voir mes recommandations <i class="ti ti-chevron-right cv"></i></button>
-    </div>
-  </div>
-
-  <div class="card statcard">
-    <button class="scell" type="button" onclick="go('sleep')"><div class="scico vio"><i class="ti ti-moon"></i></div><div class="scl">Sommeil</div><div class="scv" id="flSleep">—</div><div class="scs vio"><span class="d"></span><span id="flSleepS">—</span></div></button>
-    <button class="scell" type="button" onclick="go('load')"><div class="scico amb"><i class="ti ti-bolt"></i></div><div class="scl">Charge</div><div class="scv"><span id="flLoad">—</span> <small>/21</small></div><div class="scs amb"><span class="d"></span><span id="flLoadT">—</span></div></button>
-    <button class="scell" type="button" onclick="go('caltrend')"><div class="scico emb"><i class="ti ti-flame"></i></div><div class="scl">Calories</div><div class="scv"><span id="flKcal">—</span> <small>kcal</small></div><div class="scs emb"><span class="d"></span>Brûlées</div></button>
+    <div class="steptrail"></div>
   </div>
 
   <div class="card flwk" onclick="openTrend('charge')">
@@ -1764,11 +1789,6 @@ header{padding:11px 16px 7px}
       <div class="rhrule"></div>
       <div class="rhdesc" id="recReco"></div>
     </div>
-  </div>
-
-  <div class="card rcompo">
-    <div class="rch"><span class="ic"><i class="ti ti-activity"></i></span><b>Ce qui compose ta récupération</b><i class="ti ti-chevron-right cv"></i></div>
-    <div id="recContrib"></div>
   </div>
 
   <div class="card rinsight">
@@ -2396,6 +2416,7 @@ function flRenderWk(){var r=window._flWk||'7J';document.querySelectorAll('#flWkS
 function recovStreak(){let n=0;for(let i=0;i<90;i++){const has=i===0?recovery()!=null:DB.get('recov_'+tk(-i),null)!=null;if(has)n++;else break}return n}
 /* estimation des calories brûlées (l'app ne stocke pas l'énergie active) — à affiner par Félix avec le poids du user */
 function flStepsOf(k){k=k||tk();var seed=trSeed('steps|'+k);var v=8800+((seed%5200)-2600);return Math.max(3200,v)}
+function flBars(vals,color){var mx=Math.max.apply(null,vals.map(function(v){return v||0}).concat([1]));return vals.map(function(v,i){var h=Math.max(8,Math.round((v||0)/mx*100));return '<i style="height:'+h+'%;background:'+color+';opacity:'+(i===vals.length-1?1:.45)+'"></i>'}).join('')}
 function flWatchBatt(){var el=document.getElementById('wbatt'),v=document.getElementById('wbattV');if(!el||!v)return;var seed=trSeed('batt|'+tk());var pct=58+(seed%39);v.textContent=pct+' %';el.classList.toggle('mid',pct<40);el.classList.toggle('low',pct<20)}
 const KCAL_PER_MIN={1:6,2:8,3:10,4:13};
 function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);let act=0;ss.forEach(s=>{if(s.type==='nap')return;act+=(s.dur||30)*(KCAL_PER_MIN[s.int||2]||8)});const now=new Date();const frac=k===tk()?(now.getHours()*60+now.getMinutes())/1440:1;return Math.round(act+1600*frac)}
@@ -2457,6 +2478,10 @@ function renderToday(){
  set('flLoad',str.toFixed(1).replace('.',','));set('flLoadT','Objectif : '+obj);
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
+ flWatchBatt();
+ set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
+ set('flKcalBars',flBars(seriesBack(null,7,function(k){return caloriesBurned(k)}),'#E8674A'));
+ var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
  set('flBpm',t&&t.rhr?t.rhr:'—');set('flHrMode',today?'EN DIRECT':'AU REPOS');var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  const yRec=DB.get('recov_'+tk(gDay-1),null),dlt=(has&&yRec!=null)?rv.s-yRec:null,dl=document.getElementById('flDelta');
  if(dl){if(dlt!=null){dl.className='delta '+(dlt>=0?'up':'down');dl.textContent=(dlt>=0?'▲ +'+dlt:'▼ '+dlt)+' pts vs '+(today?'hier':'veille');dl.style.display='inline-flex'}else dl.style.display='none'}
@@ -2551,7 +2576,7 @@ function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a)
 /* ---------- RÉCUP ---------- */
 function renderRecovery(){renderHealth();renderVitaux();const rv=recovery();
  var pe=document.getElementById('recPill');
- if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recContrib','');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';return}
+ if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';return}
  if(pe)pe.style.display='';
  var rc=rv.s>=67?'#3FB57A':rv.s>=34?'#F2A93B':'#F0492E',rcl=rv.s>=67?'#EFF6E7':rv.s>=34?'#FBF1DD':'#FBEAE5';
  document.getElementById('recRing').innerHTML=ringHTML(rv.s,132,'','',rv.color,rv.s+'%');
@@ -2559,13 +2584,6 @@ function renderRecovery(){renderHealth();renderVitaux();const rv=recovery();
  set('recPillT',rv.s>=67?'Très bon état':rv.s>=34?'État correct':'À surveiller');
  if(pe){pe.style.color=rc;pe.style.borderColor=rc+'55';var dot=pe.querySelector('.d');if(dot)dot.style.background=rc}
  var rule=document.querySelector('#v-recovery .rhrule');if(rule)rule.style.background=rc;
- var ic=document.querySelector('#v-recovery .rch .ic');if(ic){ic.style.background=rcl;ic.style.color=rc}
- var t=rv.today,need=(getProfile().need||8)*60,cl=function(x){return Math.max(.04,Math.min(1,x))};
- function fH(){return (!rv.bH||t.hrv==null)?.72:cl((t.hrv-(rv.bH.m-2*rv.bH.sd))/(4*rv.bH.sd))}
- function fR(){return (!rv.bR||t.rhr==null)?.72:cl(((rv.bR.m+2*rv.bR.sd)-t.rhr)/(4*rv.bR.sd))}
- function fP(){return (!rv.bP||t.resp==null)?.72:cl(((rv.bP.m+2*rv.bP.sd)-t.resp)/(4*rv.bP.sd))}
- var rows=[['ti-activity','HRV',t.hrv!=null?t.hrv+' ms':'—',fH()],['ti-heart','FC repos',t.rhr!=null?t.rhr+' bpm':'—',fR()],['ti-moon','Sommeil',t.sleepMin!=null?(t.sleepMin/60).toFixed(1).replace('.',',')+' h':'—',cl(t.sleepMin/need)],['ti-lungs','Respiration',t.resp!=null?t.resp+' /min':'—',fP()]];
- set('recContrib',rows.map(function(r){return '<div class="rrow"><span class="rric" style="background:'+rcl+';color:'+rc+'"><i class="ti '+r[0]+'"></i></span><span class="rrl">'+r[1]+'</span><span class="rrv">'+r[2]+'</span><span class="rrtrack"><span class="rrfill" style="width:'+Math.round(r[3]*100)+'%;background:linear-gradient(90deg,'+rc+'cc,'+rc+')"></span></span></div>'}).join(''));
  set('recInsight',rv.s>=67?'HRV élevée et FC repos basse : ton système est prêt à encaisser une charge utile.':rv.s>=34?'Signaux corrects. Une charge modérée est le bon dosage aujourd\'hui.':'HRV basse et FC repos haute : ton corps réclame du repos. Lève le pied aujourd\'hui.');
 }
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
@@ -3155,7 +3173,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v85';
+const APP_VERSION='flint-v86';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
