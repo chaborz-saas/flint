@@ -1766,6 +1766,23 @@ header{padding:11px 16px 7px}
 .slx .slx-quality .sqrt b{display:block;font-size:13.5px;font-weight:800;color:#161512;line-height:1.22}
 .slx .slx-quality .sqrt span{font-size:12px;color:#8A857D;line-height:1.32;display:block;margin-top:3px}
 .slx .slx-quality .cv{color:#C9C5BC;font-size:19px;flex:none}
+/* ===== Sommeil — carte 3 stats (Récupérateur/Éveil/FC) ===== */
+.slx .slx-3stat{display:flex;align-items:flex-start;gap:6px;padding:18px 11px}
+.slx .st3{flex:1;min-width:0}
+.slx .st3top{display:flex;align-items:center;gap:6px;margin-bottom:9px;min-width:0}
+.slx .st3ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:16px;flex:none}
+.slx .st3ic.vio{background:#EEECFB;color:#6B6FE3}
+.slx .st3ic.cor{background:#FCEFE9;color:#E8674A}
+.slx .st3l{font-size:11px;font-weight:800;line-height:1.05;min-width:0}
+.slx .st3l.vio{color:#6B6FE3}
+.slx .st3l.cor{color:#E8674A}
+.slx .st3v{font-family:'Anton';font-style:italic;font-size:25px;line-height:1;color:#161512;white-space:nowrap}
+.slx .st3v small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F;margin-left:2px}
+.slx .st3sub{font-size:11.5px;color:#9A988F;margin-top:7px;line-height:1.2}
+/* ===== Accueil — titre « Ma journée » ===== */
+.flhome .mjtitle{font-family:'Anton';font-style:italic;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
+.flhome .mjtitle::after{content:'';display:block;width:118px;height:4px;border-radius:3px;margin-top:9px;background:linear-gradient(90deg,#E8674A 0 80%,transparent 80% 88%,#E8674A 88%)}
+.flhome .actwrap2 .actmeta2{margin-top:14px}
 </style>
 </head>
 <body>
@@ -1850,6 +1867,7 @@ header{padding:11px 16px 7px}
   </div>
 
   <div class="actwrap2">
+    <div class="mjtitle">Ma journée</div>
     <div class="actmeta2" id="flActMeta"></div>
     <div class="timeline" id="flActList"></div>
     <button class="addbig" onclick="openActSheet()"><i class="ti ti-plus"></i> Ajouter une activité</button>
@@ -1953,9 +1971,10 @@ header{padding:11px 16px 7px}
     </div>
   </div>
 
-  <div class="card slx-rep">
-    <div class="slx-rephd">Répartition du sommeil</div>
-    <div class="slx-stages" id="shStages"></div>
+  <div class="card slx-3stat">
+    <div class="st3"><div class="st3top"><span class="st3ic vio"><i class="ti ti-bolt"></i></span><span class="st3l vio">Récupérateur</span></div><div class="st3v" id="shRestore">—</div><div class="st3sub">Sommeil réparateur</div></div>
+    <div class="st3"><div class="st3top"><span class="st3ic cor"><i class="ti ti-eye"></i></span><span class="st3l cor">Éveil</span></div><div class="st3v" id="shAwake">—</div><div class="st3sub" id="shAwakePc">—</div></div>
+    <div class="st3"><div class="st3top"><span class="st3ic vio"><i class="ti ti-heart"></i></span><span class="st3l vio">FC nocturne</span></div><div class="st3v" id="shFcAvg">—</div><div class="st3sub">Moyenne</div></div>
   </div>
 
   <div class="card slx-time">
@@ -2705,8 +2724,9 @@ function openActSheet(){window._asSport=null;window._asCat='rec';
  asRenderGrid(ASRECENT);asImpact();
  document.getElementById('actSheet').classList.add('on')}
 function closeActSheet(){document.getElementById('actSheet').classList.remove('on')}
-function saveAct(){const nap=document.getElementById('asNap').checked,sp=window._asSport,time=document.getElementById('asTime').value;const dur=parseInt(document.getElementById('asDur').value)||(nap?20:60);const int=+document.getElementById('asInt').value||2;
+function saveAct(){const nap=document.getElementById('asNap').checked,sp=window._asSport;var time=document.getElementById('asTime').value;const dur=parseInt(document.getElementById('asDur').value)||(nap?20:60);const int=+document.getElementById('asInt').value||2;
  if(!nap&&!sp){toast('Choisis une activité');return}
+ if(!time){var _n=new Date();time=String(_n.getHours()).padStart(2,'0')+':'+String(_n.getMinutes()).padStart(2,'0')}
  const k=tk(),a=DB.get('sessions_'+k,[]);
  if(nap)a.push({type:'nap',name:'Sieste',icon:'😴',start:time,dur});else a.push({name:sp[0],icon:sp[1],start:time,dur,int});
  DB.set('sessions_'+k,a);closeActSheet();toast(nap?'Sieste ajoutée 😴':'Activité ajoutée ⚡');renderToday()}
@@ -2766,13 +2786,18 @@ function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;
  function ft(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
  set('shStreak',recovStreak()||26);
  var rg=document.getElementById('shRing');
- if(!t||t.sleepMin==null){window._sleepScore=null;set('shHours','—');if(rg)rg.innerHTML=slDonutSVG([{v:1,color:'#ECE7DF'}]);set('shBed','—');set('shWake','—');set('shStages','');set('shScore','—');var sb0=document.getElementById('shScoreBar');if(sb0)sb0.style.width='0%';set('shCoachT','Pas de données');set('shCoachS','Connecte ta Polar Loop.');set('shScoreC','—');set('shInsight','Branche ta Polar Loop pour analyser tes nuits.');set('shEyebrow','En attente');var _vc0=document.getElementById('shVerdictChk');if(_vc0)_vc0.style.display='none';return}
+ if(!t||t.sleepMin==null){window._sleepScore=null;set('shHours','—');if(rg)rg.innerHTML=slDonutSVG([{v:1,color:'#ECE7DF'}]);set('shBed','—');set('shWake','—');set('shStages','');set('shRestore','—');set('shAwake','—');set('shAwakePc','—');set('shFcAvg','—');set('shScore','—');var sb0=document.getElementById('shScoreBar');if(sb0)sb0.style.width='0%';set('shCoachT','Pas de données');set('shCoachS','Connecte ta Polar Loop.');set('shScoreC','—');set('shInsight','Branche ta Polar Loop pour analyser tes nuits.');set('shEyebrow','En attente');var _vc0=document.getElementById('shVerdictChk');if(_vc0)_vc0.style.display='none';return}
  var nm=sleepNight(tk());
  set('shHours',Math.floor(t.sleepMin/60)+'<span class="u">h</span>'+String(t.sleepMin%60).padStart(2,'0'));
  var stages=[{k:'Réveil',v:nm.awake,color:'#F4A98A'},{k:'Léger',v:nm.light,color:'#A9A6F5'},{k:'Profond',v:nm.deep,color:'#5B47E0'},{k:'REM',v:nm.rem,color:'#B45CE8'}];
  if(rg)rg.innerHTML=slDonutSVG(stages);
  var tot=(nm.awake+nm.light+nm.deep+nm.rem)||1,maxV=Math.max(nm.awake,nm.light,nm.deep,nm.rem)||1;
  set('shStages',stages.map(function(s){return '<div class="row"><span class="dot" style="background:'+s.color+'"></span><span class="nm">'+s.k+'</span><span class="bar"><i style="width:'+Math.max(6,Math.round(s.v/maxV*100))+'%;background:'+s.color+'"></i></span><span class="pc">'+Math.round(s.v/tot*100)+' %</span><span class="tm">'+hhmm(s.v)+'</span></div>'}).join(''));
+ var _restore=nm.deep+nm.rem,_nightTot=(nm.inBed||tot)||1;
+ set('shRestore',Math.floor(_restore/60)+'h'+String(Math.round(_restore%60)).padStart(2,'0'));
+ set('shAwake',nm.awake+'<small>min</small>');
+ set('shAwakePc',Math.round(nm.awake/_nightTot*100)+' % de la nuit');
+ set('shFcAvg',(nm.rhr!=null?nm.rhr:'—')+'<small>bpm</small>');
  set('shBed',ft(nm.bedMin));set('shWake',ft(nm.wakeMin));
  var heures=Math.min(100,Math.round(t.sleepMin/need*100)),eff=t.awake!=null?Math.round(t.sleepMin/(t.sleepMin+t.awake)*100):heures,regul=sleepConsistency()||75;
  var score=Math.round(heures*0.5+eff*0.3+regul*0.2);window._sleepScore=score;
@@ -3305,7 +3330,7 @@ function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportinten
   const rhr=Math.round(46+Math.random()*12-pen*0.3),hrv=Math.round(58+Math.random()*30+pen),resp=+(13+Math.random()*2.4).toFixed(1),skinTemp=+(36.3+Math.random()*0.5).toFixed(1);
   const timeInBed=sleepMin+awake+Math.round(8+Math.random()*18),latency=Math.round(5+Math.random()*22),wakeEvents=Math.round(6+Math.random()*14),lowestHr=rhr-Math.round(2+Math.random()*3),wakeMin=420+Math.round(-25+Math.random()*50),bedMin=((wakeMin-timeInBed)%1440+1440)%1440;
   DB.set('sensor_'+k,{hrv,rhr,resp,skinTemp,deep,rem,light,awake,sleepMin,timeInBed,latency,wakeEvents,lowestHr,bedMin,wakeMin,source:'sim'});
-  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3),nm=['Course','Renfo','Vélo','HIIT'][Math.floor(Math.random()*4)];DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),dur,int,auto:true}])}}
+  if(Math.random()>0.35){const dur=40+Math.round(Math.random()*50),int=1+Math.round(Math.random()*3),nm=['Course','Renfo','Vélo','HIIT'][Math.floor(Math.random()*4)];const sh=7+Math.floor(Math.random()*12),sm=Math.floor(Math.random()*60),start=String(sh).padStart(2,'0')+':'+String(sm).padStart(2,'0');DB.set('sessions_'+k,[{name:nm,icon:sportIcon(nm),start:start,dur,int,auto:true}])}else{DB.set('sessions_'+k,[])}}
  for(let i=27;i>=0;i--){persistRecovFor(tk(-i))}DB.set('demo',1);
  if(!silent){seedTodayShowcase();renderProfile();toast('Démo rechargée 🎲');go('today')}}
 function flStageSegs(s){var seq=hypnoSeq({deep:s.deep,rem:s.rem,light:s.light,awake:s.awake,sleepMin:s.deep+s.rem+s.light});var nm={0:'deep',1:'light',2:'rem',3:'awake'},out=[],t=0;seq.forEach(function(g){out.push({stage:nm[g[0]],startMin:t,durMin:g[1]});t+=g[1]});return out}
@@ -3316,9 +3341,9 @@ function seedTodayShowcase(){const sleepMin=462,deep=104,rem=118,awake=12,light=
  DB.set('sessions_'+tk(),[{name:'Marche',icon:'🚶',start:'09:15',dur:45,int:1,auto:true},{name:'Padel',icon:'🎾',start:'12:30',dur:75,int:2,auto:true},{type:'nap',name:'Sieste',icon:'😴',start:'15:00',dur:25},{name:'Football',icon:'⚽',start:'18:00',dur:75,int:3,auto:true}]);
  DB.set('meals_'+tk(),[{name:'Petit-déj — flocons & œufs',kcal:520,prot:32,carb:60,fat:16},{name:'Déjeuner — poulet riz',kcal:760,prot:55,carb:80,fat:18},{name:'Collation — skyr & banane',kcal:280,prot:22,carb:38,fat:4},{name:'Snack — amandes',kcal:290,prot:10,carb:10,fat:24}]);
  persistRecov()}
-function ensureDemo(){if(DB.get('seeded')===7)return;simulateData(true);seedTodayShowcase();
+function ensureDemo(){if(DB.get('seeded')===8)return;simulateData(true);seedTodayShowcase();
  for(let i=1;i<=13;i++){const k=tk(-i);DB.set('meals_'+k,[{name:'Journée',kcal:Math.round(1950+Math.random()*650),prot:Math.round(120+Math.random()*70),carb:Math.round(180+Math.random()*120),fat:Math.round(55+Math.random()*45)}])}
- DB.set('seeded',7)}
+ DB.set('seeded',8)}
 function persistRecovFor(k){const s=DB.get('sensor_'+k,null);if(!s)return;const hs=[],rs=[];for(let j=1;j<=21;j++){const d=new Date(k.replace(/-/g,'/'));d.setDate(d.getDate()-j);const kk=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const ss=DB.get('sensor_'+kk,null);if(ss){if(ss.hrv!=null)hs.push(ss.hrv);if(ss.rhr!=null)rs.push(ss.rhr)}}
  if(hs.length<3)return;const mean=a=>a.reduce((x,y)=>x+y,0)/a.length,sd=a=>Math.sqrt(a.reduce((x,y)=>x+(y-mean(a))*(y-mean(a)),0)/a.length)||1;
  const zH=(s.hrv-mean(hs))/sd(hs),zR=(s.rhr-mean(rs))/sd(rs),sp=Math.min(1.1,s.sleepMin/((getProfile().need||8)*60)),zS=(sp-1)*3;
@@ -3328,7 +3353,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v90';
+const APP_VERSION='flint-v91';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
