@@ -1811,9 +1811,10 @@ header{padding:11px 16px 7px}
 .flhome .actcta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:none;border:0;padding:15px 0 5px;color:#8F8982;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .12s}
 .flhome .actcta .p{color:#E8674A;font-size:18px;display:inline-flex}
 .flhome .actcta:active{transform:scale(.99)}
-.flhome .mjwrap{position:relative;margin:4px -2px 0;background:#FBF9F5;padding:0 2px 28px}
-.flhome .mjwave{display:block;width:100%;height:138px;margin-bottom:-1px}
-.flhome .mjwrap>.actwrap2{margin-top:2px}
+.flhome .mjwrap{position:relative;margin:0 -2px 0;background:#FFFEFC;padding:0 2px 28px}
+.flhome .mjwave{display:block;width:100%;height:64px;margin-bottom:-1px;filter:drop-shadow(0 -8px 16px rgba(150,138,120,.09))}
+.flhome .mjwave path{fill:#FFFEFC}
+.flhome .mjwrap>.actwrap2{margin-top:12px}
 /* ===== Accueil — Objectif hebdo + FC (maquette) ===== */
 .flhome .objhebdo{padding:20px 18px}
 .flhome .objhebdo .ohtop{display:flex;align-items:center;gap:16px}
@@ -1992,7 +1993,7 @@ header{padding:11px 16px 7px}
   </div>
 
   <div class="mjwrap">
-  <svg class="mjwave" viewBox="0 0 440 138" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="mjUp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAF8F5"/><stop offset="0.34" stop-color="#EAE3D8"/><stop offset="1" stop-color="#EAE3D8"/></linearGradient><filter id="mjSh" x="-10%" y="-30%" width="120%" height="190%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#A89C89" flood-opacity="0.16"/></filter></defs><path filter="url(#mjSh)" fill="url(#mjUp)" d="M0,0 L440,0 L440,84 C362,122 300,64 214,90 C146,110 74,76 0,98 Z"/></svg>
+  <svg class="mjwave" viewBox="0 0 440 64" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C120,4 220,2 290,18 C355,33 400,36 440,26 L440,64 L0,64 Z"/></svg>
 
   <div class="actwrap2">
     <div class="mjtitle">Ma journée</div>
@@ -3545,7 +3546,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v103';
+const APP_VERSION='flint-v104';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
