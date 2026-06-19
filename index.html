@@ -1645,10 +1645,10 @@ header{padding:11px 16px 7px}
 .flhome .tlrow.sleep .tlnode .nd{background:#6C7BD6}
 .flhome .tlrow .tlcard{flex:1;min-width:0;display:flex;align-items:center;gap:13px;background:#FCEFE9;border-radius:20px;padding:12px 14px;margin-left:6px}
 .flhome .tlrow.sleep .tlcard{background:#EEECFB}
-.flhome .tlrow .tlcard .tile{width:72px;height:46px;border-radius:14px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;flex:none;box-shadow:0 5px 12px rgba(232,103,74,.2)}
-.flhome .tlrow.sleep .tlcard .tile{background:#6C7BD6;box-shadow:0 5px 12px rgba(108,123,214,.2)}
-.flhome .tlrow .tlcard .tile i{font-size:16px;opacity:.95}
-.flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:italic;font-size:19px;line-height:1}
+.flhome .tlrow .tlcard .tile{width:58px;height:38px;border-radius:12px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;box-shadow:0 4px 10px rgba(232,103,74,.2)}
+.flhome .tlrow.sleep .tlcard .tile{background:#6C7BD6;box-shadow:0 4px 10px rgba(108,123,214,.2)}
+.flhome .tlrow .tlcard .tile i{font-size:13px;opacity:.95}
+.flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:italic;font-size:15px;line-height:1}
 .flhome .tlrow .tlcard .md{min-width:0}
 .flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flhome .tlrow .tlcard .mt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1863,6 +1863,13 @@ header{padding:11px 16px 7px}
     <div class="steptrail"></div>
   </div>
 
+  <div class="actwrap2">
+    <div class="mjtitle">Ma journée</div>
+    <div class="actmeta2" id="flActMeta"></div>
+    <div class="timeline" id="flActList"></div>
+    <button class="addbig" onclick="openActSheet()"><i class="ti ti-plus"></i> Ajouter une activité</button>
+  </div>
+
   <div class="card objhebdo" onclick="openTrend('charge')">
     <div class="ohtop">
       <div class="ohring" id="flObjRing"></div>
@@ -1888,13 +1895,6 @@ header{padding:11px 16px 7px}
       <div class="fcrs">Dernières heures</div>
       <div class="fcchart2" id="flFcMini"></div>
     </div>
-  </div>
-
-  <div class="actwrap2">
-    <div class="mjtitle">Ma journée</div>
-    <div class="actmeta2" id="flActMeta"></div>
-    <div class="timeline" id="flActList"></div>
-    <button class="addbig" onclick="openActSheet()"><i class="ti ti-plus"></i> Ajouter une activité</button>
   </div>
 
   <div class="card flad">
@@ -3405,7 +3405,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v92';
+const APP_VERSION='flint-v93';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
