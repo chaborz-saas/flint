@@ -1463,7 +1463,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v35';
+const APP_VERSION='flint-v36';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const live='flint-v'+m[1];if(live!==APP_VERSION){const b=document.getElementById('updBanner');b.style.display='block';b.textContent='⬆️ Nouvelle version ('+live+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -1477,11 +1477,11 @@ if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.regist
 <script>
 /* Connexion directe Polar Loop — version DIAGNOSTIC (affiche chaque étape) */
 (function(){
-  var listenersSet=false, connecting=false, lines=[];
-  function log(m){lines.push(m); var e=document.getElementById('polarBleStatus'); if(e) e.innerHTML=lines.slice(-14).join('<br>');}
+  var listenersSet=false, connecting=false, lines=[], rawSeen={};
+  function log(m){lines.push(m); var e=document.getElementById('polarBleStatus'); if(e) e.innerHTML=lines.slice(-22).join('<br>');}
   function T(p,ms,label){return Promise.race([Promise.resolve(p), new Promise(function(_,rej){setTimeout(function(){rej(new Error('pas de réponse ('+label+')'));},ms);})]);}
   window.connectPolarBle=async function(){
-    lines=[];
+    lines=[]; rawSeen={};
     var P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.PolarBle;
     log('1. Plugin PolarBle : '+(P?'OK ✅':'ABSENT ❌'));
     var uaM=(navigator.userAgent||'').match(/Android\s+([\d.]+)/); log('   Android : '+(uaM?uaM[1]:'?'));
@@ -1498,6 +1498,7 @@ if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.regist
       P.addListener('status',function(s){log('état : '+s.status);});
       P.addListener('hr',function(h){log('❤️ '+h.hr+' bpm'+(h.rr&&h.rr.length?' · RR '+h.rr.join('/'):''));});
       P.addListener('error',function(e){log('❌ erreur native : '+(e&&e.message?e.message:e));});
+      P.addListener('raw',function(d){var a=d.address||'?';if(rawSeen[a])return;rawSeen[a]=1;var pol=((d.name||'')+'').toLowerCase().indexOf('polar')>-1;log((pol?'⭐ POLAR : ':'• ')+(d.name||'(sans nom)')+' · '+d.rssi+'dBm'+(pol?' ['+a+']':''));if(pol&&!connecting){connecting=true;log('→ tentative de connexion forcée à '+(d.name||a)+'…');try{P.rawStop&&P.rawStop();P.connect({deviceId:a});}catch(e){log('connect err: '+e.message);}}});
     }
     try{
       log('2. Demande permissions…');
@@ -1506,10 +1507,13 @@ if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.regist
       catch(e){ log('⚠️ '+e.message); return; }
       log('3. Permissions : '+JSON.stringify(perm));
       connecting=false;
-      log('4. Lancement du scan…');
-      try{ await T(P.scan(),10000,'scan'); log('5. Scan lancé ✅ (j\'écoute les appareils…)'); }
-      catch(e){ log('⚠️ scan refusé : '+e.message); if(((e.message||'')+'').indexOf('permission')>-1){log('→ L\'APK installé a l\'ancienne vérif de permission. Désinstalle FLINT puis réinstalle le dernier APK (v1.3).');} return; }
-      setTimeout(function(){if(!connecting)log('⏳ Rien trouvé après 15s. Bluetooth allumé ? Loop chargée + pas connectée à l\'app Polar Flow ?');},15000);
+      log('4. Scan Polar (SDK)…');
+      try{ await T(P.scan(),10000,'scan'); log('5. Scan Polar lancé ✅'); }
+      catch(e){ log('⚠️ scan Polar : '+e.message); }
+      log('6. SCAN BRUT (tout le Bluetooth, zéro filtre) :');
+      try{ await T(P.rawScan(),10000,'rawScan'); }
+      catch(e){ log('⚠️ scan brut : '+e.message); }
+      setTimeout(function(){ try{ P.rawStop&&P.rawStop(); P.stopScan&&P.stopScan(); }catch(e){} if(!connecting)log('— Fin (25s). Si AUCUNE ligne « ⭐ POLAR » ni appareil à signal fort (-40 à -60 dBm) n\'est apparu, ta Loop n\'émet rien du tout → souci matériel.'); },25000);
     }catch(e){log('❌ erreur : '+(e&&e.message?e.message:e));}
   };
 })();
