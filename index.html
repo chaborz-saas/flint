@@ -35,6 +35,7 @@
     padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
   header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
   header.has-title .logo{height:17px !important}
+  header.has-title .wbatt{display:none}
   header .wbatt{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:700;color:#161512;box-shadow:0 4px 12px rgba(22,21,18,.06);cursor:pointer;font-variant-numeric:tabular-nums;flex:none}
   header .wbatt i{font-size:17px;color:#3FB57A}
   header .wbatt.mid i{color:#F2A93B}
@@ -1654,6 +1655,63 @@ header{padding:11px 16px 7px}
 .flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
 .flhome .addbig:active{transform:scale(.985)}
 .flhome .addbig i{font-size:20px}
+/* ===== Vitaux nocturnes (refonte statut strict) ===== */
+#vitauxCard.nvit{display:flex;flex-direction:column;gap:14px}
+.nvit .nvh{display:flex;align-items:center;gap:13px;padding:2px 2px 2px}
+.nvit .nvhic{width:50px;height:50px;border-radius:15px;background:#FCEFE9;color:#E8674A;display:grid;place-items:center;font-size:25px;flex:none}
+.nvit .nvht{flex:1;min-width:0}
+.nvit .nvtitle{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:22px;color:#161512;line-height:1}
+.nvit .nvsub{font-size:14px;color:#8A857D;margin-top:4px}
+.nvit .nvdate{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:8px 13px;font-size:13px;font-weight:600;color:#161512;flex:none;white-space:nowrap}
+.nvit .nvdate i{color:#6C7BD6;font-size:15px}
+.nvit .nvsum{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border-radius:22px;padding:16px 18px;border:1px solid}
+.nvit .nvsum.coral{background:#FDEEE9;border-color:#F6D3C6}
+.nvit .nvsum.green{background:#EAF5EE;border-color:#CDE8D6}
+.nvit .nvsum .si{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;flex:none}
+.nvit .nvsum.coral .si{background:#F9DCD2;color:#D2502E}
+.nvit .nvsum.green .si{background:#D6EDDD;color:#2FA86A}
+.nvit .nvsum .st{flex:1;min-width:0}
+.nvit .nvsum .st b{display:block;font-size:17px;font-weight:800;margin-bottom:3px}
+.nvit .nvsum.coral .st b{color:#C0492C}
+.nvit .nvsum.green .st b{color:#2E7D46}
+.nvit .nvsum .st span{font-size:14px;color:#7A756D;line-height:1.4}
+.nvit .nvsum .sc{font-size:22px;flex:none;color:#C9A99E}
+.nvit .nvsum .sc.green{color:#2FA86A}
+.nvit .nvcard{display:block;width:100%;text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid #F1EBE3;border-radius:24px;padding:18px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 10px 26px rgba(20,18,12,.045);transition:transform .12s ease;-webkit-tap-highlight-color:transparent}
+.nvit .nvcard:active{transform:scale(.99)}
+.nvit .nvtop{display:flex;align-items:center;gap:15px}
+.nvit .nvic{width:58px;height:58px;border-radius:50%;background:#FCEFE9;color:#E8674A;display:grid;place-items:center;font-size:27px;flex:none}
+.nvit .nvic.g{background:#E7F3EA;color:#2FA86A}
+.nvit .nvhead{flex:1;min-width:0}
+.nvit .nvname{font-size:16px;font-weight:800;color:#161512;letter-spacing:.01em}
+.nvit .nvval{font-family:'Anton';font-style:italic;font-size:40px;line-height:1;margin-top:4px;color:#161512}
+.nvit .nvval small{font-family:'Inter';font-style:normal;font-size:16px;font-weight:700;color:#9A988F;margin-left:3px}
+.nvit .nvval.in{color:#2FA86A}
+.nvit .nvval.out{color:#E8674A}
+.nvit .nvverdict{font-size:15px;font-weight:800;margin-top:7px}
+.nvit .nvnorm{font-size:14px;color:#8A857D;margin-top:6px}
+.nvit .nvcv{width:42px;height:42px;border-radius:50%;background:#F1EDE7;color:#9A958D;display:grid;place-items:center;font-size:20px;flex:none}
+.nvit .nvcv.g{background:#E2F0E7;color:#5FA97C}
+.nvit .nvbarwrap{margin-top:16px}
+.nvit .nvbar{position:relative;height:8px;margin:0 4px}
+.nvit .nvtrack{position:absolute;inset:0;background:#ECE7DF;border-radius:5px}
+.nvit .nvband{position:absolute;top:0;bottom:0;background:#6FBF8F;border-radius:5px}
+.nvit .nvmk{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#E8674A;border:3px solid #fff;box-shadow:0 1px 5px rgba(20,18,12,.22);transform:translate(-50%,-50%);z-index:1}
+.nvit .nvmk.in{background:#2FA86A}
+.nvit .nvlabels{position:relative;height:18px;margin:10px 4px 0;font-size:13px;font-weight:700;color:#8A857D}
+.nvit .nvlabels .nvl{position:absolute;transform:translateX(-50%);white-space:nowrap;font-variant-numeric:tabular-nums}
+.nvit .nvlabels .nvl.out{color:#E8674A}
+@keyframes nvIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.nvit .nvsum,.nvit .nvcard{animation:nvIn .5s cubic-bezier(.2,.7,.2,1) both}
+.nvit .nvsum{animation-delay:.02s}
+.nvit .nvcard:nth-of-type(2){animation-delay:.06s}
+.nvit .nvcard:nth-of-type(3){animation-delay:.1s}
+.nvit .nvcard:nth-of-type(4){animation-delay:.14s}
+.nvit .nvcard:nth-of-type(5){animation-delay:.18s}
+@keyframes nvPulse{0%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 0 rgba(232,103,74,.4)}70%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 8px rgba(232,103,74,0)}100%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 0 rgba(232,103,74,0)}}
+.nvit .nvmk:not(.in){animation:nvPulse 2.2s ease-out .35s 2}
+.nvit .nvmk.in{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 5px rgba(47,168,106,.16)}
+@media (prefers-reduced-motion:reduce){.nvit .nvsum,.nvit .nvcard{animation:none}.nvit .nvmk:not(.in){animation:none}}
 </style>
 </head>
 <body>
@@ -1823,8 +1881,7 @@ header{padding:11px 16px 7px}
     <i class="ti ti-chevron-right cv2"></i>
   </div>
 
-  <div class="card rvit" id="vitauxCard"></div>
-  <div class="card rhealth" id="healthCard"></div>
+  <div id="vitauxCard" class="nvit"></div>
 </div>
 </section>
 
@@ -2375,29 +2432,33 @@ function renderHealth(){var host=document.getElementById('healthCard');if(!host)
   return '<div class="hmr"><span class="hi"><i class="ti '+v[0]+'"></i></span><span class="hl">'+v[1]+'</span><span class="hv">'+v[2]+' '+v[3]+'</span><span class="hs '+(fav?'ok':'bad')+'"><i class="ti ti-'+(fav?'check':'alert-triangle')+'"></i></span></div>';
  }).join('');
  host.innerHTML='<div class="rvh"><span class="ic"><i class="ti ti-activity"></i></span><b>Health Monitor</b></div>'+body+'<div class="hmleg"><span><span class="hs ok"><i class="ti ti-check"></i></span>Dans la plage normale</span><span><span class="hs bad"><i class="ti ti-alert-triangle"></i></span>Hors plage (signal à surveiller)</span></div>';}
+var V_MONTHS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+function getMetricStatus(v,lo,hi){if(v==null||lo==null)return 'na';if(v<lo)return 'low';if(v>hi)return 'high';return 'in'}
 function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)return;var t=sensorOf(tk());
- var H='<div class="rvh"><span class="ic"><i class="ti ti-moon-stars"></i></span><b>Vitaux nocturnes</b></div>';
- if(!t||t.hrv==null){host.innerHTML=H+'<p class="sci" style="padding:4px 2px">En attente de ta nuit.</p>';return}
  function r1(x){return Math.round(x*10)/10}
- function tile(icon,label,val,unit,b,higher){
-  var lo,hi,dotPct=50,bandL=28,bandW=44,fav=true,sl='';
-  if(b&&val!=null){lo=b.m-b.sd;hi=b.m+b.sd;var span=(hi-lo)||1,smin=lo-span*0.6,smax=hi+span*0.6;dotPct=Math.max(5,Math.min(95,(val-smin)/(smax-smin)*100));bandL=(lo-smin)/(smax-smin)*100;bandW=(hi-lo)/(smax-smin)*100;var dev=(val-b.m)/b.sd;fav=higher?dev>=-0.6:dev<=0.6;
-   sl='<div class="vsl"><span class="band" style="left:'+bandL.toFixed(0)+'%;width:'+bandW.toFixed(0)+'%"></span><span class="dot" style="left:'+dotPct.toFixed(0)+'%"></span></div><div class="vlh"><span>'+r1(lo)+'</span><span>'+r1(hi)+'</span></div>';}
-  var rng=b&&val!=null?'normale '+r1(lo)+'–'+r1(hi):'';
-  var chk='<span class="tck '+(fav?'ok':'bad')+'"><i class="ti ti-'+(fav?'check':'alert-triangle')+'"></i></span>';
-  return '<div class="vtile"><div class="vt"><span class="vti"><i class="ti '+icon+'"></i></span><span class="vtl">'+label+'</span>'+chk+'</div><div class="vv"><b>'+(val!=null?val:'—')+'</b><small>'+unit+'</small></div><div class="vrng">'+rng+'</div>'+sl+'</div>';
- }
- var age=fitnessAge(),uAge=getProfile().age||28,verdict,vtxt,vcol;
- if(age==null){verdict='—';vtxt='';vcol='#9A988F';}
- else if(age<=uAge-3){verdict='Excellent';vtxt='Ton corps récupère très bien.';vcol='#2E7D32';}
- else if(age<=uAge+3){verdict='Bon';vtxt='Récupération dans la norme.';vcol='#9A8038';}
- else{verdict='À surveiller';vtxt='Pense à plus de repos.';vcol='#C0492C';}
- var ageTile='<div class="vtile"><div class="vt"><span class="vti"><i class="ti ti-user"></i></span><span class="vtl">Âge physiologique</span></div><div class="vv"><b>'+(age!=null?age:'—')+'</b><small>ans</small></div><div class="vverdict" style="color:'+vcol+'">'+verdict+'</div><div class="vrng" style="margin-top:2px">'+vtxt+'</div></div>';
- var grid='<div class="vgrid">'+tile('ti-heartbeat','HRV',t.hrv,'ms',baseStat('hrv'),true)+tile('ti-heart','FC repos',t.rhr,'bpm',baseStat('rhr'),false)+tile('ti-lungs','Respiration',t.resp,'/min',baseStat('resp'),false)+ageTile+'</div>';
- var out=0;[['hrv',t.hrv,true],['rhr',t.rhr,false],['resp',t.resp,false]].forEach(function(v){var b=baseStat(v[0]);if(b&&v[1]!=null){var dev=(v[1]-b.m)/b.sd,fav=v[2]?dev>=-0.6:dev<=0.6;if(!fav)out++;}});
- var stable=out===0;
- var banner='<button class="vglob" type="button"><span class="gi"><i class="ti ti-'+(stable?'shield-check':'alert-triangle')+'"></i></span><span class="gt"><b>'+(stable?'Lecture globale stable':'Signal à surveiller')+'</b><span>'+(stable?'Aucun signal critique détecté cette nuit.':out+' vital'+(out>1?'aux':'')+' hors plage cette nuit.')+'</span></span><i class="ti ti-chevron-right gc"></i></button>';
- host.innerHTML=H+grid+banner;}
+ var d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+gDay);
+ var H='<div class="nvh"><span class="nvhic"><i class="ti ti-moon-stars"></i></span><div class="nvht"><div class="nvtitle">Vitaux nocturnes</div><div class="nvsub">Analyse de ta nuit</div></div><span class="nvdate"><i class="ti ti-moon"></i> Nuit du '+d.getDate()+' '+V_MONTHS[d.getMonth()]+'</span></div>';
+ if(!t||t.hrv==null){host.innerHTML=H+'<div class="nvcard"><p class="sci" style="margin:0;padding:4px 2px">En attente de ta nuit. Synchronise ta Polar Loop.</p></div>';return}
+ function bar(v,lo,hi,st){var span=(hi-lo)||1,pad=span*0.18,amin=Math.min(lo,v)-pad,amax=Math.max(hi,v)+pad,rng=amax-amin||1;
+  var bl=(lo-amin)/rng*100,bw=(hi-lo)/rng*100,mk=Math.max(2,Math.min(98,(v-amin)/rng*100));
+  var lab='<span class="nvl" style="left:'+bl.toFixed(1)+'%">'+r1(lo)+'</span><span class="nvl" style="left:'+(bl+bw).toFixed(1)+'%">'+r1(hi)+'</span>'+(st!=='in'?'<span class="nvl out" style="left:'+mk.toFixed(1)+'%">'+r1(v)+'</span>':'');
+  return '<div class="nvbarwrap"><div class="nvbar"><span class="nvtrack"></span><span class="nvband" style="left:'+bl.toFixed(1)+'%;width:'+bw.toFixed(1)+'%"></span><span class="nvmk'+(st==='in'?' in':'')+'" style="left:'+mk.toFixed(1)+'%"></span></div><div class="nvlabels">'+lab+'</div></div>';}
+ function metric(field,icon,name,val,unit){var b=baseStat(field);
+  if(!b||val==null)return '<button class="nvcard" onclick="openSleepNight()"><div class="nvtop"><span class="nvic"><i class="ti '+icon+'"></i></span><div class="nvhead"><div class="nvname">'+name+'</div><div class="nvval" style="color:#9A988F">—</div></div><span class="nvcv"><i class="ti ti-chevron-right"></i></span></div></button>';
+  var lo=b.m-b.sd,hi=b.m+b.sd,st=getMetricStatus(val,lo,hi),vc=st==='in'?'in':'out';
+  return '<button class="nvcard" onclick="openSleepNight()"><div class="nvtop"><span class="nvic"><i class="ti '+icon+'"></i></span><div class="nvhead"><div class="nvname">'+name+'</div><div class="nvval '+vc+'">'+val+'<small>'+unit+'</small></div><div class="nvnorm">normale '+r1(lo)+'–'+r1(hi)+'</div></div><span class="nvcv"><i class="ti ti-chevron-right"></i></span></div>'+bar(val,lo,hi,st)+'</button>';}
+ var out=0;[['hrv',t.hrv],['rhr',t.rhr],['resp',t.resp]].forEach(function(m){var b=baseStat(m[0]);if(b&&m[1]!=null&&getMetricStatus(m[1],b.m-b.sd,b.m+b.sd)!=='in')out++});
+ var sum=out>0
+  ?'<div class="nvsum coral"><span class="si"><i class="ti ti-alert-triangle"></i></span><div class="st"><b>'+out+' indicateur'+(out>1?'s':'')+' hors fourchette</b><span>Ton corps montre des écarts à surveiller cette nuit.</span></div><i class="ti ti-chevron-right sc"></i></div>'
+  :'<div class="nvsum green"><span class="si"><i class="ti ti-shield-check"></i></span><div class="st"><b>Tout est dans la normale</b><span>Tes signes vitaux nocturnes sont équilibrés.</span></div><i class="ti ti-check sc green"></i></div>';
+ var age=fitnessAge(),uAge=getProfile().age||28,verdict,vtxt;
+ if(age==null){verdict='—';vtxt='';}
+ else if(age<=uAge-3){verdict='Excellent';vtxt='Ton corps récupère très bien.';}
+ else if(age<=uAge+3){verdict='Bon';vtxt='Récupération dans la norme.';}
+ else{verdict='À surveiller';vtxt='Pense à plus de repos.';}
+ var ageGreen=age!=null&&verdict!=='À surveiller',ac=ageGreen?'#2FA86A':'#E8674A';
+ var ageCard='<button class="nvcard nvage" onclick="openSleepNight()"><div class="nvtop"><span class="nvic'+(ageGreen?' g':'')+'"><i class="ti ti-user"></i></span><div class="nvhead"><div class="nvname">Âge physiologique</div><div class="nvval" style="color:'+ac+'">'+(age!=null?age:'—')+'<small>ans</small></div><div class="nvverdict" style="color:'+ac+'">'+verdict+'</div>'+(vtxt?'<div class="nvnorm">'+vtxt+'</div>':'')+'</div><span class="nvcv'+(ageGreen?' g':'')+'"><i class="ti ti-chevron-right"></i></span></div></button>';
+ host.innerHTML=H+sum+metric('hrv','ti-heartbeat','HRV',t.hrv,'ms')+metric('rhr','ti-heart','FC repos',t.rhr,'bpm')+metric('resp','ti-lungs','Respiration',t.resp,'/min')+ageCard;}
 const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
 function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr()}
 function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
@@ -2613,7 +2674,7 @@ function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName'
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 
 /* ---------- RÉCUP ---------- */
-function renderRecovery(){renderHealth();renderVitaux();const rv=recovery();
+function renderRecovery(){renderVitaux();const rv=recovery();
  var pe=document.getElementById('recPill');
  if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';return}
  if(pe)pe.style.display='';
@@ -3212,7 +3273,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v87';
+const APP_VERSION='flint-v88';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
