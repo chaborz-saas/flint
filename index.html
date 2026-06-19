@@ -36,6 +36,15 @@
   header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
   header.has-title .logo{height:17px !important}
   header.has-title .wbatt{display:none}
+  header .hddate{display:none;align-items:center;gap:1px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:3px;box-shadow:0 4px 14px rgba(22,21,18,.05);flex:none}
+  header.has-date .hddate{display:inline-flex}
+  header.has-date .hdtitle{display:none}
+  header.has-date .logo{height:16px !important}
+  header.has-date .hdright{gap:7px}
+  header.has-date .wbatt{padding:6px 9px;font-size:12px}
+  header .hddate .hdnav{width:26px;height:26px;border:0;background:none;border-radius:50%;display:grid;place-items:center;color:#9A988F;font-size:16px;cursor:pointer;flex:none;font-family:inherit}
+  header .hddate .hdnav:disabled{opacity:.3}
+  header .hddate .hdlbl{border:0;background:none;font-family:inherit;font-size:13.5px;font-weight:700;color:#161512;cursor:pointer;padding:0 3px;white-space:nowrap;line-height:1}
   header .wbatt{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:700;color:#161512;box-shadow:0 4px 12px rgba(22,21,18,.06);cursor:pointer;font-variant-numeric:tabular-nums;flex:none}
   header .wbatt i{font-size:17px;color:#3FB57A}
   header .wbatt.mid i{color:#F2A93B}
@@ -1815,6 +1824,11 @@ header{padding:11px 16px 7px}
 <header>
   <img class="logo" src="logo.png" alt="FLINT" onclick="go('today')" style="height:24px">
   <div class="hdtitle" id="hdTitle"></div>
+  <div class="hddate" id="hdDate">
+    <button class="hdnav" onclick="event.stopPropagation();flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+    <button class="hdlbl" onclick="event.stopPropagation();flOpenPicker()"><span id="flDateHd">Aujourd'hui</span></button>
+    <button class="hdnav" id="hdNext" onclick="event.stopPropagation();flDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+  </div>
   <!-- avatar : photo démo ; Félix branche la vraie photo/initiale du user -->
   <div class="hdright">
     <div class="wbatt" id="wbatt" onclick="go('profile')" title="Batterie de la montre"><i class="ti ti-device-watch"></i><span id="wbattV">—</span></div>
@@ -2508,7 +2522,7 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd)_hd.classList.toggle('has-title',!!_tt)}
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('has-date',v==='today')}}
  flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
@@ -2660,7 +2674,9 @@ function renderToday(){
  else if(gDay===-1)lbl='Hier';
  else{const dt=new Date();dt.setDate(dt.getDate()+gDay);let ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}
  set('flDate',lbl);
+ set('flDateHd',today?'Aujourd\'hui':(gDay===-1?'Hier':(function(){var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});return ds.charAt(0).toUpperCase()+ds.slice(1)})()));
  const dn=document.getElementById('dNext');if(dn)dn.disabled=today;
+ const hn=document.getElementById('hdNext');if(hn)hn.disabled=today;
  const sc=document.getElementById('flStreak');
  if(sc){const stk=recovStreak();if(today&&stk>=1){sc.innerHTML='<span class="sf"><i class="ti ti-flame"></i></span><span class="sn">'+stk+'</span><span class="st">jours<br>de suite</span>';sc.style.display='inline-flex'}else sc.style.display='none'}
  const tg=strainTarget();
@@ -3405,7 +3421,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v93';
+const APP_VERSION='flint-v94';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
