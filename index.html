@@ -36,10 +36,6 @@
   header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
   header.has-title .logo{height:17px !important}
   header.has-title .wbatt{display:none}
-  header .hdmenu{display:none;width:42px;height:42px;border-radius:14px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.55);color:#161512;font-size:20px;cursor:pointer;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);flex:none}
-  header.home-hdr .hdmenu{display:flex}
-  header.home-hdr .logo{position:absolute;left:50%;transform:translateX(-50%);height:24px !important}
-  header.home-hdr .wbatt,header.home-hdr .hbell{display:none}
   header .hddate{display:none;align-items:center;gap:1px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:3px;box-shadow:0 4px 14px rgba(22,21,18,.05);flex:none}
   header.has-date .hddate{display:inline-flex}
   header.has-date .hdtitle{display:none}
@@ -1822,76 +1818,17 @@ header{padding:11px 16px 7px}
 .flhome .fcnew .fcrt{font-size:16px;font-weight:700;color:#161512}
 .flhome .fcnew .fcrs{font-size:13px;color:#9A988F;margin-top:2px}
 .flhome .fcnew .fcchart2{margin-top:10px}
-/* ===== Accueil ÉTAT DU JOUR — glassmorphism + fond abstrait ===== */
-.flhome{background:url('bg-home.png') top center/100% auto no-repeat,#FAF8F5}
-.flhome .etat-title{text-align:center;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#77736C;margin:8px 0 2px}
-.flhome .caldate{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px auto 18px;width:fit-content}
-.flhome .caldate .cdnav{width:40px;height:40px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.55);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:18px;cursor:pointer;font-family:inherit;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);flex:none}
-.flhome .caldate .cdnav:disabled{opacity:.3}
-.flhome .caldate .cdlbl{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(120,110,95,.16);background:rgba(255,255,255,.6);border-radius:30px;padding:9px 20px;font-family:inherit;font-size:14px;font-weight:700;color:#161512;cursor:pointer;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.flhome .caldate .cdlbl i{color:#77736C;font-size:16px}
-/* 2-col + wide cards (maquette réf) */
-.flhome .gstats2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
-.flhome .g2card{background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:22px;padding:15px 14px;box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column}
-.flhome .g2card:active{transform:scale(.98)}
-.flhome .g2top{display:flex;align-items:center;gap:11px}
-.flhome .g2top .gci{margin-bottom:0}
-.flhome .g2tx{flex:1;min-width:0}
-.flhome .gwide{display:flex;width:100%;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer}
-.flhome .gwide:active{transform:scale(.99)}
-.flhome .gwide .gci{margin-bottom:0}
-.flhome .gwtx{flex:none}
-.flhome .gwide .gchartw{flex:1;min-width:0;height:42px;margin-top:0}
-.flhome .etat-score{position:relative;width:248px;height:248px;margin:16px auto 24px;cursor:pointer}
-.flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
-.flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(120,110,95,.18),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
-.flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
-.flhome .etat-score .es-pct{font-family:'Anton';font-style:italic;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
-.flhome .etat-score .es-pct small{font-size:26px;font-weight:700}
-.flhome .etat-score .es-lbl{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#77736C;margin-top:6px}
-.flhome .etat-score .es-zone{font-family:'Anton';font-style:italic;font-size:20px;color:#2FA86A;margin-top:4px}
-.flhome .etat-score .es-chk{position:absolute;top:30px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:18px;z-index:4}
-.flhome .gstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
-.flhome .gcard{background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:22px;padding:14px 11px;box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
-.flhome .gcard:active{transform:scale(.97)}
-.flhome .gci{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:19px;margin-bottom:11px}
-.flhome .gci.vio{background:rgba(110,107,255,.16);color:#6E6BFF}
-.flhome .gci.amb{background:rgba(245,166,35,.20);color:#E0930A}
-.flhome .gci.emb{background:rgba(232,103,74,.14);color:#E8674A}
-.flhome .gcl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#77736C;text-transform:uppercase}
-.flhome .gcv{font-family:'Anton';font-style:italic;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
-.flhome .gcv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
-.flhome .gcs{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:700}
-.flhome .gcs .d{width:7px;height:7px;border-radius:50%;flex:none}
-.flhome .gcs.vio{color:#6E6BFF}.flhome .gcs.vio .d{background:#6E6BFF}
-.flhome .gcs.amb{color:#9A8038}.flhome .gcs.amb .d{background:#E0A012}
-.flhome .gcs.emb{color:#C0492C}.flhome .gcs.emb .d{background:#E8674A}
-.flhome .gcfoot{display:flex;align-items:center;gap:7px;margin-top:11px;padding-top:10px;border-top:1px solid rgba(120,110,95,.12)}
-.flhome .gcf{flex:1;min-width:0}
-.flhome .gcf b{display:block;font-family:'Anton';font-style:italic;font-size:15px;color:#161512;line-height:1}
-.flhome .gcf span{font-size:9px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#9A988F;margin-top:2px;display:block}
-.flhome .gcsep{width:1px;height:26px;background:rgba(120,110,95,.14);flex:none}
-.flhome .gcbar{height:8px;border-radius:5px;background:rgba(120,110,95,.12);overflow:hidden;margin-top:auto}
-.flhome .gcbar i{display:block;height:100%;border-radius:5px;background:#F5A623}
-.flhome .gchart{display:flex;align-items:flex-end;gap:3px;height:26px;margin-top:11px}
-.flhome .gchart i{flex:1;border-radius:3px;min-height:4px;display:block}
-.flhome .fchr{display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 30px rgba(120,110,95,.10)}
-.flhome .fchr .fchrL{flex:none}
-.flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.flhome .fchr .fchric{width:42px;height:42px;border-radius:50%;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:20px;flex:none}
-.flhome .fchr .fchrt{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#77736C}
-.flhome .fchr .fchrlive{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.04em;color:#E8674A;margin-top:2px}
-.flhome .fchr .fchrlive .d{width:6px;height:6px;border-radius:50%;background:#E8674A}
-.flhome .fchr .fchrv{font-family:'Anton';font-style:italic;font-size:34px;line-height:1;color:#161512}
-.flhome .fchr .fchrv small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#9A988F;margin-left:3px}
-.flhome .fchr .fchrR{flex:1;min-width:0;height:64px}
 </style>
 </head>
 <body>
 <header>
-  <button class="hdmenu" aria-label="Menu" onclick="go('profile')"><i class="ti ti-menu-2"></i></button>
   <img class="logo" src="logo.png" alt="FLINT" onclick="go('today')" style="height:24px">
   <div class="hdtitle" id="hdTitle"></div>
+  <div class="hddate" id="hdDate">
+    <button class="hdnav" onclick="event.stopPropagation();flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+    <button class="hdlbl" onclick="event.stopPropagation();flOpenPicker()"><span id="flDateHd">Aujourd'hui</span></button>
+    <button class="hdnav" id="hdNext" onclick="event.stopPropagation();flDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+  </div>
   <!-- avatar : photo démo ; Félix branche la vraie photo/initiale du user -->
   <div class="hdright">
     <div class="wbatt" id="wbatt" onclick="go('profile')" title="Batterie de la montre"><i class="ti ti-device-watch"></i><span id="wbattV">—</span></div>
@@ -1903,49 +1840,41 @@ header{padding:11px 16px 7px}
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
-  <div class="etat-title">État du jour</div>
-
-  <div class="etat-score" onclick="go('recovery')">
-    <svg class="es-ring" viewBox="0 0 120 120">
-      <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
-      <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.13)" stroke-width="7"/>
-      <circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="7" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-    </svg>
-    <div class="es-disc"></div>
-    <div class="es-ctr"><div class="es-pct"><span id="flRecup">87</span><small>%</small></div><div class="es-lbl">Récupération</div><div class="es-zone" id="flZone">Haute</div></div>
-    <div class="es-chk" id="flCheck"><i class="ti ti-check"></i></div>
-  </div>
-
-  <div class="caldate">
-    <button class="cdnav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
-    <button class="cdlbl" onclick="flOpenPicker()"><i class="ti ti-calendar"></i><span id="flDateHd">Aujourd'hui</span></button>
-    <button class="cdnav" id="hdNext" onclick="flDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
-  </div>
+  <div class="wkstrip" id="flWkStrip"></div>
   <input type="date" id="flDatePick" onchange="flPickDate(this.value)" aria-label="Choisir une date">
 
-  <div class="gstats2">
-    <button class="g2card" type="button" onclick="go('sleep')">
-      <div class="g2top"><span class="gci vio"><i class="ti ti-moon"></i></span><div class="g2tx"><div class="gcl">Sommeil</div><div class="gcv" id="flSleep">—</div><div class="gcs vio"><span class="d"></span><span id="flSleepS">—</span></div></div></div>
-      <div class="gcfoot"><div class="gcf"><b id="flBed">—</b><span>Coucher</span></div><i class="gcsep"></i><div class="gcf"><b id="flWake">—</b><span>Réveil</span></div></div>
-    </button>
-    <button class="g2card" type="button" onclick="go('load')">
-      <div class="g2top"><span class="gci amb"><i class="ti ti-bolt"></i></span><div class="g2tx"><div class="gcl">Charge</div><div class="gcv"><span id="flLoad">—</span> <small>/21</small></div><div class="gcs amb"><span class="d"></span><span id="flLoadT">—</span></div></div></div>
-      <div class="gcbar"><i id="flLoadBar"></i></div>
-    </button>
+  <div class="card rec2" onclick="go('recovery')">
+    <div class="recart"></div>
+    <div class="ringw">
+      <svg width="150" height="150" viewBox="0 0 120 120">
+        <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="#EAF1EC" stroke-width="9"/>
+        <circle class="ring-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <text x="61" y="73" text-anchor="middle" font-family="Anton" font-style="italic" font-size="37" fill="#161512"><tspan id="flRecup">87</tspan><tspan font-size="20" dx="1">%</tspan></text>
+      </svg>
+      <div class="ckbadge" id="flCheck"><i class="ti ti-check"></i></div>
+    </div>
+    <div class="recside">
+      <div class="rectitle">Récupération</div>
+      <div class="se" id="flZone">Haute</div>
+    </div>
+    <i class="ti ti-chevron-right reccv"></i>
   </div>
 
-  <button class="card gwide" type="button" onclick="go('caltrend')">
-    <span class="gci emb"><i class="ti ti-flame"></i></span>
-    <div class="gwtx"><div class="gcl">Calories</div><div class="gcv"><span id="flKcal">—</span> <small>kcal</small></div><div class="gcs emb"><span class="d"></span>Brûlées</div></div>
-    <div class="gchart gchartw" id="flKcalBars"></div>
-  </button>
+  <div class="statcard3">
+    <button class="scard" type="button" onclick="go('sleep')"><i class="ti ti-chevron-right sccv"></i><div class="scico vio"><i class="ti ti-moon"></i></div><div class="scl">Sommeil</div><div class="scv" id="flSleep">—</div><div class="scs vio"><span class="d"></span><span id="flSleepS">—</span></div><div class="scchart" id="flSleepBars"></div></button>
+    <button class="scard" type="button" onclick="go('load')"><i class="ti ti-chevron-right sccv"></i><div class="scico amb"><i class="ti ti-bolt"></i></div><div class="scl">Charge</div><div class="scv"><span id="flLoad">—</span> <small>/21</small></div><div class="scs amb"><span class="d"></span><span id="flLoadT">—</span></div><div class="scbar"><i id="flLoadBar"></i></div></button>
+    <button class="scard" type="button" onclick="go('caltrend')"><i class="ti ti-chevron-right sccv"></i><div class="scico emb"><i class="ti ti-flame"></i></div><div class="scl">Calories</div><div class="scv"><span id="flKcal">—</span> <small>kcal</small></div><div class="scs emb"><span class="d"></span>Brûlées</div><div class="scchart" id="flKcalBars"></div></button>
+  </div>
 
-  <div class="card fchr" id="flFcCard" onclick="go('fcdetail')">
-    <div class="fchrL">
-      <div class="fchrtop"><span class="fchric"><i class="ti ti-heart"></i></span><div class="fchrtx"><div class="fchrt">Fréquence cardiaque</div><div class="fchrlive"><span class="d"></span>EN DIRECT</div></div></div>
-      <div class="fchrv"><b id="flLiveBpm">—</b> <small>bpm</small></div>
+  <div class="card stepscard" onclick="openTrend('steps')">
+    <div class="stico"><i class="ti ti-run"></i></div>
+    <div class="sttxt">
+      <div class="stl">Mes pas du jour</div>
+      <div class="stv"><span id="flSteps">—</span> <small>pas</small></div>
     </div>
-    <div class="fchrR" id="flFcMini"></div>
+    <i class="ti ti-chevron-right stcv"></i>
+    <div class="steptrail"></div>
   </div>
 
   <div class="actwrap2">
@@ -1968,14 +1897,18 @@ header{padding:11px 16px 7px}
     <div class="ohbars" id="flWkChart"></div>
   </div>
 
-  <div class="card stepscard" onclick="openTrend('steps')">
-    <div class="stico"><i class="ti ti-run"></i></div>
-    <div class="sttxt">
-      <div class="stl">Mes pas du jour</div>
-      <div class="stv"><span id="flSteps">—</span> <small>pas</small></div>
+  <div class="card fcnew" id="flFcCard" onclick="go('fcdetail')">
+    <div class="fcL">
+      <div class="fcLtop"><span class="fcic"><i class="ti ti-heart"></i></span><span class="fcnow" id="flHrMode">Maintenant</span></div>
+      <div class="fcbpm2"><b id="flBpm">—</b> <small>BPM</small></div>
+      <span class="fczone" id="flFcZone"></span>
+      <div class="fcmsg">Ton système cardiovasculaire est calme.</div>
     </div>
-    <i class="ti ti-chevron-right stcv"></i>
-    <div class="steptrail"></div>
+    <div class="fcR">
+      <div class="fcrt">Fréquence cardiaque</div>
+      <div class="fcrs">Dernières heures</div>
+      <div class="fcchart2" id="flFcMini"></div>
+    </div>
   </div>
 
   <div class="card flad">
@@ -2589,7 +2522,7 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('has-date',v==='today')}}
  flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
@@ -2700,13 +2633,6 @@ function flObjBarsSVG(data){var W=360,L=8,R=8,barTop=8,barBot=150,plotH=barBot-b
   s+='<text x="'+x.toFixed(1)+'" y="173" text-anchor="middle" font-size="12" font-weight="800" fill="#8A857D" font-family="Inter,sans-serif">'+p.lab+'</text>';
   s+='<text x="'+x.toFixed(1)+'" y="193" text-anchor="middle" font-size="13" font-weight="800" fill="'+(isT?'#F04A32':'#5F5E5A')+'" font-family="Inter,sans-serif">'+String(p.v).replace('.',',')+'</text>'});
  return s+'</svg>'}
-function flFcWaveSVG(bpm){bpm=bpm||70;var W=300,H=90,padT=12,padB=10,lo=bpm-18,hi=bpm+16;
- function y(v){return padT+(hi-Math.max(lo,Math.min(hi,v)))/(hi-lo)*(H-padT-padB)}
- var n=26,pts=[];for(var i=0;i<n;i++){var p=i/(n-1);pts.push(bpm+Math.sin(p*Math.PI*3.2)*9+Math.sin(p*Math.PI*7)*5+Math.sin(i*0.9)*3)}pts[n-1]=bpm+8;
- function x(i){return 4+i*(W-12)/(n-1)}
- var d=pts.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' ');
- var area=d+' L'+x(n-1).toFixed(1)+' '+(H-padB)+' L'+x(0).toFixed(1)+' '+(H-padB)+' Z';
- return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><defs><linearGradient id="fcwg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8674A" stop-opacity=".18"/><stop offset="1" stop-color="#E8674A" stop-opacity="0"/></linearGradient></defs><path d="'+area+'" fill="url(#fcwg)"/><path d="'+d+'" fill="none" stroke="#E8674A" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+x(n-1).toFixed(1)+'" cy="'+y(pts[n-1]).toFixed(1)+'" r="5" fill="#E8674A"/></svg>'}
 function flFcLineSVG(bpm){bpm=bpm||50;var W=300,H=120,padL=6,padR=30,padT=10,padB=22,lo=20,hi=80;
  function y(v){return padT+(hi-Math.max(lo,Math.min(hi,v)))/(hi-lo)*(H-padT-padB)}
  var b=bpm+15,pts=[b-2,b+1,b-3,b+2,b+3,b-1,bpm],n=pts.length;
@@ -2790,11 +2716,12 @@ function renderToday(){
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,7,function(k){return caloriesBurned(k)}),'#E8674A'));
  var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
- var _bpm=t&&t.rhr?t.rhr:null,_live=_bpm!=null?Math.round(_bpm+26+(_bpm%6)):null;
- set('flLiveBpm',_live!=null?_live:'—');
- var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_live!=null?_live:62);
+ set('flBpm',t&&t.rhr?t.rhr:'—');set('flHrMode','Maintenant');
+ var _bpm=t&&t.rhr?t.rhr:null,_z=_bpm==null?['—','#9A988F','#9A988F','#F1EDE7']:_bpm<60?['Zone de repos','#2FAE67','#1E7D46','#D6EDDD']:_bpm<100?['Zone légère','#E0A012','#9A6B0A','#FCEFD8']:['Zone active','#E8674A','#C0492C','#FBE0D8'];
+ var _hm=document.getElementById('flHrMode');if(_hm)_hm.style.color=_z[1];
+ var _fz=document.getElementById('flFcZone');if(_fz){_fz.innerHTML='<span class="zd"></span>'+_z[0];_fz.style.color=_z[2];_fz.style.background=_z[3];var _zd=_fz.querySelector('.zd');if(_zd)_zd.style.background=_z[1]}
+ var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcLineSVG(_bpm);
  var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
- var _snm=t?sleepNight(K):null;set('flBed',_snm?flHM(_snm.bedMin):'—');set('flWake',_snm?flHM(_snm.wakeMin):'—');
  const yRec=DB.get('recov_'+tk(gDay-1),null),dlt=(has&&yRec!=null)?rv.s-yRec:null,dl=document.getElementById('flDelta');
  if(dl){if(dlt!=null){dl.className='delta '+(dlt>=0?'up':'down');dl.textContent=(dlt>=0?'▲ +'+dlt:'▼ '+dlt)+' pts vs '+(today?'hier':'veille');dl.style.display='inline-flex'}else dl.style.display='none'}
  const tt=nutTotals(K),g=getNutGoals(),reste=g.kcal-tt.kcal;
@@ -3494,7 +3421,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v96';
+const APP_VERSION='flint-v97';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
