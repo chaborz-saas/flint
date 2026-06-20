@@ -1940,16 +1940,14 @@ body.modalview nav,body.modalview header{display:none}
 .mt2divh i{font-size:15px}
 .mt2cards{display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:6px calc(50% - 71px) 4px;scrollbar-width:none}
 .mt2cards::-webkit-scrollbar{display:none}
-.mt2dc{scroll-snap-align:center;flex:0 0 142px;background:#fff;border:1.5px solid #EFE9E0;border-radius:18px;padding:14px 14px 13px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit;transition:transform .14s,border-color .14s,box-shadow .14s}
+.mt2dc{scroll-snap-align:center;flex:0 0 142px;background:#fff;border:1.5px solid #EFE9E0;border-radius:18px;padding:14px 14px 13px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit;transition:transform .12s ease,box-shadow .12s ease}
 .mt2dc.on{border-color:#E8674A;box-shadow:0 8px 22px rgba(232,103,74,.16);transform:translateY(-2px)}
 .mt2dcd{font-size:11px;font-weight:800;letter-spacing:.03em;color:#9A988F;text-align:center;white-space:nowrap}
 .mt2dc.on .mt2dcd{color:#161512}
-.mt2dcv{font-family:var(--disp,'Anton',sans-serif);font-style:oblique 8deg;font-size:34px;line-height:.95;color:#161512;font-variant-numeric:tabular-nums;transition:color .18s ease}
+.mt2dcv{font-family:var(--disp,'Anton',sans-serif);font-style:oblique 8deg;font-size:34px;line-height:.95;color:#161512;font-variant-numeric:tabular-nums}
 .mt2dc.on .mt2dcv{color:#E8674A}
 .mt2dcv small{font-family:Inter,sans-serif;font-style:normal;font-size:12px;font-weight:700;color:#9A988F;margin-left:2px}
 .mt2spark{width:88px;height:30px;display:block}
-.mt2spark path{transition:stroke .18s ease}
-.mt2spark circle{transition:fill .18s ease}
 .mt2dc.on .mt2spark path{stroke:#E8674A}
 .mt2dc.on .mt2spark circle{fill:#E8674A}
 .mt2sparkph{width:88px;height:30px}
@@ -3499,11 +3497,12 @@ function tDeselect(){if(_tDaySel==null)return;_tDaySel=null;_tSel=null;var M=TRE
 function tScrubFromX(cx){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='bar'||M.chart==='stack';if(bar&&_tRange==='6M')return;var pts=trendPts(M,_tRange,_tOff),n=pts.length,el=document.getElementById('tChart');if(!el||!n)return;var sv=el.querySelector('svg')||el,r=sv.getBoundingClientRect();if(!r.width)return;var padL=(bar?36:30)/330*r.width,padR=(bar?12:14)/330*r.width,plot=r.width-padL-padR,f=(cx-r.left-padL)/plot;f=Math.max(0,Math.min(1,f));var idx=bar?Math.min(n-1,Math.max(0,Math.floor(f*n))):Math.round(f*(n-1));if(pts[idx]){var k=dkey(pts[idx].date);if(k!==_tDaySel)tSelectDay(k,false)}}
 function sleepBreakdownHTML(pts){var opt=0,suf=0,ins=0;pts.forEach(function(p){if(p.v==null)return;if(p.v>85)opt++;else if(p.v>=70)suf++;else ins++});
  return bkCardHTML('Analyse du sommeil',[{c:opt,l:'Optimal (>85 %)',col:'#2FAE67'},{c:suf,l:'Suffisant (70-85 %)',col:'#C9C5BC'},{c:ins,l:'Insuffisant (<70 %)',col:'#F5A623'}],opt+suf+ins)}
+function niceMax(mx){if(!(mx>0))return 1;var pow=Math.pow(10,Math.floor(Math.log10(mx))),n=mx/pow,step=n<=1?0.2:n<=2?0.5:n<=5?1:2,s=step*pow;return Math.ceil(mx*1.1/s)*s}
 function trendBarSVG(pts,avg,range,M){var W=330,H=215,padL=36,padR=12,padT=20,padB=26,col=M.barCol||'#E8674A',pct=M.unit==='%';
  var data=pts,agg=false;
  if(range==='6M'){data=[];for(var i=0;i<pts.length;i+=7){var sg=pts.slice(i,i+7),vs=sg.filter(function(p){return p.v!=null}).map(function(p){return p.v});data.push({date:sg[0].date,v:vs.length?vs.reduce(function(a,b){return a+b},0)/vs.length:null})}agg=true}
  var n=data.length,vals=data.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
- var mx=pct?100:Math.max.apply(null,vals),st=mx>15000?5000:mx>1500?500:mx>150?50:5,hi=M.yMax||(pct?100:Math.max(st,Math.ceil(mx*1.12/st)*st));
+ var mx=pct?100:Math.max.apply(null,vals),hi=M.yMax||(pct?100:niceMax(mx));
  function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
  var bw=Math.max(2,(W-padL-padR)/n*0.6);
  var ticks=M.yticks||(pct?[0,50,100]:[0,hi/2,hi]),grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+(M.timefmt?hHM(tv):(M.fmt?fmtN(Math.round(tv)):Math.round(tv)))+(pct?'%':'')+'</text>'});
@@ -3516,7 +3515,7 @@ function trendStackSVG(pts,avg,range,M){var W=330,H=215,padL=36,padR=12,padT=20,
  var data=pts.map(function(p){var sv=M.stackVals(dkey(p.date));return {date:p.date,sv:sv,tot:sv?(sv[keys[0].key]+sv[keys[1].key]):null}}),agg=false;
  if(range==='6M'){var nd=[];for(var i=0;i<data.length;i+=7){var sg=data.slice(i,i+7).filter(function(p){return p.sv}),o={};keys.forEach(function(k){o[k.key]=sg.length?sg.reduce(function(a,p){return a+p.sv[k.key]},0)/sg.length:0});nd.push({date:data[i].date,sv:sg.length?o:null,tot:sg.length?(o[keys[0].key]+o[keys[1].key]):null})}data=nd;agg=true}
  var n=data.length,tots=data.filter(function(p){return p.tot!=null}).map(function(p){return p.tot});if(!tots.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
- var mx=Math.max.apply(null,tots),hi=Math.max(1,Math.ceil(mx*1.12));
+ var mx=Math.max.apply(null,tots),hi=niceMax(mx);
  function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
  var bw=Math.max(2,(W-padL-padR)/n*0.6);
  var ticks=[0,hi/2,hi],grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+hHM(tv)+'</text>'});
@@ -4503,7 +4502,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v134';
+const APP_VERSION='flint-v135';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
