@@ -1889,6 +1889,19 @@ body.modalview nav,body.modalview header{display:none}
 .mpick .mpr.on .mpic{background:#6E6BFF;color:#fff}
 .mpick .mpl{flex:1;font-size:15px;font-weight:700;color:#161512}
 .mpick .mpck{color:#6E6BFF;font-size:19px}
+.fltrend .tempty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:46px 24px;gap:9px;min-height:200px}
+.fltrend .tempty i{font-size:34px;color:#C9C5BC}
+.fltrend .tempty b{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#77736C}
+.fltrend .tempty span{font-size:13px;color:#9A988F;max-width:240px;line-height:1.4}
+.mpick .msbody{padding:18px 18px 4px}
+.mpick .msf{display:block;margin-bottom:16px}
+.mpick .msf>span{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#9A988F;margin-bottom:8px}
+.mpick .msf>span small{text-transform:none;letter-spacing:0;font-weight:600}
+.mpick .msin{display:flex;align-items:center;background:#fff;border:1px solid #E6DFD5;border-radius:14px;padding:0 16px}
+.mpick .msin input{flex:1;min-width:0;border:0;background:none;outline:none;font-family:inherit;font-size:22px;font-weight:800;color:#161512;padding:14px 0;font-variant-numeric:tabular-nums}
+.mpick .msin em{font-style:normal;font-size:14px;font-weight:700;color:#9A988F}
+.mpick .msnote{font-size:12.5px;color:#9A988F;line-height:1.4;margin:2px 2px 16px}
+.mpick .msave{width:100%;border:0;background:#161512;color:#fff;border-radius:14px;padding:16px;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer}
 .fltrend .thead{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 2px 0}
 .fltrend .tavgl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9A988F}
 .fltrend .tavgv{font-family:'Anton';font-style:oblique 8deg;font-size:46px;line-height:.9;color:#161512;margin-top:5px}
@@ -2325,6 +2338,7 @@ body.modalview nav,body.modalview header{display:none}
   <p class="tfoot" id="tFoot" style="display:none"></p>
   <div class="tbreak" id="tBreak" style="display:none"></div>
   <button class="tgoal" id="tGoal" type="button" style="display:none" onclick="openStepGoal()"><span class="tgic"><i class="ti ti-clipboard-check"></i></span><span class="tgt">Fixez-vous un objectif de pas dans votre plan hebdomadaire</span><i class="ti ti-chevron-right"></i></button>
+  <button class="tgoal" id="tAdd" type="button" style="display:none" onclick="openMeasure(_tMetric)"><span class="tgic"><i class="ti ti-plus"></i></span><span class="tgt" id="tAddL">Ajouter une mesure</span><i class="ti ti-chevron-right"></i></button>
   <div class="texpl"><div class="texplart"><i class="ti ti-activity"></i></div><h3 id="tExplT">—</h3><p id="tExplP">—</p></div>
 </div>
 </section>
@@ -3123,7 +3137,7 @@ const DASH_DEF_AVAIL=['leanmass','weight','strengthtime','hrzall','vo2','hrz13',
 function getDash(){var d=DB.get('dashboard',null);if(!d||!d.active||!d.active.length)return {active:DASH_DEF_ACTIVE.slice(),avail:DASH_DEF_AVAIL.slice()};return d}
 function renderDash(){var host=document.getElementById('flDash');if(!host)return;var cfg=getDash();
  host.innerHTML=cfg.active.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dashrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('')}
-function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv',sleepdebt:'sleepdebt',sleepeff:'sleepeff',effortrecup:'effort',timeinbed:'timeinbed',sleepresto:'sleepresto',sleeprestoh:'sleeprestoh'};var tkk=tmap[k]||k;if(TREND[tkk]){openMetricTrend(tkk);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
+function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv',sleepdebt:'sleepdebt',sleepeff:'sleepeff',effortrecup:'effort',timeinbed:'timeinbed',sleepresto:'sleepresto',sleeprestoh:'sleeprestoh',strengthtime:'strengthtime',vo2:'vo2',weight:'weight',leanmass:'leanmass'};var tkk=tmap[k]||k;if(TREND[tkk]){openMetricTrend(tkk);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
 function openDashEdit(){var cfg=getDash();window._dashActive=cfg.active.slice();window._dashAvail=cfg.avail.slice();go('dashedit')}
 function renderDashEdit(){
  var la=document.getElementById('deActive');if(la)la.innerHTML=(window._dashActive||[]).map(function(k){var m=DASH[k];return '<div class="deRow" data-k="'+k+'"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><span class="deh"><i class="ti ti-menu-2"></i></span></div>'}).join('');
@@ -3234,7 +3248,28 @@ const TREND={
   verdict:function(v){return v>=3.5?{t:'Élevé',c:'#5A52B5'}:v>=2.5?{t:'Suffisant',c:'#8A8580'}:{t:'Faible',c:'#C8901A'}},
   sent:function(av,a30,r){return 'Vous avez cumulé en moyenne '+hHM(av)+' de sommeil réparateur '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+' (profond + paradoxal)'+(a30!=null?', '+(av>=a30?'plus':'moins')+' que vos '+hHM(a30)+' habituels.':'.')},
   explT:'Qu\'est-ce que le sommeil réparateur ?',
-  explP:'Le sommeil profond (SOL) répare le corps : muscles, hormones, immunité. Le sommeil paradoxal (SP/REM) consolide la mémoire et régule les émotions. Empilés ici nuit par nuit, ils forment votre sommeil réparateur total. Visez au moins 1h30 à 2h de profond et autant de paradoxal : c\'est cette base, plus que la durée totale, qui détermine à quel point vous vous réveillez régénéré.'}
+  explP:'Le sommeil profond (SOL) répare le corps : muscles, hormones, immunité. Le sommeil paradoxal (SP/REM) consolide la mémoire et régule les émotions. Empilés ici nuit par nuit, ils forment votre sommeil réparateur total. Visez au moins 1h30 à 2h de profond et autant de paradoxal : c\'est cette base, plus que la durée totale, qui détermine à quel point vous vous réveillez régénéré.'},
+ strengthtime:{label:'Temps de musculation',unit:'',icon:'ti-barbell',short:'temps de musculation',chart:'bar',barCol:'#6C7BD6',moy:true,timefmt:true,grp:'activite',
+  val:function(k){var ss=DB.get('sessions_'+k,[]),m=0;ss.forEach(function(s){if(s.type==='strength')m+=(s.dur||0)});return m/60},
+  sent:function(av,a30,r){var wk=Math.round(av*7*60);return 'Tu fais en moyenne '+hHM(av)+' de muscu par jour, soit ~'+hHM(av*7)+' par semaine. '+(wk>=90?'Au-dessus des 90 min/sem recommandées — solide pour la masse et la résistance.':'Vise 90 min/sem pour développer ta masse musculaire.')},
+  explT:'Le temps de musculation, qu\'est-ce que c\'est ?',
+  explP:'C\'est le temps cumulé passé en renforcement musculaire (muscu, renfo, rameur, CrossFit). Sous tension, le muscle se micro-déchire puis se reconstruit plus fort pendant la récup. Vise au moins 90 minutes par semaine : c\'est le seuil au-delà duquel les gains de force et de densité osseuse deviennent nets. Le repos entre deux séances compte autant que la séance — c\'est là que le muscle pousse.'},
+ vo2:{label:'VO₂ max',unit:'mL/kg/min',icon:'ti-lungs',short:'VO₂ max',chart:'line',color:'#3FA0E0',foot:'Estimée à partir de ta FC au repos — pour une valeur exacte, fie-toi à un test en laboratoire.',
+  val:function(k){var s=sensorOf(k);if(!s||s.rhr==null)return null;var hrMax=208-0.7*getProfile().age;return Math.round(15.3*hrMax/s.rhr)},
+  verdict:function(v){return v>=52?{t:'Excellent',c:'#2FAE67'}:v>=45?{t:'Bon',c:'#2E78B5'}:v>=38?{t:'Correct',c:'#8A8580'}:{t:'À développer',c:'#C8901A'}},
+  sent:function(av,a30,r){return 'Ta VO₂ max estimée ('+av+' mL/kg/min) '+(a30!=null?(av>=a30?'progresse':'recule légèrement')+' vs tes '+a30+' habituels.':'reflète ta condition cardiovasculaire.')+' Plus elle est haute, plus ton cœur, tes poumons et tes muscles travaillent ensemble.'},
+  explT:'Qu\'est-ce que la VO₂ max ?',
+  explP:'La VO₂ max est la quantité maximale d\'oxygène que ton corps peut utiliser à l\'effort. C\'est l\'indicateur de référence de la condition physique et de la longévité. FLINT l\'estime à partir de ta FC au repos (une FC repos basse ↔ une VO₂ max haute). Elle baisse naturellement avec l\'âge, mais l\'endurance et le fractionné la maintiennent — chaque point gagné, c\'est de la résilience en plus.'},
+ weight:{label:'Poids',unit:'kg',icon:'ti-scale',short:'poids',chart:'line',color:'#8A8580',dec:true,addData:true,addLabel:'Ajouter une mesure',
+  val:function(k){var b=DB.get('bodylog',{})[k];return b&&b.weight!=null?b.weight:null},
+  sent:function(av,a30,r){return 'Ton poids moyen sur cette période est de '+(Math.round(av*10)/10).toString().replace('.',',')+' kg'+(a30!=null?', '+(av>a30?'au-dessus':av<a30?'en dessous':'au niveau')+' de tes '+(Math.round(a30*10)/10).toString().replace('.',',')+' kg habituels.':'.')},
+  explT:'Le poids : un indicateur parmi d\'autres',
+  explP:'Le poids fluctue avec l\'hydratation, l\'alimentation, le glycogène et le cycle — une variation d\'un jour ne veut rien dire, c\'est la tendance sur plusieurs semaines qui compte. Pèse-toi au même moment (le matin, à jeun) pour comparer ce qui est comparable. Et garde en tête : à la salle, gagner du muscle peut faire monter le chiffre alors que tu t\'affines.'},
+ leanmass:{label:'Masse corporelle maigre',unit:'kg',icon:'ti-stretching',short:'masse maigre',chart:'line',color:'#6C7BD6',dec:true,addData:true,addLabel:'Ajouter une mesure',
+  val:function(k){var b=DB.get('bodylog',{})[k];return b&&b.lean!=null?b.lean:null},
+  sent:function(av,a30,r){return 'Ta masse maigre moyenne est de '+(Math.round(av*10)/10).toString().replace('.',',')+' kg'+(a30!=null?', '+(av>=a30?'en hausse':'en baisse')+' vs tes '+(Math.round(a30*10)/10).toString().replace('.',',')+' kg habituels.':'.')+' C\'est ta masse hors graisse : muscles, os, organes, eau.'},
+  explT:'Qu\'est-ce que la masse maigre ?',
+  explP:'La masse maigre, c\'est tout ce qui n\'est pas de la graisse : muscle, os, organes, eau. La suivre est bien plus parlant que le poids seul — elle te dit si tu construis du muscle ou si tu en perds. En sèche, l\'objectif est de faire baisser le poids SANS toucher à la masse maigre. En prise de masse, c\'est elle qui doit monter. FLINT la calcule à partir de ton poids et de ton taux de masse grasse.'}
 };
 function tk2off(key,off){var p=key.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+off);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function trend30(M){var s=0,c=0;for(var i=1;i<=30;i++){var v=M.val(tk(-i));if(v!=null){s+=v;c++}}return c?((M&&(M.timefmt||M.dec))?Math.round(s/c*100)/100:Math.round(s/c)):null}
@@ -3246,13 +3281,22 @@ function trendBreakdownHTML(pts,bd){var c=bd.bands.map(function(){return 0}),tot
  return '<div class="tbkhd">'+bd.title+' <span>(jours)</span></div><div class="tbkbar">'+bar+'</div>'+rows}
 var _tMetric='hrv',_tRange='M',_tOff=0,_tSel=null;
 function openMetricTrend(k){_tMetric=k;_tRange='M';_tOff=0;_tSel=null;go('metrend')}
-var TREND_PICK=[{g:'Sommeil',keys:['sleepperf','sleepresto','sleeprestoh','sleepeff','sleepreg','sleepdebt','timeinbed']},{g:'Cœur',keys:['hrv','rhr','fcavg','resp']},{g:'Activité & récup',keys:['recovery','effort','steps','calories']}];
+var TREND_PICK=[{g:'Sommeil',keys:['sleepperf','sleepresto','sleeprestoh','sleepeff','sleepreg','sleepdebt','timeinbed']},{g:'Cœur & souffle',keys:['hrv','rhr','fcavg','resp','vo2']},{g:'Activité & récup',keys:['recovery','effort','steps','calories','strengthtime']},{g:'Corps',keys:['weight','leanmass']}];
 function openMetricPicker(){haptic();var ex=document.getElementById('mpick');if(ex)ex.remove();var d=document.createElement('div');d.id='mpick';d.className='mpick';
  var rows=TREND_PICK.map(function(grp){var items=grp.keys.filter(function(k){return TREND[k]}).map(function(k){var M=TREND[k],on=k===_tMetric;return '<button type="button" class="mpr'+(on?' on':'')+'" onclick="pickMetric(\''+k+'\')"><span class="mpic"><i class="ti '+M.icon+'"></i></span><span class="mpl">'+M.label+'</span>'+(on?'<i class="ti ti-check mpck"></i>':'')+'</button>'}).join('');return '<div class="mpg">'+grp.g+'</div>'+items}).join('');
  d.innerHTML='<div class="mpbd" onclick="closeMetricPicker()"></div><div class="mpsh"><div class="mphd"><span>Choisir une métrique</span><button type="button" onclick="closeMetricPicker()"><i class="ti ti-x"></i></button></div><div class="mpls">'+rows+'</div></div>';
  document.body.appendChild(d);requestAnimationFrame(function(){d.classList.add('show')})}
 function closeMetricPicker(){var d=document.getElementById('mpick');if(d){d.classList.remove('show');setTimeout(function(){if(d)d.remove()},220)}}
 function pickMetric(k){closeMetricPicker();_tMetric=k;_tRange='M';_tOff=0;_tSel=null;renderMetrend()}
+function openMeasure(){haptic();var ex=document.getElementById('msheet');if(ex)ex.remove();var log=DB.get('bodylog',{})[tk()]||{};var d=document.createElement('div');d.id='msheet';d.className='mpick';
+ d.innerHTML='<div class="mpbd" onclick="closeMeasure()"></div><div class="mpsh"><div class="mphd"><span>Ajouter une mesure</span><button type="button" onclick="closeMeasure()"><i class="ti ti-x"></i></button></div>'+
+ '<div class="msbody"><label class="msf"><span>Poids</span><div class="msin"><input id="msW" type="number" inputmode="decimal" step="0.1" placeholder="—" value="'+(log.weight!=null?log.weight:'')+'"><em>kg</em></div></label>'+
+ '<label class="msf"><span>Masse grasse <small>(optionnel)</small></span><div class="msin"><input id="msBf" type="number" inputmode="decimal" step="0.1" placeholder="—" value="'+(log.bf!=null?log.bf:'')+'"><em>%</em></div></label>'+
+ '<p class="msnote">La masse maigre est calculée automatiquement à partir de ces deux valeurs.</p>'+
+ '<button class="msave" type="button" onclick="saveMeasure()">Enregistrer</button></div></div>';
+ document.body.appendChild(d);requestAnimationFrame(function(){d.classList.add('show')});setTimeout(function(){var w=document.getElementById('msW');if(w)w.focus()},260)}
+function closeMeasure(){var d=document.getElementById('msheet');if(d){d.classList.remove('show');setTimeout(function(){if(d)d.remove()},220)}}
+function saveMeasure(){var w=parseFloat(document.getElementById('msW').value),bf=parseFloat(document.getElementById('msBf').value);if(!w||w<20||w>400){toast('Entre un poids valide');return}var log=DB.get('bodylog',{}),k=tk(),rec={weight:Math.round(w*10)/10};if(bf>0&&bf<70){rec.bf=Math.round(bf*10)/10;rec.lean=Math.round(w*(1-bf/100)*10)/10}else if(log[k]&&log[k].bf){rec.bf=log[k].bf;rec.lean=Math.round(w*(1-log[k].bf/100)*10)/10}log[k]=rec;DB.set('bodylog',log);closeMeasure();haptic();_tSel=null;renderMetrend();toast('Mesure enregistrée')}
 function trendRange(r){_tRange=r;_tOff=0;_tSel=null;renderMetrend()}
 function trendShift(d){_tOff=Math.min(0,_tOff+d);_tSel=null;renderMetrend()}
 function trendSelect(i){_tSel=(_tSel===i?null:i);renderMetrend()}
@@ -3281,11 +3325,13 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
   else if(_tRange==='S')sent='Votre '+M.short+' moyenne pendant cette période de 7 jours '+(bLo!=null?((av>=bLo&&av<=bHi)?'se trouvait dans sa plage habituelle ('+bLo+' à '+bHi+').':'était '+(av<bLo?'sous':'au-dessus de')+' sa plage habituelle ('+bLo+' à '+bHi+').'):'.');
   else sent='Votre '+M.short+' moyenne au cours de cette période ('+av+') '+(b?'correspond à votre moyenne de '+Math.round(b.m)+' sur les 6 derniers mois.':'.');}
  set('tSent',sent);
- set('tChart',M.chart==='stack'?trendStackSVG(pts,avg,_tRange,M):bar?trendBarSVG(pts,avg,_tRange,M):trendChartSVG(pts,bLo,bHi,_tRange,M.color||'#E8674A'));
+ if(avg==null){set('tChart','<div class="tempty"><i class="ti '+(M.addData?'ti-ruler-2':'ti-chart-dots')+'"></i><b>Aucune donnée</b><span>'+(M.addData?'Ajoute ta première mesure pour suivre ta tendance.':'Les données apparaîtront ici dès qu\'elles seront disponibles.')+'</span></div>');}
+ else set('tChart',M.chart==='stack'?trendStackSVG(pts,avg,_tRange,M):bar?trendBarSVG(pts,avg,_tRange,M):trendChartSVG(pts,bLo,bHi,_tRange,M.color||'#E8674A'));
  var leg=document.querySelector('#v-metrend .tcleg');if(leg){if(M.chart==='stack'){var sk=(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null)?M.stackVals(dkey(pts[_tSel].date)):null;leg.style.display='flex';leg.style.position='static';leg.style.justifyContent='center';leg.style.marginBottom='4px';leg.innerHTML=M.stack.map(function(s){return '<span style="display:inline-flex;align-items:center;gap:5px;margin:0 7px"><span class="tclegb" style="background:'+s.c+'"></span>'+(sk?'<b style="color:#161512">'+hHM(sk[s.key])+'</b> ':'')+s.label+'</span>'}).join('')}else{leg.style.position='';leg.style.justifyContent='';leg.style.marginBottom='';leg.innerHTML='<span class="tclegb"></span>Plage habituelle';leg.style.display=(bar||!b)?'none':'flex'}}
  var ft=document.getElementById('tFoot');if(ft){if(M.foot){ft.style.display='flex';ft.innerHTML='<i class="ti ti-info-circle"></i>'+M.foot}else ft.style.display='none'}
  var br=document.getElementById('tBreak');if(br){if(M.bd){br.style.display='block';br.innerHTML=trendBreakdownHTML(pts,M.bd)}else if(M.breakdown==='sleep'){br.style.display='block';br.innerHTML=sleepBreakdownHTML(pts)}else br.style.display='none'}
  var g=document.getElementById('tGoal');if(g)g.style.display=M.goal?'flex':'none';
+ var ad=document.getElementById('tAdd');if(ad){ad.style.display=M.addData?'flex':'none';if(M.addData)set('tAddL',M.addLabel||'Ajouter une mesure')}
  (function(){var cc=document.querySelector('#v-metrend .tchartc');if(!cc||cc._scrubInit)return;cc._scrubInit=1;cc.style.touchAction='none';
   cc.addEventListener('pointerdown',function(e){var MM=TREND[_tMetric];if((MM.chart==='bar'||MM.chart==='stack')&&_tRange==='6M')return;e.preventDefault();try{cc.setPointerCapture(e.pointerId)}catch(_){}tScrubFromX(e.clientX);cc._sm=function(ev){tScrubFromX(ev.clientX)};cc.addEventListener('pointermove',cc._sm)});
   var endf=function(e){if(cc._sm){cc.removeEventListener('pointermove',cc._sm);cc._sm=null}try{cc.releasePointerCapture(e.pointerId)}catch(_){}};
@@ -4286,7 +4332,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v127';
+const APP_VERSION='flint-v128';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
