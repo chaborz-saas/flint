@@ -367,13 +367,13 @@
   .flhome .flact .tl .e{font-size:13px;font-weight:800;color:#8F8982;font-variant-numeric:tabular-nums;line-height:1}
   .flhome .flact .tl .b{width:3px;height:13px;border-radius:3px;background:var(--accent)}
   .flhome .flact .tl .b.sleep{background:#6C7BD6}
-  .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill 1.25s cubic-bezier(.25,.8,.3,1) .35s both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
+  .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill .55s cubic-bezier(.25,.8,.3,1) both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
   .fllogo{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
   .fllogo-img{height:30px;width:auto;display:block;cursor:pointer}
-  .flhome .ecg{animation:flEcg 2.4s linear infinite}
-  .flhome .rip{transform-box:fill-box;transform-origin:center;animation:flRipple 1.9s ease-out infinite}
-  .flhome .rip2{animation-delay:.95s}
-  .flhome .heart{transform-box:fill-box;transform-origin:center;animation:flBeat 1.5s ease-in-out infinite}
+  .flhome .ecg{animation:none}
+  .flhome .rip{display:none}
+  .flhome .rip2{display:none}
+  .flhome .heart{animation:none}
   .flhome .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45))}
   /* ===== home redesign (mockup 2026) ===== */
   .flhome .greetsub{font-size:16px;font-weight:500;color:#7A756E;margin:9px 2px 0}
@@ -454,7 +454,7 @@
   .flhome .fcins .it b{font-size:14.5px;font-weight:800;color:#161512;display:block}
   .flhome .fcins .it p{margin:2px 0 0;font-size:13px;color:#7A756E;line-height:1.3}
   .flhome .fcins .cv{color:#C9C5BC;font-size:22px;flex:none}
-  .flhome .greet,.flhome .greetsub,.flhome .toprow2,.flhome .streakchip,.flhome .banner,.flhome .card{animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+  .flhome .greet,.flhome .greetsub,.flhome .toprow2,.flhome .streakchip,.flhome .banner,.flhome .card{animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
   @keyframes flRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes flRingFill{from{stroke-dashoffset:289}to{stroke-dashoffset:var(--off,38)}}
   @keyframes flEcg{to{transform:translateX(-130px)}}
@@ -549,7 +549,7 @@
 .flrecovery .rhead .date{font-size:13.5px;font-weight:500;color:#9A988F;margin-top:3px}
 
 /* Cartes crème comme l'accueil */
-.flrecovery .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flrecovery .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flrecovery .card.tap{transition:transform .14s ease;cursor:pointer}
 .flrecovery .card.tap:active{transform:scale(.985)}
 
@@ -822,7 +822,7 @@
 .flsleep #slDebt{font-family:'Anton';font-style:oblique 8deg;color:#161512;margin-top:4px}
 
 /* Animation d'entrée, cohérente avec l'accueil */
-.flsleep .pghd,.flsleep .card,.flsleep .grid2{animation:flRise .55s cubic-bezier(.2,.7,.2,1) backwards}
+.flsleep .pghd,.flsleep .card,.flsleep .grid2{animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flsleep .card:nth-of-type(2){animation-delay:.04s}
 .flsleep .card:nth-of-type(3){animation-delay:.08s}
 @media (prefers-reduced-motion:reduce){.flsleep *{animation:none!important;transition:none!important}}
@@ -951,7 +951,7 @@
 .flnutrition .chartfoot{display:flex;align-items:center;gap:7px;margin-top:10px;font-size:11px;font-weight:600;color:#9A988F}
 .flnutrition .chartfoot .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
 
-.flnutrition .pgt,.flnutrition .pgs,.flnutrition .card{animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flnutrition .pgt,.flnutrition .pgs,.flnutrition .card{animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flnutrition .card:nth-of-type(2){animation-delay:.05s}
 .flnutrition .card:nth-of-type(3){animation-delay:.1s}
 @media (prefers-reduced-motion:reduce){.flnutrition *{animation:none!important;transition:none!important}}
@@ -989,7 +989,7 @@
 .fltrends #corrCard .cbarw{flex:0 0 88px;height:7px;border-radius:6px;background:#F0E9E0;overflow:hidden}
 .fltrends #corrCard .cbarf{display:block;height:100%;border-radius:6px}
 .fltrends #corrCard .sci{font-size:13px;color:#6E6A62;line-height:1.5}
-.fltrends .seclbl,.fltrends .head,.fltrends .seg,.fltrends #trPeriod,.fltrends .card{animation:flRise .55s cubic-bezier(.2,.7,.2,1) backwards}
+.fltrends .seclbl,.fltrends .head,.fltrends .seg,.fltrends #trPeriod,.fltrends .card{animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .fltrends #trPeriod{animation-delay:.04s}.fltrends .chartcard{animation-delay:.08s}.fltrends .grid2.tr7{animation-delay:.12s}
 @media (prefers-reduced-motion:reduce){.fltrends *{animation:none!important;transition:none!important}}
 
@@ -997,7 +997,7 @@
 .flprofile .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flprofile .muted{color:#9A988F}
 /* Header bandeau noir façon coaching accueil */
-.flprofile .pfhero{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:6px 0 16px;display:flex;align-items:center;gap:15px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile .pfhero{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:6px 0 16px;display:flex;align-items:center;gap:15px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flprofile .pfhero .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
 .flprofile .pfhero>*{position:relative;z-index:1}
 .flprofile .pfhero .bk2{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid #3C3A35;background:rgba(255,255,255,.06);color:#fff;font-size:22px;line-height:0;padding-bottom:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .12s ease}
@@ -1006,7 +1006,7 @@
 .flprofile .pfhero .sub{color:#E7E1D8;font-size:12.5px;font-weight:500;margin-top:4px;line-height:1.35}
 .flprofile .pfhero .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45));flex:0 0 auto}
 /* Cartes FLINT */
-.flprofile .flcard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile .flcard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flprofile .sect{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px}
 .flprofile .sect i{font-size:17px;color:#E8674A;font-style:normal}
 /* Champs */
@@ -1032,7 +1032,7 @@
 .flprofile .divlab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F;margin:16px 0 9px;display:flex;align-items:center;gap:10px}
 .flprofile .divlab::after{content:'';flex:1;height:1px;background:#F1EBE3}
 /* Journal card (rempli par renderJournal -> .ct/.chips/.bchip globaux) : on l'aligne au look FLINT */
-.flprofile #journalCard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.flprofile #journalCard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .32s cubic-bezier(.2,.7,.2,1) backwards}
 .flprofile #journalCard .ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px}
 .flprofile #journalCard .bchip{border:1px solid #ECE6DD;background:#FBF9F6;color:#6E6A62;font-family:'Inter';font-weight:600;font-size:12.5px;border-radius:30px;padding:9px 14px;cursor:pointer;transition:transform .12s ease}
 .flprofile #journalCard .bchip:active{transform:scale(.94)}
@@ -1207,7 +1207,7 @@
 .flfc .fchd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-top:2px}
 .flfc .fcbk{width:44px;height:44px;border-radius:50%;border:1px solid rgba(22,21,18,.06);background:rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(22,21,18,.05);display:grid;place-items:center;font-size:25px;color:#161512;cursor:pointer;font-family:inherit;line-height:0;padding-bottom:3px}
 .flfc .live{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(232,103,74,.15);background:rgba(232,103,74,.08);border-radius:30px;padding:7px 13px}
-.flfc .live .ld{width:8px;height:8px;border-radius:50%;background:#E8674A;animation:flBeat 1.5s ease-in-out infinite}
+.flfc .live .ld{width:8px;height:8px;border-radius:50%;background:#E8674A}
 .flfc .live span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#E8674A}
 .flfc .ptitle{margin-bottom:18px}
 .flfc .ptitle h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:38px;line-height:.92;letter-spacing:-.02em;margin:0;color:#161512}
@@ -3112,7 +3112,7 @@ function loadTarget(){const rv=recovery();const c=Math.round(loadAvg(28));if(!c)
 function calibNights(){let n=0;for(let i=0;i<30;i++){const s=sensorOf(tk(-i));if(s&&s.hrv!=null)n++}return n}
 
 /* ---------- RINGS / CHARTS ---------- */
-function ringHTML(val,size,label,sub,color,dispVal){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+(+val||0));const fs=Math.round(size*0.225);return '<div style="position:relative;display:inline-block;width:'+size+'px;height:'+size+'px;vertical-align:top"><svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="display:block"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".7"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .9s cubic-bezier(.2,.8,.2,1) both" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc">'+(label?'<div class="rlab">'+label+'</div>':'')+'<div class="rval" style="font-size:'+fs+'px;color:'+color+'">'+(dispVal!=null?dispVal:val)+'</div>'+(sub?'<div class="rsub">'+sub+'</div>':'')+'</div></div>'}
+function ringHTML(val,size,label,sub,color,dispVal){color=color||'var(--accent)';const r=size/2-9,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,val))/100);const gid='rg'+Math.round(size*1000+(+val||0));const fs=Math.round(size*0.225);return '<div style="position:relative;display:inline-block;width:'+size+'px;height:'+size+'px;vertical-align:top"><svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="display:block"><defs><linearGradient id="'+gid+'" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+color+'" stop-opacity=".7"/><stop offset="1" stop-color="'+color+'"/></linearGradient></defs><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="9"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#'+gid+')" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .55s cubic-bezier(.2,.8,.2,1) both" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg><div class="rc">'+(label?'<div class="rlab">'+label+'</div>':'')+'<div class="rval" style="font-size:'+fs+'px;color:'+color+'">'+(dispVal!=null?dispVal:val)+'</div>'+(sub?'<div class="rsub">'+sub+'</div>':'')+'</div></div>'}
 function seriesBack(field,n,fn){const out=[];for(let i=n-1;i>=0;i--){const k=tk(-i);out.push(fn?fn(k):(sensorOf(k)?sensorOf(k)[field]:null))}return out}
 /* ---- courbe façon Whoop : dégradé + point + moyenne ---- */
 function areaSVG(arr,W,H,color,opts){opts=opts||{};const v=arr.filter(x=>x!=null);if(v.length<2)return '';let mn=Math.min(...v),mx=Math.max(...v);if(mn===mx){mn-=1;mx+=1}const pad=6,top=8,bot=H-(opts.labels?15:6);const gx=i=>pad+i*(W-2*pad)/(arr.length-1),gy=x=>bot-(x-mn)/(mx-mn)*(bot-top);const pts=arr.map((x,i)=>x==null?null:[gx(i),gy(x)]).filter(Boolean);const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');const area=d+' L'+pts[pts.length-1][0].toFixed(1)+' '+bot+' L'+pts[0][0].toFixed(1)+' '+bot+' Z';const gid='ag'+Math.round(W*7+H*13+(''+color).length*101);let s='<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+color+'" stop-opacity="'+(opts.fill||0.24)+'"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></linearGradient></defs>';s+='<path d="'+area+'" fill="url(#'+gid+')"/>';if(opts.avg){const m=v.reduce((a,b)=>a+b,0)/v.length,ay=gy(m);s+='<line x1="'+pad+'" y1="'+ay.toFixed(1)+'" x2="'+(W-pad)+'" y2="'+ay.toFixed(1)+'" stroke="var(--faint)" stroke-width="1.2" stroke-dasharray="3 3" opacity=".7"/><text x="'+(W-pad)+'" y="'+(ay-4).toFixed(1)+'" text-anchor="end" font-size="8.5" font-weight="800" fill="var(--faint)">moy</text>'}s+='<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+(opts.sw||2.6)+'" stroke-linejoin="round" stroke-linecap="round"/>';const last=pts[pts.length-1];s+='<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.7" fill="'+color+'" stroke="#fff" stroke-width="1.6"/>';if(opts.labels)s+=opts.labels.map(l=>'<text x="'+gx(l[0]).toFixed(1)+'" y="'+(H-3)+'" text-anchor="'+(l[2]||'middle')+'" font-size="8.5" font-weight="700" fill="var(--faint)">'+l[1]+'</text>').join('');return s}
@@ -3622,7 +3622,7 @@ function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){con
 function renderWeekly(){const host=document.getElementById('weeklyCard');if(!host)return;const w=assess(7),pw=(()=>{let rec=0,rn=0;for(let i=7;i<14;i++){const r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;rn++}}return rn?Math.round(rec/rn):null})();const d=(w.rec!=null&&pw!=null)?w.rec-pw:null;host.innerHTML='<div class="ct">Bilan de la semaine</div><div class="grid2" style="gap:10px"><div class="stat"><div class="sl">Récup moy</div><div class="sv">'+(w.rec!=null?w.rec+'%':'—')+'</div><div class="ss">'+(d!=null?(d>=0?'+':'')+d+' vs sem. dernière':'')+'</div></div><div class="stat"><div class="sl">Sommeil moy</div><div class="sv">'+(w.sl!=null?Math.floor(w.sl)+'h'+String(Math.round(w.sl%1*60)).padStart(2,'0'):'—')+'</div></div><div class="stat"><div class="sl">Effort cumulé</div><div class="sv">'+w.str+'</div></div><div class="stat"><div class="sl">Séances</div><div class="sv">'+w.ses+'</div></div></div>'}
 
 /* ---------- AUJOURD'HUI ---------- */
-function countUpEl(el,target,suffix,useFmt){suffix=suffix||'';const F=v=>(useFmt?fmtN(v):v)+suffix;if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=F(target);return}let s=null;function tick(t){if(s==null)s=t;const p=Math.min(1,(t-s)/1000),e=1-Math.pow(1-p,3);el.textContent=F(Math.round(target*e));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+function countUpEl(el,target,suffix,useFmt){suffix=suffix||'';const F=v=>(useFmt?fmtN(v):v)+suffix;if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=F(target);return}let s=null;function tick(t){if(s==null)s=t;const p=Math.min(1,(t-s)/550),e=1-Math.pow(1-p,3);el.textContent=F(Math.round(target*e));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
 function flActIcon(name,nap){if(nap)return 'zzz';const n=String(name||'').toLowerCase();if(/padel|tennis|squash|badmin/.test(n))return 'ball-tennis';if(/foot|soccer/.test(n))return 'ball-football';if(/course|run|jog|trail/.test(n))return 'run';if(/marche|walk/.test(n))return 'walk';if(/muscu|renfo|force|gym|hyrox|cross|halt/.test(n))return 'barbell';if(/velo|vélo|bike|cycl/.test(n))return 'bike';if(/nage|natation|swim/.test(n))return 'swimming';if(/yoga|mobilit|stretch|pilates/.test(n))return 'yoga';return 'activity'}
 function flHM(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
 function flDurHM(min){min=Math.max(0,Math.round(min||0));return Math.floor(min/60)+':'+String(min%60).padStart(2,'0')}
@@ -4502,7 +4502,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v136';
+const APP_VERSION='flint-v137';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
