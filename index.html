@@ -1833,6 +1833,38 @@ body.modalview nav,body.modalview header{display:none}
 #jDone .jds{font-size:15px;color:#8F8982;margin-top:6px}
 @keyframes jPop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 @keyframes jRing{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.flhome .dashhd{display:flex;align-items:flex-end;justify-content:space-between;margin:24px 4px 13px}
+.flhome .dasht{font-family:'Anton';font-style:oblique 8deg;font-size:26px;color:#161512;letter-spacing:.2px;line-height:1}
+.flhome .dashpers{display:inline-flex;align-items:center;gap:7px;background:none;border:0;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#37372F;cursor:pointer}
+.flhome .dashpers i{color:#E8674A;font-size:16px}
+.flhome .dashrow{display:flex;align-items:center;gap:13px;width:100%;background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:18px;padding:15px 16px;margin-bottom:10px;box-shadow:0 4px 14px rgba(120,110,95,.05);font-family:inherit;text-align:left;cursor:pointer;transition:transform .12s}
+.flhome .dashrow:active{transform:scale(.99)}
+.flhome .dashrow .dri{width:38px;height:38px;border-radius:12px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:19px;flex:none}
+.flhome .dashrow .drl{flex:1;min-width:0;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512;line-height:1.2}
+.flhome .dashrow .drv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#37372F;white-space:nowrap}
+.flhome .dashrow .drc{color:#C9C5BC;font-size:19px;flex:none}
+.fldash{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
+.fldash .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
+.fldash .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
+.fldash .jghost{border:0;background:none}
+.fldash .jttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:18px;letter-spacing:.5px}
+.fldash .detitle{font-family:'Anton';font-style:oblique 8deg;font-size:24px;margin:2px 4px 16px;color:#161512}
+.fldash .deadd{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9A988F;margin:24px 4px 13px;padding-bottom:9px;border-bottom:1px solid rgba(22,21,18,.08)}
+.fldash .deRow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:16px;padding:14px 15px;margin-bottom:10px;box-shadow:0 3px 12px rgba(120,110,95,.05);touch-action:none}
+.fldash .deRow.drag{box-shadow:0 16px 32px rgba(120,110,95,.22);transform:scale(1.02);position:relative;z-index:10;opacity:.98}
+.fldash .deRow .dei{width:34px;height:34px;border-radius:10px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:17px;flex:none}
+.fldash .deRow .del{flex:1;min-width:0;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.3px;color:#161512;line-height:1.25}
+.fldash .deRow .deh{color:#C0BBB1;font-size:22px;cursor:grab;flex:none;padding:2px 4px;touch-action:none}
+.fldash .deRow .deplus{width:34px;height:34px;border-radius:10px;border:1px solid rgba(232,103,74,.3);background:#FCEFE9;color:#E8674A;font-size:18px;display:grid;place-items:center;cursor:pointer;flex:none}
+.fldash .jsave{position:sticky;bottom:14px;width:100%;background:#E8674A;color:#fff;border:0;border-radius:18px;min-height:56px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);margin-top:6px}
+.fldash .jspace{height:14px}
+body.modalview nav,body.modalview header{display:none}
+#flOk{position:fixed;inset:0;background:#FAF8F5;display:none;align-items:center;justify-content:center;z-index:120}
+#flOk.on{display:flex}
+#flOk .jdc{text-align:center;animation:jPop .5s cubic-bezier(.2,.9,.3,1.2)}
+#flOk .jdring{width:104px;height:104px;border-radius:50%;border:4px solid #2FAE67;color:#2FAE67;display:grid;place-items:center;font-size:46px;margin:0 auto 22px;animation:jRing .55s ease both}
+#flOk .jdt{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;letter-spacing:.5px;color:#161512}
+#flOk .jds{font-size:15px;color:#8F8982;margin-top:6px}
 .slx .slx-verdict{margin-top:22px}
 .slx .slx-verdict b{display:block;font-size:21px;font-weight:800;color:#161512}
 .slx .slx-verdict .vr{display:flex;align-items:center;gap:9px;margin-top:4px}
@@ -2075,6 +2107,12 @@ body.modalview nav,body.modalview header{display:none}
     <button class="mjinfo" type="button" onclick="go('behavior')"><span class="mjib"><i class="ti ti-bulb"></i></span>Informations sur le comportement</button>
   </div>
 
+  <div class="dashhd">
+    <div class="dasht">Mon tableau de bord</div>
+    <button class="dashpers" type="button" onclick="openDashEdit()">Personnaliser <i class="ti ti-pencil"></i></button>
+  </div>
+  <div id="flDash"></div>
+
 
   <div class="card flad">
     <div class="fladart"></div>
@@ -2123,6 +2161,26 @@ body.modalview nav,body.modalview header{display:none}
   <div class="card" id="behTipCard"></div>
 </div>
 </section>
+
+
+<!-- ===================== PERSONNALISER TABLEAU DE BORD ===================== -->
+<section class="view" id="v-dashedit">
+<div class="fldash">
+  <div class="jtop">
+    <button class="jx" type="button" aria-label="Fermer" onclick="goBack('today')"><i class="ti ti-x"></i></button>
+    <div class="jttl">Personnaliser</div>
+    <span class="jx jghost"></span>
+  </div>
+  <div class="detitle">Mon tableau de bord</div>
+  <div id="deActive" class="delist"></div>
+  <div class="deadd">Ajouter à mon tableau de bord</div>
+  <div id="deAvail" class="delist"></div>
+  <div class="jspace"></div>
+  <button class="jsave" type="button" onclick="saveDash()">Enregistrer</button>
+</div>
+</section>
+
+<div id="flOk"><div class="jdc"><span class="jdring"><i class="ti ti-check"></i></span><div class="jdt" id="flOkT">Succès</div><div class="jds" id="flOkS">Enregistré.</div></div></div>
 
 
 <!-- ===================== NUTRITION ===================== -->
@@ -2744,8 +2802,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -2849,6 +2907,47 @@ function renderBehavior(){var c=behaviorCorr();var host=document.getElementById(
   if(neg.length)h+='<p class="sci" style="margin:0 0 8px"><b style="color:#C0492C">À limiter :</b> '+neg.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
   if(pos.length)h+='<p class="sci" style="margin:0"><b style="color:#1E7A47">Ce qui t\'aide :</b> '+pos.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
   if(!c.length)h+='<p class="sci" style="margin:0">Pas encore assez de données. Remplis ton journal régulièrement pour révéler tes corrélations.</p>';tip.innerHTML=h}}
+/* ---------- MON TABLEAU DE BORD ---------- */
+const DASH={
+ hrv:{l:'Variabilité de la fréquence cardiaque',i:'ti-activity',p:'recovery',v:function(){var t=sensorOf(tk());return t&&t.hrv!=null?t.hrv+' ms':'—'}},
+ sleep:{l:'Votre sommeil',i:'ti-moon',p:'sleep',v:function(){var t=sensorOf(tk());return t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(t.sleepMin%60).padStart(2,'0'):'—'}},
+ steps:{l:'Pas (version bêta)',i:'ti-walk',p:'caltrend',v:function(){return fmtN(flStepsOf(tk()))}},
+ calories:{l:'Calories',i:'ti-flame',p:'caltrend',v:function(){return fmtN(caloriesBurned(tk()))+' kcal'}},
+ stress:{l:'Moniteur de stress',i:'ti-gauge',p:null,v:function(){return '—'}},
+ effortrecup:{l:'Effort et récupération',i:'ti-barbell',p:'load',v:function(){return loadStrain(tk()).toFixed(1).replace('.',',')}},
+ sleepdebt:{l:'Dette de sommeil',i:'ti-moon-stars',p:'sleep',v:function(){var d=sleepDebt();return (d>0?'-':'')+d.toFixed(1).replace('.',',')+'h'}},
+ sleepeff:{l:'Efficacité du sommeil',i:'ti-chart-bar',p:'sleep',v:function(){var n=sleepNight(tk());return n&&n.efficiency!=null?n.efficiency+' %':'—'}},
+ timeinbed:{l:'Temps passé au lit',i:'ti-clock',p:'sleep',v:function(){var n=sleepNight(tk());return n?Math.floor(n.inBed/60)+'h'+String(Math.round(n.inBed%60)).padStart(2,'0'):'—'}},
+ leanmass:{l:'Masse corporelle maigre',i:'ti-stretching',p:null,v:function(){return '—'}},
+ weight:{l:'Poids',i:'ti-scale',p:null,v:function(){return '—'}},
+ strengthtime:{l:'Temps de musculation',i:'ti-barbell',p:null,v:function(){return '—'}},
+ hrzall:{l:'Toutes les zones de FC (hebdo)',i:'ti-heart',p:'fczones',v:function(){return '—'}},
+ vo2:{l:'VO₂ max',i:'ti-lungs',p:null,v:function(){return '—'}},
+ hrz13:{l:'Zones de FC 1 à 3 (hebdo)',i:'ti-heart',p:'fczones',v:function(){return '—'}},
+ hrz45:{l:'Zones de FC 4 et 5 (hebdo)',i:'ti-heart',p:'fczones',v:function(){return '—'}}
+};
+const DASH_DEF_ACTIVE=['hrv','sleep','steps','calories','stress','effortrecup','sleepdebt','sleepeff','timeinbed'];
+const DASH_DEF_AVAIL=['leanmass','weight','strengthtime','hrzall','vo2','hrz13','hrz45'];
+function getDash(){var d=DB.get('dashboard',null);if(!d||!d.active||!d.active.length)return {active:DASH_DEF_ACTIVE.slice(),avail:DASH_DEF_AVAIL.slice()};return d}
+function renderDash(){var host=document.getElementById('flDash');if(!host)return;var cfg=getDash();
+ host.innerHTML=cfg.active.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dashrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('')}
+function dashOpen(k){var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
+function openDashEdit(){var cfg=getDash();window._dashActive=cfg.active.slice();window._dashAvail=cfg.avail.slice();go('dashedit')}
+function renderDashEdit(){
+ var la=document.getElementById('deActive');if(la)la.innerHTML=(window._dashActive||[]).map(function(k){var m=DASH[k];return '<div class="deRow" data-k="'+k+'"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><span class="deh"><i class="ti ti-menu-2"></i></span></div>'}).join('');
+ var lv=document.getElementById('deAvail');if(lv)lv.innerHTML=(window._dashAvail||[]).map(function(k){var m=DASH[k];return '<div class="deRow"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><button class="deplus" type="button" onclick="deAdd(\''+k+'\')"><i class="ti ti-plus"></i></button></div>'}).join('');
+ deDragInit()}
+function deAdd(k){window._dashAvail=(window._dashAvail||[]).filter(function(x){return x!==k});(window._dashActive=window._dashActive||[]).push(k);haptic();renderDashEdit()}
+function deDragInit(){var list=document.getElementById('deActive');if(!list)return;
+ list.querySelectorAll('.deh').forEach(function(h){
+  h.onpointerdown=function(e){e.preventDefault();var row=h.closest('.deRow');if(!row)return;var startY=e.clientY;var rowH=row.offsetHeight+10;row.classList.add('drag');try{h.setPointerCapture(e.pointerId)}catch(_){}haptic();
+   h.onpointermove=function(ev){var dy=ev.clientY-startY;row.style.transform='translateY('+dy+'px)';
+    var rows=[].slice.call(list.children),i=rows.indexOf(row);
+    if(dy>rowH*0.6&&i<rows.length-1){list.insertBefore(row,rows[i+2]||null);startY+=rowH;row.style.transform='translateY('+(ev.clientY-startY)+'px)'}
+    else if(dy<-rowH*0.6&&i>0){list.insertBefore(row,rows[i-1]);startY-=rowH;row.style.transform='translateY('+(ev.clientY-startY)+'px)'}};
+   h.onpointerup=h.onpointercancel=function(ev){row.classList.remove('drag');row.style.transform='';try{h.releasePointerCapture(ev.pointerId)}catch(_){}window._dashActive=[].map.call(list.children,function(r){return r.dataset.k});h.onpointermove=null;h.onpointerup=null;h.onpointercancel=null;haptic()}}})}
+function saveDash(){if(document.getElementById('deActive'))window._dashActive=[].map.call(document.getElementById('deActive').children,function(r){return r.dataset.k});DB.set('dashboard',{active:window._dashActive,avail:window._dashAvail});flOkShow('Succès','Vos préférences ont été enregistrées.',function(){go('today')})}
+function flOkShow(t,s,cb){var o=document.getElementById('flOk');set('flOkT',t);set('flOkS',s);haptic(20);if(o){o.classList.add('on');setTimeout(function(){o.classList.remove('on');if(cb)cb()},1400)}else if(cb)cb()}
 const ZCOL=['#3FB57A','#9BCB4A','#F2C744','#F0902E','#F0492E'];const ZLAB=['Z1','Z2','Z3','Z4','Z5'];
 function hrZonesOf(sess){if(sess.hr)return sess.hr;const dur=sess.dur||40,i=sess.int||2;const w={1:[.5,.35,.12,.03,0],2:[.25,.4,.25,.08,.02],3:[.1,.25,.35,.22,.08],4:[.05,.15,.3,.3,.2]}[i];return w.map(x=>Math.round(x*dur))}
 function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r!=null){rec+=r;rn++}const s=sensorOf(k);if(s&&s.sleepMin){sl+=s.sleepMin;sn++}str+=loadStrain(k);ses+=DB.get('sessions_'+k,[]).filter(x=>x.type!=='nap').length}return {rec:rn?Math.round(rec/rn):null,sl:sn?(sl/sn/60):null,str:Math.round(str),ses}}
@@ -3001,7 +3100,7 @@ function renderToday(){
  var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
- renderMjWeek();
+ renderMjWeek();renderDash();
  var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
  flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
@@ -3727,7 +3826,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v121';
+const APP_VERSION='flint-v122';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
