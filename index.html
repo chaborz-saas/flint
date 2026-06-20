@@ -2186,8 +2186,13 @@ body.modalview nav,body.modalview header{display:none}
 /* ===== Accueil ÉTAT DU JOUR — glassmorphism + fond abstrait ===== */
 .flhome{background:url('bg-home.png') top center/100% auto repeat-y,#FAF8F5}
 .flhome .etat-title{text-align:center;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#77736C;margin:8px 0 2px}
-.flhome .caldate{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px auto 18px;width:fit-content}
-.flhome .caldate .cdnav{width:40px;height:40px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.55);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:18px;cursor:pointer;font-family:inherit;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);flex:none}
+.flhome .caldate{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px auto 18px;width:fit-content;position:sticky;top:54px;z-index:15}
+.flhome .caldate .cdnav{width:44px;height:44px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.92);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:18px;cursor:pointer;font-family:inherit;flex:none;transition:transform .1s ease}
+.flhome .caldate .cdnav:active{transform:scale(.88)}
+.flhome .caldate .cdlbl:active{transform:scale(.96)}
+.flhome .etat-score{transition:transform .12s ease}
+.flhome .etat-score:active{transform:scale(.985)}
+header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu:active,header.home-hdr .logo:active{transform:scale(.92)}
 .flhome .caldate .cdnav:disabled{opacity:.3}
 .flhome .caldate .cdlbl{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(120,110,95,.16);background:rgba(255,255,255,.6);border-radius:30px;padding:9px 20px;font-family:inherit;font-size:14px;font-weight:700;color:#161512;cursor:pointer;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .flhome .caldate .cdlbl i{color:#77736C;font-size:16px}
@@ -2204,13 +2209,13 @@ body.modalview nav,body.modalview header{display:none}
 .flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
 .flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(120,110,95,.14),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
-.flhome .etat-score .es-pct{font-family:'Anton';font-style:oblique 8deg;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
+.flhome .etat-score .es-pct{font-family:'Anton';font-style:oblique 8deg;font-size:46px;line-height:.9;color:#161512;letter-spacing:-.01em}
 .flhome .etat-score .es-pct small{font-size:26px;font-weight:700}
 .flhome .etat-score .es-lbl{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#9A988F;margin-top:7px}
-.flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:19px;letter-spacing:.01em;color:#2FA86A;margin-top:5px;white-space:nowrap;text-transform:uppercase}
+.flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:26px;letter-spacing:.01em;color:#2FA86A;margin-top:6px;white-space:nowrap;text-transform:uppercase}
 .flhome .etat-score .es-chk{position:absolute;top:30px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:18px;z-index:4}
 .flhome .gstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
-.flhome .gcard{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:22px;padding:13px 11px;box-shadow:0 6px 20px rgba(120,110,95,.07);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+.flhome .gcard{background:rgba(255,255,255,.96);border:1px solid #EFE9E0;border-radius:22px;padding:13px 11px;box-shadow:0 6px 20px rgba(120,110,95,.07);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
 .flhome .gcard:active{transform:scale(.97)}
 .flhome .gci{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;margin-bottom:11px}
 .flhome .gci.vio{background:rgba(110,107,255,.16);color:#6E6BFF}
@@ -2233,12 +2238,12 @@ body.modalview nav,body.modalview header{display:none}
 .flhome .gcbar i{display:block;height:100%;border-radius:5px;background:#F5A623}
 .flhome .gchart{display:flex;align-items:flex-end;gap:2.5px;height:32px;margin-top:auto;padding-top:6px}
 .flhome .gchart i{flex:1;border-radius:3px;min-height:4px;display:block}
-.flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
+.flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.96);border:1px solid #EFE9E0;border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
 .flhome .fchr .fchrL{flex:none}
 .flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
 .flhome .fchr .fchric{width:44px;height:44px;border-radius:14px;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:20px;flex:none}
 .flhome .fchr .fchrt{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#77736C}
-.flhome .fchr .fchrlive{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.04em;color:#E8674A;margin-top:2px}
+.flhome .fchr .fchrlive{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#77736C;margin-top:2px}
 .flhome .fchr .fchrlive .d{width:6px;height:6px;border-radius:50%;background:#E8674A}
 .flhome .fchr .fchrv{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:1;color:#161512}
 .flhome .fchr .fchrv small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#9A988F;margin-left:3px}
@@ -2283,7 +2288,13 @@ body.modalview nav,body.modalview header{display:none}
   </button>
   </div>
 
-  <div class="caldate" style="position:relative">
+  <div class="card flad">
+    <div class="fladart"></div>
+    <div class="fladic"><i class="ti ti-bolt"></i></div>
+    <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p></div>
+  </div>
+
+  <div class="caldate">
     <button class="cdnav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
     <button class="cdlbl" onclick="flOpenPicker()"><i class="ti ti-calendar"></i><span id="flDateHd">Aujourd'hui</span></button>
     <button class="cdnav" id="hdNext" onclick="flDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
@@ -2309,14 +2320,14 @@ body.modalview nav,body.modalview header{display:none}
       <span class="gci emb"><i class="ti ti-flame"></i></span>
       <div class="gcl">Calories</div>
       <div class="gcv"><span id="flKcal">—</span> <small>kcal</small></div>
-      <div class="gcs emb"><span class="d"></span>Brûlées</div>
+      <div class="gcs emb"><span class="d"></span>Brûlées · estimé</div>
       <div class="gchart" id="flKcalBars"></div>
     </button>
   </div>
 
   <div class="card fchr" id="flFcCard" onclick="go('fcdetail')">
     <div class="fchrL">
-      <div class="fchrtop"><span class="fchric"><i class="ti ti-heart"></i></span><div class="fchrtx"><div class="fchrt">Fréquence cardiaque</div><div class="fchrlive"><span class="d"></span>EN DIRECT</div></div></div>
+      <div class="fchrtop"><span class="fchric"><i class="ti ti-heart"></i></span><div class="fchrtx"><div class="fchrt">FC au repos</div><div class="fchrlive">Cette nuit</div></div></div>
       <div class="fchrv"><b id="flLiveBpm">—</b> <small>bpm</small></div>
     </div>
     <div class="fchrR" id="flFcMini"></div>
@@ -2349,13 +2360,6 @@ body.modalview nav,body.modalview header{display:none}
     <div class="dasht">Mon tableau de bord</div>
   </div>
   <div id="flDash"></div>
-
-
-  <div class="card flad">
-    <div class="fladart"></div>
-    <div class="fladic"><i class="ti ti-bolt"></i></div>
-    <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p></div>
-  </div>
 
   </div>
 </div></section>
@@ -3706,7 +3710,7 @@ function flWatchBatt(){var el=document.getElementById('wbatt'),v=document.getEle
 const KCAL_PER_MIN={1:6,2:8,3:10,4:13};
 function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);let act=0;ss.forEach(s=>{if(s.type==='nap')return;act+=(s.dur||30)*(KCAL_PER_MIN[s.int||2]||8)});const now=new Date();const frac=k===tk()?(now.getHours()*60+now.getMinutes())/1440:1;return Math.round(act+1600*frac)}
 var gDay=0;
-function flDay(d){gDay=Math.min(0,gDay+d);renderToday();}
+function flDay(d){haptic();gDay=Math.min(0,gDay+d);renderToday();}
 function _fmtD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function flOpenPicker(){var i=document.getElementById('flDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.focus();i.click()}}else{i.focus();i.click()}}
 function flPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var d=new Date(val+'T00:00:00');var off=Math.round((d-t)/86400000);gDay=Math.min(0,off);renderToday();window.scrollTo(0,0)}
@@ -3719,6 +3723,7 @@ function flFcMiniSVG(rhr){var pts=[62,59,61,65,63,57,64,62,60,66,55,49,rhr||47],
  s+='<path d="'+area+'" fill="rgba(232,103,74,.10)"/><path d="'+line+'" fill="none" stroke="#E8674A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+gx(pts.length-1).toFixed(1)+'" cy="'+gy(pts[pts.length-1]).toFixed(1)+'" r="3.6" fill="#FAF8F5" stroke="#E8674A" stroke-width="2.4"/></svg>';
  return s}
 function renderToday(){
+ var _tv=document.getElementById('v-today');if(_tv&&!_tv.classList.contains('on'))return;
  const p=getProfile(),K=tk(gDay),today=gDay===0,t=sensorOf(K),cal=calibNights(),calib=today&&cal<4;
  let rv=null;
  if(!calib){if(today){rv=recovery()}else{const _s=DB.get('recov_'+K,null);if(_s!=null)rv={s:_s}}}
@@ -3738,22 +3743,22 @@ function renderToday(){
  const tg=strainTarget();
  if(calib){set('flCoachT','En calibration · '+cal+'/4 nuits');set('flCoachM','Flint apprend ta baseline.<br>Ton score se débloque après 4 nuits portées.')}
  else if(!has){set('flCoachT',today?'En attente de ta nuit':'Pas de données');set('flCoachM',today?'Synchronise ta Polar Loop.<br>Ta récup s\'affiche après la nuit portée.':'Aucune nuit enregistrée pour cette date.')}
- else{const s=rv.s;set('flCoachT','Récup '+(s>=80?'haute':s>=30?'modérée':'basse')+' — '+(s>=80?'prêt à charger':s>=30?'charge avec tête':'journée repos'));set('flCoachM',(s>=80?'Ton corps a bien encaissé.':s>=30?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.')+(today?'<br>Vise un effort de '+tg[0]+'-'+tg[1]+' aujourd\'hui.':''))}
+ else{const s=rv.s;set('flCoachT','Récup '+(s>=67?'haute':s>=34?'modérée':'basse')+' — '+(s>=67?'prêt à charger':s>=34?'charge avec tête':'journée repos'));set('flCoachM',(s>=67?'Ton corps a bien encaissé.':s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.')+(today?'<br>Vise un effort de '+tg[0]+'-'+tg[1]+' aujourd\'hui.':''))}
  // couleur récup : ≥80 vert · 30-79 orange · <30 rouge
  const sv2=has?rv.s:(calib?Math.round(cal/4*100):0);
- const col=!has?'#9A988F':sv2>=80?'#2FA86A':sv2>=30?'#F2922B':'#E14434';
- const colL=!has?'#E2DCD2':sv2>=80?'#8FD6AF':sv2>=30?'#F8C887':'#F2A99E';
- set('flZone',has?(sv2>=80?'Prêt à charger':sv2>=30?'Dose ton effort':'Lève le pied'):(calib?'Calibration':'—'));
+ const col=!has?'#9A988F':sv2>=67?'#2FA86A':sv2>=34?'#F2922B':'#E14434';
+ const colL=!has?'#E2DCD2':sv2>=67?'#8FD6AF':sv2>=34?'#F8C887':'#F2A99E';
+ set('flZone',has?(sv2>=67?'Prêt à charger':sv2>=34?'Dose ton effort':'Lève le pied'):(calib?'Calibration':'—'));
  const ez=document.getElementById('flZone');if(ez)ez.style.color=col;
  // carte récupération (eyebrow / titre / description) + badge
  (function(){var eyb,ttl,desc;
   if(!has){eyb=calib?'Calibration en cours.':'En attente de ta nuit.';ttl=calib?'Calibration':'Pas de données';desc=calib?'Flint apprend ta baseline. Ton score se débloque après 4 nuits portées.':(today?'Synchronise ta Polar Loop pour afficher ta récup.':'Aucune nuit enregistrée pour cette date.');}
-  else if(sv2>=80){eyb='Ton corps est prêt.';ttl='Récupération élevée';desc='Excellente récupération globale. Tu es prêt pour une charge élevée'+(today?' aujourd\'hui.':'.');}
-  else if(sv2>=30){eyb='Reste à l\'écoute.';ttl='Récupération modérée';desc='Récupération correcte. Vise une charge modérée et dose ton effort'+(today?' aujourd\'hui.':'.');}
+  else if(sv2>=67){eyb='Ton corps est prêt.';ttl='Récupération élevée';desc='Excellente récupération globale. Tu es prêt pour une charge élevée'+(today?' aujourd\'hui.':'.');}
+  else if(sv2>=34){eyb='Reste à l\'écoute.';ttl='Récupération modérée';desc='Récupération correcte. Vise une charge modérée et dose ton effort'+(today?' aujourd\'hui.':'.');}
   else{eyb='Priorise le repos.';ttl='Récupération basse';desc='Ton corps n\'a pas fini d\'encaisser. Privilégie le repos et le sommeil'+(today?' aujourd\'hui.':'.');}
   set('flRecEyb',eyb);set('flRecTitle',ttl);set('flRecDesc',desc);
   var eb=document.getElementById('flRecEyb');if(eb&&eb.parentNode)eb.parentNode.style.color=col;
-  var ck=document.getElementById('flCheck');if(ck){ck.style.color=col;ck.innerHTML=has?(sv2>=80?'<i class="ti ti-check"></i>':sv2>=30?'<i class="ti ti-minus"></i>':'<i class="ti ti-alert-triangle"></i>'):'<i class="ti ti-clock"></i>';ck.style.display=today||has?'grid':'none'}
+  var ck=document.getElementById('flCheck');if(ck){ck.style.color=col;ck.innerHTML=has?(sv2>=67?'<i class="ti ti-check"></i>':sv2>=34?'<i class="ti ti-minus"></i>':'<i class="ti ti-alert-triangle"></i>'):'<i class="ti ti-clock"></i>';ck.style.display=today||has?'grid':'none'}
  })();
  var fm=document.getElementById('flFcMini');if(fm)fm.innerHTML=flFcMiniSVG(t&&t.rhr?t.rhr:47);
  const gs=document.querySelectorAll('#flRingGrad stop');if(gs[0]){gs[0].setAttribute('stop-color',colL);gs[1].setAttribute('stop-color',col)}
@@ -3770,13 +3775,13 @@ function renderToday(){
  set('flSteps',fmtN(flStepsOf(K)));
  renderMjWeek();renderDash();
  var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
- flWatchBatt();flRenderWkStrip();
+ flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,9,function(k){return caloriesBurned(k)}),'#E8674A'));
  var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
- var _bpm=t&&t.rhr?t.rhr:null,_live=_bpm!=null?Math.round(_bpm+26+(_bpm%6)):null;
- set('flLiveBpm',_live!=null?_live:'—');
- var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_live!=null?_live:62);
+ var _bpm=t&&t.rhr?t.rhr:null;
+ set('flLiveBpm',_bpm!=null?_bpm:'—');
+ var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_bpm!=null?_bpm:62);
  var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  var _snm=t?sleepNight(K):null;set('flBed',_snm?flHM(_snm.bedMin):'—');set('flWake',_snm?flHM(_snm.wakeMin):'—');
  const yRec=DB.get('recov_'+tk(gDay-1),null),dlt=(has&&yRec!=null)?rv.s-yRec:null,dl=document.getElementById('flDelta');
@@ -3786,14 +3791,15 @@ function renderToday(){
  const nr=document.getElementById('flNutRing');if(nr){const c=2*Math.PI*14,pct=Math.max(0,Math.min(1,tt.kcal/g.kcal));nr.setAttribute('stroke-dasharray',(c*pct).toFixed(1)+' 999')}
  flRenderActivities(K);
  flRenderWk();
- if(window._resetDateBar)window._resetDateBar();
  (function(){var at,ap;
-  if(has&&sv2>=80){at='Tu peux pousser aujourd\'hui.';ap='Ton corps a bien encaissé. C\'est le bon jour pour une grosse séance — reste à l\'écoute de tes sensations.';}
+  if(has&&sv2>=67){at='Tu peux pousser aujourd\'hui.';ap='Ton corps a bien encaissé. C\'est le bon jour pour une grosse séance — reste à l\'écoute de tes sensations.';}
   else if(has&&sv2<30){at='Lève le pied aujourd\'hui.';ap='Récupération basse. Privilégie le repos actif et le sommeil pour rebondir plus fort.';}
   else{at='Priorise une charge modérée aujourd\'hui.';ap='Ton corps a bien récupéré, mais évite de trop pousser. L\'équilibre est la clé de la progression.';}
   set('flAdT',at);set('flAdP',ap)})();
- const rn=document.getElementById('flRecup');if(rn){if(has)countUpEl(rn,rv.s,'');else rn.textContent=calib?cal+'/4':'—'}
- const kn=document.getElementById('flKcal');if(kn)countUpEl(kn,kcalB,'',true);
+ var _first=!window._todayShown;
+ const rn=document.getElementById('flRecup');if(rn){if(has){if(_first)countUpEl(rn,rv.s,'');else rn.textContent=rv.s}else rn.textContent=calib?cal+'/4':'—'}
+ const kn=document.getElementById('flKcal');if(kn){if(_first)countUpEl(kn,kcalB,'',true);else kn.textContent=fmtN(kcalB)}
+ window._todayShown=true;
 }
 /* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
 function importDetectedSessions(items){if(!items||!items.length)return 0;const k=tk(),a=DB.get('sessions_'+k,[]);let n=0;items.forEach(it=>{const start=it.start||'';if(a.some(s=>s.auto&&s.start===start&&s.name===(it.sport||'Activité')))return;a.push({name:it.sport||'Activité',icon:sportIcon(it.sport),start:start,dur:it.dur||30,int:it.int||2,auto:true});n++});if(n)DB.set('sessions_'+k,a);return n}
@@ -4502,7 +4508,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v139';
+const APP_VERSION='flint-v140';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -4512,16 +4518,6 @@ renderToday();
 scheduleNotifs();
 checkUpdate();
 /* Barre de date auto-masquante (Whoop-like) : se cache au scroll bas, réapparaît épinglée au scroll haut */
-(function(){var lastY=0;
- function upd(){var v=document.querySelector('.view.on');var row=document.querySelector('#v-today .toprow2');var y=window.scrollY||document.documentElement.scrollTop||0;
-  if(!v||v.id!=='v-today'||!row){lastY=y;return}
-  if(y<70)row.classList.remove('tucked');
-  else if(y>lastY+5)row.classList.add('tucked');
-  else if(y<lastY-5)row.classList.remove('tucked');
-  lastY=y;}
- window.addEventListener('scroll',upd,{passive:true});
- window._resetDateBar=function(){var row=document.querySelector('#v-today .toprow2');if(row)row.classList.remove('tucked');lastY=0;};
-})();
 if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.register('sw.js').catch(()=>{});
 document.addEventListener('visibilitychange',function(){if(document.hidden)return;checkUpdate();if('serviceWorker'in navigator&&!window.Capacitor){navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update()}).catch(function(){})}});
 </script>
