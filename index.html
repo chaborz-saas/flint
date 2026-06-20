@@ -634,6 +634,16 @@
 .flrecovery .rfr .rfc.up{background:rgba(47,168,106,.13);color:#1E7A47}
 .flrecovery .rfr .rfc.down{background:rgba(232,103,74,.13);color:#C0492C}
 .flrecovery .rfr .rfc.flat{background:#F1EFE8;color:#8A8580}
+.flrecovery .rcor{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid #F1EBE3}
+.flrecovery .rcor:first-of-type{border-top:0}
+.flrecovery .rcl{flex:1;font-size:13.5px;font-weight:600;color:#37372F;min-width:0}
+.flrecovery .rcbar{flex:0 0 84px;height:7px;border-radius:6px;background:#F0E9E0;overflow:hidden}
+.flrecovery .rcbar i{display:block;height:100%;border-radius:6px}
+.flrecovery .rcv{font-weight:800;font-size:13px;width:46px;text-align:right;font-variant-numeric:tabular-nums}
+.flrecovery .rjchips{display:flex;flex-wrap:wrap;gap:8px}
+.flrecovery .rjchip{border:1px solid #ECE6DD;background:#FBF9F6;color:#6E6A62;font-family:'Inter';font-weight:600;font-size:12.5px;border-radius:30px;padding:9px 14px;cursor:pointer;transition:transform .12s}
+.flrecovery .rjchip.on{background:#FCEFE9;border-color:rgba(232,103,74,.4);color:#C0492C}
+.flrecovery .rjchip:active{transform:scale(.94)}
 .flrecovery .rvh{display:flex;align-items:center;gap:11px;margin-bottom:14px}
 .flrecovery .rvh .ic{color:#E8674A;font-size:22px;display:grid;place-items:center}
 .flrecovery .rvh b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512;font-weight:400}
@@ -1860,6 +1870,13 @@ header{padding:11px 16px 7px}
 .flhome .verdict .vdState{font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.03em;padding:6px 11px;border-radius:10px;color:#fff;flex:none;line-height:1}
 .flhome .verdict .vdTxt{flex:1;min-width:0;font-size:13px;font-weight:600;color:#37372F;line-height:1.32}
 .flhome .verdict .vdcv{color:#C9C5BC;font-size:18px;flex:none}
+.flhome .flbrief{margin:2px 2px 8px;padding:14px 16px;background:linear-gradient(160deg,#FFF6EF,#FFFDFB);border:1px solid rgba(232,103,74,.16);border-radius:20px;box-shadow:0 6px 20px rgba(120,110,95,.06)}
+.flhome .flbrief .bftop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.flhome .flbrief .bfic{width:34px;height:34px;border-radius:11px;background:#E8674A;color:#fff;display:grid;place-items:center;font-size:18px;flex:none}
+.flhome .flbrief .bfgr{font-family:'Anton';font-style:oblique 8deg;font-size:18px;color:#161512}
+.flhome .flbrief .bfstory{font-size:14px;line-height:1.46;color:#37372F;font-weight:500}
+.flhome .flbrief .bftip{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid rgba(232,103,74,.12);font-size:12.5px;font-weight:700;color:#C0492C}
+.flhome .flbrief .bftip i{color:#E8674A;font-size:16px;flex:none}
 .flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
 .flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(120,110,95,.14),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
@@ -1920,6 +1937,7 @@ header{padding:11px 16px 7px}
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
+  <div class="flbrief" id="flBrief"></div>
   <div class="etat-title">État du jour</div>
 
   <div class="etat-row">
@@ -2090,6 +2108,9 @@ header{padding:11px 16px 7px}
   <div id="vitauxCard" class="nvit"></div>
 
   <div class="card healthc" id="healthCard"></div>
+
+  <div class="card" id="recCorrCard"></div>
+  <div class="card" id="recJournalCard"></div>
 </div>
 </section>
 
@@ -2678,7 +2699,7 @@ function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)
  var ageCard='<button class="nvcard nvage" onclick="openSleepNight()"><div class="nvtop"><span class="nvic'+(ageGreen?' g':'')+'"><i class="ti ti-user"></i></span><div class="nvhead"><div class="nvname">Âge physiologique</div><div class="nvval" style="color:'+ac+'">'+(age!=null?age:'—')+'<small>ans</small></div><div class="nvverdict" style="color:'+ac+'">'+verdict+'</div>'+(vtxt?'<div class="nvnorm">'+vtxt+'</div>':'')+'</div><span class="nvcv'+(ageGreen?' g':'')+'"><i class="ti ti-chevron-right"></i></span></div></button>';
  host.innerHTML=H+sum+metric('hrv','ti-heartbeat','HRV',t.hrv,'ms')+metric('rhr','ti-heart','FC repos',t.rhr,'bpm')+metric('resp','ti-lungs','Respiration',t.resp,'/min')+ageCard;}
 const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
-function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr()}
+function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr();renderRecJournal();renderRecCorr()}
 function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
 function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
 function renderCorr(){const host=document.getElementById('corrCard');if(!host)return;const c=behaviorCorr();host.innerHTML='<div class="ct">Ce qui influence ta récup</div>'+(c.length?c.slice(0,7).map(x=>'<div class="cor"><span class="cl">'+x.lbl+'</span><span class="cbarw"><span class="cbarf" style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(x.imp>0?'var(--green)':'var(--accent)')+'"></span></span><span style="color:'+(x.imp>0?'var(--green)':'var(--accent)')+';font-weight:800;width:48px;text-align:right">'+(x.imp>0?'+':'')+x.imp+'%</span></div>').join(''):'<p class="sci">Remplis ton journal quelques jours pour révéler ce qui aide ou nuit à ta récup.</p>')}
@@ -2832,6 +2853,21 @@ function renderToday(){
  const gs=document.querySelectorAll('#flRingGrad stop');if(gs[0]){gs[0].setAttribute('stop-color',colL);gs[1].setAttribute('stop-color',col)}
  const rc=document.querySelector('#v-today .ring-fill');if(rc){rc.style.setProperty('--off',(289*(1-Math.max(0,Math.min(100,has?sv2:0))/100)).toFixed(1));rc.style.filter='drop-shadow(0 2px 7px '+col+'66)'}
  const need=(p.need||8)*60,perf=t&&t.sleepMin?t.sleepMin/need:0;
+ (function(){var bf=document.getElementById('flBrief');if(!bf)return;
+  if(!today){bf.style.display='none';return}bf.style.display='block';
+  var story;
+  if(!has){story=calib?'Flint apprend ta baseline ('+cal+'/4 nuits). Ton brief se débloque ensuite.':'Synchronise ta montre pour ton brief du jour.';}
+  else{var nmb=t?sleepNight(K):null;var nmh=nmb?(Math.floor(nmb.asleep/60)+'h'+String(Math.round(nmb.asleep%60)).padStart(2,'0')):null;
+   var slLab=nmb?(perf>=.85?'solide':perf>=.65?'correcte':'courte'):null;
+   var p1=nmh?'Nuit '+slLab+' ('+nmh+')':'';
+   var p2='récup '+(sv2>=80?'haute':sv2>=30?'modérée':'basse')+' ('+rv.s+'%)';
+   var act=sv2>=67?'ton corps est prêt à charger.':sv2>=34?'dose ton effort aujourd\'hui.':'priorise le repos aujourd\'hui.';
+   story=(p1?p1+' · ':'')+p2+' — '+act;}
+  var corr=behaviorCorr(),tip;
+  if(corr.length){var c0=corr[0];tip=(c0.imp>0?'Ce qui t\'aide : ':'À limiter : ')+c0.lbl+' ('+(c0.imp>0?'+':'')+c0.imp+'% de récup)';}
+  else{tip='Coche ton journal le soir pour révéler ce qui booste ta récup.';}
+  bf.innerHTML='<div class="bftop"><span class="bfic"><i class="ti ti-sunrise"></i></span><div class="bfgr">Bonjour '+esc((p.name||'Arthur').split(' ')[0])+'</div></div><div class="bfstory">'+story+'</div><div class="bftip"><i class="ti ti-bulb"></i>'+tip+'</div>';
+ })();
  set('flSleep',t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—');
  set('flSleepS',!t||!t.sleepMin?'':perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant');
  const str=loadStrain(K),obj=Math.round((tg[0]+tg[1])/2);
@@ -2943,7 +2979,11 @@ function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName'
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 
 /* ---------- RÉCUP ---------- */
-function renderRecovery(){renderVitaux();const rv=recovery();
+function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!host)return;var c=behaviorCorr();
+ host.innerHTML='<div class="rvh"><span class="ic" style="color:#6E6BFF"><i class="ti ti-link"></i></span><b>Ce qui influence ta récup</b></div>'+(c.length?c.slice(0,6).map(function(x){var pos=x.imp>0;return '<div class="rcor"><span class="rcl">'+x.lbl+'</span><span class="rcbar"><i style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(pos?'#2FA86A':'#E8674A')+'"></i></span><span class="rcv" style="color:'+(pos?'#1E7A47':'#C0492C')+'">'+(pos?'+':'')+x.imp+'%</span></div>'}).join(''):'<p class="sci" style="margin:0">Coche ton journal quelques soirs — Flint révèle ce qui aide ou nuit à ta récup.</p>');}
+function renderRecJournal(){var host=document.getElementById('recJournalCard');if(!host)return;var j=DB.get('journal_'+tk(),{});
+ host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
+function renderRecovery(){renderVitaux();renderRecCorr();renderRecJournal();const rv=recovery();
  var pe=document.getElementById('recPill');
  if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';var _rf0=document.getElementById('recFactors');if(_rf0)_rf0.innerHTML='';renderHealth();return}
  if(pe)pe.style.display='';
@@ -3562,7 +3602,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v117';
+const APP_VERSION='flint-v118';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
