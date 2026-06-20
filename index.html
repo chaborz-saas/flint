@@ -1865,18 +1865,6 @@ header{padding:11px 16px 7px}
 .flhome .stepside .ssv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#161512;line-height:1;margin-top:4px}
 .flhome .stepside .ssu{font-size:8.5px;font-weight:700;color:#9A988F;margin-top:2px}
 .flhome .stepside .ssarc{width:42px;height:auto;margin-top:8px;display:block}
-.flhome .verdict{display:flex;align-items:center;gap:11px;width:100%;margin:0 0 16px;padding:12px 14px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:17px;box-shadow:0 6px 20px rgba(120,110,95,.07);font-family:inherit;text-align:left;cursor:pointer;transition:transform .12s}
-.flhome .verdict:active{transform:scale(.99)}
-.flhome .verdict .vdState{font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.03em;padding:6px 11px;border-radius:10px;color:#fff;flex:none;line-height:1}
-.flhome .verdict .vdTxt{flex:1;min-width:0;font-size:13px;font-weight:600;color:#37372F;line-height:1.32}
-.flhome .verdict .vdcv{color:#C9C5BC;font-size:18px;flex:none}
-.flhome .flbrief{margin:2px 2px 8px;padding:14px 16px;background:linear-gradient(160deg,#FFF6EF,#FFFDFB);border:1px solid rgba(232,103,74,.16);border-radius:20px;box-shadow:0 6px 20px rgba(120,110,95,.06)}
-.flhome .flbrief .bftop{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.flhome .flbrief .bfic{width:34px;height:34px;border-radius:11px;background:#E8674A;color:#fff;display:grid;place-items:center;font-size:18px;flex:none}
-.flhome .flbrief .bfgr{font-family:'Anton';font-style:oblique 8deg;font-size:18px;color:#161512}
-.flhome .flbrief .bfstory{font-size:14px;line-height:1.46;color:#37372F;font-weight:500}
-.flhome .flbrief .bftip{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid rgba(232,103,74,.12);font-size:12.5px;font-weight:700;color:#C0492C}
-.flhome .flbrief .bftip i{color:#E8674A;font-size:16px;flex:none}
 .flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
 .flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(120,110,95,.14),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
@@ -1937,7 +1925,6 @@ header{padding:11px 16px 7px}
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
-  <div class="flbrief" id="flBrief"></div>
   <div class="etat-title">État du jour</div>
 
   <div class="etat-row">
@@ -1959,12 +1946,6 @@ header{padding:11px 16px 7px}
     <svg class="ssarc" width="60" height="20" viewBox="0 0 60 20" aria-hidden="true"><path d="M5,7 A42,42 0 0 0 55,7" fill="none" stroke="rgba(120,110,95,.16)" stroke-width="4" stroke-linecap="round"/><path id="flStepArc" d="M5,7 A42,42 0 0 0 55,7" fill="none" stroke="#2FA86A" stroke-width="4" stroke-linecap="round" stroke-dasharray="49" stroke-dashoffset="49"/></svg>
   </button>
   </div>
-
-  <button class="verdict" id="flVerdict" type="button" onclick="go('recovery')">
-    <span class="vdState" id="flVdState">—</span>
-    <span class="vdTxt" id="flVdTxt">—</span>
-    <i class="ti ti-chevron-right vdcv"></i>
-  </button>
 
   <div class="caldate" style="position:relative">
     <button class="cdnav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
@@ -2832,13 +2813,6 @@ function renderToday(){
  const colL=!has?'#E2DCD2':sv2>=80?'#8FD6AF':sv2>=30?'#F8C887':'#F2A99E';
  set('flZone',has?(sv2>=80?'Haute':sv2>=30?'Modérée':'Basse'):(calib?'Calibration':'—'));
  const ez=document.getElementById('flZone');if(ez)ez.style.color=col;
- (function(){var vs=document.getElementById('flVdState'),vt=document.getElementById('flVdTxt'),vc=document.getElementById('flVerdict');if(!vs||!vt)return;
-  if(!has){vs.textContent=calib?'CALIBRATION':'EN ATTENTE';vs.style.background='#9A988F';vt.textContent=calib?'Flint apprend ta baseline ('+cal+'/4 nuits).':'Synchronise ta montre pour ton verdict du jour.';if(vc)vc.style.display='flex';return}
-  var st=(rv&&rv.state)?rv.state:(sv2>=67?'PRÊT':sv2>=34?'OK':'REPOS');
-  var rc=(rv&&rv.reco)?rv.reco:(sv2>=67?'Conditions optimales pour performer.':sv2>=34?'Charge modérée, dose ton effort.':'Priorise le repos et le sommeil.');
-  var tgt=strainTarget();rc=rc.replace(/\s*$/,'')+(today?' Vise '+tgt[0]+'-'+tgt[1]+' d\'effort.':'');
-  vs.textContent=st;vs.style.background=col;vt.textContent=rc;if(vc)vc.style.display='flex';
- })();
  // carte récupération (eyebrow / titre / description) + badge
  (function(){var eyb,ttl,desc;
   if(!has){eyb=calib?'Calibration en cours.':'En attente de ta nuit.';ttl=calib?'Calibration':'Pas de données';desc=calib?'Flint apprend ta baseline. Ton score se débloque après 4 nuits portées.':(today?'Synchronise ta Polar Loop pour afficher ta récup.':'Aucune nuit enregistrée pour cette date.');}
@@ -2853,21 +2827,6 @@ function renderToday(){
  const gs=document.querySelectorAll('#flRingGrad stop');if(gs[0]){gs[0].setAttribute('stop-color',colL);gs[1].setAttribute('stop-color',col)}
  const rc=document.querySelector('#v-today .ring-fill');if(rc){rc.style.setProperty('--off',(289*(1-Math.max(0,Math.min(100,has?sv2:0))/100)).toFixed(1));rc.style.filter='drop-shadow(0 2px 7px '+col+'66)'}
  const need=(p.need||8)*60,perf=t&&t.sleepMin?t.sleepMin/need:0;
- (function(){var bf=document.getElementById('flBrief');if(!bf)return;
-  if(!today){bf.style.display='none';return}bf.style.display='block';
-  var story;
-  if(!has){story=calib?'Flint apprend ta baseline ('+cal+'/4 nuits). Ton brief se débloque ensuite.':'Synchronise ta montre pour ton brief du jour.';}
-  else{var nmb=t?sleepNight(K):null;var nmh=nmb?(Math.floor(nmb.asleep/60)+'h'+String(Math.round(nmb.asleep%60)).padStart(2,'0')):null;
-   var slLab=nmb?(perf>=.85?'solide':perf>=.65?'correcte':'courte'):null;
-   var p1=nmh?'Nuit '+slLab+' ('+nmh+')':'';
-   var p2='récup '+(sv2>=80?'haute':sv2>=30?'modérée':'basse')+' ('+rv.s+'%)';
-   var act=sv2>=67?'ton corps est prêt à charger.':sv2>=34?'dose ton effort aujourd\'hui.':'priorise le repos aujourd\'hui.';
-   story=(p1?p1+' · ':'')+p2+' — '+act;}
-  var corr=behaviorCorr(),tip;
-  if(corr.length){var c0=corr[0];tip=(c0.imp>0?'Ce qui t\'aide : ':'À limiter : ')+c0.lbl+' ('+(c0.imp>0?'+':'')+c0.imp+'% de récup)';}
-  else{tip='Coche ton journal le soir pour révéler ce qui booste ta récup.';}
-  bf.innerHTML='<div class="bftop"><span class="bfic"><i class="ti ti-sunrise"></i></span><div class="bfgr">Bonjour '+esc((p.name||'Arthur').split(' ')[0])+'</div></div><div class="bfstory">'+story+'</div><div class="bftip"><i class="ti ti-bulb"></i>'+tip+'</div>';
- })();
  set('flSleep',t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—');
  set('flSleepS',!t||!t.sleepMin?'':perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant');
  const str=loadStrain(K),obj=Math.round((tg[0]+tg[1])/2);
@@ -3602,7 +3561,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v118';
+const APP_VERSION='flint-v119';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
