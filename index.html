@@ -1843,6 +1843,25 @@ body.modalview nav,body.modalview header{display:none}
 .flhome .dashrow .drl{flex:1;min-width:0;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512;line-height:1.2}
 .flhome .dashrow .drv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#37372F;white-space:nowrap}
 .flhome .dashrow .drc{color:#C9C5BC;font-size:19px;flex:none}
+.flhome .dgrp{background:#fff;border:1px solid #EFE9E0;border-radius:20px;box-shadow:0 6px 20px rgba(22,21,18,.05);margin-bottom:14px;overflow:hidden}
+.flhome .dgrph{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;padding:17px 18px;font-family:inherit;text-align:left;cursor:pointer}
+.flhome .dgi{width:46px;height:46px;border-radius:14px;background:#F0ECE4;color:#161512;display:grid;place-items:center;font-size:22px;flex:none}
+.flhome .dgt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.flhome .dgt b{font-family:'Anton';font-style:oblique 8deg;font-size:18px;letter-spacing:.4px;text-transform:uppercase;color:#161512;line-height:1}
+.flhome .dgt small{font-size:12px;font-weight:600;color:#9A988F}
+.flhome .dgv{font-family:'Anton';font-style:oblique 8deg;font-size:18px;color:#161512;white-space:nowrap}
+.flhome .dgc{color:#C9C5BC;font-size:20px;flex:none;transition:transform .3s ease}
+.flhome .dgrp.open .dgc{transform:rotate(180deg)}
+.flhome .dgbody{max-height:0;overflow:hidden;transition:max-height .34s cubic-bezier(.4,0,.2,1)}
+.flhome .dgrp.open .dgbody{max-height:520px}
+.flhome .dgbodyin{background:#FAF8F5;border-radius:14px;margin:0 12px 12px;padding:2px 14px}
+.flhome .dgrow{display:flex;align-items:center;gap:13px;width:100%;background:none;border:0;border-bottom:1px solid #EFE9E0;border-radius:0;padding:13px 2px;font-family:inherit;text-align:left;cursor:pointer}
+.flhome .dgrow:last-child{border-bottom:0}
+.flhome .dgrow:active{background:#F3EEE6}
+.flhome .dgrow .dri{width:38px;height:38px;border-radius:11px;background:#fff;border:1px solid #EFE9E0;color:#77736C;display:grid;place-items:center;font-size:18px;flex:none}
+.flhome .dgrow .drl{flex:1;min-width:0;font-size:13px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#161512}
+.flhome .dgrow .drv{font-size:14px;font-weight:800;color:#161512;white-space:nowrap}
+.flhome .dgrow .drc{color:#C9C5BC;font-size:17px;flex:none}
 .fldash{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
 .fldash .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
 .fldash .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
@@ -2330,7 +2349,6 @@ body.modalview nav,body.modalview header{display:none}
 
   <div class="dashhd">
     <div class="dasht">Mon tableau de bord</div>
-    <button class="dashpers" type="button" onclick="openDashEdit()">Personnaliser <i class="ti ti-pencil"></i></button>
   </div>
   <div id="flDash"></div>
 
@@ -3215,6 +3233,10 @@ function renderBehavior(){var c=behaviorCorr();var host=document.getElementById(
 /* ---------- MON TABLEAU DE BORD ---------- */
 const DASH={
  hrv:{l:'Variabilité de la fréquence cardiaque',i:'ti-activity',p:'recovery',v:function(){var t=sensorOf(tk());return t&&t.hrv!=null?t.hrv+' ms':'—'}},
+ rhr:{l:'FC au repos',i:'ti-heart',v:function(){var s=sensorOf(tk());return s&&s.rhr!=null?s.rhr+' bpm':'—'}},
+ recovery:{l:'Récupération',i:'ti-battery-charging',v:function(){var rv=recovery();return rv?rv.s+' %':'—'}},
+ resp:{l:'Fréquence respiratoire',i:'ti-lungs',v:function(){var s=sensorOf(tk());return s&&s.resp!=null?(Math.round(s.resp*10)/10).toString().replace('.',',')+' r/m':'—'}},
+ fcavg:{l:'FC moyenne',i:'ti-heartbeat',v:function(){var k=tk(),s=sensorOf(k);return s&&s.rhr!=null?Math.round(s.rhr+18+(loadStrain(k)*1.1))+' bpm':'—'}},
  sleep:{l:'Votre sommeil',i:'ti-moon',p:'sleep',v:function(){var t=sensorOf(tk());return t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(t.sleepMin%60).padStart(2,'0'):'—'}},
  steps:{l:'Pas (version bêta)',i:'ti-walk',p:'caltrend',v:function(){return fmtN(flStepsOf(tk()))}},
  calories:{l:'Calories',i:'ti-flame',p:'caltrend',v:function(){return fmtN(caloriesBurned(tk()))+' kcal'}},
@@ -3235,9 +3257,21 @@ const DASH={
 const DASH_DEF_ACTIVE=['hrv','sleep','steps','calories','stress','effortrecup','sleepresto','sleepdebt','sleepeff','timeinbed'];
 const DASH_DEF_AVAIL=['leanmass','weight','strengthtime','hrzall','vo2','hrz13','hrz45'];
 function getDash(){var d=DB.get('dashboard',null);if(!d||!d.active||!d.active.length)return {active:DASH_DEF_ACTIVE.slice(),avail:DASH_DEF_AVAIL.slice()};return d}
-function renderDash(){var host=document.getElementById('flDash');if(!host)return;var cfg=getDash();
- host.innerHTML=cfg.active.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dashrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('')}
-function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv',sleepdebt:'sleepdebt',sleepeff:'sleepeff',effortrecup:'effort',timeinbed:'timeinbed',sleepresto:'sleepresto',sleeprestoh:'sleeprestoh',strengthtime:'strengthtime',vo2:'vo2',weight:'weight',leanmass:'leanmass'};var tkk=tmap[k]||k;if(TREND[tkk]){openMetricTrend(tkk);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
+var DASH_GROUPS=[
+ {g:'recup',label:'Récupération',ic:'ti-activity',keys:['hrv','rhr','recovery']},
+ {g:'sommeil',label:'Sommeil',ic:'ti-moon',head:'sleep',keys:['sleepresto','sleepdebt','sleepeff','timeinbed','sleep']},
+ {g:'activite',label:'Activité',ic:'ti-walk',keys:['steps','calories','effortrecup']},
+ {g:'cardio',label:'Cardio',ic:'ti-heart',keys:['vo2','fcavg','resp','hrzall']},
+ {g:'corps',label:'Corps',ic:'ti-scale',keys:['weight','leanmass']}
+];
+function renderDash(){var host=document.getElementById('flDash');if(!host)return;window._dashOpen=window._dashOpen||{};
+ host.innerHTML=DASH_GROUPS.map(function(G){var open=!!window._dashOpen[G.g];
+  var rows=G.keys.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dgrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('');
+  var hk=G.head||G.keys[0],hv=DASH[hk]?DASH[hk].v():'';if(hv==='—'&&DASH[hk])hv=DASH[hk].l+' —';
+  return '<div class="dgrp'+(open?' open':'')+'" id="dgrp-'+G.g+'"><button class="dgrph" type="button" onclick="dashToggle(\''+G.g+'\')"><span class="dgi"><i class="ti '+G.ic+'"></i></span><span class="dgt"><b>'+G.label+'</b><small>'+G.keys.length+' métriques</small></span><span class="dgv">'+hv+'</span><i class="ti ti-chevron-down dgc"></i></button><div class="dgbody"><div class="dgbodyin">'+rows+'</div></div></div>'
+ }).join('')}
+function dashToggle(g){window._dashOpen=window._dashOpen||{};var open=!window._dashOpen[g];window._dashOpen[g]=open;var grp=document.getElementById('dgrp-'+g);if(grp)grp.classList.toggle('open',open);haptic()}
+function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv',sleepdebt:'sleepdebt',sleepeff:'sleepeff',effortrecup:'effort',timeinbed:'timeinbed',sleepresto:'sleepresto',sleeprestoh:'sleeprestoh',strengthtime:'strengthtime',vo2:'vo2',weight:'weight',leanmass:'leanmass'};tmap.rhr='rhr';tmap.recovery='recovery';tmap.resp='resp';tmap.fcavg='fcavg';var tkk=tmap[k]||k;if(TREND[tkk]){openMetricTrend(tkk);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
 function openDashEdit(){var cfg=getDash();window._dashActive=cfg.active.slice();window._dashAvail=cfg.avail.slice();go('dashedit')}
 function renderDashEdit(){
  var la=document.getElementById('deActive');if(la)la.innerHTML=(window._dashActive||[]).map(function(k){var m=DASH[k];return '<div class="deRow" data-k="'+k+'"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><span class="deh"><i class="ti ti-menu-2"></i></span></div>'}).join('');
@@ -4469,7 +4503,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v133';
+const APP_VERSION='flint-v134';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
