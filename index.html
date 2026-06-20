@@ -2206,8 +2206,8 @@ body.modalview nav,body.modalview header{display:none}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
 .flhome .etat-score .es-pct{font-family:'Anton';font-style:oblique 8deg;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
 .flhome .etat-score .es-pct small{font-size:26px;font-weight:700}
-.flhome .etat-score .es-lbl{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#77736C;margin-top:6px}
-.flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:20px;color:#2FA86A;margin-top:4px}
+.flhome .etat-score .es-lbl{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#9A988F;margin-top:7px}
+.flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:19px;letter-spacing:.01em;color:#2FA86A;margin-top:5px;white-space:nowrap;text-transform:uppercase}
 .flhome .etat-score .es-chk{position:absolute;top:30px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:18px;z-index:4}
 .flhome .gstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
 .flhome .gcard{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:22px;padding:13px 11px;box-shadow:0 6px 20px rgba(120,110,95,.07);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
@@ -3743,7 +3743,7 @@ function renderToday(){
  const sv2=has?rv.s:(calib?Math.round(cal/4*100):0);
  const col=!has?'#9A988F':sv2>=80?'#2FA86A':sv2>=30?'#F2922B':'#E14434';
  const colL=!has?'#E2DCD2':sv2>=80?'#8FD6AF':sv2>=30?'#F8C887':'#F2A99E';
- set('flZone',has?(sv2>=80?'Haute':sv2>=30?'Modérée':'Basse'):(calib?'Calibration':'—'));
+ set('flZone',has?(sv2>=80?'Prêt à charger':sv2>=30?'Dose ton effort':'Lève le pied'):(calib?'Calibration':'—'));
  const ez=document.getElementById('flZone');if(ez)ez.style.color=col;
  // carte récupération (eyebrow / titre / description) + badge
  (function(){var eyb,ttl,desc;
@@ -4502,7 +4502,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v138';
+const APP_VERSION='flint-v139';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
