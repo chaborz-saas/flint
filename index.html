@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=440, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=465, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#F3EFE7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -534,8 +534,8 @@
   .flsleep .hrlg .ld{width:11px;height:4px;border-radius:2px;display:inline-block;vertical-align:2px;margin-right:5px}
   @media (min-width:560px){
     html{background:#E7E2D7}
-    body{max-width:440px;margin:0 auto;min-height:100vh;box-shadow:0 0 44px rgba(20,18,12,.13)}
-    nav{left:50%;right:auto;transform:translateX(-50%);width:440px}
+    body{max-width:465px;margin:0 auto;min-height:100vh;box-shadow:0 0 44px rgba(20,18,12,.13)}
+    nav{left:50%;right:auto;transform:translateX(-50%);width:465px}
   }
 
 /* ===== ÉCRAN RÉCUPÉRATION — niveau "flhome" (scopé .flrecovery) ===== */
@@ -4502,7 +4502,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v135';
+const APP_VERSION='flint-v136';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
