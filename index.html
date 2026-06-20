@@ -1794,19 +1794,6 @@ header{padding:11px 16px 7px}
 .slx .st3v{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:1;color:#161512;white-space:nowrap}
 .slx .st3v small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F;margin-left:2px}
 .slx .st3sub{font-size:11.5px;color:#9A988F;margin-top:7px;line-height:1.2}
-.slx .slx-stg{display:block;width:100%;text-align:left;padding:16px;cursor:pointer;font-family:inherit}
-.slx .slx-stg .stghd{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
-.slx .slx-stg .stghd .slx-qhd{margin:0}
-.slx .slx-stg .stghd .cv{color:#C9C5BC;font-size:20px;flex:none}
-.slx .stghyp{margin-bottom:6px}
-.slx .strow{display:grid;grid-template-columns:auto 74px minmax(0,1fr) 40px 58px;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #F4EEE6}
-.slx .strow:last-child{border-bottom:0}
-.slx .strow .sdot{width:11px;height:11px;border-radius:50%}
-.slx .strow .snm{font-size:14.5px;font-weight:700;color:#161512}
-.slx .strow .sbar{height:8px;border-radius:5px;background:#F1ECE4;overflow:hidden}
-.slx .strow .sbar i{display:block;height:100%;border-radius:5px}
-.slx .strow .spc{font-size:14px;font-weight:800;color:#161512;text-align:right;font-variant-numeric:tabular-nums}
-.slx .strow .stm{font-size:13.5px;font-weight:600;color:#8F8982;text-align:right;font-variant-numeric:tabular-nums}
 /* ===== Accueil — titre « Ma journée » ===== */
 .flhome .mjtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
 .flhome .mjtitle::after{content:'';display:block;width:118px;height:4px;border-radius:3px;margin-top:9px;background:linear-gradient(90deg,#E8674A 0 80%,transparent 80% 88%,#E8674A 88%)}
@@ -2092,12 +2079,6 @@ header{padding:11px 16px 7px}
     <div class="slx-th"><div class="ic ic-bed"><i class="ti ti-bed"></i></div><div class="tt"><span class="l coral">Coucher</span><b id="shBed">—</b><span class="sub"><i class="ti ti-moon"></i></span></div></div>
     <div class="slx-th"><div class="ic ic-sun"><i class="ti ti-sunrise"></i></div><div class="tt"><span class="l violet">Réveil</span><b id="shWake">—</b><span class="sub v"><i class="ti ti-sunrise"></i></span></div></div>
   </div>
-
-  <button class="card slx-stg" type="button" onclick="openSleepNight()">
-    <div class="stghd"><span class="slx-qhd">Stades de sommeil</span><i class="ti ti-chevron-right cv"></i></div>
-    <div class="stghyp" id="shHypno"></div>
-    <div class="stglist" id="shStageRows"></div>
-  </button>
 
   <button class="card slx-night" type="button" onclick="openSleepNight()">
     <div class="snh"><span class="sni"><i class="ti ti-activity-heartbeat"></i></span><div class="snt"><b>Sommeil de la dernière nuit</b><span>Fréquence cardiaque pendant la nuit</span></div><i class="ti ti-chevron-right cv"></i></div>
@@ -2987,23 +2968,6 @@ function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;
   if(cz){cz.style.left=g.xPct[idx]+'%';cz.style.top=g.yPct[idx]+'%';}
  })();
  set('shLastChart',shLastSVG());
- var _hy=document.getElementById('shHypno');if(_hy)_hy.innerHTML=flHypnoSVG(nm);
- set('shStageRows',flStageRowsHTML(nm));
-}
-var SL_STG={deep:'#5B47E0',light:'#A9A6F5',rem:'#B45CE8',awake:'#F4A98A'};
-function flHypnoSVG(nm){
- var seq=hypnoSeq({sleepMin:nm.asleep,deep:nm.deep,rem:nm.rem,light:nm.light,awake:nm.awake});
- var rowOf={3:0,2:1,1:2,0:3},colOf={0:SL_STG.deep,1:SL_STG.light,2:SL_STG.rem,3:SL_STG.awake};
- var W=320,H=92,padT=6,padB=6,rowH=(H-padT-padB)/4,barH=15;
- var tot=seq.reduce(function(a,s){return a+s[1]},0)||1,x=0,blocks='';
- seq.forEach(function(s){var w=s[1]/tot*W,r=rowOf[s[0]],y=padT+r*rowH+(rowH-barH)/2;blocks+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+Math.max(2,w-1.5).toFixed(1)+'" height="'+barH+'" rx="4.5" fill="'+colOf[s[0]]+'"/>';x+=w});
- return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+blocks+'</svg>';
-}
-function flStageRowsHTML(nm){
- function hm(m){m=Math.round(m);return m>=60?Math.floor(m/60)+'h'+String(m%60).padStart(2,'0'):m+' min'}
- var tot=(nm.deep+nm.rem+nm.light+nm.awake)||1,maxV=Math.max(nm.deep,nm.rem,nm.light,nm.awake)||1;
- var rows=[['Profond',nm.deep,SL_STG.deep],['Léger',nm.light,SL_STG.light],['Paradoxal',nm.rem,SL_STG.rem],['Éveil',nm.awake,SL_STG.awake]];
- return rows.map(function(r){return '<div class="strow"><span class="sdot" style="background:'+r[2]+'"></span><span class="snm">'+r[0]+'</span><span class="sbar"><i style="width:'+Math.max(6,Math.round(r[1]/maxV*100))+'%;background:'+r[2]+'"></i></span><span class="spc">'+Math.round(r[1]/tot*100)+'%</span><span class="stm">'+hm(r[1])+'</span></div>'}).join('');
 }
 function slStageSegs2(nm){return (nm.stages&&nm.stages.length)?nm.stages:flStageSegs({deep:nm.deep,rem:nm.rem,light:nm.light,awake:nm.awake})}
 var SL_COL={awake:'#C9C5BC',light:'#B9A9E8',deep:'#EFA8D6',rem:'#9B5DE5'};
@@ -3531,7 +3495,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v115';
+const APP_VERSION='flint-v116';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
