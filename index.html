@@ -1940,6 +1940,43 @@ body.modalview nav,body.modalview header{display:none}
 .stsheet .stsr .stsi b{font-family:'Anton';font-style:oblique 8deg;font-size:15px}
 .stsheet .stsr .stsn{flex:1;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:16px;color:#161512}
 .stsheet .stsr .stst{font-size:12.5px;font-weight:700;color:#9A988F;text-align:right;font-variant-numeric:tabular-nums;line-height:1.35}
+.fltrend .tfoot{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#9A988F;margin:12px 4px 0}
+.fltrend .tfoot i{font-size:15px;flex:none;margin-top:1px}
+.fltrend .tbreak{margin-top:20px}
+.fltrend .tbkhd{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#161512;margin:0 2px 12px}
+.fltrend .tbkhd span{color:#9A988F}
+.fltrend .tbkbar{display:flex;height:12px;border-radius:7px;overflow:hidden;background:#F1ECE4;margin:0 2px 14px}
+.fltrend .tbkbar i{display:block;height:100%}
+.fltrend .tbkrow{display:flex;align-items:center;gap:12px;padding:8px 2px;border-top:1px solid rgba(22,21,18,.06)}
+.fltrend .tbkrow:first-of-type{border-top:0}
+.fltrend .tbkrow .d{width:13px;height:13px;border-radius:4px;flex:none}
+.fltrend .tbkrow b{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#161512;width:42px}
+.fltrend .tbkrow .l{font-size:14px;color:#37372F}
+.fltrend .tgoal{display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:18px;padding:15px 16px;margin-top:16px;box-shadow:0 4px 14px rgba(120,110,95,.05);font-family:inherit;text-align:left;cursor:pointer}
+.fltrend .tgoal .tgic{width:38px;height:38px;border-radius:12px;background:rgba(232,103,74,.12);color:#E8674A;display:grid;place-items:center;font-size:19px;flex:none}
+.fltrend .tgoal .tgt{flex:1;font-size:13.5px;font-weight:700;color:#161512;line-height:1.25}
+.fltrend .tgoal>i{color:#C9C5BC;font-size:19px;flex:none}
+.flgoal{font-family:'Inter',sans-serif;color:#161512;padding:6px 4px 18px;min-height:100vh;display:flex;flex-direction:column}
+.flgoal .ttop{display:flex;align-items:center;justify-content:space-between;padding:4px 0 8px}
+.flgoal .tbk{width:40px;height:40px;border-radius:50%;border:0;background:none;color:#161512;font-size:22px;display:grid;place-items:center;cursor:pointer}
+.flgoal .tghost{visibility:hidden}
+.flgoal .tttl{font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.flgoal .gghead{font-size:25px;font-weight:800;line-height:1.2;color:#161512;margin:10px 2px 6px}
+.flgoal .ggwrap{display:flex;align-items:center;gap:24px;justify-content:center;flex:1;min-height:320px}
+.flgoal .ggleft{text-align:right;flex:none}
+.flgoal .ggval{font-family:'Anton';font-style:oblique 8deg;font-size:38px;color:#E8674A;line-height:1}
+.flgoal .ggvl{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#9A988F;margin-top:5px}
+.flgoal .ggcol{display:flex;flex-direction:column;align-items:center;gap:10px}
+.flgoal .ggmm{font-size:14px;font-weight:800;color:#9A988F}
+.flgoal .ggtrack{position:relative;width:92px;height:290px;border-radius:30px;background:#F1ECE4;overflow:hidden;cursor:pointer;touch-action:none;border:1px solid rgba(22,21,18,.06)}
+.flgoal .ggfill{position:absolute;left:0;right:0;bottom:0;background:#E8674A;border-radius:30px;display:flex;align-items:flex-start;justify-content:center;padding-top:11px;min-height:34px}
+.flgoal .gghandle{width:30px;height:5px;border-radius:3px;background:rgba(255,255,255,.75)}
+.flgoal .ggtip{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:16px;padding:15px 16px;box-shadow:0 4px 14px rgba(120,110,95,.05);margin-top:8px}
+.flgoal .ggtipt{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#161512;margin-bottom:6px}
+.flgoal .ggtipd{font-size:13.5px;line-height:1.45;color:#6E6A62}
+.flgoal .jsave{position:sticky;bottom:8px;width:100%;background:#E8674A;color:#fff;border:0;border-radius:18px;min-height:56px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);margin-top:6px}
+.flgoal .ggdel{width:100%;background:none;border:0;color:#9A988F;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:14px;cursor:pointer}
+.flgoal .jspace{flex:1;min-height:6px}
 .slx .slx-verdict{margin-top:22px}
 .slx .slx-verdict b{display:block;font-size:21px;font-weight:800;color:#161512}
 .slx .slx-verdict .vr{display:flex;align-items:center;gap:9px;margin-top:4px}
@@ -2269,7 +2306,31 @@ body.modalview nav,body.modalview header{display:none}
   <div class="tdelta" id="tDelta"></div>
   <div class="tsent" id="tSent">—</div>
   <div class="tchartc"><div class="tcleg"><span class="tclegb"></span>Plage habituelle</div><div id="tChart"></div></div>
+  <p class="tfoot" id="tFoot" style="display:none"></p>
+  <div class="tbreak" id="tBreak" style="display:none"></div>
+  <button class="tgoal" id="tGoal" type="button" style="display:none" onclick="openStepGoal()"><span class="tgic"><i class="ti ti-clipboard-check"></i></span><span class="tgt">Fixez-vous un objectif de pas dans votre plan hebdomadaire</span><i class="ti ti-chevron-right"></i></button>
   <div class="texpl"><div class="texplart"><i class="ti ti-activity"></i></div><h3 id="tExplT">—</h3><p id="tExplP">—</p></div>
+</div>
+</section>
+
+
+<!-- ===================== OBJECTIF DE PAS ===================== -->
+<section class="view" id="v-goal">
+<div class="flgoal">
+  <div class="ttop"><button class="tbk" type="button" onclick="goBack('metrend')"><i class="ti ti-x"></i></button><div class="tttl">Définissez votre objectif</div><span class="tbk tghost"></span></div>
+  <div class="gghead">Fixez votre objectif quotidien de pas pour la semaine à venir</div>
+  <div class="ggwrap">
+    <div class="ggleft"><div class="ggval" id="ggVal">—</div><div class="ggvl">Votre objectif</div></div>
+    <div class="ggcol">
+      <div class="ggmm" id="ggMax">—</div>
+      <div class="ggtrack" id="ggTrack"><div class="ggfill" id="ggFill"><span class="gghandle"></span></div></div>
+      <div class="ggmm" id="ggMin">—</div>
+    </div>
+  </div>
+  <div class="ggtip"><div class="ggtipt" id="ggTipT">—</div><div class="ggtipd" id="ggTipD">—</div></div>
+  <div class="jspace"></div>
+  <button class="jsave" type="button" onclick="saveStepGoal()">Enregistrer l'objectif</button>
+  <button class="ggdel" type="button" onclick="deleteStepGoal()">Supprimer</button>
 </div>
 </section>
 
@@ -2916,8 +2977,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='metrend'||v==='stress');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='metrend'||v==='stress'||v==='goal');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -3045,7 +3106,7 @@ const DASH_DEF_AVAIL=['leanmass','weight','strengthtime','hrzall','vo2','hrz13',
 function getDash(){var d=DB.get('dashboard',null);if(!d||!d.active||!d.active.length)return {active:DASH_DEF_ACTIVE.slice(),avail:DASH_DEF_AVAIL.slice()};return d}
 function renderDash(){var host=document.getElementById('flDash');if(!host)return;var cfg=getDash();
  host.innerHTML=cfg.active.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dashrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('')}
-function dashOpen(k){if(TREND[k]){openMetricTrend(k);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
+function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv'};var tk2=tmap[k]||k;if(TREND[tk2]){openMetricTrend(tk2);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
 function openDashEdit(){var cfg=getDash();window._dashActive=cfg.active.slice();window._dashAvail=cfg.avail.slice();go('dashedit')}
 function renderDashEdit(){
  var la=document.getElementById('deActive');if(la)la.innerHTML=(window._dashActive||[]).map(function(k){var m=DASH[k];return '<div class="deRow" data-k="'+k+'"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><span class="deh"><i class="ti ti-menu-2"></i></span></div>'}).join('');
@@ -3067,11 +3128,32 @@ const T_MON=['JANV.','FÉVR.','MARS','AVR.','MAI','JUIN','JUIL.','AOÛT','SEPT.'
 const T_MONL=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const T_WD=['DIM.','LUN.','MAR.','MER.','JEU.','VEN.','SAM.'];
 const TREND={
- hrv:{label:'Variabilité de la fréquence cardiaque',unit:'ms',icon:'ti-activity',field:'hrv',short:'VFC',
+ hrv:{label:'Variabilité de la fréquence cardiaque',unit:'ms',icon:'ti-activity',field:'hrv',short:'VFC',chart:'line',
   val:function(k){var s=DB.get('sensor_'+k,null);return s&&s.hrv!=null?s.hrv:null},
   explT:'Qu\'est-ce que la variabilité de la fréquence cardiaque ?',
-  explP:'La variabilité de la fréquence cardiaque (VFC) représente les variations du temps entre chaque battement de votre cœur. C\'est un indicateur clé de votre état de récupération, de votre niveau de stress et de votre santé globale.'}
+  explP:'La variabilité de la fréquence cardiaque (VFC) représente les variations du temps entre chaque battement de votre cœur. C\'est un indicateur clé de votre état de récupération, de votre niveau de stress et de votre santé globale.'},
+ rhr:{label:'Fréquence cardiaque au repos',unit:'bpm',icon:'ti-heart',field:'rhr',short:'FCR',chart:'line',
+  val:function(k){var s=DB.get('sensor_'+k,null);return s&&s.rhr!=null?s.rhr:null},
+  explT:'Qu\'est-ce que la fréquence cardiaque au repos ?',
+  explP:'La fréquence cardiaque au repos (FCR) est le nombre moyen de battements du cœur par minute lorsque vous êtes complètement au repos, mesurée vers la fin de votre cycle de sommeil. Une FCR basse indique en général une bonne condition physique. Une hausse à court terme peut signaler de la fatigue ou une infection ; une baisse à long terme reflète une meilleure santé cardiovasculaire.'},
+ sleepperf:{label:'Votre sommeil',unit:'%',icon:'ti-moon',short:'Performance sommeil',chart:'bar',barCol:'#A9A6F5',moy:true,breakdown:'sleep',
+  val:function(k){var s=DB.get('sensor_'+k,null);if(!s||!s.sleepMin)return null;var need=(getProfile().need||8)*60;return Math.round(Math.min(100,s.sleepMin/need*100))},
+  sent:function(av,a30,r){return r==='M'?('Votre Performance sommeil moyenne ce mois-ci ('+av+' %) '+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'est calculée sur vos nuits.')):'Votre Performance sommeil moyenne sur cette période est de '+av+' %.'},
+  explT:'Qu\'est-ce que la Performance sommeil ?',
+  explP:'La performance sommeil mesure la qualité globale de vos nuits. Le score combine le temps de sommeil vs votre besoin, la régularité de vos horaires, l\'efficacité (temps réellement endormi) et le stress nocturne. Au-delà de 85 % le sommeil est optimal, entre 70 et 85 % il est suffisant, en dessous il est insuffisant.'},
+ steps:{label:'Pas (version bêta)',unit:'',icon:'ti-walk',short:'pas',chart:'bar',barCol:'#3FA0E0',moy:true,fmt:true,foot:'La moyenne n\'inclut pas les données du jour.',goal:true,
+  val:function(k){return flStepsOf(k)},
+  sent:function(av,a30,r,dn){return dn?'Votre moyenne de pas est en baisse par rapport à la période précédente. Quelques pas de plus chaque jour suffisent à inverser la tendance.':'Votre moyenne de pas progresse — continuez sur cette lancée pour ancrer l\'habitude.'},
+  explT:'Les pas : une mesure de vos mouvements',
+  explP:'Les pas quotidiens correspondent au nombre total de pas que vous faites chaque jour : un indicateur clé de votre activité de fond. Marcher suffisamment réduit le risque cardiovasculaire, soutient le métabolisme et favorise la récupération — l\'équilibre idéal entre effort et repos.'},
+ calories:{label:'Calories',unit:'Cal',icon:'ti-flame',short:'calories',chart:'bar',barCol:'#E8674A',moy:true,fmt:true,
+  val:function(k){return caloriesBurned(k)},
+  sent:function(av,a30,r){return 'Vous avez brûlé en moyenne '+fmtN(av)+' calories '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+', '+(a30!=null?(av>=a30?'soit plus que':'soit moins que')+' votre moyenne des 30 derniers jours.':'selon votre profil.')},
+  explT:'Les calories, qu\'est-ce que c\'est ?',
+  explP:'Les calories mesurent l\'énergie que vous dépensez dans la journée. Ce total est estimé à partir de votre métabolisme basal (taille, poids, âge) et de votre fréquence cardiaque tout au long de la journée. Plus vous êtes actif, plus vous en brûlez.'}
 };
+function trend30(M){var s=0,c=0;for(var i=1;i<=30;i++){var v=M.val(tk(-i));if(v!=null){s+=v;c++}}return c?Math.round(s/c):null}
+function tFmtV(M,v){return v==null?'—':(M&&M.fmt?fmtN(Math.round(v)):Math.round(v))}
 var _tMetric='hrv',_tRange='M',_tOff=0,_tSel=null;
 function openMetricTrend(k){_tMetric=k;_tRange='M';_tOff=0;_tSel=null;go('metrend')}
 function trendRange(r){_tRange=r;_tOff=0;_tSel=null;renderMetrend()}
@@ -3081,26 +3163,45 @@ function tFmtD(d){return T_MON[d.getMonth()]+' '+d.getDate()+', '+String(d.getFu
 function trendPts(M,range,off){var n=range==='S'?7:(range==='M'?30:185),step=range==='S'?7:(range==='M'?30:182),base=off*step,pts=[],t=new Date();t.setHours(0,0,0,0);
  for(var i=n-1;i>=0;i--){var dOff=base-i,d=new Date(t);d.setDate(d.getDate()+dOff);var key=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();pts.push({off:dOff,date:d,v:M.val(key)})}return pts}
 function trendAvg(pts){var v=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v});return v.length?v.reduce(function(a,b){return a+b},0)/v.length:null}
-function renderMetrend(){var M=TREND[_tMetric];if(!M)return;
+function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='bar';
  var seg=document.getElementById('tSeg');if(seg)seg.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.r===_tRange)});
  set('tSelN',M.label);set('tSelIc','<i class="ti '+M.icon+'"></i>');set('tAvgU',M.unit);set('tExplT',M.explT);set('tExplP',M.explP);
- var pts=trendPts(M,_tRange,_tOff),avg=trendAvg(pts),b=baseStat(M.field),bLo=b?Math.round(b.m-b.sd):null,bHi=b?Math.round(b.m+b.sd):null,b30=b?Math.round(b.m):null;
+ var pts=trendPts(M,_tRange,_tOff),avg=trendAvg(pts),b=(!bar&&M.field)?baseStat(M.field):null,bLo=b?Math.round(b.m-b.sd):null,bHi=b?Math.round(b.m+b.sd):null,a30=trend30(M);
  var fwd=document.getElementById('tFwd');if(fwd)fwd.disabled=_tOff>=0;
  set('tRangeLbl',tFmtD(pts[0].date)+' - '+tFmtD(pts[pts.length-1].date));
- if(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null){var sp=pts[_tSel];set('tAvgL',T_WD[sp.date.getDay()]+', '+T_MON[sp.date.getMonth()]+' '+sp.date.getDate()+', '+sp.date.getFullYear());set('tAvgV',sp.v)}
- else{set('tAvgL','Moyenne');set('tAvgV',avg!=null?Math.round(avg):'—')}
- var prev=trendAvg(trendPts(M,_tRange,_tOff-1)),de=document.getElementById('tDelta');
- if(de){if(avg!=null&&prev!=null&&prev>0){var pct=Math.round((avg-prev)/prev*100),per=_tRange==='S'?'à la semaine précédente':_tRange==='M'?'au mois précédent':'aux 6 mois précédents';
+ if(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null){var sp=pts[_tSel];set('tAvgL',T_WD[sp.date.getDay()]+', '+T_MON[sp.date.getMonth()]+' '+sp.date.getDate()+', '+sp.date.getFullYear());set('tAvgV',tFmtV(M,sp.v))}
+ else{set('tAvgL','Moyenne');set('tAvgV',avg!=null?tFmtV(M,avg):'—')}
+ var prev=trendAvg(trendPts(M,_tRange,_tOff-1)),de=document.getElementById('tDelta'),down=false;
+ if(de){if(avg!=null&&prev!=null&&prev>0){var pct=Math.round((avg-prev)/prev*100),per=_tRange==='S'?'à la semaine précédente':_tRange==='M'?'au mois précédent':'aux 6 mois précédents';down=pct<0;
    if(pct>0){de.className='tdelta up';de.innerHTML='<i class="ti ti-caret-up-filled"></i>'+pct+'% par rapport '+per}
    else if(pct<0){de.className='tdelta down';de.innerHTML='<i class="ti ti-caret-down-filled"></i>'+Math.abs(pct)+'% par rapport '+per}
    else{de.className='tdelta flat';de.innerHTML='0% par rapport '+per}}
   else{de.className='tdelta flat';de.innerHTML=''}}
  var av=avg!=null?Math.round(avg):null,sent='';
- if(av!=null){if(_tRange==='M')sent='Votre '+M.short+' moyenne ce mois-ci ('+av+') '+(b30!=null?((av<b30?'est inférieure à':av>b30?'est supérieure à':'correspond à')+' votre moyenne des 30 derniers jours de '+b30+'.'):'.');
+ if(av!=null){if(M.sent)sent=M.sent(av,a30,_tRange,down);
+  else if(_tRange==='M')sent='Votre '+M.short+' moyenne ce mois-ci ('+av+') '+(b?((av<b.m?'est inférieure à':av>b.m?'est supérieure à':'correspond à')+' votre moyenne des 30 derniers jours de '+Math.round(b.m)+'.'):'.');
   else if(_tRange==='S')sent='Votre '+M.short+' moyenne pendant cette période de 7 jours '+(bLo!=null?((av>=bLo&&av<=bHi)?'se trouvait dans sa plage habituelle ('+bLo+' à '+bHi+').':'était '+(av<bLo?'sous':'au-dessus de')+' sa plage habituelle ('+bLo+' à '+bHi+').'):'.');
-  else sent='Votre '+M.short+' moyenne au cours de cette période ('+av+') '+(b30!=null?'correspond à votre moyenne de '+b30+' sur les 6 derniers mois.':'.');}
+  else sent='Votre '+M.short+' moyenne au cours de cette période ('+av+') '+(b?'correspond à votre moyenne de '+Math.round(b.m)+' sur les 6 derniers mois.':'.');}
  set('tSent',sent);
- set('tChart',trendChartSVG(pts,bLo,bHi,_tRange));}
+ set('tChart',bar?trendBarSVG(pts,avg,_tRange,M):trendChartSVG(pts,bLo,bHi,_tRange));
+ var leg=document.querySelector('#v-metrend .tcleg');if(leg)leg.style.display=bar?'none':'flex';
+ var ft=document.getElementById('tFoot');if(ft){if(M.foot){ft.style.display='flex';ft.innerHTML='<i class="ti ti-info-circle"></i>'+M.foot}else ft.style.display='none'}
+ var br=document.getElementById('tBreak');if(br){if(M.breakdown==='sleep'){br.style.display='block';br.innerHTML=sleepBreakdownHTML(pts)}else br.style.display='none'}
+ var g=document.getElementById('tGoal');if(g)g.style.display=M.goal?'flex':'none';}
+function sleepBreakdownHTML(pts){var opt=0,suf=0,ins=0;pts.forEach(function(p){if(p.v==null)return;if(p.v>85)opt++;else if(p.v>=70)suf++;else ins++});var tot=(opt+suf+ins)||1;
+ return '<div class="tbkhd">Analyse du sommeil <span>(jours)</span></div><div class="tbkbar"><i style="width:'+(opt/tot*100).toFixed(1)+'%;background:#2FAE67"></i><i style="width:'+(suf/tot*100).toFixed(1)+'%;background:#C9C5BC"></i><i style="width:'+(ins/tot*100).toFixed(1)+'%;background:#F5A623"></i></div><div class="tbkrow"><span class="d" style="background:#2FAE67"></span><b>'+opt+'x</b><span class="l">Optimal (&gt;85 %)</span></div><div class="tbkrow"><span class="d" style="background:#C9C5BC"></span><b>'+suf+'x</b><span class="l">Suffisant (70-85 %)</span></div><div class="tbkrow"><span class="d" style="background:#F5A623"></span><b>'+ins+'x</b><span class="l">Insuffisant (&lt;70 %)</span></div>'}
+function trendBarSVG(pts,avg,range,M){var W=330,H=215,padL=36,padR=12,padT=20,padB=26,col=M.barCol||'#E8674A',pct=M.unit==='%';
+ var data=pts,agg=false;
+ if(range==='6M'){data=[];for(var i=0;i<pts.length;i+=7){var sg=pts.slice(i,i+7),vs=sg.filter(function(p){return p.v!=null}).map(function(p){return p.v});data.push({date:sg[0].date,v:vs.length?vs.reduce(function(a,b){return a+b},0)/vs.length:null})}agg=true}
+ var n=data.length,vals=data.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
+ var mx=pct?100:Math.max.apply(null,vals),st=mx>15000?5000:mx>1500?500:mx>150?50:5,hi=pct?100:Math.max(st,Math.ceil(mx*1.12/st)*st);
+ function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
+ var bw=Math.max(2,(W-padL-padR)/n*0.6);
+ var ticks=pct?[0,50,100]:[0,hi/2,hi],grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+(M.fmt?fmtN(Math.round(tv)):Math.round(tv))+(pct?'%':'')+'</text>'});
+ var bars='',taps='';data.forEach(function(p,i){if(p.v==null)return;var x=X(i),y=Y(p.v),h=Math.max(1,Y(0)-y),seld=(!agg&&_tSel===i);bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(3,bw/2).toFixed(1)+'" fill="'+col+'" opacity="'+(seld?1:(_tSel!=null&&!agg?.4:.9))+'"/>';if(!agg)taps+='<rect x="'+(x-(W-padL-padR)/n/2).toFixed(1)+'" y="'+padT+'" width="'+((W-padL-padR)/n).toFixed(1)+'" height="'+(H-padT-padB)+'" fill="transparent" style="cursor:pointer" onclick="trendSelect('+i+')"/>'});
+ var moy='';if(M.moy&&avg!=null){var my=Y(avg);moy='<line x1="'+padL+'" y1="'+my.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+my.toFixed(1)+'" stroke="#161512" stroke-width="1.4" stroke-dasharray="4 4"/><rect x="'+(padL-2)+'" y="'+(my-9).toFixed(1)+'" width="34" height="18" rx="5" fill="#fff" stroke="#E6DFD5"/><text x="'+(padL+15)+'" y="'+(my+3.5).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="#161512">MOY.</text>'}
+ var xlab='',step=range==='S'?1:Math.ceil(n/5);for(var i=0;i<n;i+=step){var d=data[i].date;xlab+='<text x="'+X(i).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+T_MONL[d.getMonth()]+'</text><text x="'+X(i).toFixed(1)+'" y="'+(H-2)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+d.getDate()+'</text>'}
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+grid+ylab+bars+moy+xlab+taps+'</svg>'}
 function trendChartSVG(pts,bLo,bHi,range){var W=330,H=215,padL=30,padR=14,padT=26,padB=28,coral='#E8674A';
  var vals=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
  var arr=vals.concat([bLo,bHi].filter(function(x){return x!=null})),dMin=Math.min.apply(null,arr),dMax=Math.max.apply(null,arr),pad=Math.max(6,(dMax-dMin)*0.16),lo=Math.floor((dMin-pad)/3)*3,hi=Math.ceil((dMax+pad)/3)*3;if(hi<=lo)hi=lo+15;
@@ -3121,6 +3222,16 @@ function trendChartSVG(pts,bLo,bHi,range){var W=330,H=215,padL=30,padR=14,padT=2
  var selm='';if(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null){var si=_tSel;selm='<line x1="'+X(si).toFixed(1)+'" y1="'+padT+'" x2="'+X(si).toFixed(1)+'" y2="'+(H-padB)+'" stroke="'+coral+'" stroke-width="1.4" stroke-dasharray="3 3"/><circle cx="'+X(si).toFixed(1)+'" cy="'+Y(pts[si].v).toFixed(1)+'" r="6" fill="'+coral+'"/>'}
  var taps='';if(range!=='6M'){var bw=(W-padL-padR)/(pts.length-1);pts.forEach(function(p,i){if(p.v==null)return;taps+='<rect x="'+(X(i)-bw/2).toFixed(1)+'" y="'+padT+'" width="'+bw.toFixed(1)+'" height="'+(H-padT-padB)+'" fill="transparent" style="cursor:pointer" onclick="trendSelect('+i+')"/>'})}
  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+band+grid+ylab+line+seg+ph+selm+xlab+taps+'</svg>';}
+/* ---------- OBJECTIF DE PAS ---------- */
+var _ggMin=9300,_ggMax=19300,_ggVal=14300;
+function openStepGoal(){var a=trend30(TREND.steps)||10000;_ggMin=Math.round(a*0.65/100)*100;_ggMax=Math.round(a*1.45/100)*100;var st=DB.get('stepGoal',null);_ggVal=st!=null?st:Math.round(a*1.05/100)*100;_ggVal=Math.max(_ggMin,Math.min(_ggMax,_ggVal));go('goal')}
+function renderGoal(){set('ggMin',fmtN(_ggMin));set('ggMax',fmtN(_ggMax));set('ggVal',fmtN(_ggVal));
+ var f=(_ggVal-_ggMin)/((_ggMax-_ggMin)||1),fill=document.getElementById('ggFill');if(fill)fill.style.height=(f*100).toFixed(1)+'%';
+ var a=trend30(TREND.steps)||10000,tt,td;if(_ggVal>a*1.15){tt='Objectif ambitieux';td='Au-dessus de ta moyenne actuelle — vise une progression régulière, sans forcer.'}else if(_ggVal<a*0.9){tt='Objectif accessible';td='En dessous de ta moyenne — idéal pour reprendre en douceur et tenir dans la durée.'}else{tt='Conservez votre objectif optimal';td='Votre nombre moyen de pas est déjà optimal. Concentrez-vous sur la continuité de ces progrès.'}set('ggTipT',tt);set('ggTipD',td);
+ var tr=document.getElementById('ggTrack');if(tr){tr.onpointerdown=function(e){e.preventDefault();try{tr.setPointerCapture(e.pointerId)}catch(_){}ggSet(e.clientY);tr.onpointermove=function(ev){ggSet(ev.clientY)};tr.onpointerup=tr.onpointercancel=function(ev){try{tr.releasePointerCapture(ev.pointerId)}catch(_){}tr.onpointermove=null}}}}
+function ggSet(cy){var tr=document.getElementById('ggTrack');if(!tr)return;var r=tr.getBoundingClientRect(),f=1-(cy-r.top)/r.height;f=Math.max(0,Math.min(1,f));_ggVal=Math.round((_ggMin+f*(_ggMax-_ggMin))/100)*100;renderGoal();haptic()}
+function saveStepGoal(){DB.set('stepGoal',_ggVal);flOkShow('Enregistrement réussi','Objectif de '+fmtN(_ggVal)+' pas par jour.',function(){go('metrend')})}
+function deleteStepGoal(){DB.set('stepGoal',null);flOkShow('Objectif supprimé','',function(){go('metrend')})}
 /* ---------- MONITEUR DE STRESS ---------- */
 var _stDay=0,_stSel=null;
 const ST_WDF=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
@@ -4057,7 +4168,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v124';
+const APP_VERSION='flint-v125';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
