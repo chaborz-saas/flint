@@ -1878,6 +1878,7 @@ body.modalview nav,body.modalview header{display:none}
 .fltrend .tavgl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9A988F}
 .fltrend .tavgv{font-family:'Anton';font-style:oblique 8deg;font-size:46px;line-height:.9;color:#161512;margin-top:5px}
 .fltrend .tavgv small{font-family:'Inter';font-style:normal;font-size:16px;font-weight:700;color:#9A988F;margin-left:4px}
+.fltrend .tverdict{display:inline-flex;align-items:center;font-family:'Inter';font-style:normal;font-size:12.5px;font-weight:800;letter-spacing:.02em;padding:5px 11px;border-radius:9px;margin-left:8px;vertical-align:middle}
 .fltrend .tseg{display:flex;background:#F1ECE4;border-radius:14px;padding:4px;gap:2px}
 .fltrend .tseg button{border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:#8F8982;padding:9px 15px;border-radius:11px;cursor:pointer}
 .fltrend .tseg button.on{background:#FCEFE9;color:#C0492C;box-shadow:0 1px 4px rgba(232,103,74,.12)}
@@ -2299,7 +2300,7 @@ body.modalview nav,body.modalview header{display:none}
   <div class="ttop"><button class="tbk" type="button" onclick="goBack('today')"><i class="ti ti-chevron-left"></i></button><div class="tttl">Voir les tendances</div><span class="tbk tghost"></span></div>
   <div class="tsel"><span class="tselic" id="tSelIc"><i class="ti ti-activity"></i></span><span class="tseln" id="tSelN">—</span><i class="ti ti-chevron-down tselcv"></i></div>
   <div class="thead">
-    <div class="tavg"><div class="tavgl" id="tAvgL">Moyenne</div><div class="tavgv"><span id="tAvgV">—</span><small id="tAvgU">ms</small></div></div>
+    <div class="tavg"><div class="tavgl" id="tAvgL">Moyenne</div><div class="tavgv"><span id="tAvgV">—</span><small id="tAvgU">ms</small> <span class="tverdict" id="tVerdict" style="display:none"></span></div></div>
     <div class="tseg" id="tSeg"><button type="button" data-r="S" onclick="trendRange('S')">S</button><button type="button" data-r="M" onclick="trendRange('M')">M</button><button type="button" data-r="6M" onclick="trendRange('6M')">6 M</button></div>
   </div>
   <div class="trange"><button class="trarr" type="button" onclick="trendShift(-1)"><i class="ti ti-chevron-left"></i></button><div class="trlbl" id="tRangeLbl">—</div><button class="trarr" id="tFwd" type="button" onclick="trendShift(1)"><i class="ti ti-chevron-right"></i></button></div>
@@ -3106,7 +3107,7 @@ const DASH_DEF_AVAIL=['leanmass','weight','strengthtime','hrzall','vo2','hrz13',
 function getDash(){var d=DB.get('dashboard',null);if(!d||!d.active||!d.active.length)return {active:DASH_DEF_ACTIVE.slice(),avail:DASH_DEF_AVAIL.slice()};return d}
 function renderDash(){var host=document.getElementById('flDash');if(!host)return;var cfg=getDash();
  host.innerHTML=cfg.active.map(function(k){var m=DASH[k];if(!m)return '';return '<button class="dashrow" type="button" onclick="dashOpen(\''+k+'\')"><span class="dri"><i class="ti '+m.i+'"></i></span><span class="drl">'+m.l+'</span><span class="drv">'+m.v()+'</span><i class="ti ti-chevron-right drc"></i></button>'}).join('')}
-function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv'};var tk2=tmap[k]||k;if(TREND[tk2]){openMetricTrend(tk2);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
+function dashOpen(k){var tmap={sleep:'sleepperf',steps:'steps',calories:'calories',hrv:'hrv',sleepdebt:'sleepdebt',sleepeff:'sleepeff',effortrecup:'effort'};var tkk=tmap[k]||k;if(TREND[tkk]){openMetricTrend(tkk);return}if(k==='stress'){openStress();return}var m=DASH[k];if(m&&m.p)go(m.p);else toast('Détail bientôt disponible')}
 function openDashEdit(){var cfg=getDash();window._dashActive=cfg.active.slice();window._dashAvail=cfg.avail.slice();go('dashedit')}
 function renderDashEdit(){
  var la=document.getElementById('deActive');if(la)la.innerHTML=(window._dashActive||[]).map(function(k){var m=DASH[k];return '<div class="deRow" data-k="'+k+'"><span class="dei"><i class="ti '+m.i+'"></i></span><span class="del">'+m.l+'</span><span class="deh"><i class="ti ti-menu-2"></i></span></div>'}).join('');
@@ -3150,10 +3151,62 @@ const TREND={
   val:function(k){return caloriesBurned(k)},
   sent:function(av,a30,r){return 'Vous avez brûlé en moyenne '+fmtN(av)+' calories '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+', '+(a30!=null?(av>=a30?'soit plus que':'soit moins que')+' votre moyenne des 30 derniers jours.':'selon votre profil.')},
   explT:'Les calories, qu\'est-ce que c\'est ?',
-  explP:'Les calories mesurent l\'énergie que vous dépensez dans la journée. Ce total est estimé à partir de votre métabolisme basal (taille, poids, âge) et de votre fréquence cardiaque tout au long de la journée. Plus vous êtes actif, plus vous en brûlez.'}
+  explP:'Les calories mesurent l\'énergie que vous dépensez dans la journée. Ce total est estimé à partir de votre métabolisme basal (taille, poids, âge) et de votre fréquence cardiaque tout au long de la journée. Plus vous êtes actif, plus vous en brûlez.'},
+ recovery:{label:'Récupération',unit:'%',icon:'ti-bolt',short:'récupération',chart:'bar',moy:true,
+  val:function(k){var r=DB.get('recov_'+k,null);return r!=null?r:null},
+  barFn:function(v){return v>=67?'#2FAE67':v>=34?'#F5A623':'#E14434'},
+  verdict:function(v){return v>=67?{t:'Prêt',c:'#2FAE67'}:v>=34?{t:'Modéré',c:'#C8901A'}:{t:'Repos',c:'#C0492C'}},
+  bd:{title:'Analyse de la récupération',bands:[{l:'Verte (67-100 %)',f:function(v){return v>=67},c:'#2FAE67'},{l:'Jaune (34-66 %)',f:function(v){return v>=34},c:'#F5A623'},{l:'Rouge (1-33 %)',f:function(v){return true},c:'#E14434'}]},
+  sent:function(av,a30,r){return 'Votre récupération moyenne '+(r==='M'?'ce mois-ci':r==='S'?'sur 7 jours':'sur cette période')+' ('+av+' %) '+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'.')},
+  explT:'La récupération, qu\'est-ce que c\'est ?',
+  explP:'La récupération mesure la capacité de votre corps à performer aujourd\'hui. Elle est calculée chaque nuit à partir de votre VFC, votre FC au repos, votre respiration et votre sommeil. Vert : prêt à charger. Jaune : dosez l\'effort. Rouge : priorisez le repos. Un bon sommeil ne garantit pas une récup verte — l\'effort et le stress de la veille comptent aussi.'},
+ sleepeff:{label:'Efficacité du sommeil',unit:'%',icon:'ti-chart-bar',short:'efficacité du sommeil',chart:'line',color:'#2FA86A',
+  val:function(k){var n=sleepNight(k);return n&&n.efficiency!=null?n.efficiency:null},
+  verdict:function(v){return v>=90?{t:'Optimal',c:'#2FAE67'}:v>=80?{t:'Suffisant',c:'#8A8580'}:{t:'À améliorer',c:'#C8901A'}},
+  bd:{title:'Analyse de l\'efficacité du sommeil',bands:[{l:'Optimal (90 %+)',f:function(v){return v>=90},c:'#2FAE67'},{l:'Suffisant (80-89 %)',f:function(v){return v>=80},c:'#C9C5BC'},{l:'Insuffisant (<80 %)',f:function(v){return true},c:'#F5A623'}]},
+  sent:function(av,a30,r){return 'Votre efficacité moyenne du sommeil ('+av+' %) '+(r==='M'?'ce mois-ci ':'')+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'.')},
+  explT:'Qu\'est-ce que l\'efficacité du sommeil ?',
+  explP:'L\'efficacité du sommeil est le pourcentage de temps réellement endormi pendant que vous êtes au lit (temps endormi ÷ temps au lit). Au-delà de 85 %, c\'est excellent : vous passez peu de temps éveillé. Une efficacité basse traduit des réveils fréquents — un environnement sombre, frais et calme, et des horaires réguliers l\'améliorent nettement.'},
+ sleepreg:{label:'Régularité du sommeil',unit:'%',icon:'ti-moon',short:'régularité du sommeil',chart:'bar',barCol:'#9BA0E8',moy:true,
+  val:function(k){var s=DB.get('sensor_'+k,null);if(!s||s.bedMin==null)return null;var a=[];for(var i=1;i<=4;i++){var p=DB.get('sensor_'+tk2off(k,-i),null);if(p&&p.bedMin!=null)a.push(p.bedMin)}if(a.length<2)return 80;var m=a.reduce(function(x,y){return x+y},0)/a.length,dev=Math.abs(s.bedMin-m);return Math.max(40,Math.min(100,Math.round(100-dev/3)))},
+  verdict:function(v){return v>=80?{t:'Optimal',c:'#2FAE67'}:v>=70?{t:'Correct',c:'#8A8580'}:{t:'Irrégulier',c:'#C8901A'}},
+  bd:{title:'Analyse de la régularité du sommeil',bands:[{l:'Optimal (80 %+)',f:function(v){return v>=80},c:'#2FAE67'},{l:'Suffisant (70-79 %)',f:function(v){return v>=70},c:'#C9C5BC'},{l:'Insuffisant (<70 %)',f:function(v){return true},c:'#F5A623'}]},
+  sent:function(av,a30,r){return 'Votre régularité moyenne ('+av+' %) '+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'.')},
+  explT:'Qu\'est-ce que la régularité du sommeil ?',
+  explP:'La régularité compare l\'heure de coucher et de lever de la nuit passée à celles des nuits précédentes. Des horaires constants synchronisent votre horloge interne : vous vous endormez plus vite, votre sommeil profond augmente et votre récupération s\'améliore. C\'est l\'un des leviers les plus simples et les plus puissants.'},
+ sleepdebt:{label:'Dette de sommeil',unit:'',icon:'ti-moon-stars',short:'dette de sommeil',chart:'bar',moy:true,timefmt:true,
+  val:function(k){var s=DB.get('sensor_'+k,null);if(!s||!s.sleepMin)return null;var need=(getProfile().need||8)*60;return Math.max(0,(need-s.sleepMin)/60)},
+  barFn:function(v){return v<0.5?'#2FAE67':v<0.75?'#F5A623':'#E8674A'},
+  verdict:function(v){return v<0.5?{t:'Faible',c:'#2FAE67'}:v<0.75?{t:'Modérée',c:'#C8901A'}:{t:'Élevée',c:'#C0492C'}},
+  bd:{title:'Explications de la dette de sommeil',bands:[{l:'Faible (<0:30)',f:function(v){return v<0.5},c:'#2FAE67'},{l:'Modérée (0:30-0:45)',f:function(v){return v<0.75},c:'#F5A623'},{l:'Élevée (>0:45)',f:function(v){return true},c:'#E8674A'}]},
+  sent:function(av,a30,r){return 'Votre dette de sommeil moyenne ('+hHM(av)+') '+(r==='M'?'ce mois-ci ':'')+(a30!=null?(av<=a30?'est inférieure':'est supérieure')+' à votre moyenne de '+hHM(a30)+' des 30 derniers jours. '+(av<=a30?'Beau progrès.':'À surveiller.'):'.')},
+  explT:'Qu\'est-ce que la dette de sommeil ?',
+  explP:'La dette de sommeil est le manque accumulé quand vous dormez moins que votre besoin, nuit après nuit. En dessous de 30-45 min, c\'est optimal. Une dette élevée pèse sur la concentration, l\'humeur, l\'immunité et la performance. Même 10-15 min de sommeil en plus par nuit la réduisent — évitez les grasses matinées et les longues siestes tardives.'},
+ effort:{label:'Effort du jour',unit:'',icon:'ti-bolt',short:'effort',chart:'bar',dec:true,moy:true,yMax:21,yticks:[0,7,14,21],
+  val:function(k){return loadStrain(k)},
+  barFn:function(v){return v>18?'#E8674A':v>14?'#F5A623':v>10?'#3FA0E0':'#6C7BD6'},
+  verdict:function(v){return v>18?{t:'Très intense',c:'#C0492C'}:v>14?{t:'Vigoureux',c:'#C8901A'}:v>10?{t:'Modéré',c:'#2E78B5'}:{t:'Léger',c:'#5A52B5'}},
+  bd:{title:'Analyse de l\'effort',bands:[{l:'Léger (<10)',f:function(v){return v<10},c:'#6C7BD6'},{l:'Modéré (10-14)',f:function(v){return v<=14},c:'#3FA0E0'},{l:'Vigoureux (14-18)',f:function(v){return v<=18},c:'#F5A623'},{l:'Très intense (>18)',f:function(v){return true},c:'#E8674A'}]},
+  sent:function(av,a30,r){return 'Votre effort moyen '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+' ('+(Math.round(av*10)/10).toString().replace('.',',')+') '+(a30!=null?(av<a30?'est inférieur':'est supérieur')+' à votre moyenne de '+(Math.round(a30*10)/10).toString().replace('.',',')+' des 30 derniers jours.':'.')},
+  explT:'L\'effort du jour, qu\'est-ce que c\'est ?',
+  explP:'L\'effort mesure la charge totale imposée à votre corps sur la journée, cardio et musculaire, sur une échelle de 0 à 21 inspirée de l\'échelle de Borg. Léger (0-9) : récupération active. Modéré (10-13) : bon équilibre. Élevé (14-17) : progrès mais récup plus lente. Intense (18-21) : gains maximaux, mais risque accru — à alterner avec du repos.'},
+ resp:{label:'Fréquence respiratoire',unit:'r/m',icon:'ti-lungs',field:'resp',short:'fréquence respiratoire',chart:'line',color:'#3FA0E0',dec:true,
+  val:function(k){var s=DB.get('sensor_'+k,null);return s&&s.resp!=null?s.resp:null},
+  explT:'La fréquence respiratoire, qu\'est-ce que c\'est ?',
+  explP:'La fréquence respiratoire (FR) est le nombre de respirations par minute pendant votre sommeil. Très stable d\'une nuit à l\'autre, tout écart marqué mérite l\'attention : maladie, fatigue, allergies ou changement d\'altitude peuvent la faire varier. Suivre sa FR aide à repérer tôt un signal inhabituel.'},
+ fcavg:{label:'Fréquence cardiaque moyenne',unit:'bpm',icon:'ti-heart',short:'FC moyenne',chart:'line',color:'#E8674A',
+  val:function(k){var s=DB.get('sensor_'+k,null);if(!s||s.rhr==null)return null;return Math.round(s.rhr+18+(loadStrain(k)*1.1))},
+  explT:'La fréquence cardiaque moyenne, qu\'est-ce que c\'est ?',
+  explP:'La FC moyenne est votre fréquence cardiaque moyenne sur l\'ensemble de la journée. Elle monte avec l\'activité, mais aussi avec le stress et la fatigue. À distinguer de la FC au repos (mesurée la nuit) : la FC moyenne reflète votre charge globale de la journée, repos et efforts confondus.'}
 };
-function trend30(M){var s=0,c=0;for(var i=1;i<=30;i++){var v=M.val(tk(-i));if(v!=null){s+=v;c++}}return c?Math.round(s/c):null}
-function tFmtV(M,v){return v==null?'—':(M&&M.fmt?fmtN(Math.round(v)):Math.round(v))}
+function tk2off(key,off){var p=key.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+off);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function trend30(M){var s=0,c=0;for(var i=1;i<=30;i++){var v=M.val(tk(-i));if(v!=null){s+=v;c++}}return c?((M&&(M.timefmt||M.dec))?Math.round(s/c*100)/100:Math.round(s/c)):null}
+function hHM(h){var m=Math.round(h*60);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
+function tFmtV(M,v){if(v==null)return '—';if(M&&M.timefmt)return hHM(v);if(M&&M.dec)return (Math.round(v*10)/10).toString().replace('.',',');if(M&&M.fmt)return fmtN(Math.round(v));return Math.round(v)}
+function trendBreakdownHTML(pts,bd){var c=bd.bands.map(function(){return 0}),tot=0;pts.forEach(function(p){if(p.v==null)return;for(var i=0;i<bd.bands.length;i++){if(bd.bands[i].f(p.v)){c[i]++;tot++;break}}});var T=tot||1;
+ var bar=bd.bands.map(function(b,i){return '<i style="width:'+(c[i]/T*100).toFixed(1)+'%;background:'+b.c+'"></i>'}).join('');
+ var rows=bd.bands.map(function(b,i){return '<div class="tbkrow"><span class="d" style="background:'+b.c+'"></span><b>'+c[i]+'x</b><span class="l">'+b.l+'</span></div>'}).join('');
+ return '<div class="tbkhd">'+bd.title+' <span>(jours)</span></div><div class="tbkbar">'+bar+'</div>'+rows}
 var _tMetric='hrv',_tRange='M',_tOff=0,_tSel=null;
 function openMetricTrend(k){_tMetric=k;_tRange='M';_tOff=0;_tSel=null;go('metrend')}
 function trendRange(r){_tRange=r;_tOff=0;_tSel=null;renderMetrend()}
@@ -3171,6 +3224,7 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
  set('tRangeLbl',tFmtD(pts[0].date)+' - '+tFmtD(pts[pts.length-1].date));
  if(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null){var sp=pts[_tSel];set('tAvgL',T_WD[sp.date.getDay()]+', '+T_MON[sp.date.getMonth()]+' '+sp.date.getDate()+', '+sp.date.getFullYear());set('tAvgV',tFmtV(M,sp.v))}
  else{set('tAvgL','Moyenne');set('tAvgV',avg!=null?tFmtV(M,avg):'—')}
+ (function(){var vc=document.getElementById('tVerdict');if(!vc)return;var vv=(_tSel!=null&&pts[_tSel]&&pts[_tSel].v!=null)?pts[_tSel].v:avg;if(M.verdict&&vv!=null){var o=M.verdict(vv);vc.style.display='inline-flex';vc.textContent=o.t;vc.style.background=o.c+'1f';vc.style.color=o.c}else vc.style.display='none'})();
  var prev=trendAvg(trendPts(M,_tRange,_tOff-1)),de=document.getElementById('tDelta'),down=false;
  if(de){if(avg!=null&&prev!=null&&prev>0){var pct=Math.round((avg-prev)/prev*100),per=_tRange==='S'?'à la semaine précédente':_tRange==='M'?'au mois précédent':'aux 6 mois précédents';down=pct<0;
    if(pct>0){de.className='tdelta up';de.innerHTML='<i class="ti ti-caret-up-filled"></i>'+pct+'% par rapport '+per}
@@ -3183,10 +3237,10 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
   else if(_tRange==='S')sent='Votre '+M.short+' moyenne pendant cette période de 7 jours '+(bLo!=null?((av>=bLo&&av<=bHi)?'se trouvait dans sa plage habituelle ('+bLo+' à '+bHi+').':'était '+(av<bLo?'sous':'au-dessus de')+' sa plage habituelle ('+bLo+' à '+bHi+').'):'.');
   else sent='Votre '+M.short+' moyenne au cours de cette période ('+av+') '+(b?'correspond à votre moyenne de '+Math.round(b.m)+' sur les 6 derniers mois.':'.');}
  set('tSent',sent);
- set('tChart',bar?trendBarSVG(pts,avg,_tRange,M):trendChartSVG(pts,bLo,bHi,_tRange));
- var leg=document.querySelector('#v-metrend .tcleg');if(leg)leg.style.display=bar?'none':'flex';
+ set('tChart',bar?trendBarSVG(pts,avg,_tRange,M):trendChartSVG(pts,bLo,bHi,_tRange,M.color||'#E8674A'));
+ var leg=document.querySelector('#v-metrend .tcleg');if(leg)leg.style.display=(bar||!b)?'none':'flex';
  var ft=document.getElementById('tFoot');if(ft){if(M.foot){ft.style.display='flex';ft.innerHTML='<i class="ti ti-info-circle"></i>'+M.foot}else ft.style.display='none'}
- var br=document.getElementById('tBreak');if(br){if(M.breakdown==='sleep'){br.style.display='block';br.innerHTML=sleepBreakdownHTML(pts)}else br.style.display='none'}
+ var br=document.getElementById('tBreak');if(br){if(M.bd){br.style.display='block';br.innerHTML=trendBreakdownHTML(pts,M.bd)}else if(M.breakdown==='sleep'){br.style.display='block';br.innerHTML=sleepBreakdownHTML(pts)}else br.style.display='none'}
  var g=document.getElementById('tGoal');if(g)g.style.display=M.goal?'flex':'none';}
 function sleepBreakdownHTML(pts){var opt=0,suf=0,ins=0;pts.forEach(function(p){if(p.v==null)return;if(p.v>85)opt++;else if(p.v>=70)suf++;else ins++});var tot=(opt+suf+ins)||1;
  return '<div class="tbkhd">Analyse du sommeil <span>(jours)</span></div><div class="tbkbar"><i style="width:'+(opt/tot*100).toFixed(1)+'%;background:#2FAE67"></i><i style="width:'+(suf/tot*100).toFixed(1)+'%;background:#C9C5BC"></i><i style="width:'+(ins/tot*100).toFixed(1)+'%;background:#F5A623"></i></div><div class="tbkrow"><span class="d" style="background:#2FAE67"></span><b>'+opt+'x</b><span class="l">Optimal (&gt;85 %)</span></div><div class="tbkrow"><span class="d" style="background:#C9C5BC"></span><b>'+suf+'x</b><span class="l">Suffisant (70-85 %)</span></div><div class="tbkrow"><span class="d" style="background:#F5A623"></span><b>'+ins+'x</b><span class="l">Insuffisant (&lt;70 %)</span></div>'}
@@ -3194,15 +3248,15 @@ function trendBarSVG(pts,avg,range,M){var W=330,H=215,padL=36,padR=12,padT=20,pa
  var data=pts,agg=false;
  if(range==='6M'){data=[];for(var i=0;i<pts.length;i+=7){var sg=pts.slice(i,i+7),vs=sg.filter(function(p){return p.v!=null}).map(function(p){return p.v});data.push({date:sg[0].date,v:vs.length?vs.reduce(function(a,b){return a+b},0)/vs.length:null})}agg=true}
  var n=data.length,vals=data.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
- var mx=pct?100:Math.max.apply(null,vals),st=mx>15000?5000:mx>1500?500:mx>150?50:5,hi=pct?100:Math.max(st,Math.ceil(mx*1.12/st)*st);
+ var mx=pct?100:Math.max.apply(null,vals),st=mx>15000?5000:mx>1500?500:mx>150?50:5,hi=M.yMax||(pct?100:Math.max(st,Math.ceil(mx*1.12/st)*st));
  function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
  var bw=Math.max(2,(W-padL-padR)/n*0.6);
- var ticks=pct?[0,50,100]:[0,hi/2,hi],grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+(M.fmt?fmtN(Math.round(tv)):Math.round(tv))+(pct?'%':'')+'</text>'});
- var bars='',taps='';data.forEach(function(p,i){if(p.v==null)return;var x=X(i),y=Y(p.v),h=Math.max(1,Y(0)-y),seld=(!agg&&_tSel===i);bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(3,bw/2).toFixed(1)+'" fill="'+col+'" opacity="'+(seld?1:(_tSel!=null&&!agg?.4:.9))+'"/>';if(!agg)taps+='<rect x="'+(x-(W-padL-padR)/n/2).toFixed(1)+'" y="'+padT+'" width="'+((W-padL-padR)/n).toFixed(1)+'" height="'+(H-padT-padB)+'" fill="transparent" style="cursor:pointer" onclick="trendSelect('+i+')"/>'});
+ var ticks=M.yticks||(pct?[0,50,100]:[0,hi/2,hi]),grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+(M.timefmt?hHM(tv):(M.fmt?fmtN(Math.round(tv)):Math.round(tv)))+(pct?'%':'')+'</text>'});
+ var bars='',taps='';data.forEach(function(p,i){if(p.v==null)return;var x=X(i),y=Y(p.v),h=Math.max(1,Y(0)-y),seld=(!agg&&_tSel===i);bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(3,bw/2).toFixed(1)+'" fill="'+(M.barFn?M.barFn(p.v):col)+'" opacity="'+(seld?1:(_tSel!=null&&!agg?.4:.9))+'"/>';if(!agg)taps+='<rect x="'+(x-(W-padL-padR)/n/2).toFixed(1)+'" y="'+padT+'" width="'+((W-padL-padR)/n).toFixed(1)+'" height="'+(H-padT-padB)+'" fill="transparent" style="cursor:pointer" onclick="trendSelect('+i+')"/>'});
  var moy='';if(M.moy&&avg!=null){var my=Y(avg);moy='<line x1="'+padL+'" y1="'+my.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+my.toFixed(1)+'" stroke="#161512" stroke-width="1.4" stroke-dasharray="4 4"/><rect x="'+(padL-2)+'" y="'+(my-9).toFixed(1)+'" width="34" height="18" rx="5" fill="#fff" stroke="#E6DFD5"/><text x="'+(padL+15)+'" y="'+(my+3.5).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="#161512">MOY.</text>'}
  var xlab='',step=range==='S'?1:Math.ceil(n/5);for(var i=0;i<n;i+=step){var d=data[i].date;xlab+='<text x="'+X(i).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+T_MONL[d.getMonth()]+'</text><text x="'+X(i).toFixed(1)+'" y="'+(H-2)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+d.getDate()+'</text>'}
  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+grid+ylab+bars+moy+xlab+taps+'</svg>'}
-function trendChartSVG(pts,bLo,bHi,range){var W=330,H=215,padL=30,padR=14,padT=26,padB=28,coral='#E8674A';
+function trendChartSVG(pts,bLo,bHi,range,coral){coral=coral||'#E8674A';var W=330,H=215,padL=30,padR=14,padT=26,padB=28;
  var vals=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
  var arr=vals.concat([bLo,bHi].filter(function(x){return x!=null})),dMin=Math.min.apply(null,arr),dMax=Math.max.apply(null,arr),pad=Math.max(6,(dMax-dMin)*0.16),lo=Math.floor((dMin-pad)/3)*3,hi=Math.ceil((dMax+pad)/3)*3;if(hi<=lo)hi=lo+15;
  function X(i){return padL+i*(W-padL-padR)/(pts.length-1)}function Y(v){return padT+(hi-v)/(hi-lo)*(H-padT-padB)}
@@ -4168,7 +4222,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v125';
+const APP_VERSION='flint-v126';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
