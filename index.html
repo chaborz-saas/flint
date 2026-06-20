@@ -578,7 +578,7 @@
 .flrecovery .cbar .cl{font-family:'Anton';font-style:oblique 8deg;font-size:13.5px;flex:1;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
 .flrecovery .cbar .cn{font-size:12.5px;color:#6E6A62;font-weight:700;white-space:nowrap}
 .flrecovery .cbar .ctrack{width:84px;height:7px;border-radius:6px;background:#ECE7DD;overflow:hidden;flex:none}
-.flrecovery .cbar .cfill{display:block;height:100%;border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.flrecovery .cbar .cfill{display:block;height:100%;border-radius:6px;transition:width .42s cubic-bezier(.2,.8,.2,1)}
 
 /* ---- Vitaux nocturnes : mini-cartes en grille 2 ---- */
 .flrecovery .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -612,7 +612,7 @@
 .flrecovery .rrow .rrl{font-size:15px;font-weight:700;color:#161512;white-space:nowrap}
 .flrecovery .rrow .rrv{font-size:14px;font-weight:800;color:#37372F;white-space:nowrap}
 .flrecovery .rrow .rrtrack{height:9px;border-radius:6px;background:#ECE7DD;overflow:hidden}
-.flrecovery .rrow .rrfill{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5BBA57,#2E7D32);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.flrecovery .rrow .rrfill{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5BBA57,#2E7D32);transition:width .42s cubic-bezier(.2,.8,.2,1)}
 /* ---- Insight du jour ---- */
 .flrecovery .rinsight{display:flex;align-items:center;gap:14px;padding:16px}
 .flrecovery .rinic{width:46px;height:46px;border-radius:50%;background:#FBEAE5;display:grid;place-items:center;color:#E8674A;font-size:22px;flex:none}
@@ -861,7 +861,7 @@
 .flload .splitc .left{flex:1;min-width:0;display:flex;flex-direction:column}
 .flload .bigval{font-family:'Anton';font-style:oblique 8deg;font-size:48px;line-height:.95;color:#161512;margin-top:4px}
 .flload .progbar{height:9px;border-radius:20px;background:#F0E9E0;overflow:hidden;margin-top:12px}
-.flload .progbar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#F6B59E,#E8674A);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.flload .progbar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#F6B59E,#E8674A);transition:width .42s cubic-bezier(.2,.8,.2,1)}
 .flload #loadObj{font-size:11px;font-weight:700;letter-spacing:.4px;color:#9A988F;margin-top:7px;text-align:right;text-transform:uppercase}
 .flload .vline{width:1px;align-self:stretch;background:#F1EBE3;margin:2px 0}
 .flload .target{flex:0 0 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
@@ -1474,7 +1474,7 @@
 .slx .slx-qv{font-family:'Anton';font-style:oblique 8deg;font-size:40px;color:#161512;line-height:1}
 .slx .slx-qv small{font-family:'Inter';font-style:normal;font-size:18px;font-weight:700;color:#B9B4AE}
 .slx .slx-qbar{height:9px;border-radius:6px;background:#ECE7DF;overflow:hidden;margin:13px 0}
-.slx .slx-qbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5B43E0,#B45CE8);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.slx .slx-qbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5B43E0,#B45CE8);transition:width .42s cubic-bezier(.2,.8,.2,1)}
 .slx .slx-qc{font-size:17px;font-weight:800;color:#161512}
 .slx .slx-insight{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;font-family:inherit;padding:16px 18px}
 .slx .slx-insight:active{transform:scale(.99)}
@@ -1740,14 +1740,14 @@ header{padding:11px 16px 7px}
 .nvit .nvlabels .nvl{position:absolute;transform:translateX(-50%);white-space:nowrap;font-variant-numeric:tabular-nums}
 .nvit .nvlabels .nvl.out{color:#E8674A}
 @keyframes nvIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
-.nvit .nvsum,.nvit .nvcard{animation:nvIn .5s cubic-bezier(.2,.7,.2,1) both}
+.nvit .nvsum,.nvit .nvcard{animation:nvIn .35s cubic-bezier(.2,.7,.2,1) both}
 .nvit .nvsum{animation-delay:.02s}
 .nvit .nvcard:nth-of-type(2){animation-delay:.06s}
 .nvit .nvcard:nth-of-type(3){animation-delay:.1s}
 .nvit .nvcard:nth-of-type(4){animation-delay:.14s}
 .nvit .nvcard:nth-of-type(5){animation-delay:.18s}
 @keyframes nvPulse{0%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 0 rgba(232,103,74,.4)}70%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 8px rgba(232,103,74,0)}100%{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 0 rgba(232,103,74,0)}}
-.nvit .nvmk:not(.in){animation:nvPulse 2.2s ease-out .35s 2}
+.nvit .nvmk:not(.in){animation:nvPulse .9s ease-out .15s 1}
 .nvit .nvmk.in{box-shadow:0 1px 5px rgba(20,18,12,.22),0 0 0 5px rgba(47,168,106,.16)}
 @media (prefers-reduced-motion:reduce){.nvit .nvsum,.nvit .nvcard{animation:none}.nvit .nvmk:not(.in){animation:none}}
 /* ===== Sommeil — hero illustration + répartition (maquette) ===== */
@@ -1998,7 +1998,7 @@ body.modalview nav,body.modalview header{display:none}
 .slx-why .whyv{font-family:var(--disp,'Anton',sans-serif);font-style:oblique 8deg;font-size:22px;color:#161512;line-height:1;font-variant-numeric:tabular-nums}
 .slx-why .whyq{font-size:12px;font-weight:700;color:#8A8580;margin:4px 0 11px}
 .slx-why .whybar{width:100%;height:6px;border-radius:4px;background:#F1ECE4;overflow:hidden;margin-top:auto}
-.slx-why .whybar i{display:block;height:100%;border-radius:4px;background:#2FAE67;transition:width .5s ease}
+.slx-why .whybar i{display:block;height:100%;border-radius:4px;background:#2FAE67;transition:width .42s ease}
 .fltrend .thead{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 2px 0}
 .fltrend .tavgl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9A988F}
 .fltrend .tavgv{font-family:'Anton';font-style:oblique 8deg;font-size:46px;line-height:.9;color:#161512;margin-top:5px}
@@ -4502,7 +4502,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v137';
+const APP_VERSION='flint-v138';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
