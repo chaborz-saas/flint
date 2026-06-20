@@ -1925,10 +1925,12 @@ body.modalview nav,body.modalview header{display:none}
 .mt2dc.on{border-color:#E8674A;box-shadow:0 8px 22px rgba(232,103,74,.16);transform:translateY(-2px)}
 .mt2dcd{font-size:11px;font-weight:800;letter-spacing:.03em;color:#9A988F;text-align:center;white-space:nowrap}
 .mt2dc.on .mt2dcd{color:#161512}
-.mt2dcv{font-family:var(--disp,'Anton',sans-serif);font-style:oblique 8deg;font-size:34px;line-height:.95;color:#161512;font-variant-numeric:tabular-nums}
+.mt2dcv{font-family:var(--disp,'Anton',sans-serif);font-style:oblique 8deg;font-size:34px;line-height:.95;color:#161512;font-variant-numeric:tabular-nums;transition:color .18s ease}
 .mt2dc.on .mt2dcv{color:#E8674A}
 .mt2dcv small{font-family:Inter,sans-serif;font-style:normal;font-size:12px;font-weight:700;color:#9A988F;margin-left:2px}
 .mt2spark{width:88px;height:30px;display:block}
+.mt2spark path{transition:stroke .18s ease}
+.mt2spark circle{transition:fill .18s ease}
 .mt2dc.on .mt2spark path{stroke:#E8674A}
 .mt2dc.on .mt2spark circle{fill:#E8674A}
 .mt2sparkph{width:88px;height:30px}
@@ -3447,7 +3449,7 @@ function buildDayCards(M,b){var host=document.getElementById('tCards');if(!host)
  });
  host.innerHTML=html;host._n=list.length;
  var scrollEl=host.querySelector('.mt2dc.on')||host.querySelector('.mt2dc[data-k="'+todayK+'"]');if(scrollEl){host._prog=true;if(scrollEl.scrollIntoView)scrollEl.scrollIntoView({inline:'center',block:'nearest'});clearTimeout(host._pt);host._pt=setTimeout(function(){host._prog=false},140)}
- if(!host._lsn){host._lsn=1;var t1;host.addEventListener('scroll',function(){clearTimeout(t1);t1=setTimeout(function(){buildDots(host,host._n||0)},30)},{passive:true})}
+ if(!host._lsn){host._lsn=1;host.addEventListener('scroll',function(){if(host._raf)return;host._raf=requestAnimationFrame(function(){host._raf=0;buildDots(host,host._n||0);if(host._prog)return;var el=tCarCentered(host);if(el&&el.dataset.k!==_tDaySel)tSelectDay(el.dataset.k,false,true)})},{passive:true})}
  buildDots(host,list.length);}
 function tCarCentered(host){var c=host.scrollLeft+host.clientWidth/2,best=null,bd=1e9,els=host.querySelectorAll('.mt2dc');for(var i=0;i<els.length;i++){var el=els[i],cx=el.offsetLeft+el.offsetWidth/2,d=Math.abs(cx-c);if(d<bd){bd=d;best=el}}return best}
 function buildDots(host,N){var d=document.getElementById('tDots');if(!d)return;var card=host.querySelector('.mt2dc'),cw=card?card.offsetWidth+11:130,per=Math.max(1,Math.round(host.clientWidth/cw)),pages=Math.max(1,Math.ceil(N/per)),max=host.scrollWidth-host.clientWidth,act=max>0?Math.round(host.scrollLeft/max*(pages-1)):0,h='';for(var i=0;i<pages;i++)h+='<span'+(i===act?' class="on"':'')+'></span>';d.innerHTML=h}
@@ -4467,7 +4469,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v132';
+const APP_VERSION='flint-v133';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
