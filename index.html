@@ -1767,6 +1767,72 @@ header{padding:11px 16px 7px}
 .flprofile .lifetime .lts{font-size:13.5px;line-height:1.45;color:#6E6A62;margin:8px auto 14px;max-width:300px}
 .flprofile .lifetime .ltrow{display:flex;align-items:center;gap:10px;text-align:left;font-size:13.5px;font-weight:600;color:#37372F;padding:9px 2px;border-top:1px solid rgba(232,103,74,.12)}
 .flprofile .lifetime .ltrow i{color:#2FA86A;font-size:18px;flex:none}
+.flhome .mjrnl{padding:16px}
+.flhome .mjrnl .mjh{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:0 0 15px;font-family:inherit;cursor:pointer}
+.flhome .mjrnl .mjt{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.4px;color:#161512}
+.flhome .mjrnl .mjh i{color:#C9C5BC;font-size:20px}
+.flhome .mjweek{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
+.flhome .mjwd{display:flex;flex-direction:column;align-items:center;gap:9px}
+.flhome .mjwd .d{font-size:10px;font-weight:800;letter-spacing:.02em;color:#9A988F;text-transform:uppercase}
+.flhome .mjwd .o{width:26px;height:26px;border-radius:50%;border:2px solid #E6DFD5;display:grid;place-items:center;color:#fff;font-size:13px}
+.flhome .mjwd.done .o{background:#2FAE67;border-color:#2FAE67}
+.flhome .mjwd.today .d{color:#E8674A}
+.flhome .mjwd.today .o{border-color:#E8674A}
+.flhome .mjinfo{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#FBF7F2;border:1px solid rgba(22,21,18,.06);border-radius:15px;padding:13px;font-family:inherit;font-size:13.5px;font-weight:700;color:#37372F;cursor:pointer;transition:transform .12s}
+.flhome .mjinfo:active{transform:scale(.99)}
+.flhome .mjinfo .mjib{color:#E8674A;font-size:17px;display:inline-flex}
+body.modalview nav,body.modalview header{display:none}
+.fljrnl{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
+.fljrnl .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
+.fljrnl .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
+.fljrnl .jghost{border:0;background:none}
+.fljrnl .jttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:18px;letter-spacing:.5px}
+.fljrnl .jnav{display:flex;align-items:center;gap:9px;margin:2px 2px 14px}
+.fljrnl .jarr{width:38px;height:38px;border-radius:50%;border:1px solid rgba(22,21,18,.08);background:#fff;color:#77736C;font-size:18px;display:grid;place-items:center;cursor:pointer;flex:none}
+.fljrnl .jarr:disabled{opacity:.3}
+.fljrnl .jdate{flex:1;text-align:center;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
+.fljrnl .jtoday{border:1px solid rgba(232,103,74,.4);background:#FCEFE9;color:#C0492C;border-radius:30px;padding:8px 13px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;flex:none}
+.fljrnl .jstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:18px}
+.fljrnl .jsd{display:flex;flex-direction:column;align-items:center;gap:6px;padding:9px 0;border-radius:15px;background:#fff;border:1px solid rgba(22,21,18,.05);cursor:pointer}
+.fljrnl .jsd.sel{border-color:#E8674A;background:#FCEFE9}
+.fljrnl .jsd .wl{font-size:9px;font-weight:800;color:#9A988F;text-transform:uppercase}
+.fljrnl .jsd .wn{font-family:'Anton';font-style:oblique 8deg;font-size:16px;color:#161512}
+.fljrnl .jsd .wdot{width:6px;height:6px;border-radius:50%;background:#E6DFD5}
+.fljrnl .jsd.fill .wdot{background:#2FAE67}
+.fljrnl .jq{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:1.08;color:#161512;margin:4px 4px 18px}
+.fljrnl .jsec{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9A988F;margin:0 4px 11px;padding-bottom:9px;border-bottom:1px solid rgba(22,21,18,.08)}
+.fljrnl .jcard{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:18px;padding:15px 16px;margin-bottom:11px;box-shadow:0 4px 14px rgba(120,110,95,.05)}
+.fljrnl .jrow{display:flex;align-items:center;gap:12px}
+.fljrnl .jrow .ql{flex:1;font-size:15px;font-weight:600;color:#161512;line-height:1.3}
+.fljrnl .jtog{display:flex;gap:7px;flex:none}
+.fljrnl .jtb{width:44px;height:38px;border-radius:11px;border:1px solid rgba(22,21,18,.08);background:#F6F2EC;color:#B7B2A8;font-size:17px;display:grid;place-items:center;cursor:pointer}
+.fljrnl .jtb.no.on{background:#EFEAE2;color:#37372F;border-color:rgba(22,21,18,.14)}
+.fljrnl .jtb.yes.on{background:#E8674A;color:#fff;border-color:#E8674A}
+.fljrnl .jsub{margin-top:13px;padding-top:13px;border-top:1px solid rgba(22,21,18,.07)}
+.fljrnl .jsr{margin-bottom:13px}
+.fljrnl .jsr:last-child{margin-bottom:0}
+.fljrnl .jsrt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.fljrnl .jsrt .l{font-size:13.5px;font-weight:600;color:#37372F}
+.fljrnl .jsrt .v{font-family:'Anton';font-style:oblique 8deg;font-size:16px;color:#E8674A}
+.fljrnl .jstep{display:flex;align-items:center;gap:10px}
+.fljrnl .jstep button{width:40px;height:36px;border-radius:10px;border:1px solid rgba(22,21,18,.1);background:#fff;color:#161512;font-size:18px;cursor:pointer}
+.fljrnl .jstep .sv{min-width:42px;text-align:center;font-family:'Anton';font-style:oblique 8deg;font-size:18px;color:#161512}
+.fljrnl .jrange{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:5px;background:#EDE7DE;outline:none}
+.fljrnl .jrange::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#E8674A;cursor:pointer;box-shadow:0 2px 6px rgba(232,103,74,.4)}
+.fljrnl .jprefill{display:flex;gap:12px;align-items:flex-start;background:#F1ECF7;border:1px solid rgba(110,107,255,.16);border-radius:16px;padding:14px;margin-top:6px}
+.fljrnl .jprefill .jpfic{color:#6E6BFF;font-size:18px;flex:none;margin-top:1px}
+.fljrnl .jprefill p{margin:0;font-size:13px;line-height:1.42;color:#5F5A54}
+.fljrnl .jspace{height:14px}
+.fljrnl .jsave{position:sticky;bottom:14px;width:100%;background:#E8674A;color:#fff;border:0;border-radius:18px;min-height:56px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
+.fljrnl .jsave:active{transform:scale(.985)}
+#jDone{position:fixed;inset:0;background:#FAF8F5;display:none;align-items:center;justify-content:center;z-index:120}
+#jDone.on{display:flex}
+#jDone .jdc{text-align:center;animation:jPop .5s cubic-bezier(.2,.9,.3,1.2)}
+#jDone .jdring{width:104px;height:104px;border-radius:50%;border:4px solid #2FAE67;color:#2FAE67;display:grid;place-items:center;font-size:46px;margin:0 auto 22px;animation:jRing .55s ease both}
+#jDone .jdt{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;letter-spacing:.5px;color:#161512}
+#jDone .jds{font-size:15px;color:#8F8982;margin-top:6px}
+@keyframes jPop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes jRing{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
 .slx .slx-verdict{margin-top:22px}
 .slx .slx-verdict b{display:block;font-size:21px;font-weight:800;color:#161512}
 .slx .slx-verdict .vr{display:flex;align-items:center;gap:9px;margin-top:4px}
@@ -2003,6 +2069,12 @@ header{padding:11px 16px 7px}
     </div>
   </div>
 
+  <div class="card mjrnl">
+    <button class="mjh" type="button" onclick="openJournal()"><span class="mjt">Mon journal</span><i class="ti ti-chevron-right"></i></button>
+    <div class="mjweek" id="mjWeek"></div>
+    <button class="mjinfo" type="button" onclick="go('behavior')"><span class="mjib"><i class="ti ti-bulb"></i></span>Informations sur le comportement</button>
+  </div>
+
 
   <div class="card flad">
     <div class="fladart"></div>
@@ -2012,6 +2084,45 @@ header{padding:11px 16px 7px}
 
   </div>
 </div></section>
+
+
+<!-- ===================== JOURNAL ===================== -->
+<section class="view" id="v-journal">
+<div class="fljrnl">
+  <div class="jtop">
+    <button class="jx" type="button" aria-label="Fermer" onclick="goBack('today')"><i class="ti ti-x"></i></button>
+    <div class="jttl">Journal</div>
+    <span class="jx jghost"></span>
+  </div>
+  <div class="jnav">
+    <button class="jarr" type="button" onclick="jDay(-1)"><i class="ti ti-chevron-left"></i></button>
+    <div class="jdate" id="jDateLbl">—</div>
+    <button class="jarr" id="jNext" type="button" onclick="jDay(1)"><i class="ti ti-chevron-right"></i></button>
+    <button class="jtoday" id="jTodayBtn" type="button" onclick="jToday()">Aujourd'hui</button>
+  </div>
+  <div class="jstrip" id="jStrip"></div>
+  <div class="jq" id="jQuestion">—</div>
+  <div class="jsec">Journée</div>
+  <div id="jList"></div>
+  <div class="jprefill">
+    <span class="jpfic"><i class="ti ti-link"></i></span>
+    <p>Pré-remplis tes données de nutrition et d'hydratation pour voir leur impact sur ta récup.</p>
+  </div>
+  <div class="jspace"></div>
+  <button class="jsave" type="button" onclick="saveJournal()">Sauvegarder le journal</button>
+</div>
+<div class="jdone" id="jDone"><div class="jdc"><span class="jdring"><i class="ti ti-check"></i></span><div class="jdt">Enregistrement réussi</div><div class="jds">Excellente journée !</div></div></div>
+</section>
+
+
+<!-- ===================== IMPACT COMPORTEMENT ===================== -->
+<section class="view" id="v-behavior">
+<div class="flrecovery">
+  <div class="pghd"><button class="bk" onclick="goBack('today')">‹</button><div><div class="pgt">Comportement.</div><div class="pgs">L'impact de tes habitudes sur ta récup.</div></div></div>
+  <div class="card" id="behCorrCard"></div>
+  <div class="card" id="behTipCard"></div>
+</div>
+</section>
 
 
 <!-- ===================== NUTRITION ===================== -->
@@ -2633,8 +2744,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -2684,6 +2795,60 @@ function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];
 function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
 function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
 function renderCorr(){const host=document.getElementById('corrCard');if(!host)return;const c=behaviorCorr();host.innerHTML='<div class="ct">Ce qui influence ta récup</div>'+(c.length?c.slice(0,7).map(x=>'<div class="cor"><span class="cl">'+x.lbl+'</span><span class="cbarw"><span class="cbarf" style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(x.imp>0?'var(--green)':'var(--accent)')+'"></span></span><span style="color:'+(x.imp>0?'var(--green)':'var(--accent)')+';font-weight:800;width:48px;text-align:right">'+(x.imp>0?'+':'')+x.imp+'%</span></div>').join(''):'<p class="sci">Remplis ton journal quelques jours pour révéler ce qui aide ou nuit à ta récup.</p>')}
+/* ---------- MON JOURNAL (style Flint) ---------- */
+const JQ=[
+ {k:'cafeine',q:'Avez-vous consommé de la caféine ?',sub:[{k:'cafeineH',t:'time',q:'Dernière prise',def:14}]},
+ {k:'alcool',q:'Avez-vous bu de l\'alcool ?',sub:[{k:'alcoolN',t:'count',q:'Combien de verres ?'},{k:'alcoolH',t:'time',q:'Dernier verre',def:21}]},
+ {k:'repastard',q:'Avez-vous mangé tard le soir ?',sub:[{k:'repasH',t:'time',q:'Dernier repas',def:20}]},
+ {k:'sportintense',q:'Séance intense aujourd\'hui ?'},
+ {k:'ecrans',q:'Écrans juste avant de dormir ?'},
+ {k:'magnesium',q:'Pris du magnésium ?'},
+ {k:'meditation',q:'Médité ou respiration ?'},
+ {k:'hydrate',q:'Bien hydraté ?'},
+ {k:'avion',q:'Voyagé en avion ?'}
+];
+var jCur=0;
+function jKey(){return tk(jCur)}
+function jData(){return DB.get('journal_'+jKey(),{})}
+function jSetData(d){DB.set('journal_'+jKey(),d)}
+function openJournal(){jCur=0;go('journal')}
+function jToday(){jCur=0;renderJournalView()}
+function jDay(d){jCur=Math.min(0,jCur+d);renderJournalView()}
+function jSetOff(off){jCur=Math.min(0,off);renderJournalView()}
+function jLabel(off){var t=new Date();t.setHours(0,0,0,0);t.setDate(t.getDate()+off);if(off===0)return 'Aujourd\'hui';if(off===-1)return 'Hier';var ds=t.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});return ds.charAt(0).toUpperCase()+ds.slice(1)}
+function jHM(min){min=((Math.round(min)%1440)+1440)%1440;return String(Math.floor(min/60)).padStart(2,'0')+':'+String(min%60).padStart(2,'0')}
+function jToggle(k,v){var d=jData();d[k]=v;jSetData(d);haptic();renderJournalView()}
+function jCount(k,delta){var d=jData();var cur=(d[k]==null?0:d[k]);d[k]=Math.max(0,Math.min(20,cur+delta));jSetData(d);renderJournalView()}
+function jTime(k,v){var d=jData();d[k]=+v;jSetData(d);var lab=document.getElementById('jt_'+k);if(lab)lab.textContent=jHM(+v)}
+function renderJStrip(){var host=document.getElementById('jStrip');if(!host)return;var DOW=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];var t=new Date();t.setHours(0,0,0,0);var html='';
+ for(var i=6;i>=0;i--){var off=-i;var dt=new Date(t);dt.setDate(dt.getDate()+off);var sel=off===jCur,fill=DB.get('journal_'+tk(off),{})._saved===true;
+  html+='<button class="jsd'+(sel?' sel':'')+(fill?' fill':'')+'" type="button" onclick="jSetOff('+off+')"><span class="wl">'+DOW[dt.getDay()]+'</span><span class="wn">'+dt.getDate()+'</span><span class="wdot"></span></button>'}
+ host.innerHTML=html}
+function renderJournalView(){var d=jData();
+ set('jDateLbl',jLabel(jCur));var nx=document.getElementById('jNext');if(nx)nx.disabled=jCur>=0;
+ var tb=document.getElementById('jTodayBtn');if(tb)tb.style.visibility=jCur===0?'hidden':'visible';
+ set('jQuestion','Que s\'est-il passé '+jLabel(jCur).toLowerCase()+' ?');
+ renderJStrip();
+ var html=JQ.map(function(qq){var on=d[qq.k]===true,off=d[qq.k]===false,sub='';
+  if(on&&qq.sub){sub='<div class="jsub">'+qq.sub.map(function(s){
+   if(s.t==='count'){var cv=(d[s.k]==null?'—':d[s.k]);return '<div class="jsr"><div class="jsrt"><span class="l">'+s.q+'</span></div><div class="jstep"><button type="button" onclick="jCount(\''+s.k+'\',-1)">−</button><span class="sv">'+cv+'</span><button type="button" onclick="jCount(\''+s.k+'\',1)">+</button></div></div>'}
+   var tv=(d[s.k]!=null?d[s.k]:(s.def||20)*60);return '<div class="jsr"><div class="jsrt"><span class="l">'+s.q+'</span><span class="v" id="jt_'+s.k+'">'+jHM(tv)+'</span></div><input type="range" class="jrange" min="0" max="1439" step="15" value="'+tv+'" oninput="jTime(\''+s.k+'\',this.value)"></div>'
+  }).join('')+'</div>'}
+  return '<div class="jcard"><div class="jrow"><span class="ql">'+qq.q+'</span><div class="jtog"><button type="button" class="jtb no'+(off?' on':'')+'" onclick="jToggle(\''+qq.k+'\',false)"><i class="ti ti-x"></i></button><button type="button" class="jtb yes'+(on?' on':'')+'" onclick="jToggle(\''+qq.k+'\',true)"><i class="ti ti-check"></i></button></div></div>'+sub+'</div>'
+ }).join('');
+ set('jList',html)}
+function saveJournal(){var d=jData();d._saved=true;jSetData(d);try{persistRecov()}catch(e){}var ov=document.getElementById('jDone');haptic(20);
+ if(ov){ov.classList.add('on');setTimeout(function(){ov.classList.remove('on');go('today');},1450)}else{go('today')}}
+function renderMjWeek(){var host=document.getElementById('mjWeek');if(!host)return;var DOW=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];var t=new Date();t.setHours(0,0,0,0);var html='';
+ for(var i=6;i>=0;i--){var off=-i;var dt=new Date(t);dt.setDate(dt.getDate()+off);var fill=DB.get('journal_'+tk(off),{})._saved===true,today=off===0;
+  html+='<div class="mjwd'+(fill?' done':'')+(today?' today':'')+'"><span class="d">'+DOW[dt.getDay()]+'</span><span class="o">'+(fill?'<i class="ti ti-check"></i>':'')+'</span></div>'}
+ host.innerHTML=html}
+function renderBehavior(){var c=behaviorCorr();var host=document.getElementById('behCorrCard');
+ if(host)host.innerHTML='<div class="rvh"><span class="ic" style="color:#6E6BFF"><i class="ti ti-link"></i></span><b>Impact sur ta récup</b></div>'+(c.length?c.slice(0,8).map(function(x){var pos=x.imp>0;return '<div class="rcor"><span class="rcl">'+x.lbl+'</span><span class="rcbar"><i style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(pos?'#2FA86A':'#E8674A')+'"></i></span><span class="rcv" style="color:'+(pos?'#1E7A47':'#C0492C')+'">'+(pos?'+':'')+x.imp+'%</span></div>'}).join(''):'<p class="sci" style="margin:0">Remplis ton journal quelques jours — Flint révélera ce qui aide ou nuit à ta récup.</p>');
+ var tip=document.getElementById('behTipCard');if(tip){var neg=c.filter(function(x){return x.imp<0}),pos=c.filter(function(x){return x.imp>0});var h='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-bulb"></i></span><b>Ce que Flint en conclut</b></div>';
+  if(neg.length)h+='<p class="sci" style="margin:0 0 8px"><b style="color:#C0492C">À limiter :</b> '+neg.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
+  if(pos.length)h+='<p class="sci" style="margin:0"><b style="color:#1E7A47">Ce qui t\'aide :</b> '+pos.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
+  if(!c.length)h+='<p class="sci" style="margin:0">Pas encore assez de données. Remplis ton journal régulièrement pour révéler tes corrélations.</p>';tip.innerHTML=h}}
 const ZCOL=['#3FB57A','#9BCB4A','#F2C744','#F0902E','#F0492E'];const ZLAB=['Z1','Z2','Z3','Z4','Z5'];
 function hrZonesOf(sess){if(sess.hr)return sess.hr;const dur=sess.dur||40,i=sess.int||2;const w={1:[.5,.35,.12,.03,0],2:[.25,.4,.25,.08,.02],3:[.1,.25,.35,.22,.08],4:[.05,.15,.3,.3,.2]}[i];return w.map(x=>Math.round(x*dur))}
 function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r!=null){rec+=r;rn++}const s=sensorOf(k);if(s&&s.sleepMin){sl+=s.sleepMin;sn++}str+=loadStrain(k);ses+=DB.get('sessions_'+k,[]).filter(x=>x.type!=='nap').length}return {rec:rn?Math.round(rec/rn):null,sl:sn?(sl/sn/60):null,str:Math.round(str),ses}}
@@ -2836,6 +3001,7 @@ function renderToday(){
  var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
+ renderMjWeek();
  var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
  flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
@@ -3561,7 +3727,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v120';
+const APP_VERSION='flint-v121';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
