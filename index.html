@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="viewport" content="width=440, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#F3EFE7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -33,12 +33,12 @@
   .disp{font-family:var(--disp);font-weight:400;letter-spacing:.01em}
   header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
     padding:16px 18px 12px;background:linear-gradient(180deg,var(--bg) 70%,transparent)}
-  header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
+  header .hdtitle{position:absolute;left:0;right:0;margin:0 auto;text-align:center;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:#161512;pointer-events:none}
   header.has-title .logo{height:17px !important}
   header.has-title .wbatt{display:none}
   header .hdmenu{display:none;width:42px;height:42px;border-radius:14px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.55);color:#161512;font-size:20px;cursor:pointer;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);flex:none}
   header.home-hdr .hdmenu{display:flex}
-  header.home-hdr .logo{position:absolute;left:50%;transform:translateX(-50%);height:24px !important}
+  header.home-hdr .logo{position:absolute;left:50%;transform:translateX(-50%);height:22px !important}
   header.home-hdr .wbatt,header.home-hdr .hbell{display:none}
   header .hddate{display:none;align-items:center;gap:1px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:3px;box-shadow:0 4px 14px rgba(22,21,18,.05);flex:none}
   header.has-date .hddate{display:inline-flex}
@@ -205,6 +205,8 @@
   .sheet .pan{position:absolute;left:0;right:0;bottom:0;margin:0 auto;max-width:440px;background:var(--card);border-radius:26px 26px 0 0;padding:16px 18px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -10px 44px rgba(0,0,0,.22);max-height:92vh;overflow:auto;animation:slideup .3s cubic-bezier(.2,.8,.2,1)}
   @keyframes slideup{from{transform:translateY(100%)}to{transform:none}}
   .sheet .grab{width:42px;height:4px;border-radius:3px;background:var(--track);margin:2px auto 14px}
+  .sheet .pan .ascl{position:absolute;top:12px;right:14px;z-index:4;width:32px;height:32px;border-radius:50%;border:0;background:rgba(120,110,95,.12);color:#77736C;display:grid;place-items:center;font-size:15px;cursor:pointer;font-family:inherit;line-height:1}
+  .sheet .pan .ascl:active{transform:scale(.92)}
   .sportsearch{display:flex;align-items:center;gap:9px;background:#F4F0E9;border:1px solid var(--line);border-radius:14px;padding:0 13px;height:46px;margin-bottom:12px}
   .sportsearch i{color:var(--faint);font-size:19px;flex:none}
   .sportsearch input{flex:1;min-width:0;border:0;background:none;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);outline:none}
@@ -248,7 +250,7 @@
   .asqcard .qi{width:38px;height:38px;border-radius:11px;background:#F4F0E9;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:19px;flex:none}
   .asqcard.on .qi{background:var(--accent);color:#fff}
   .asqcard .qt{flex:1;min-width:0}
-  .asqcard .qn{font-family:'Anton';font-style:italic;font-size:16px;color:var(--ink);line-height:1}
+  .asqcard .qn{font-family:'Anton';font-style:oblique 8deg;font-size:16px;color:var(--ink);line-height:1}
   .asqcard .qd{font-size:12px;font-weight:600;color:var(--ink2);margin-top:3px}
   .asqcard .qc{color:var(--faint);font-size:17px;flex:none}
   .aslab{font-size:10px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
@@ -268,7 +270,7 @@
   .asimpact .iv span{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
   .asimpact .iv .tu{color:var(--ink2);font-size:16px}
   .asimpact .iv .fl{color:var(--accent);font-size:16px}
-  .assave{display:block;width:100%;border:0;border-radius:16px;min-height:56px;margin-top:16px;background:var(--accent);color:#fff;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:17px;cursor:pointer;box-shadow:0 12px 28px rgba(240,73,46,.34);transition:transform .12s}
+  .assave{display:block;width:100%;border:0;border-radius:16px;min-height:56px;margin-top:16px;background:var(--accent);color:#fff;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:17px;cursor:pointer;box-shadow:0 12px 28px rgba(240,73,46,.34);transition:transform .12s}
   .assave:active{transform:scale(.985)}
   nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;padding:8px 2px calc(8px + env(safe-area-inset-bottom));
     background:rgba(243,239,231,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
@@ -281,11 +283,11 @@
   /* ===== "Notre version" — accueil combiné + addictif (greffé sur la vraie app) ===== */
   .card{transition:transform .14s ease}
   .card:active{transform:scale(.99)}
-  .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--disp);font-style:italic;font-size:12.5px;color:var(--accentD);background:var(--peach);padding:6px 12px;border-radius:20px}
+  .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--disp);font-style:oblique 8deg;font-size:12.5px;color:var(--accentD);background:var(--peach);padding:6px 12px;border-radius:20px}
   .rcombo{display:flex;align-items:center;gap:6px;cursor:pointer}
   .rcLeft{flex:0 0 156px;text-align:center}
-  .rcName{font-family:var(--disp);font-style:italic;font-size:13px;color:var(--ink);margin-top:6px;text-transform:uppercase}
-  .rcZone{font-family:var(--disp);font-style:italic;font-size:13px;margin-top:1px;text-transform:uppercase}
+  .rcName{font-family:var(--disp);font-style:oblique 8deg;font-size:13px;color:var(--ink);margin-top:6px;text-transform:uppercase}
+  .rcZone{font-family:var(--disp);font-style:oblique 8deg;font-size:13px;margin-top:1px;text-transform:uppercase}
   .delta{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-family:var(--sans);font-weight:800;font-size:11px;padding:4px 10px;border-radius:20px}
   .delta.up{color:var(--green);background:rgba(63,181,122,.14)}
   .delta.down{color:var(--accent);background:var(--peach)}
@@ -293,15 +295,15 @@
   .rcRight{flex:1;min-width:0}
   .rcS{display:flex;align-items:center;gap:11px;padding:7px 0}
   .rcSi{width:38px;height:38px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .rcSl{font-family:var(--disp);font-style:italic;font-size:11px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase}
+  .rcSl{font-family:var(--disp);font-style:oblique 8deg;font-size:11px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase}
   .rcSv{font-family:var(--disp);font-size:23px;line-height:1;white-space:nowrap}
   .rcSv .u{font-size:12px;color:var(--ink2)}
   .rcSs{font-size:11px;color:var(--ink2);margin-top:1px;white-space:nowrap}
   /* ===== ÉCRAN AUJOURD'HUI = maquette "flint-aujourdhui" à l'identique (scopé .flhome) ===== */
   .flhome{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-  .flhome .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+  .flhome .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
   .flhome .muted{color:#9A988F}
-  .flhome .greet{font-family:'Anton';font-style:italic;font-size:32px;margin:8px 2px 0;text-transform:none;line-height:1.05}
+  .flhome .greet{font-family:'Anton';font-style:oblique 8deg;font-size:32px;margin:8px 2px 0;text-transform:none;line-height:1.05}
   .flhome .date{font-size:14px;font-weight:500;color:#9A988F;margin:2px 2px 0}
   .flhome .daynav{display:flex;align-items:center;gap:9px;margin:7px 0 0;position:relative}
   .flhome .dnav{width:30px;height:30px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#161512;font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto;transition:transform .12s ease,opacity .12s}
@@ -316,10 +318,10 @@
   .flhome #flFcCard.fcpast .ecgsvg{display:none}
   .flhome #flFcCard.fcpast .rip{display:none}
   .flhome #flFcCard.fcpast .heart{animation:none}
-  .flhome .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-family:'Anton';font-style:italic;font-size:12.5px;color:#C0492C;background:#FBEAE5;padding:6px 12px;border-radius:20px;letter-spacing:.3px}
+  .flhome .streakchip{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-family:'Anton';font-style:oblique 8deg;font-size:12.5px;color:#C0492C;background:#FBEAE5;padding:6px 12px;border-radius:20px;letter-spacing:.3px}
   .flhome .streakchip i{font-size:15px}
   .flhome .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);cursor:pointer}
-  .flhome .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.08;letter-spacing:.3px}
+  .flhome .banner .ttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.08;letter-spacing:.3px}
   .flhome .banner .sub{color:#E7E1D8;font-size:13px;font-weight:500;margin-top:6px;line-height:1.35}
   .flhome .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
   .flhome .banner>*{position:relative;z-index:1}
@@ -327,13 +329,13 @@
   .flhome .card:active{transform:scale(.985)}
   .flhome .recup{display:flex;align-items:center;gap:4px;padding:14px 10px}
   .flhome .ringw{flex:0 0 152px;text-align:center}
-  .flhome .nm{font-family:'Anton';font-style:italic;font-size:13px;color:#37372F;margin-top:6px}
-  .flhome .se{font-family:'Anton';font-style:italic;font-size:13px;color:#E8674A;margin-top:1px}
+  .flhome .nm{font-family:'Anton';font-style:oblique 8deg;font-size:13px;color:#37372F;margin-top:6px}
+  .flhome .se{font-family:'Anton';font-style:oblique 8deg;font-size:13px;color:#E8674A;margin-top:1px}
   .flhome .vline{width:1px;align-self:stretch;background:#F1EBE3;margin:14px 2px}
   .flhome .side{flex:1;padding-left:10px;min-width:0}
   .flhome .stat{display:flex;align-items:center;gap:11px;padding:8px 0;background:none;box-shadow:none;border-radius:0}
   .flhome .icob{width:40px;height:40px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#5F5E58;font-size:19px;flex-shrink:0}
-  .flhome .sl{font-family:'Anton';font-style:italic;font-size:12px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
+  .flhome .sl{font-family:'Anton';font-style:oblique 8deg;font-size:12px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
   .flhome .sv{font-family:'Anton';font-size:25px;line-height:1;white-space:nowrap;margin-top:0;color:#161512}
   .flhome .stat .muted{white-space:nowrap}
   .flhome .row{display:flex;align-items:center;justify-content:space-between}
@@ -341,7 +343,7 @@
   .flhome .li{display:flex;justify-content:space-between;align-items:center;padding:12px 2px;border-bottom:1px solid #F1EBE3}
   .flhome .li:last-child{border:none}
   .flhome .acti{font-size:23px;color:#E8674A;width:28px;text-align:center}
-  .flhome .pill{font-family:'Anton';font-style:italic;font-size:13px;background:#FBEAE5;color:#C0492C;padding:7px 13px;border-radius:20px;white-space:nowrap}
+  .flhome .pill{font-family:'Anton';font-style:oblique 8deg;font-size:13px;background:#FBEAE5;color:#C0492C;padding:7px 13px;border-radius:20px;white-space:nowrap}
   .flhome .grn{background:#EAF3DE;color:#3B6D11}
   .flhome .ind{background:#EAECF8;color:#46509A}
   .flhome .chev{color:#C9C5BC;font-size:19px;margin-left:10px}
@@ -356,9 +358,9 @@
   .flhome .flact .tile{width:72px;height:42px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 12px rgba(240,73,46,.20)}
   .flhome .flact .tile.sleep{background:#6C7BD6;box-shadow:0 5px 12px rgba(108,123,214,.20)}
   .flhome .flact .tile i{font-size:15px;line-height:1;opacity:.95}
-  .flhome .flact .tile b{font-family:'Anton';font-style:italic;font-size:17px;line-height:1;letter-spacing:.01em}
+  .flhome .flact .tile b{font-family:'Anton';font-style:oblique 8deg;font-size:17px;line-height:1;letter-spacing:.01em}
   .flhome .flact .md{min-width:0}
-  .flhome .flact .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:21px;color:#161512;line-height:1;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .flhome .flact .nm{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:21px;color:#161512;line-height:1;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .flhome .flact .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .flhome .flact .tl{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:4px;padding-right:6px}
   .flhome .flact .tl .s{font-size:13px;font-weight:800;color:#3E3A35;font-variant-numeric:tabular-nums;line-height:1}
@@ -366,7 +368,7 @@
   .flhome .flact .tl .b{width:3px;height:13px;border-radius:3px;background:var(--accent)}
   .flhome .flact .tl .b.sleep{background:#6C7BD6}
   .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill 1.25s cubic-bezier(.25,.8,.3,1) .35s both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
-  .fllogo{font-family:'Anton';font-style:italic;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
+  .fllogo{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
   .fllogo-img{height:30px;width:auto;display:block;cursor:pointer}
   .flhome .ecg{animation:flEcg 2.4s linear infinite}
   .flhome .rip{transform-box:fill-box;transform-origin:center;animation:flRipple 1.9s ease-out infinite}
@@ -381,13 +383,13 @@
   .flhome .toprow2 .dnav{width:38px;height:38px;font-size:18px;box-shadow:0 6px 18px rgba(22,21,18,.04)}
   .flhome .streak2{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid #ECE6DD;border-radius:24px;padding:8px 14px;box-shadow:0 6px 18px rgba(22,21,18,.04)}
   .flhome .streak2 .sf{color:#E8674A;font-size:19px;display:grid;place-items:center}
-  .flhome .streak2 .sn{font-family:'Anton';font-style:italic;font-size:23px;color:#E8674A;line-height:.85}
+  .flhome .streak2 .sn{font-family:'Anton';font-style:oblique 8deg;font-size:23px;color:#E8674A;line-height:.85}
   .flhome .streak2 .st{font-size:11.5px;font-weight:600;color:#7A756E;line-height:1.02}
   .flhome .stepscard{display:flex;align-items:center;gap:14px;padding:15px 16px;cursor:pointer}
   .flhome .stepscard .stico{width:46px;height:46px;border-radius:50%;background:rgba(232,103,74,.10);color:#E8674A;display:grid;place-items:center;font-size:23px;flex:none}
   .flhome .stepscard .sttxt{flex:1;min-width:0}
   .flhome .stepscard .stl{font-size:13.5px;font-weight:600;color:#7A756E}
-  .flhome .stepscard .stv{font-family:'Anton';font-style:italic;font-size:26px;line-height:1;margin-top:2px;color:#161512;white-space:nowrap}
+  .flhome .stepscard .stv{font-family:'Anton';font-style:oblique 8deg;font-size:26px;line-height:1;margin-top:2px;color:#161512;white-space:nowrap}
   .flhome .stepscard .stv small{font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;color:#9A988F}
   .flhome .stepscard .stcv{color:#C9C5BC;font-size:20px;flex:none}
   .flhome .stepscard:active{transform:scale(.985)}
@@ -397,7 +399,7 @@
   .flhome .recside{flex:1;min-width:0;padding-left:4px}
   .flhome .receyb{display:inline-flex;align-items:center;gap:7px;color:#3B6D11;font-weight:800;font-size:14.5px}
   .flhome .receyb i{font-size:18px}
-  .flhome .rectitle{font-family:'Anton';font-style:italic;font-size:25px;line-height:1;margin:9px 0 0;color:#161512}
+  .flhome .rectitle{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:1;margin:9px 0 0;color:#161512}
   .flhome .recdesc{font-size:14px;line-height:1.4;color:#7A756E;margin:9px 0 0}
   .flhome .recbtn{display:inline-flex;align-items:center;gap:8px;margin-top:15px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:11px 16px;font-size:14px;font-weight:800;color:#161512;cursor:pointer;font-family:inherit;box-shadow:0 6px 16px rgba(22,21,18,.05)}
   .flhome .recbtn .sp{color:#E8674A;font-size:16px}
@@ -430,7 +432,7 @@
   .flhome .scico.amb{background:rgba(242,169,59,.18);color:#D98E12}
   .flhome .scico.emb{background:rgba(232,103,74,.12);color:#E8674A}
   .flhome .scl{font-size:11px;font-weight:800;letter-spacing:.05em;color:#9A988F;text-transform:uppercase}
-  .flhome .scv{font-family:'Anton';font-style:italic;font-size:26px;line-height:1;margin:7px 0 0;color:#161512;white-space:nowrap}
+  .flhome .scv{font-family:'Anton';font-style:oblique 8deg;font-size:26px;line-height:1;margin:7px 0 0;color:#161512;white-space:nowrap}
   .flhome .scv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
   .flhome .scs{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12.5px;font-weight:700}
   .flhome .scs .d{width:7px;height:7px;border-radius:50%;flex:none}
@@ -441,7 +443,7 @@
   .flhome .fchi{width:46px;height:46px;border-radius:50%;background:rgba(232,103,74,.10);display:grid;place-items:center;color:#E8674A;flex:none}
   .flhome .fclab{font-size:11px;font-weight:800;letter-spacing:.07em;color:#9A988F;text-transform:uppercase}
   .flhome .fcbpm{display:flex;align-items:baseline;gap:5px;margin-top:4px}
-  .flhome .fcbpm .v{font-family:'Anton';font-style:italic;font-size:33px;line-height:.9;color:#161512}
+  .flhome .fcbpm .v{font-family:'Anton';font-style:oblique 8deg;font-size:33px;line-height:.9;color:#161512}
   .flhome .fcbpm .u{font-size:13px;font-weight:700;color:#9A988F}
   .flhome .fclive{display:inline-flex;align-items:center;gap:6px;margin-top:7px;background:rgba(232,103,74,.10);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:800;letter-spacing:.1em;color:#E8674A;text-transform:uppercase}
   .flhome .fclive .d{width:6px;height:6px;border-radius:50%;background:#E8674A}
@@ -462,8 +464,8 @@
   /* === Desktop : centrer l'app en colonne mobile (sinon plein écran = moche) === */
   .flsleep .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .flsleep .vit{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:14px;padding:12px 6px;text-align:center}
-  .flsleep .vit .vl{font-family:'Anton';font-style:italic;font-size:10.5px;letter-spacing:.3px;color:#9A988F;text-transform:uppercase}
-  .flsleep .vit .vv{font-family:'Anton';font-style:italic;font-size:22px;margin-top:4px;color:#161512}
+  .flsleep .vit .vl{font-family:'Anton';font-style:oblique 8deg;font-size:10.5px;letter-spacing:.3px;color:#9A988F;text-transform:uppercase}
+  .flsleep .vit .vv{font-family:'Anton';font-style:oblique 8deg;font-size:22px;margin-top:4px;color:#161512}
   .flsleep .vit .vv small{font-size:11px;font-weight:600;color:#9A988F;font-family:'Inter';font-style:normal}
   .flsleep #slRecharge{height:80px}
   .flsleep .plk{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.45;color:#37372F}
@@ -472,55 +474,55 @@
   .flsleep .anomaly .ct{color:#C0492C}
   .flsleep .ssrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
   .flsleep .ssrow:last-child{border-bottom:0}
-  .flsleep .ssl{font-family:'Anton';font-style:italic;font-size:13.5px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+  .flsleep .ssl{font-family:'Anton';font-style:oblique 8deg;font-size:13.5px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
   .flsleep .ssr{display:inline-flex;align-items:center;gap:11px}
   .flsleep .segs{display:inline-flex;gap:3px}
   .flsleep .seg{width:15px;height:5px;border-radius:3px;display:inline-block}
-  .flsleep .ssv{font-family:'Anton';font-style:italic;font-size:17px;width:50px;text-align:right}
+  .flsleep .ssv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;width:50px;text-align:right}
   .flsleep .seglegend{display:flex;gap:14px;justify-content:center;margin-top:13px;font-size:10.5px;color:#9A988F}
   .flsleep .seglegend .dot{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:4px}
   .flsleep .lever{display:flex;align-items:center;gap:12px;background:#FBEAE5;border-color:#F6D9CF}
   .flsleep .lvi{width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#C0492C;font-size:21px;flex:none}
   .flsleep .lever .sci{color:#7a2c18}
-  .flsleep .explore{width:100%;margin-top:6px;background:none;border:1px solid #E0D9CE;color:#37372F;font-family:'Anton';font-style:italic;font-size:14px;padding:13px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:transform .12s ease,background .12s}
+  .flsleep .explore{width:100%;margin-top:6px;background:none;border:1px solid #E0D9CE;color:#37372F;font-family:'Anton';font-style:oblique 8deg;font-size:14px;padding:13px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:transform .12s ease,background .12s}
   .flsleep .explore:active{transform:scale(.98);background:#FBF8F2}
   .flsleep .regrow text{font-family:'Inter';font-weight:700}
-  .flsleep .stghd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.3px;font-size:12px;color:#9A988F}
+  .flsleep .stghd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.3px;font-size:12px;color:#9A988F}
   .flsleep .stghd b{color:#161512;font-size:17px}
   .flsleep .stgrow{margin-top:15px}
   .flsleep .stgtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-  .flsleep .stgn{font-family:'Anton';font-style:italic;font-size:14px;color:#37372F;text-transform:uppercase;letter-spacing:.3px;display:inline-flex;align-items:center;gap:8px}
+  .flsleep .stgn{font-family:'Anton';font-style:oblique 8deg;font-size:14px;color:#37372F;text-transform:uppercase;letter-spacing:.3px;display:inline-flex;align-items:center;gap:8px}
   .flsleep .stgdot{width:17px;height:17px;border-radius:50%;border:2.5px solid #ccc;background:transparent;display:inline-block;box-sizing:border-box}
   .flsleep .stgp{color:#9A988F;font-size:12px}
-  .flsleep .stgd{font-family:'Anton';font-style:italic;font-size:18px;color:#161512}
+  .flsleep .stgd{font-family:'Anton';font-style:oblique 8deg;font-size:18px;color:#161512}
   .flsleep .stgbar{position:relative;height:9px;background:#ECE6DD;border-radius:6px}
   .flsleep .stgfill{position:absolute;left:0;top:0;height:100%;border-radius:6px}
   .flsleep .stgmark{position:absolute;top:-3px;width:2px;height:15px;background:#161512;opacity:.42;border-radius:2px}
   .flsleep .stgcap{font-size:10.5px;color:#9A988F;margin-top:14px}
   .flsleep .dethead{margin:2px 2px 12px}
-  .flsleep .deth1{font-family:'Anton';font-style:italic;font-size:25px;line-height:1.05;text-transform:uppercase}
+  .flsleep .deth1{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:1.05;text-transform:uppercase}
   .flsleep .deth2{font-size:13px;color:#9A988F;margin-top:4px}
   .flsleep .pghd{display:flex;align-items:center;gap:10px}
-  .flsleep .hexscore{margin-left:auto;font-family:'Anton';font-style:italic;font-size:18px;background:#fff;border:1px solid #ECE6DD;border-radius:14px;padding:5px 13px;color:#161512}
-  .flsleep .hsh{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12px;letter-spacing:.4px;color:#9A988F}
+  .flsleep .hexscore{margin-left:auto;font-family:'Anton';font-style:oblique 8deg;font-size:18px;background:#fff;border:1px solid #ECE6DD;border-radius:14px;padding:5px 13px;color:#161512}
+  .flsleep .hsh{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:12px;letter-spacing:.4px;color:#9A988F}
   .flsleep .hsbig{display:flex;align-items:center;gap:9px;margin-top:2px}
-  .flsleep .hsdur{font-family:'Anton';font-style:italic;font-size:40px;line-height:1;color:#161512}
+  .flsleep .hsdur{font-family:'Anton';font-style:oblique 8deg;font-size:40px;line-height:1;color:#161512}
   .flsleep .hsarrow{font-size:16px}
   .flsleep .hshab{font-size:13.5px;color:#9A988F;font-weight:600;margin-top:1px}
-  .flsleep .phh{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;font-size:11px;color:#9A988F;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.3px;border-top:1px solid #F1EBE3;padding-top:13px}
+  .flsleep .phh{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;font-size:11px;color:#9A988F;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.3px;border-top:1px solid #F1EBE3;padding-top:13px}
   .flsleep .phh b{color:#161512;font-size:15px}
   .flsleep .stgrange{position:absolute;top:-3px;height:15px;border-left:1.5px dashed #8A8880;border-right:1.5px dashed #8A8880;background:rgba(154,152,143,.10);box-sizing:border-box}
   /* stades cliquables (façon zones Effort) */
-  .flsleep .stglbl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.3px;color:#9A988F;margin:4px 4px 11px}
+  .flsleep .stglbl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.3px;color:#9A988F;margin:4px 4px 11px}
   .flsleep .stgcard{background:#fff;border:1.5px solid transparent;border-radius:18px;padding:15px 16px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .18s ease,opacity .18s ease,transform .12s ease;-webkit-tap-highlight-color:transparent}
   .flsleep .stgcard:active{transform:scale(.992)}
   .flsleep .stgcard.dim{opacity:.32}
   .flsleep .stghd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
   .flsleep .stgL{display:flex;align-items:flex-start;gap:11px;min-width:0}
   .flsleep .stgcard .stgdot{margin-top:3px;flex:none}
-  .flsleep .stgnm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:15.5px;letter-spacing:.3px;color:#161512;line-height:1}
+  .flsleep .stgnm{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15.5px;letter-spacing:.3px;color:#161512;line-height:1}
   .flsleep .stgwhat{font-size:11.5px;color:#9A988F;margin-top:3px}
-  .flsleep .stgdur{font-family:'Anton';font-style:italic;font-size:19px;color:#161512;line-height:1}
+  .flsleep .stgdur{font-family:'Anton';font-style:oblique 8deg;font-size:19px;color:#161512;line-height:1}
   .flsleep .stgpc{font-size:12px;font-weight:800;margin-top:3px}
   .flsleep .stgbar2{position:relative;height:11px;margin-top:13px;border-radius:6px;background:#F1ECE3;overflow:hidden}
   .flsleep .stgbar2 .f{position:absolute;left:0;top:0;height:100%;border-radius:6px}
@@ -538,12 +540,12 @@
 
 /* ===== ÉCRAN RÉCUPÉRATION — niveau "flhome" (scopé .flrecovery) ===== */
 .flrecovery{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.flrecovery .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flrecovery .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flrecovery .muted{color:#9A988F}
 
 /* Titre de page façon greeting Anton italic, aligné gauche */
 .flrecovery .rhead{margin:6px 2px 2px}
-.flrecovery .rhead .greet{font-family:'Anton';font-style:italic;font-size:30px;line-height:1.04;text-transform:none}
+.flrecovery .rhead .greet{font-family:'Anton';font-style:oblique 8deg;font-size:30px;line-height:1.04;text-transform:none}
 .flrecovery .rhead .date{font-size:13.5px;font-weight:500;color:#9A988F;margin-top:3px}
 
 /* Cartes crème comme l'accueil */
@@ -552,28 +554,28 @@
 .flrecovery .card.tap:active{transform:scale(.985)}
 
 /* Libellés de section : Anton italic CAPS, petit gris + icône Tabler */
-.flrecovery .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px;font-weight:400}
+.flrecovery .ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px;font-weight:400}
 .flrecovery .ct i{font-size:16px;color:#C0492C}
 .flrecovery .sci{font-size:13px;color:#6E6A62;line-height:1.5}
 
 /* ---- Carte héro : anneau récup à couleur dynamique ---- */
 .flrecovery .hero{text-align:center;padding:22px 18px 20px}
 .flrecovery .hero .ring{margin:0 auto 6px}
-.flrecovery .ring .rval{font-family:'Anton';font-style:italic;line-height:1}
-.flrecovery .ring .rlab{font-family:'Anton';font-style:italic;font-size:10px;letter-spacing:.1em;color:#9A988F}
+.flrecovery .ring .rval{font-family:'Anton';font-style:oblique 8deg;line-height:1}
+.flrecovery .ring .rlab{font-family:'Anton';font-style:oblique 8deg;font-size:10px;letter-spacing:.1em;color:#9A988F}
 .flrecovery .ring circle[stroke-linecap="round"]{filter:drop-shadow(0 2px 6px rgba(20,18,12,.18))}
-.flrecovery .hero .disp{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px}
+.flrecovery .hero .disp{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px}
 .flrecovery .hero .sci{max-width:320px;margin:8px auto 0}
 
 /* Bandeau d'état (pill) sous le titre de zone — rappel des pills accueil */
-.flrecovery .zonechip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:'Anton';font-style:italic;font-size:12px;color:#C0492C;background:#FBEAE5;padding:6px 13px;border-radius:20px;letter-spacing:.3px}
+.flrecovery .zonechip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:'Anton';font-style:oblique 8deg;font-size:12px;color:#C0492C;background:#FBEAE5;padding:6px 13px;border-radius:20px;letter-spacing:.3px}
 .flrecovery .zonechip i{font-size:14px}
 
 /* ---- Contributions : barres ---- */
 .flrecovery .contrib{margin-top:2px}
 .flrecovery .cbar{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #F1EBE3}
 .flrecovery .cbar:last-child{border-bottom:0}
-.flrecovery .cbar .cl{font-family:'Anton';font-style:italic;font-size:13.5px;flex:1;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+.flrecovery .cbar .cl{font-family:'Anton';font-style:oblique 8deg;font-size:13.5px;flex:1;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
 .flrecovery .cbar .cn{font-size:12.5px;color:#6E6A62;font-weight:700;white-space:nowrap}
 .flrecovery .cbar .ctrack{width:84px;height:7px;border-radius:6px;background:#ECE7DD;overflow:hidden;flex:none}
 .flrecovery .cbar .cfill{display:block;height:100%;border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
@@ -581,8 +583,8 @@
 /* ---- Vitaux nocturnes : mini-cartes en grille 2 ---- */
 .flrecovery .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .flrecovery .grid2 .stat{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:16px;padding:13px 14px;box-shadow:none}
-.flrecovery .grid2 .stat .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;text-transform:uppercase;display:flex;align-items:center;gap:5px}
-.flrecovery .grid2 .stat .sv{font-family:'Anton';font-style:italic;font-size:26px;line-height:1;margin-top:5px;color:#161512}
+.flrecovery .grid2 .stat .sl{font-family:'Anton';font-style:oblique 8deg;font-size:11px;letter-spacing:.4px;color:#9A988F;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.flrecovery .grid2 .stat .sv{font-family:'Anton';font-style:oblique 8deg;font-size:26px;line-height:1;margin-top:5px;color:#161512}
 .flrecovery .grid2 .stat .ss{font-size:11px;color:#6E6A62;margin-top:3px}
 .flrecovery #recAge{margin-top:12px;display:flex;align-items:center;gap:7px}
 .flrecovery #recAge:before{font-family:'tabler-icons';content:"\f0db";color:#C0492C;font-size:16px;font-style:normal}
@@ -592,7 +594,7 @@
 .flrecovery .rheroart{position:absolute;inset:0;pointer-events:none;background:radial-gradient(58% 78% at 25% 50%,rgba(63,181,122,.07),transparent 62%)}
 .flrecovery .rhring{flex:0 0 132px;position:relative;z-index:1}
 .flrecovery .rhring .rc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
-.flrecovery .rhring .rval{font-family:'Anton';font-style:italic;line-height:1}
+.flrecovery .rhring .rval{font-family:'Anton';font-style:oblique 8deg;line-height:1}
 .flrecovery .rhside{flex:1;min-width:0;position:relative;z-index:1}
 .flrecovery .rhpill{display:inline-flex;align-items:center;gap:7px;border:1px solid #D7E6CC;background:#fff;border-radius:30px;padding:6px 13px;font-size:13px;font-weight:800;color:#2E7D32}
 .flrecovery .rhpill .d{width:8px;height:8px;border-radius:50%;background:#3FB57A;flex:none}
@@ -602,7 +604,7 @@
 /* ---- Composition : entête + lignes avec barres ---- */
 .flrecovery .rch{display:flex;align-items:center;gap:12px;margin-bottom:4px}
 .flrecovery .rch .ic{width:36px;height:36px;border-radius:50%;background:#EFF6E7;display:grid;place-items:center;color:#3B6D11;font-size:18px;flex:none}
-.flrecovery .rch b{flex:1;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;font-weight:400}
+.flrecovery .rch b{flex:1;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;font-weight:400}
 .flrecovery .rch .cv{color:#E8674A;font-size:20px;flex:none}
 .flrecovery .rrow{display:grid;grid-template-columns:38px 94px auto 1fr;align-items:center;gap:11px;padding:12px 0;border-top:1px solid #F1EBE3}
 .flrecovery .rrow:first-child{border-top:0}
@@ -621,7 +623,7 @@
 .flrecovery .rvit,.flrecovery .rhealth{padding:18px 16px}
 .flrecovery .rvh{display:flex;align-items:center;gap:11px;margin-bottom:14px}
 .flrecovery .rvh .ic{color:#E8674A;font-size:22px;display:grid;place-items:center}
-.flrecovery .rvh b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512;font-weight:400}
+.flrecovery .rvh b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512;font-weight:400}
 .flrecovery .vgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px}
 .flrecovery .vtile{background:#FBF8F2;border:1px solid #F1EBE3;border-radius:18px;padding:14px;min-width:0;overflow:hidden}
 .flrecovery .vtile .vt{display:flex;align-items:center;gap:8px;margin-bottom:9px}
@@ -630,7 +632,7 @@
 .flrecovery .vtile .tck{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex:none}
 .flrecovery .vtile .tck.ok{background:#E7F4E2;color:#3FB57A}
 .flrecovery .vtile .tck.bad{background:#FBEAE5;color:#E8674A}
-.flrecovery .vtile .vv{font-family:'Anton';font-style:italic;font-size:34px;line-height:.9;color:#161512;display:flex;align-items:baseline;gap:5px}
+.flrecovery .vtile .vv{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:.9;color:#161512;display:flex;align-items:baseline;gap:5px}
 .flrecovery .vtile .vv small{font-family:'Inter';font-style:normal;font-size:14px;font-weight:700;color:#9A988F}
 .flrecovery .vtile .vrng{font-size:12px;color:#9A988F;margin-top:7px}
 .flrecovery .vtile .vverdict{font-size:14px;font-weight:800;margin-top:6px}
@@ -647,7 +649,7 @@
 .flrecovery .hmr{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #F1EBE3}
 .flrecovery .hmr:first-of-type{border-top:0}
 .flrecovery .hmr .hi{color:#E8674A;font-size:19px;width:24px;text-align:center;flex:none}
-.flrecovery .hmr .hl{flex:1;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13.5px;letter-spacing:.3px;color:#37372F}
+.flrecovery .hmr .hl{flex:1;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13.5px;letter-spacing:.3px;color:#37372F}
 .flrecovery .hmr .hv{font-size:14.5px;font-weight:800;color:#161512;white-space:nowrap}
 .flrecovery .hmr .hv.muted{font-weight:600;color:#9A988F}
 .flrecovery .hmr .hs{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;flex:none}
@@ -663,11 +665,11 @@
 /* ---- Health Monitor : lignes ---- */
 .flrecovery .hm{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F1EBE3}
 .flrecovery .hm:last-of-type{border-bottom:0}
-.flrecovery .hm .hl{font-family:'Anton';font-style:italic;font-size:13px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
+.flrecovery .hm .hl{font-family:'Anton';font-style:oblique 8deg;font-size:13px;color:#37372F;text-transform:uppercase;letter-spacing:.3px}
 .flrecovery .hm .hv{font-family:'Inter';font-weight:700;font-size:14px;color:#161512}
 
 /* ---- Stress ---- */
-.flrecovery #stressCard .big{font-family:'Anton';font-style:italic;color:#E8674A}
+.flrecovery #stressCard .big{font-family:'Anton';font-style:oblique 8deg;color:#E8674A}
 .flrecovery #stressCard .eyebrow{font-size:11px;font-weight:800;color:#9A988F;letter-spacing:.16em;text-transform:uppercase}
 
 /* ---- Tendance 14 jours ---- */
@@ -678,7 +680,7 @@
 .flrecovery .splitc .left{flex:1;min-width:0}
 .flrecovery .splitc .left .ct{margin:0}
 .flrecovery .splitc .rightcol{flex:none;display:flex;flex-direction:row;gap:8px}
-.flrecovery .qbtn{display:inline-flex;align-items:center;gap:6px;font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.3px;background:#fff;border:1px solid #ECE6DD;color:#37372F;padding:9px 14px;border-radius:20px;cursor:pointer;transition:transform .12s ease,background .12s}
+.flrecovery .qbtn{display:inline-flex;align-items:center;gap:6px;font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.3px;background:#fff;border:1px solid #ECE6DD;color:#37372F;padding:9px 14px;border-radius:20px;cursor:pointer;transition:transform .12s ease,background .12s}
 .flrecovery .qbtn i{font-size:15px;color:#C0492C}
 .flrecovery .qbtn:active{transform:scale(.94);background:#FBF8F2}
 
@@ -687,22 +689,22 @@
 
 /* ===== ÉCRAN SOMMEIL — design FLINT (scopé .flsleep), aligné sur .flhome ===== */
 .flsleep{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.flsleep .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flsleep .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flsleep .muted{color:#9A988F}
 
 /* En-tête de page : retour + titre, façon accueil */
 .flsleep .pghd{position:relative;display:flex;align-items:center;justify-content:center;margin:6px 0 4px}
 .flsleep .bk{position:absolute;left:0;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ECE6DD;background:#fff;border-radius:50%;font-size:20px;line-height:1;color:#161512;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;padding-bottom:2px;transition:transform .12s ease}
 .flsleep .bk:active{transform:translateY(-50%) scale(.88)}
-.flsleep .pgtitle{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:30px;letter-spacing:.4px;color:#161512;line-height:1}
+.flsleep .pgtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:30px;letter-spacing:.4px;color:#161512;line-height:1}
 
 /* Libellés de section : Anton italic CAPS petits gris, comme l'accueil */
-.flsleep .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12.5px;letter-spacing:.5px;color:#9A988F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.flsleep .ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:12.5px;letter-spacing:.5px;color:#9A988F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
 .flsleep .ct i{font-size:16px;color:#E8674A;font-style:normal}
-.flsleep .eyebrow{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11.5px;letter-spacing:.5px;color:#9A988F}
+.flsleep .eyebrow{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11.5px;letter-spacing:.5px;color:#9A988F}
 .flsleep .sci{font-size:13px;color:#5F5E58;line-height:1.5}
 .flsleep .big{font-family:'Anton';line-height:.92;letter-spacing:.01em}
-.flsleep .lab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;margin-bottom:6px}
+.flsleep .lab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;margin-bottom:6px}
 
 /* Cartes blanches FLINT */
 .flsleep .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);transition:transform .14s ease}
@@ -710,7 +712,7 @@
 
 /* Bandeau coaching noir dégradé, flamme contour + stries — identique accueil */
 .flsleep .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22)}
-.flsleep .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:18px;line-height:1.1;letter-spacing:.3px}
+.flsleep .banner .ttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;color:#fff;font-size:18px;line-height:1.1;letter-spacing:.3px}
 .flsleep .banner .sub{color:#E7E1D8;font-size:13px;font-weight:500;margin-top:6px;line-height:1.4}
 .flsleep .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
 .flsleep .banner .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45))}
@@ -721,23 +723,23 @@
 .flsleep .ring{position:relative;display:inline-block}
 .flsleep .ring svg{display:block}
 .flsleep .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px}
-.flsleep .ring .rlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
-.flsleep .ring .rval{font-family:'Anton';font-style:italic;line-height:1;letter-spacing:.01em}
+.flsleep .ring .rlab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
+.flsleep .ring .rval{font-family:'Anton';font-style:oblique 8deg;line-height:1;letter-spacing:.01em}
 .flsleep .ring .rsub{font-size:12px;font-weight:700;color:#9A988F;line-height:1}
 .flsleep .ring circle[stroke^="url"],.flsleep .ring circle[stroke="#6C7BD6"]{filter:drop-shadow(0 2px 6px rgba(108,123,214,.34))}
 .flsleep .scoreline{font-size:14px;font-weight:600;color:#5F5E58;margin-top:10px}
 
 /* Pastilles d'en-tête de la carte score */
 .flsleep .scorepills{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
-.flsleep .pill{font-family:'Anton';font-style:italic;font-size:12.5px;background:#FBEAE5;color:#C0492C;padding:6px 13px;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.flsleep .pill{font-family:'Anton';font-style:oblique 8deg;font-size:12.5px;background:#FBEAE5;color:#C0492C;padding:6px 13px;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .flsleep .pill i{font-size:14px;font-style:normal}
 .flsleep .pill.indigo{background:#EAECF8;color:#46509A}
 
 /* Grille des 2 stats (Durée / Efficacité) — cartes blanches FLINT */
 .flsleep .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
 .flsleep .stat{background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:15px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
-.flsleep .stat .sl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
-.flsleep .stat .sv{font-family:'Anton';font-style:italic;font-size:30px;line-height:1;margin-top:5px;color:#161512}
+.flsleep .stat .sl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#9A988F;white-space:nowrap}
+.flsleep .stat .sv{font-family:'Anton';font-style:oblique 8deg;font-size:30px;line-height:1;margin-top:5px;color:#161512}
 .flsleep .stat .ss{font-size:11px;color:#9A988F;margin-top:3px}
 /* le sub-scores écrit set() dans #subScores sans marge, on neutralise la marge de grille */
 .flsleep #subScores{margin:0}
@@ -750,8 +752,8 @@
 .flsleep .wf{display:flex;align-items:flex-end;gap:8px;height:74px;margin:6px 0 4px}
 .flsleep .wf .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
 .flsleep .wf .cb{width:100%;border-radius:7px;min-height:6px}
-.flsleep .wf .cl2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;text-align:center;line-height:1.1}
-.flsleep .wf .cn2{font-family:'Anton';font-style:italic;font-size:12.5px;color:#161512}
+.flsleep .wf .cl2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;text-align:center;line-height:1.1}
+.flsleep .wf .cn2{font-family:'Anton';font-style:oblique 8deg;font-size:12.5px;color:#161512}
 .flsleep .hvn{height:14px;border-radius:8px;background:#F0E9E0;position:relative;margin-top:10px;overflow:visible}
 .flsleep .hvn .f{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#9AA4DD,#6C7BD6)}
 .flsleep .hvn .tick{position:absolute;top:-4px;width:3px;height:22px;background:#161512;border-radius:2px}
@@ -760,7 +762,7 @@
 .flsleep .chartbox{width:100%}
 .flsleep .chartbox svg,.flsleep #hypnoCard svg{width:100%;display:block}
 .flsleep .slhr{display:flex;align-items:baseline;gap:11px;margin:4px 2px 4px}
-.flsleep .slhr .v{font-family:'Anton';font-style:italic;font-size:42px;line-height:.84;letter-spacing:-.01em;color:#5E6FCC;display:inline-flex;align-items:baseline;gap:6px}
+.flsleep .slhr .v{font-family:'Anton';font-style:oblique 8deg;font-size:42px;line-height:.84;letter-spacing:-.01em;color:#5E6FCC;display:inline-flex;align-items:baseline;gap:6px}
 .flsleep .slhr .v small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:900;color:#5E6FCC}
 .flsleep .slhr .t{font-size:15px;font-weight:900;color:#9A988F;letter-spacing:-.02em}
 .flsleep .slnight{position:relative;touch-action:none;-webkit-user-select:none;user-select:none}
@@ -774,10 +776,10 @@
 .flsleep .coachline{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
 .flsleep .coachline .cend{text-align:center;flex:none;min-width:72px}
 .flsleep .coachline .cei{display:flex;justify-content:center;line-height:1}
-.flsleep .coachline .cet{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;margin-top:4px}
-.flsleep .coachline .cev{font-family:'Anton';font-style:italic;font-size:22px;margin-top:1px;color:#161512}
+.flsleep .coachline .cet{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:9px;letter-spacing:.3px;color:#9A988F;margin-top:4px}
+.flsleep .coachline .cev{font-family:'Anton';font-style:oblique 8deg;font-size:22px;margin-top:1px;color:#161512}
 .flsleep .coachline .cbar{flex:1;height:8px;border-radius:6px;background:linear-gradient(90deg,#3A4FB0,#9AA4DD,#F0902E);position:relative}
-.flsleep .coachline .cdur{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:'Anton';font-style:italic;font-size:11.5px;color:#5F5E58;white-space:nowrap}
+.flsleep .coachline .cdur{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:'Anton';font-style:oblique 8deg;font-size:11.5px;color:#5F5E58;white-space:nowrap}
 .flsleep .fin{width:100%;border:1px solid #ECE6DD;background:#fff;color:#161512;border-radius:13px;padding:12px;font-size:15px;font-weight:600;font-family:inherit}
 .flsleep .fin:focus{outline:none;border-color:#E8674A}
 .flsleep .trow{display:flex;align-items:center;gap:10px;padding:12px 13px;border:1px solid #F1EBE3;border-radius:14px;margin-top:8px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease}
@@ -786,7 +788,7 @@
 .flsleep .trow .tdot{width:10px;height:10px;border-radius:50%;flex:none}
 .flsleep .trow .tn{font-weight:700;font-size:13px;flex:1}
 .flsleep .trow .th{font-size:12px;font-weight:600;color:#5F5E58}
-.flsleep .trow .tb{font-family:'Anton';font-style:italic;font-size:18px;margin-left:10px;min-width:52px;text-align:right;color:#161512}
+.flsleep .trow .tb{font-family:'Anton';font-style:oblique 8deg;font-size:18px;margin-left:10px;min-width:52px;text-align:right;color:#161512}
 
 /* Carte dette (split) : libellé + gros chiffre + colonne lune/plan */
 .flsleep .splitc{display:flex;gap:18px;align-items:stretch}
@@ -794,7 +796,7 @@
 .flsleep .splitc .rightcol{flex:none;width:138px;border-left:1px solid #F1EBE3;padding-left:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
 .flsleep .iconb{width:46px;height:46px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#46509A;flex:none}
 .flsleep .iconb i{font-size:23px}
-.flsleep #slDebt{font-family:'Anton';font-style:italic;color:#161512;margin-top:4px}
+.flsleep #slDebt{font-family:'Anton';font-style:oblique 8deg;color:#161512;margin-top:4px}
 
 /* Animation d'entrée, cohérente avec l'accueil */
 .flsleep .pghd,.flsleep .card,.flsleep .grid2{animation:flRise .55s cubic-bezier(.2,.7,.2,1) backwards}
@@ -804,50 +806,50 @@
 
 /* ===== ÉCRAN CHARGE — design FLINT (scopé .flload, calqué sur .flhome) ===== */
 .flload{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.flload .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flload .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flload .muted{color:#9A988F}
 
 /* En-tête de page */
 .flload .pghd{display:flex;align-items:center;gap:10px;margin:6px 2px 2px}
 .flload .bk{width:34px;height:34px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#161512;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex:0 0 auto;transition:transform .12s ease}
 .flload .bk:active{transform:scale(.88)}
-.flload .ptitle{font-family:'Anton';font-style:italic;font-size:30px;text-transform:uppercase;line-height:1;letter-spacing:.3px}
+.flload .ptitle{font-family:'Anton';font-style:oblique 8deg;font-size:30px;text-transform:uppercase;line-height:1;letter-spacing:.3px}
 
 /* Bandeau coaching noir */
 .flload .banner{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:16px 0 14px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22)}
 .flload .banner>*{position:relative;z-index:1}
 .flload .banner .strk{position:absolute;right:0;top:0;height:100%;z-index:0;opacity:.9}
 .flload .banner .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45));flex-shrink:0}
-.flload .banner .blab{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.5px;color:#E8674A;text-transform:uppercase}
-.flload .banner .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.1;letter-spacing:.3px;margin-top:3px}
+.flload .banner .blab{font-family:'Anton';font-style:oblique 8deg;font-size:11px;letter-spacing:.5px;color:#E8674A;text-transform:uppercase}
+.flload .banner .ttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;color:#fff;font-size:19px;line-height:1.1;letter-spacing:.3px;margin-top:3px}
 
 /* Cartes */
 .flload .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
-.flload .ct{font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase;line-height:1;margin-bottom:2px}
+.flload .ct{font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase;line-height:1;margin-bottom:2px}
 
 /* Carte anneau d'effort (strain) */
 .flload .strainc{text-align:center;padding:20px 16px 18px}
 .flload .strainc .ring{margin:0 auto 6px;filter:drop-shadow(0 4px 14px rgba(232,103,74,.18))}
 .flload #strainTxt{font-size:12.5px;font-weight:500;color:#6E6A62;max-width:300px;margin:8px auto 0;line-height:1.35}
-.flload #strainTxt b{font-family:'Anton';font-style:italic;font-weight:400;color:#161512;font-size:13.5px}
+.flload #strainTxt b{font-family:'Anton';font-style:oblique 8deg;font-weight:400;color:#161512;font-size:13.5px}
 
 /* Carte charge du jour */
 .flload .splitc{display:flex;align-items:stretch;gap:14px;padding:18px 16px}
 .flload .splitc .left{flex:1;min-width:0;display:flex;flex-direction:column}
-.flload .bigval{font-family:'Anton';font-style:italic;font-size:48px;line-height:.95;color:#161512;margin-top:4px}
+.flload .bigval{font-family:'Anton';font-style:oblique 8deg;font-size:48px;line-height:.95;color:#161512;margin-top:4px}
 .flload .progbar{height:9px;border-radius:20px;background:#F0E9E0;overflow:hidden;margin-top:12px}
 .flload .progbar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#F6B59E,#E8674A);transition:width .9s cubic-bezier(.2,.8,.2,1)}
 .flload #loadObj{font-size:11px;font-weight:700;letter-spacing:.4px;color:#9A988F;margin-top:7px;text-align:right;text-transform:uppercase}
 .flload .vline{width:1px;align-self:stretch;background:#F1EBE3;margin:2px 0}
 .flload .target{flex:0 0 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
 .flload .target .icob{width:42px;height:42px;border-radius:50%;background:#FBEAE5;display:flex;align-items:center;justify-content:center;color:#E8674A;font-size:21px}
-.flload .target .eyebrow{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase}
-.flload .target #loadTargetTxt{font-family:'Anton';font-style:italic;font-size:26px;color:#161512;line-height:1}
+.flload .target .eyebrow{font-family:'Anton';font-style:oblique 8deg;font-size:11px;letter-spacing:.5px;color:#9A988F;text-transform:uppercase}
+.flload .target #loadTargetTxt{font-family:'Anton';font-style:oblique 8deg;font-size:26px;color:#161512;line-height:1}
 
 /* Carte chart 14j */
 .flload .chartbox{margin-top:8px}
 .flload #loadBalance{font-size:12.5px;font-weight:500;color:#6E6A62;margin-top:12px;line-height:1.4;padding-top:12px;border-top:1px solid #F1EBE3}
-.flload #loadBalance b{font-family:'Anton';font-style:italic;font-weight:400;color:#161512}
+.flload #loadBalance b{font-family:'Anton';font-style:oblique 8deg;font-weight:400;color:#161512}
 
 /* Carte ajout de séance */
 .flload .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
@@ -855,7 +857,7 @@
 .flload .fin{width:100%;border:1px solid #ECE6DD;background:#FAF8F5;color:#161512;border-radius:13px;padding:12px;font-size:15px;font-weight:600;font-family:inherit}
 .flload .fin:focus{outline:none;border-color:#E8674A;background:#fff}
 .flload select.fin{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239A988F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
-.flload .btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;border:0;border-radius:15px;min-height:52px;background:#161512;color:#fff;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.4px;font-size:15px;cursor:pointer;transition:transform .12s ease}
+.flload .btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;border:0;border-radius:15px;min-height:52px;background:#161512;color:#fff;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.4px;font-size:15px;cursor:pointer;transition:transform .12s ease}
 .flload .btn:active{transform:scale(.97)}
 .flload .btn i{font-size:18px}
 .flload #seList{margin-top:6px}
@@ -863,12 +865,12 @@
 
 /* ===== NUTRITION — design FLINT (scopé .flnutrition), aligné sur .flhome ===== */
 .flnutrition{font-family:var(--sans);color:#161512;padding:2px 2px 18px}
-.flnutrition .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flnutrition .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flnutrition .muted{color:#9A988F}
 
 /* En-tête de page */
 .flnutrition .pghd{margin:8px 2px 2px}
-.flnutrition .pgt{font-family:'Anton';font-style:italic;font-size:32px;line-height:1.05;text-transform:none}
+.flnutrition .pgt{font-family:'Anton';font-style:oblique 8deg;font-size:32px;line-height:1.05;text-transform:none}
 .flnutrition .pgs{font-size:14px;font-weight:500;color:#9A988F;margin-top:2px}
 
 /* Cartes */
@@ -876,24 +878,24 @@
 .flnutrition .card:active{transform:scale(.985)}
 
 /* Libellés de section façon accueil */
-.flnutrition .seclab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;display:flex;align-items:center;gap:9px;margin:0 0 12px}
+.flnutrition .seclab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;display:flex;align-items:center;gap:9px;margin:0 0 12px}
 .flnutrition .seclab i{font-size:16px;color:#E8674A}
 
 /* Carte anneau calories */
 .flnutrition .calcard{text-align:center;padding:20px 16px 18px}
 .flnutrition .calcard .ring{position:relative;display:inline-block;margin:0 auto}
 .flnutrition .calcard .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px}
-.flnutrition .calcard .ring .rlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
-.flnutrition .calcard .ring .rval{font-family:'Anton';font-style:italic;line-height:1;letter-spacing:.01em}
+.flnutrition .calcard .ring .rlab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.12em;color:#9A988F;line-height:1}
+.flnutrition .calcard .ring .rval{font-family:'Anton';font-style:oblique 8deg;line-height:1;letter-spacing:.01em}
 .flnutrition .calcard .ring .rsub{font-size:12px;font-weight:700;color:#9A988F;line-height:1}
-.flnutrition .calline{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:'Anton';font-style:italic;font-size:13px;color:#C0492C;background:#FBEAE5;padding:7px 14px;border-radius:20px;letter-spacing:.3px;line-height:1.1}
+.flnutrition .calline{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:'Anton';font-style:oblique 8deg;font-size:13px;color:#C0492C;background:#FBEAE5;padding:7px 14px;border-radius:20px;letter-spacing:.3px;line-height:1.1}
 .flnutrition .calline i{font-size:15px}
 
 /* Macros — 3 cartes blanches indépendantes */
 .flnutrition .macrogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin:14px 0}
 .flnutrition #nutMacros{display:contents}
 .flnutrition #nutMacros .stat{display:block;background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:13px 12px 14px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);min-width:0}
-.flnutrition #nutMacros .stat .sl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.06em;color:#9A988F;display:block}
+.flnutrition #nutMacros .stat .sl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.06em;color:#9A988F;display:block}
 .flnutrition #nutMacros .stat .sv{font-family:'Anton';font-style:normal;line-height:1;color:#161512;margin-top:7px}
 .flnutrition #nutMacros .stat .progbar{height:8px;border-radius:8px;background:#ECE7DD;overflow:hidden;margin-top:9px}
 .flnutrition #nutMacros .stat .progbar i{display:block;height:100%;border-radius:8px}
@@ -901,9 +903,9 @@
 /* Repas du jour */
 .flnutrition #mealList .mealrow{display:flex;align-items:center;gap:11px;padding:12px 2px;border-bottom:1px solid #F1EBE3}
 .flnutrition #mealList .mealrow:last-child{border-bottom:0}
-.flnutrition #mealList .mealrow .an{font-family:'Anton';font-style:italic;text-transform:none;font-size:14px;color:#161512;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flnutrition #mealList .mealrow .an{font-family:'Anton';font-style:oblique 8deg;text-transform:none;font-size:14px;color:#161512;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flnutrition #mealList .mealrow .at{font-size:11px;color:#6E6A62;font-weight:600;margin-top:2px}
-.flnutrition #mealList .mealrow .mkcal{margin-left:auto;font-family:'Anton';font-style:italic;font-size:21px;color:#161512;white-space:nowrap}
+.flnutrition #mealList .mealrow .mkcal{margin-left:auto;font-family:'Anton';font-style:oblique 8deg;font-size:21px;color:#161512;white-space:nowrap}
 .flnutrition #mealList .mealrow .mkcal::after{content:' kcal';font-family:var(--sans);font-style:normal;font-size:10px;font-weight:700;color:#A7A29A}
 .flnutrition #mealList .mealrow .ax{color:#C9C5BC;font-size:13px;cursor:pointer;padding:6px;flex:0 0 auto;transition:color .12s}
 .flnutrition #mealList .mealrow .ax:active{color:#E14434}
@@ -916,8 +918,8 @@
 .flnutrition .fin::placeholder{color:#A7A29A;font-weight:500}
 .flnutrition .fin:focus{outline:none;border-color:#E8674A;background:#fff}
 .flnutrition .formgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:9px}
-.flnutrition .lab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:10px;letter-spacing:.08em;color:#9A988F;margin-bottom:6px}
-.flnutrition .addbtn{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:#161512;color:#fff;border:0;border-radius:15px;min-height:50px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.04em;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(22,18,12,.18);transition:transform .12s ease}
+.flnutrition .lab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:10px;letter-spacing:.08em;color:#9A988F;margin-bottom:6px}
+.flnutrition .addbtn{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:#161512;color:#fff;border:0;border-radius:15px;min-height:50px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.04em;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(22,18,12,.18);transition:transform .12s ease}
 .flnutrition .addbtn i{font-size:18px;color:#E8674A}
 .flnutrition .addbtn:active{transform:scale(.975)}
 
@@ -932,30 +934,30 @@
 @media (prefers-reduced-motion:reduce){.flnutrition *{animation:none!important;transition:none!important}}
 
 .fltrends{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.fltrends .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.fltrends .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .fltrends .muted{color:#9A988F}
 .fltrends .head{margin:8px 2px 2px}
-.fltrends .ttl{font-family:'Anton';font-style:italic;font-size:32px;line-height:1.04;text-transform:none}
+.fltrends .ttl{font-family:'Anton';font-style:oblique 8deg;font-size:32px;line-height:1.04;text-transform:none}
 .fltrends .sub{font-size:14px;font-weight:500;color:#9A988F;margin:2px 2px 0}
-.fltrends .seclbl{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;margin:18px 2px 8px}
+.fltrends .seclbl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:12px;letter-spacing:.5px;color:#9A988F;margin:18px 2px 8px}
 .fltrends .seg{display:flex;gap:6px;background:#F2ECE3;border:1px solid #ECE6DD;border-radius:18px;padding:4px;margin:0}
 .fltrends #trPeriod{margin-top:8px}
-.fltrends .seg button{flex:1;border:0;background:none;cursor:pointer;font-family:'Anton';font-style:italic;font-size:13px;letter-spacing:.3px;color:#86847C;padding:9px 6px;border-radius:14px;text-transform:uppercase;transition:transform .12s ease,background .15s,color .15s;white-space:nowrap}
+.fltrends .seg button{flex:1;border:0;background:none;cursor:pointer;font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.3px;color:#86847C;padding:9px 6px;border-radius:14px;text-transform:uppercase;transition:transform .12s ease,background .15s,color .15s;white-space:nowrap}
 .fltrends .seg button:active{transform:scale(.94)}
 .fltrends .seg button.on{background:#fff;color:#C0492C;box-shadow:0 1px 2px rgba(20,18,12,.05),0 4px 12px rgba(20,18,12,.06)}
 .fltrends .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px 18px 16px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04)}
-.fltrends .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#37372F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.fltrends .ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.4px;color:#37372F;margin:0 0 12px;display:flex;align-items:center;gap:9px}
 .fltrends .ct i{color:#E8674A;font-size:18px}
 .fltrends .chartcard .spark{display:block;width:100%;height:128px;margin-top:2px;overflow:visible}
-.fltrends .chartcard .sci{font-family:'Anton';font-style:italic;font-size:14px;color:#9A988F;margin-top:10px;letter-spacing:.3px}
+.fltrends .chartcard .sci{font-family:'Anton';font-style:oblique 8deg;font-size:14px;color:#9A988F;margin-top:10px;letter-spacing:.3px}
 .fltrends .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fltrends .statcell{background:#FBF8F3;border:1px solid #F1EBE3;border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px}
 .fltrends .statcell .icob{width:38px;height:38px;border-radius:50%;background:#F2ECE3;display:flex;align-items:center;justify-content:center;color:#5F5E58;font-size:18px;flex-shrink:0}
-.fltrends .statcell .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
+.fltrends .statcell .sl{font-family:'Anton';font-style:oblique 8deg;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
 .fltrends .statcell .sv{font-family:'Anton';font-size:24px;line-height:1.02;color:#161512;margin-top:1px}
 .fltrends #weeklyCard .grid2{margin-top:0}
 .fltrends #weeklyCard .stat{display:block;background:#FBF8F3;border:1px solid #F1EBE3;border-radius:16px;padding:12px 14px;box-shadow:none}
-.fltrends #weeklyCard .stat .sl{font-family:'Anton';font-style:italic;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
+.fltrends #weeklyCard .stat .sl{font-family:'Anton';font-style:oblique 8deg;font-size:11px;letter-spacing:.4px;color:#9A988F;white-space:nowrap;text-transform:uppercase}
 .fltrends #weeklyCard .stat .sv{font-family:'Anton';font-size:26px;line-height:1.02;color:#161512;margin-top:3px;white-space:nowrap}
 .fltrends #weeklyCard .stat .ss{font-family:'Inter';font-weight:700;font-size:11px;margin-top:5px}
 .fltrends #corrCard .cor{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #F1EBE3}
@@ -969,7 +971,7 @@
 @media (prefers-reduced-motion:reduce){.fltrends *{animation:none!important;transition:none!important}}
 
 .flprofile{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.flprofile .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flprofile .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 .flprofile .muted{color:#9A988F}
 /* Header bandeau noir façon coaching accueil */
 .flprofile .pfhero{background:linear-gradient(135deg,#1d1b16,#141210);border-radius:22px;padding:18px 20px;margin:6px 0 16px;display:flex;align-items:center;gap:15px;position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(22,18,12,.22);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
@@ -977,23 +979,23 @@
 .flprofile .pfhero>*{position:relative;z-index:1}
 .flprofile .pfhero .bk2{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid #3C3A35;background:rgba(255,255,255,.06);color:#fff;font-size:22px;line-height:0;padding-bottom:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .12s ease}
 .flprofile .pfhero .bk2:active{transform:scale(.9)}
-.flprofile .pfhero .ttl{font-family:'Anton';font-style:italic;text-transform:uppercase;color:#fff;font-size:21px;line-height:1.08;letter-spacing:.4px}
+.flprofile .pfhero .ttl{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;color:#fff;font-size:21px;line-height:1.08;letter-spacing:.4px}
 .flprofile .pfhero .sub{color:#E7E1D8;font-size:12.5px;font-weight:500;margin-top:4px;line-height:1.35}
 .flprofile .pfhero .flame{filter:drop-shadow(0 0 6px rgba(232,103,74,.45));flex:0 0 auto}
 /* Cartes FLINT */
 .flprofile .flcard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
-.flprofile .sect{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+.flprofile .sect{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px;display:flex;align-items:center;gap:9px}
 .flprofile .sect i{font-size:17px;color:#E8674A;font-style:normal}
 /* Champs */
 .flprofile .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .flprofile .fgrid.three{grid-template-columns:1fr 1fr}
 .flprofile .fld{display:flex;flex-direction:column;gap:5px}
-.flprofile .flab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F}
+.flprofile .flab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F}
 .flprofile .fin2{width:100%;box-sizing:border-box;border:1px solid #ECE6DD;background:#FBF9F6;border-radius:14px;padding:11px 13px;font-family:'Inter';font-weight:600;font-size:15px;color:#161512;outline:none;transition:border-color .15s ease,background .15s ease}
 .flprofile .fin2:focus{border-color:#E8674A;background:#fff}
 .flprofile .fin2::placeholder{color:#C0BBB2;font-weight:500}
 /* Boutons */
-.flprofile .fbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;border-radius:15px;padding:13px 16px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:14px;cursor:pointer;border:0;transition:transform .12s ease,filter .12s ease}
+.flprofile .fbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;border-radius:15px;padding:13px 16px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:14px;cursor:pointer;border:0;transition:transform .12s ease,filter .12s ease}
 .flprofile .fbtn:active{transform:scale(.97)}
 .flprofile .fbtn i{font-size:18px;font-style:normal}
 .flprofile .fbtn.primary{background:#E8674A;color:#fff;box-shadow:0 6px 16px rgba(232,103,74,.28)}
@@ -1004,11 +1006,11 @@
 .flprofile .fbtn+.fbtn{margin-top:9px}
 .flprofile .hint{font-size:12.5px;color:#6E6A62;line-height:1.5;margin:10px 0 0}
 .flprofile .hint b{color:#37372F;font-weight:700}
-.flprofile .divlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F;margin:16px 0 9px;display:flex;align-items:center;gap:10px}
+.flprofile .divlab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:11px;letter-spacing:.4px;color:#9A988F;margin:16px 0 9px;display:flex;align-items:center;gap:10px}
 .flprofile .divlab::after{content:'';flex:1;height:1px;background:#F1EBE3}
 /* Journal card (rempli par renderJournal -> .ct/.chips/.bchip globaux) : on l'aligne au look FLINT */
 .flprofile #journalCard{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);animation:flRise .6s cubic-bezier(.2,.7,.2,1) backwards}
-.flprofile #journalCard .ct{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px}
+.flprofile #journalCard .ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.5px;color:#9A988F;margin:0 0 14px}
 .flprofile #journalCard .bchip{border:1px solid #ECE6DD;background:#FBF9F6;color:#6E6A62;font-family:'Inter';font-weight:600;font-size:12.5px;border-radius:30px;padding:9px 14px;cursor:pointer;transition:transform .12s ease}
 .flprofile #journalCard .bchip:active{transform:scale(.94)}
 .flprofile #journalCard .bchip.on{background:#FBEAE5;color:#C0492C;border-color:#F2D6CD;font-weight:700}
@@ -1035,11 +1037,11 @@
 .flact .ahd .abk{width:34px;height:34px;border:0;background:var(--bg2);border-radius:50%;color:#161512;font-size:26px;line-height:0;cursor:pointer;font-family:inherit;display:grid;place-items:center;padding:0 0 3px;flex:none}
 .flact .ahd .aico{width:28px;display:grid;place-items:center;color:#E8674A;flex:none}
 .flact .ahd .atit{flex:1;min-width:0}
-.flact .ahd .atit b{display:block;font-family:'Anton';font-style:italic;font-size:21px;letter-spacing:.6px;text-transform:uppercase;line-height:1;color:#161512}
+.flact .ahd .atit b{display:block;font-family:'Anton';font-style:oblique 8deg;font-size:21px;letter-spacing:.6px;text-transform:uppercase;line-height:1;color:#161512}
 .flact .ahd .atit span{font-size:13px;color:#9A988F;font-weight:600}
 .flact .ahd .amore{color:#C9C5BC;font-size:9px;letter-spacing:3px;font-weight:900}
 .flact .toprow{display:flex;gap:26px;padding:8px 4px 18px}
-.flact .topstat .tv{font-family:'Anton';font-style:italic;font-size:44px;line-height:.9;display:inline-flex;align-items:baseline;gap:9px;color:#161512}
+.flact .topstat .tv{font-family:'Anton';font-style:oblique 8deg;font-size:44px;line-height:.9;display:inline-flex;align-items:baseline;gap:9px;color:#161512}
 .flact .topstat .tv.blue{color:#E8674A}
 .flact .topstat .tl{font-size:11px;font-weight:800;color:#9A988F;letter-spacing:.12em;text-transform:uppercase;margin-top:9px}
 .flact .cmp{display:inline-flex;align-items:center;gap:3px;background:var(--track);color:#9A988F;font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;padding:3px 8px;border-radius:8px;align-self:center}
@@ -1047,7 +1049,7 @@
 .flact .graphwrap{margin:0 -2px}
 .flact .graphwrap svg{display:block;width:100%}
 .flact .acthr{padding:6px 4px 12px}
-.flact .acthr .hv{font-family:'Anton';font-style:italic;font-size:64px;line-height:.82;letter-spacing:-.01em;color:#E8674A;display:inline-flex;align-items:baseline;gap:8px}
+.flact .acthr .hv{font-family:'Anton';font-style:oblique 8deg;font-size:64px;line-height:.82;letter-spacing:-.01em;color:#E8674A;display:inline-flex;align-items:baseline;gap:8px}
 .flact .acthr .hv small{font-family:'Inter';font-style:normal;font-size:22px;font-weight:900;color:#E8674A}
 .flact .acthr .ht{font-size:21px;font-weight:900;color:#7A756E;letter-spacing:-.02em;margin-top:7px}
 .flact .chartbox{position:relative;margin:0 -2px;touch-action:none;-webkit-user-select:none;user-select:none}
@@ -1068,8 +1070,8 @@
 .flact .zrow .zn{font-family:'Inter';font-weight:800;font-size:13px;letter-spacing:.04em;color:#161512}
 .flact .zrow .zr{font-size:12px;font-weight:700;color:#9A988F;letter-spacing:.01em}
 .flact .zrow .zp{font-size:12.5px;font-weight:800}
-.flact .zrow .zd{margin-left:auto;font-family:'Anton';font-style:italic;font-size:18px;letter-spacing:.5px;color:#161512}
-.flact .zrow .zd small{font-size:12px;color:#9A988F;font-style:italic}
+.flact .zrow .zd{margin-left:auto;font-family:'Anton';font-style:oblique 8deg;font-size:18px;letter-spacing:.5px;color:#161512}
+.flact .zrow .zd small{font-size:12px;color:#9A988F;font-style:oblique 8deg}
 .flact .zbar{position:relative;height:12px;margin-top:11px;border-radius:5px;overflow:hidden;
   background:repeating-linear-gradient(115deg,#EFEAE0 0 7px,#F6F2EA 7px 9px)}
 .flact .zbar .zfill{position:absolute;top:0;left:0;height:100%;border-radius:5px}
@@ -1081,8 +1083,8 @@
 .flact .miles .mbadge{width:56px;height:56px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;
   background:radial-gradient(circle at 50% 40%,#FF6A48,#E8674A);box-shadow:0 0 0 2px #FBEAE5,0 6px 16px rgba(232,103,74,.4)}
 .flact .miles .mtx{flex:1;min-width:0}
-.flact .miles .mtx .mv{font-family:'Anton';font-style:italic;font-size:23px;letter-spacing:.5px;color:#161512}
-.flact .miles .mtx .mv b{color:#E8674A;font-style:italic;font-weight:400}
+.flact .miles .mtx .mv{font-family:'Anton';font-style:oblique 8deg;font-size:23px;letter-spacing:.5px;color:#161512}
+.flact .miles .mtx .mv b{color:#E8674A;font-style:oblique 8deg;font-weight:400}
 .flact .miles .mtx .ms{font-size:12.5px;color:#9A988F;margin-top:2px}
 .flact .miles .mprog{height:6px;border-radius:4px;background:var(--track);margin-top:10px;overflow:hidden}
 .flact .miles .mprog i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#FF6A48,#E8674A)}
@@ -1095,30 +1097,30 @@
 .flact .kcard{flex:0 0 150px;background:#fff;border-radius:16px;padding:15px 16px 14px;box-shadow:var(--shadow)}
 .flact .kcard .kci{color:#E8674A;font-size:19px;line-height:1}
 .flact .kcard .kcl{font-size:11px;font-weight:800;color:#9A988F;letter-spacing:.08em;text-transform:uppercase;margin:9px 0 7px}
-.flact .kcard .kcv{font-family:'Anton';font-style:italic;font-size:33px;line-height:.9;color:#161512}
+.flact .kcard .kcv{font-family:'Anton';font-style:oblique 8deg;font-size:33px;line-height:.9;color:#161512}
 .flact .kcard .kcv small{font-family:'Inter';font-style:normal;font-size:14px;font-weight:700;color:#9A988F}
 .flact .kcard .kcc{margin-top:12px}
 .flact .acoach{display:flex;align-items:center;gap:13px;margin:24px 4px 0;padding:14px 16px;border-radius:18px;
   background:#FBEAE5;border:1px solid #F6D9CF}
-.flact .acoach .avi{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:'Anton';font-style:italic;font-size:12px;color:#fff;background:#E8674A}
+.flact .acoach .avi{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:'Anton';font-style:oblique 8deg;font-size:12px;color:#fff;background:#E8674A}
 .flact .acoach .atx{flex:1;font-size:13.5px;line-height:1.45;color:#7a2c18}
 .flact .acoach .ach{color:#C0492C;font-size:17px;flex:none}
 
 /* ===================== FC · DÉTAIL FRÉQUENCE CARDIAQUE (scopé .flfc — clair, identité FLINT) ===================== */
 .flfc{font-family:'Inter',sans-serif;color:#161512;padding:2px 2px 18px}
-.flfc .an{font-family:'Anton';font-style:italic;text-transform:uppercase}
+.flfc .an{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase}
 /* titre page */
 .flfc .ptit{margin:14px 2px 20px}
-.flfc .ptit h1{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:-.03em;line-height:.9;font-size:43px;margin:0;color:#161512}
+.flfc .ptit h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:-.03em;line-height:.9;font-size:43px;margin:0;color:#161512}
 .flfc .ptit p{margin:11px 0 0;font-size:18px;font-weight:600;color:#7C7770}
 /* carte hero repos */
 .flfc .rcard{background:#fff;border-radius:28px;padding:22px;box-shadow:var(--shadow);border:1px solid rgba(22,21,18,.06)}
 .flfc .rtop{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .flfc .rbig{display:flex;align-items:flex-end;gap:6px}
-.flfc .rbig .rv{font-family:'Anton';font-style:italic;font-size:72px;line-height:.8;color:#F04A32;letter-spacing:-.03em}
-.flfc .rbig .ru{font-size:24px;font-weight:900;font-style:italic;color:#F04A32;margin-bottom:9px}
+.flfc .rbig .rv{font-family:'Anton';font-style:oblique 8deg;font-size:72px;line-height:.8;color:#F04A32;letter-spacing:-.03em}
+.flfc .rbig .ru{font-size:24px;font-weight:900;font-style:oblique 8deg;color:#F04A32;margin-bottom:9px}
 .flfc .rsub{display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap}
-.flfc .rsub .rlab{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:22px;color:#161512;letter-spacing:-.02em}
+.flfc .rsub .rlab{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;color:#161512;letter-spacing:-.02em}
 .flfc .pill{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:4px 11px;font-size:12.5px;font-weight:800}
 .flfc .pill .pdot{width:7px;height:7px;border-radius:50%}
 .flfc .pill.good{background:rgba(59,109,17,.12);color:#3B6D11}.flfc .pill.good .pdot{background:#3B6D11}
@@ -1131,14 +1133,14 @@
 .flfc .rcol{text-align:center}
 .flfc .rcol+.rcol{border-left:1px solid rgba(22,21,18,.08)}
 .flfc .rcl{font-size:11px;font-weight:900;letter-spacing:.13em;color:#9B958D}
-.flfc .rcv{font-family:'Anton';font-style:italic;font-size:29px;margin-top:8px;color:#161512;letter-spacing:-.02em;line-height:1}
-.flfc .rcv small{font-size:15px;color:#9B958D;font-weight:700;font-style:italic}
+.flfc .rcv{font-family:'Anton';font-style:oblique 8deg;font-size:29px;margin-top:8px;color:#161512;letter-spacing:-.02em;line-height:1}
+.flfc .rcv small{font-size:15px;color:#9B958D;font-weight:700;font-style:oblique 8deg}
 /* 3 cartes métriques */
 .flfc .m3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
 .flfc .mc{background:#fff;border-radius:22px;padding:14px 12px;min-height:150px;box-shadow:var(--shadow);border:1px solid rgba(22,21,18,.05);display:flex;flex-direction:column}
 .flfc .mc .mci{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-bottom:11px;font-size:19px}
 .flfc .mc .mcl{font-size:10px;font-weight:900;letter-spacing:.05em;color:#7C7770;text-transform:uppercase}
-.flfc .mc .mcv{font-family:'Anton';font-style:italic;font-size:26px;line-height:.95;margin-top:4px;color:#161512;letter-spacing:-.02em}
+.flfc .mc .mcv{font-family:'Anton';font-style:oblique 8deg;font-size:26px;line-height:.95;margin-top:4px;color:#161512;letter-spacing:-.02em}
 .flfc .mc .mcv small{font-size:12px;font-style:normal;font-family:'Inter';font-weight:700;color:#9B958D}
 .flfc .mc .mcc{margin-top:auto;padding-top:9px;font-size:11.5px;font-weight:700;line-height:1.25}
 .flfc .tone-ember .mci{background:rgba(232,103,74,.12);color:#F04A32}.flfc .tone-ember .mcc{color:#C0492C}
@@ -1149,7 +1151,7 @@
 .flfc .bch{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px}
 .flfc .bcht{display:flex;align-items:center;gap:10px;min-width:0}
 .flfc .bcht .ic{color:#F04A32;flex:none;font-size:21px;display:grid;place-items:center}
-.flfc .bcht h2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:24px;margin:0;letter-spacing:-.02em;line-height:1}
+.flfc .bcht h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:24px;margin:0;letter-spacing:-.02em;line-height:1}
 .flfc .perbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(22,21,18,.10);background:#fff;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:800;color:#161512;flex:none;cursor:pointer;font-family:inherit}
 .flfc .chart24 svg{display:block;width:100%;height:auto;overflow:visible}
 .flfc .bcins{margin:14px 0 0;font-size:16px;line-height:1.4;color:#3E3A35}
@@ -1174,9 +1176,9 @@
 .flfc .zline:last-child{border-bottom:0}
 .flfc .zdot{width:11px;height:11px;border-radius:50%;flex:none}
 .flfc .zmid{flex:1;min-width:0}
-.flfc .zname{font-family:'Anton';font-style:italic;font-size:15px;text-transform:uppercase;letter-spacing:.2px;color:#161512}
+.flfc .zname{font-family:'Anton';font-style:oblique 8deg;font-size:15px;text-transform:uppercase;letter-spacing:.2px;color:#161512}
 .flfc .zwhat{font-size:11.5px;color:var(--ink2);margin-top:1px}
-.flfc .zbpm{font-family:'Anton';font-style:italic;font-size:16px;text-align:right;white-space:nowrap;line-height:1.05;color:#161512}
+.flfc .zbpm{font-family:'Anton';font-style:oblique 8deg;font-size:16px;text-align:right;white-space:nowrap;line-height:1.05;color:#161512}
 .flfc .zbpm small{display:block;font-family:'Inter';font-style:normal;font-size:9.5px;font-weight:700;color:var(--faint);letter-spacing:.02em;margin-top:2px}
 /* ===== FC détail — design "mesure continue" (spec 2026) ===== */
 .flfc .fchd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-top:2px}
@@ -1185,13 +1187,13 @@
 .flfc .live .ld{width:8px;height:8px;border-radius:50%;background:#E8674A;animation:flBeat 1.5s ease-in-out infinite}
 .flfc .live span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#E8674A}
 .flfc .ptitle{margin-bottom:18px}
-.flfc .ptitle h1{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:38px;line-height:.92;letter-spacing:-.02em;margin:0;color:#161512}
+.flfc .ptitle h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:38px;line-height:.92;letter-spacing:-.02em;margin:0;color:#161512}
 .flfc .ptitle p{margin:11px 0 0;font-size:15px;font-weight:600;color:#7A756E}
 .flfc .hero{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:36px;padding:24px;box-shadow:0 24px 70px rgba(22,21,18,.07);margin-bottom:14px}
 .flfc .herotop{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .flfc .eyb{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:#7A756E}
 .flfc .hbpm{display:flex;align-items:flex-end;gap:8px;margin-top:12px}
-.flfc .hbpm .hv{font-family:'Anton';font-style:italic;font-size:88px;line-height:.78;letter-spacing:-.03em;color:#161512}
+.flfc .hbpm .hv{font-family:'Anton';font-style:oblique 8deg;font-size:88px;line-height:.78;letter-spacing:-.03em;color:#161512}
 .flfc .hbpm .hu{font-size:22px;font-weight:800;color:#7A756E;margin-bottom:10px}
 .flfc .hicon{width:60px;height:60px;border-radius:50%;background:rgba(232,103,74,.10);color:#E8674A;display:grid;place-items:center;flex:none}
 .flfc .hstate{background:#FAF8F5;border-radius:26px;padding:16px;margin-top:22px}
@@ -1201,7 +1203,7 @@
 .flfc .hstate p{margin:12px 0 0;font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:#161512}
 .flfc .chcard{background:rgba(255,255,255,.78);border:1px solid rgba(22,21,18,.06);border-radius:32px;padding:20px;box-shadow:0 18px 50px rgba(22,21,18,.05);margin-bottom:14px}
 .flfc .chh{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
-.flfc .chh h2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:22px;letter-spacing:-.02em;margin:0;color:#161512}
+.flfc .chh h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;letter-spacing:-.02em;margin:0;color:#161512}
 .flfc .chh p{margin:4px 0 0;font-size:13.5px;font-weight:600;color:#7A756E}
 .flfc .chpill{background:rgba(232,103,74,.10);color:#E8674A;border-radius:30px;padding:6px 12px;font-size:13px;font-weight:900;white-space:nowrap;align-self:flex-start}
 .flfc .chcard .chsvg svg{display:block;width:100%;height:auto;overflow:visible}
@@ -1210,17 +1212,17 @@
 .flfc .stc{background:rgba(255,255,255,.78);border:1px solid rgba(22,21,18,.06);border-radius:26px;padding:15px 13px;box-shadow:0 14px 36px rgba(22,21,18,.045)}
 .flfc .stc .stl{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.13em;color:#7A756E}
 .flfc .stc .stv{display:flex;align-items:flex-end;gap:3px;margin-top:12px}
-.flfc .stc .stv b{font-family:'Anton';font-style:italic;font-weight:400;font-size:31px;line-height:.82;letter-spacing:-.03em;color:#161512}
+.flfc .stc .stv b{font-family:'Anton';font-style:oblique 8deg;font-weight:400;font-size:31px;line-height:.82;letter-spacing:-.03em;color:#161512}
 .flfc .stc .stv small{font-size:11px;font-weight:700;color:#7A756E;margin-bottom:2px}
 .flfc .stc .std{margin-top:10px;font-size:11.5px;font-weight:800;color:#E8674A}
 .flfc .lflint{border:1px solid rgba(232,103,74,.12);background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(232,103,74,.06));border-radius:32px;padding:20px;box-shadow:0 18px 50px rgba(22,21,18,.045);margin-bottom:14px}
 .flfc .lfh{display:flex;align-items:center;gap:10px;margin-bottom:13px}
 .flfc .lfi{width:36px;height:36px;border-radius:50%;background:rgba(232,103,74,.10);color:#E8674A;display:grid;place-items:center;font-size:17px}
-.flfc .lfh h2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:21px;letter-spacing:-.02em;margin:0;color:#161512}
+.flfc .lfh h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:21px;letter-spacing:-.02em;margin:0;color:#161512}
 .flfc .lflint .lftxt{margin:0;font-size:15px;font-weight:500;line-height:1.55;color:#4F4A44}
 .flfc .lfreco{display:inline-flex;margin-top:16px;background:#161512;color:#FAF8F5;border-radius:30px;padding:9px 16px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.10em}
 .flfc .zcard{background:rgba(255,255,255,.78);border:1px solid rgba(22,21,18,.06);border-radius:32px;padding:20px;box-shadow:0 18px 50px rgba(22,21,18,.045);margin-bottom:6px}
-.flfc .zcard h2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:22px;letter-spacing:-.02em;margin:0 0 18px;color:#161512}
+.flfc .zcard h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;letter-spacing:-.02em;margin:0 0 18px;color:#161512}
 .flfc .z2{margin-bottom:18px}.flfc .z2:last-child{margin-bottom:0}
 .flfc .z2top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:9px}
 .flfc .z2l{font-size:14px;font-weight:900;letter-spacing:-.01em;color:#161512}
@@ -1233,7 +1235,7 @@
 .flcal .calhd{display:flex;align-items:center;padding:4px 2px 8px}
 .flcal .calbk{width:44px;height:44px;border-radius:50%;border:1px solid rgba(22,21,18,.06);background:#fff;box-shadow:0 10px 25px rgba(22,21,18,.06);font-size:25px;color:#161512;cursor:pointer;font-family:inherit;line-height:0;padding-bottom:3px;display:grid;place-items:center}
 .flcal .caltitle{margin:8px 2px 18px}
-.flcal .caltitle h1{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:-.03em;font-size:50px;line-height:.9;margin:0}
+.flcal .caltitle h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:-.03em;font-size:50px;line-height:.9;margin:0}
 .flcal .caltitle p{margin:10px 0 0;font-size:19px;font-weight:500;color:#7C7770;letter-spacing:.02em}
 .flcal .calfilters{position:relative;display:grid;grid-template-columns:1fr auto;gap:11px;margin-bottom:16px}
 .flcal .caldd{display:flex;align-items:center;justify-content:space-between;height:62px;border-radius:22px;background:#fff;border:1px solid rgba(22,21,18,.06);box-shadow:0 14px 35px rgba(22,21,18,.06);padding:0 18px;cursor:pointer;font-family:inherit}
@@ -1254,7 +1256,7 @@
 .flcal .calrange{font-size:21px;font-weight:900;letter-spacing:.01em}
 .flcal .calavg{display:grid;grid-template-columns:.92fr 1.08fr;gap:16px;align-items:flex-end;margin-bottom:18px}
 .flcal .calavg .lab{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#7C7770;margin-bottom:6px}
-.flcal .calavg .big{font-family:'Anton';font-style:italic;letter-spacing:-.03em;font-size:60px;line-height:.82;display:flex;align-items:flex-end;gap:7px;color:#161512}
+.flcal .calavg .big{font-family:'Anton';font-style:oblique 8deg;letter-spacing:-.03em;font-size:60px;line-height:.82;display:flex;align-items:flex-end;gap:7px;color:#161512}
 .flcal .calavg .big small{font-family:'Inter';font-style:normal;font-size:21px;font-weight:700;color:#3E3A35;margin-bottom:6px}
 .flcal .calbadge{display:inline-flex;align-items:center;gap:6px;margin-top:13px;border-radius:30px;background:rgba(59,109,17,.10);color:#3B6D11;padding:7px 13px;font-size:13.5px;font-weight:900;line-height:1}
 .flcal .calbadge i{font-size:16px}
@@ -1267,7 +1269,7 @@
 .flcal .calnote i{color:#9B958D;font-size:18px;flex:none;margin-top:1px}
 .flcal .keep .kh{display:flex;align-items:center;gap:11px;margin-bottom:18px}
 .flcal .keep .kh i{color:#F04A32;font-size:23px}
-.flcal .keep .kh h2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:25px;margin:0;letter-spacing:-.02em}
+.flcal .keep .kh h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:25px;margin:0;letter-spacing:-.02em}
 .flcal .irow{display:flex;align-items:flex-start;gap:14px}.flcal .irow+.irow{margin-top:16px}
 .flcal .iri{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(232,103,74,.10);color:#F04A32;font-size:21px}
 .flcal .irow p{margin:0;padding-top:3px;font-size:16px;line-height:1.4;color:#2B2824}
@@ -1283,7 +1285,7 @@
 /* ===== Sommeil (onglet) refonte ===== */
 .flsleep .slhd2{display:flex;align-items:center;gap:15px;margin:6px 2px 18px}
 .flsleep .slbk{width:54px;height:54px;border-radius:50%;background:#F0ECE4;border:0;display:grid;place-items:center;font-size:27px;color:#161512;cursor:pointer;font-family:inherit;flex:none;line-height:0;padding-bottom:4px}
-.flsleep .slhd2 h1{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:-.03em;font-size:42px;line-height:.9;margin:0}
+.flsleep .slhd2 h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:-.03em;font-size:42px;line-height:.9;margin:0}
 .flsleep .slhd2 p{margin:6px 0 0;font-size:17px;font-weight:500;color:#8B857C}
 .flsleep .slhero{position:relative;overflow:hidden;background:radial-gradient(circle at 78% 34%,rgba(124,77,255,.28),transparent 44%),linear-gradient(150deg,#0B1224 0%,#121A33 100%);border-radius:28px;padding:24px;color:#fff;box-shadow:0 24px 60px rgba(11,18,36,.28);display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 .flsleep .slhero .slbg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -1293,7 +1295,7 @@
 .flsleep .slhero .stt .sdot{width:11px;height:11px;border-radius:50%;flex:none}
 .flsleep .slhero .lab{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:14px}
 .flsleep .slhero .sc{display:flex;align-items:flex-end;gap:7px}
-.flsleep .slhero .sc .v{font-family:'Anton';font-style:italic;font-size:72px;line-height:.78;letter-spacing:-.03em}
+.flsleep .slhero .sc .v{font-family:'Anton';font-style:oblique 8deg;font-size:72px;line-height:.78;letter-spacing:-.03em}
 .flsleep .slhero .sc .o{font-size:24px;font-weight:900;color:rgba(255,255,255,.5);margin-bottom:7px}
 .flsleep .slhero .stt{font-size:22px;font-weight:900;margin-top:9px}
 .flsleep .slhero .msg{font-size:15px;line-height:1.4;color:rgba(255,255,255,.88);margin-top:14px;max-width:200px}
@@ -1308,19 +1310,19 @@
 .flsleep .sldurico{width:48px;height:48px;border-radius:50%;background:rgba(124,77,255,.10);color:#6F35D3;display:grid;place-items:center;font-size:24px;flex:none}
 .flsleep .sllab{display:flex;align-items:center;gap:9px;font-size:11.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#7C7770}
 .flsleep .sldurrow{display:flex;align-items:flex-end;gap:11px;margin-top:8px}
-.flsleep .sldurv{font-family:'Anton';font-style:italic;font-size:42px;line-height:.82;letter-spacing:-.03em}
+.flsleep .sldurv{font-family:'Anton';font-style:oblique 8deg;font-size:42px;line-height:.82;letter-spacing:-.03em}
 .flsleep .sldurd{margin-bottom:2px;border-left:1px solid rgba(22,21,18,.10);padding-left:11px}
 .flsleep .sldurd b{font-size:14px;font-weight:900;display:block;line-height:1.15;color:#3B6D11;white-space:nowrap}
 .flsleep .sldurd span{font-size:12px;color:#8B857C;line-height:1.2;display:block;max-width:80px}
 .flsleep .slobjbox{background:#F0ECE4;border-radius:18px;padding:10px 14px;text-align:center;flex:none}
 .flsleep .slobjbox .ol{font-size:13px;color:#7C7770}
-.flsleep .slobjbox .ov{font-family:'Anton';font-style:italic;font-size:23px;margin-top:2px;color:#161512;letter-spacing:-.02em}
+.flsleep .slobjbox .ov{font-family:'Anton';font-style:oblique 8deg;font-size:23px;margin-top:2px;color:#161512;letter-spacing:-.02em}
 .flsleep .slstructhd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
 .flsleep .slstructhd .lk{display:flex;align-items:center;gap:3px;background:none;border:0;font-size:14px;font-weight:600;color:#7C7770;cursor:pointer;font-family:inherit}
 .flsleep .slsegbar{display:flex;height:15px;border-radius:30px;overflow:hidden;background:#EDE7DD;gap:2px}
 .flsleep .slsegbar i{height:100%;display:block}
 .flsleep .slscols{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
-.flsleep .slscols .d{font-family:'Anton';font-style:italic;font-size:19px;color:#161512;line-height:1}
+.flsleep .slscols .d{font-family:'Anton';font-style:oblique 8deg;font-size:19px;color:#161512;line-height:1}
 .flsleep .slscols .l{font-size:13px;color:#6B655E;margin-top:4px;line-height:1.1}
 .flsleep .slscols .p{font-size:13.5px;font-weight:900;margin-top:4px}
 .flsleep .sltl{display:flex;align-items:center;gap:11px;margin-top:20px;color:#8B857C}
@@ -1329,7 +1331,7 @@
 .flsleep .slmetrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
 .flsleep .slmc{background:#fff;border:1px solid rgba(22,21,18,.05);border-radius:22px;padding:14px 5px;text-align:center;box-shadow:0 14px 35px rgba(22,21,18,.05)}
 .flsleep .slmc .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;margin:0 auto 10px;font-size:20px}
-.flsleep .slmc .v{font-family:'Anton';font-style:italic;font-size:25px;line-height:.85;color:#161512}
+.flsleep .slmc .v{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:.85;color:#161512}
 .flsleep .slmc .v small{font-family:'Inter';font-style:normal;font-size:10.5px;font-weight:700;color:#6B655E}
 .flsleep .slmc .l{font-size:11px;color:#6B655E;margin-top:7px;line-height:1.12;min-height:26px}
 .flsleep .slmc .dl{display:inline-flex;align-items:center;gap:3px;margin-top:6px;border-radius:20px;background:rgba(59,109,17,.12);color:#3B6D11;padding:2px 7px;font-size:11px;font-weight:900}
@@ -1349,14 +1351,14 @@
 .flslhome{padding:2px 2px 18px}
 .flslhome .shtop{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 12px}
 .flslhome .shmenu{color:#E8674A;font-size:20px;width:34px}
-.flslhome .shtit{flex:1;text-align:center;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:17px;letter-spacing:.4px;color:#161512}
+.flslhome .shtit{flex:1;text-align:center;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:17px;letter-spacing:.4px;color:#161512}
 .flslhome .shbadge{display:inline-flex;align-items:center;gap:6px;background:#161512;color:#fff;border-radius:30px;padding:7px 13px;font-weight:900;font-size:14px}
 .flslhome .shbadge i{color:#A99AF7;font-size:14px}
 .flslhome .shring{display:block;width:100%;background:none;border:0;cursor:pointer;font-family:inherit;padding:6px 0 6px;text-align:center}
 .flslhome .shringwrap{position:relative;width:248px;max-width:74%;margin:0 auto}
 .flslhome .shrc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .flslhome .shrc .mn{color:#8E63E9;font-size:24px;line-height:1}
-.flslhome .shrc .vv{font-family:'Anton';font-style:italic;font-size:48px;letter-spacing:-.02em;color:#161512;line-height:.95;margin-top:2px}
+.flslhome .shrc .vv{font-family:'Anton';font-style:oblique 8deg;font-size:48px;letter-spacing:-.02em;color:#161512;line-height:.95;margin-top:2px}
 .flslhome .shrc .ll{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#9A988F;margin-top:4px}
 .flslhome .shcoach{margin-top:6px;line-height:1.35}
 .flslhome .shcoach b{font-size:16px;font-weight:800;color:#161512}
@@ -1365,7 +1367,7 @@
 .flslhome .sht{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#9A988F}
 .flslhome .sht i.ti{font-size:18px;color:#8E63E9}
 .flslhome .sht.r i.ti{color:#E8A23B}
-.flslhome .sht b{font-family:'Anton';font-style:italic;font-size:19px;color:#161512}
+.flslhome .sht b{font-family:'Anton';font-style:oblique 8deg;font-size:19px;color:#161512}
 .flslhome .sht .lab2{font-style:normal;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#9A988F}
 .flslhome .shmet{padding:6px 18px;margin:8px 0 14px}
 .flslhome .shrow{display:flex;align-items:center;gap:13px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 0;text-align:left;font-family:inherit;cursor:default}
@@ -1377,7 +1379,7 @@
 .flslhome .shrow .lb{flex:1;min-width:0;font-size:15px;font-weight:700;color:#161512}
 .flslhome .shrow.shrepair .lb{font-weight:900}
 .flslhome .shrow .vl{display:flex;align-items:baseline;gap:10px;flex:none}
-.flslhome .shrow .vl b{font-family:'Anton';font-style:italic;font-size:17px;color:#161512}
+.flslhome .shrow .vl b{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#161512}
 .flslhome .shrow.shrepair .vl b{color:#E8674A}
 .flslhome .shrow .vl .sd{font-size:14px;font-weight:700;color:#9A988F;min-width:42px;text-align:right}
 .flslhome .shrow .cv{color:#C9C5BC;font-size:18px;flex:none}
@@ -1398,7 +1400,7 @@
 .slx .slx-ring svg{width:100%;height:auto;display:block}
 .slx .slx-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .slx .slx-rc .mn{color:#7D6FE0;font-size:30px;line-height:1;margin-bottom:8px}
-.slx .slx-rc .vv{font-family:'Anton';font-style:italic;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
+.slx .slx-rc .vv{font-family:'Anton';font-style:oblique 8deg;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
 .slx .slx-rc .ll{font-size:16px;font-weight:500;color:#8F8982;margin-top:4px}
 .slx .slx-coach{text-align:center;margin:18px 0 2px}
 .slx .slx-coach b{display:block;font-size:21px;font-weight:800;color:#161512}
@@ -1415,11 +1417,11 @@
 .slx .slx-th+.slx-th{border-left:1px solid #F1EBE3}
 .slx .slx-th .ic{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:23px;background:#EFEAFB;color:#7D6FE0;flex:none}
 .slx .slx-th .tt .l{display:block;font-size:14px;font-weight:600;color:#8F8982;margin-bottom:2px}
-.slx .slx-th .tt b{font-family:'Anton';font-style:italic;font-size:26px;color:#161512;line-height:1}
+.slx .slx-th .tt b{font-family:'Anton';font-style:oblique 8deg;font-size:26px;color:#161512;line-height:1}
 .slx .slx-fcn{display:flex;align-items:center;gap:12px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit}
 .slx .slx-fcn .fic{width:40px;height:40px;border-radius:50%;background:rgba(255,106,77,.13);display:grid;place-items:center;color:#FF6A4D;font-size:19px;flex:none}
 .slx .slx-fcn .fln{flex:1;font-size:16px;font-weight:700;color:#161512}
-.slx .slx-fcn .flv{font-family:'Anton';font-style:italic;font-size:22px;color:#161512}
+.slx .slx-fcn .flv{font-family:'Anton';font-style:oblique 8deg;font-size:22px;color:#161512}
 .slx .slx-fcn .flv small{font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;color:#9A988F}
 .slx .slx-fcn .cv{color:#C9C5BC;font-size:20px;flex:none}
 .slx .slx-night{display:block;width:100%;text-align:left;padding:16px;cursor:pointer;font-family:inherit}
@@ -1430,9 +1432,9 @@
 .slx .slx-night .snt span{font-size:12.5px;color:#9A988F}
 .slx .slx-night .cv{color:#C9C5BC;font-size:20px;flex:none}
 .slx .slx-night .snread{display:flex;align-items:baseline;gap:10px;margin:2px 2px 4px}
-.slx .slx-night .snread .t{font-family:'Anton';font-style:italic;font-size:24px;color:#5E6FCC;text-transform:uppercase;line-height:1}
+.slx .slx-night .snread .t{font-family:'Anton';font-style:oblique 8deg;font-size:24px;color:#5E6FCC;text-transform:uppercase;line-height:1}
 .slx .slx-night .snread .v{font-size:14px;font-weight:700;color:#9A988F}
-.slx .slx-night .snread .v b{font-family:'Anton';font-style:italic;font-size:20px;color:#161512;font-weight:400}
+.slx .slx-night .snread .v b{font-family:'Anton';font-style:oblique 8deg;font-size:20px;color:#161512;font-weight:400}
 .slx .slx-night .snbox{position:relative}
 .slx .slx-night .snbox #shNightHR svg{display:block;width:100%;height:auto}
 .slx .slx-night .snbox .vl{position:absolute;width:0;border-left:1.5px dashed rgba(94,111,204,.6);pointer-events:none}
@@ -1446,7 +1448,7 @@
 .slx .slx-dern #shLastChart svg{width:100%;height:auto;display:block}
 .slx .slx-q{padding:18px 20px}
 .slx .slx-qhd{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9A988F;margin-bottom:8px}
-.slx .slx-qv{font-family:'Anton';font-style:italic;font-size:40px;color:#161512;line-height:1}
+.slx .slx-qv{font-family:'Anton';font-style:oblique 8deg;font-size:40px;color:#161512;line-height:1}
 .slx .slx-qv small{font-family:'Inter';font-style:normal;font-size:18px;font-weight:700;color:#B9B4AE}
 .slx .slx-qbar{height:9px;border-radius:6px;background:#ECE7DF;overflow:hidden;margin:13px 0}
 .slx .slx-qbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5B43E0,#B45CE8);transition:width .6s cubic-bezier(.2,.8,.2,1)}
@@ -1455,7 +1457,7 @@
 .slx .slx-insight:active{transform:scale(.99)}
 .slx .slx-insight .ii{width:52px;height:52px;border-radius:50%;background:#FBE6DE;color:#E8674A;display:grid;place-items:center;font-size:24px;flex:none}
 .slx .slx-insight .it{flex:1;min-width:0}
-.slx .slx-insight .it b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512}
+.slx .slx-insight .it b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512}
 .slx .slx-insight .it p{margin:4px 0 0;font-size:14.5px;line-height:1.4;color:#8F8982}
 .slx .slx-insight .cv{color:#C9C5BC;font-size:22px;flex:none}
 /* ===== Tendances calories — inspection tactile ===== */
@@ -1466,7 +1468,7 @@
 .flcal .calddmenu{left:0;right:0;width:auto;top:66px}
 .flcal .calsum{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:12px}
 .flcal .calsumL .lab{font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#7C7770;margin-bottom:6px}
-.flcal .calsumL .big{font-family:'Anton';font-style:italic;font-size:56px;line-height:.82;letter-spacing:-.03em;display:flex;align-items:flex-end;gap:6px;color:#161512}
+.flcal .calsumL .big{font-family:'Anton';font-style:oblique 8deg;font-size:56px;line-height:.82;letter-spacing:-.03em;display:flex;align-items:flex-end;gap:6px;color:#161512}
 .flcal .calsumL .big small{font-family:'Inter';font-style:normal;font-size:19px;font-weight:700;color:#161512;margin-bottom:6px}
 .flcal .calseg{display:flex;align-items:center;height:auto;border-radius:18px;background:#161512;border:0;box-shadow:none;padding:4px;flex:none}
 .flcal .calseg button{height:42px;min-width:46px;border:0;background:none;border-radius:14px;padding:0 12px;font-size:15px;font-weight:900;color:rgba(255,255,255,.55);cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
@@ -1485,7 +1487,7 @@
 .flcal .calvline{position:absolute;border-left:1.5px dashed rgba(22,21,18,.5)}
 .flcal .calcursor{position:absolute;width:16px;height:16px;border-radius:50%;border:3px solid #F04A32;background:#FAF8F5;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(232,103,74,.3)}
 .flcal .explainb{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:30px;box-shadow:var(--shadow);padding:20px}
-.flcal .explainb h2{font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:-.02em;font-size:23px;margin:0 0 10px;color:#161512}
+.flcal .explainb h2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:-.02em;font-size:23px;margin:0 0 10px;color:#161512}
 .flcal .explainb p{margin:0;font-size:15.5px;line-height:1.5;color:#4F4A44}
 .flcal .trlegend{display:flex;gap:16px;margin:0 2px 14px;flex-wrap:wrap}
 .flcal .trlg{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#7A756E}
@@ -1500,11 +1502,11 @@
 .flcal .trcta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-bottom:18px;background:#161512;color:#FAF8F5;border:0;border-radius:30px;padding:15px;font-size:14px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit}
 .flcal .trcta i{font-size:18px}
 /* Effort home — section tendances */
-.flload .efftitle{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:26px;letter-spacing:-.02em;margin:24px 2px 12px;color:#161512}
+.flload .efftitle{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:26px;letter-spacing:-.02em;margin:24px 2px 12px;color:#161512}
 .flload .trcard{display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;text-align:left;transition:transform .12s ease}
 .flload .trcard:active{transform:scale(.99)}
 .flload .trcard .tcl{flex:1;min-width:0}
-.flload .trcard .tcl b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:15px;letter-spacing:.2px;color:#161512;display:block}
+.flload .trcard .tcl b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.2px;color:#161512;display:block}
 .flload .trcard .tcm{flex:0 0 120px}
 .flload .trcard .tcm svg{display:block;width:100%}
 .flload .trcard .tcv{color:#C9C5BC;font-size:22px;flex:none}
@@ -1516,14 +1518,14 @@
 .flload .effbadge .dia{color:#E8674A;font-size:10px}
 .flload .effring{display:flex;flex-direction:column;align-items:center;width:100%;background:#fff;border:1px solid var(--line);border-radius:32px;padding:18px 16px 20px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;margin-bottom:14px;transition:transform .12s ease}
 .flload .effring:active{transform:scale(.99)}
-.flload .effring .el2{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:17px;color:#E8674A;margin-top:4px;letter-spacing:.3px}
+.flload .effring .el2{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:17px;color:#E8674A;margin-top:4px;letter-spacing:.3px}
 .flload .effsum{padding:4px 18px;margin-bottom:14px}
 .flload .esrow{display:flex;align-items:center;gap:13px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:16px 0;text-align:left;cursor:pointer;font-family:inherit}
 .flload .esrow:active{opacity:.6}
 .flload .esi{width:38px;height:38px;border-radius:50%;background:#FAF8F5;display:grid;place-items:center;color:#E8674A;font-size:18px;flex:none}
 .flload .esl{flex:1;min-width:0;font-size:12px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#161512;line-height:1.25}
 .flload .esr{text-align:right;flex:none}
-.flload .esv{font-family:'Anton';font-style:italic;font-size:25px;color:#161512;display:block;line-height:1}
+.flload .esv{font-family:'Anton';font-style:oblique 8deg;font-size:25px;color:#161512;display:block;line-height:1}
 .flload .esp{font-size:13px;font-weight:700;color:#9A988F}
 .flload .estr{font-size:13px;font-weight:900;flex:none;width:14px;text-align:center}
 .flload .espill{margin-top:8px;background:#161512;color:#FAF8F5;border-radius:16px;padding:11px 14px;font-size:13px;font-weight:700;text-align:center}
@@ -1532,13 +1534,13 @@
 .flload .effcoach .ec2{font-size:14.5px;line-height:1.5;color:#4F4A44;margin:10px 0 0}
 .flload .eact{display:flex;align-items:center;gap:13px;width:100%;background:#fff;border:1px solid var(--line);border-radius:22px;padding:9px 14px 9px 9px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;text-align:left}
 .flload .eact .eai{display:inline-flex;align-items:center;gap:8px;background:#E8674A;color:#fff;border-radius:16px;padding:0 14px;height:52px;flex:none;font-size:20px}
-.flload .eact .eai b{font-family:'Anton';font-style:italic;font-size:24px}
-.flload .eact .ean{flex:1;min-width:0;font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:18px;letter-spacing:.3px;color:#161512}
+.flload .eact .eai b{font-family:'Anton';font-style:oblique 8deg;font-size:24px}
+.flload .eact .ean{flex:1;min-width:0;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:18px;letter-spacing:.3px;color:#161512}
 .flload .eact .eat{font-size:13px;font-weight:700;color:#9A988F;text-align:right;line-height:1.35;flex:none}
 .flload .effadd{width:100%;margin:0 0 4px;background:none;border:1px dashed #E0D9CE;color:#9A988F;border-radius:16px;padding:12px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
 .flload .efftr{display:block;width:100%;background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px 16px;margin-bottom:12px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;text-align:left}
 .flload .efftrh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.flload .efftrh b{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512}
+.flload .efftrh b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:16px;letter-spacing:.4px;color:#161512}
 .flload .efftrh i{color:#C9C5BC;font-size:20px}
 .flload .efftrc svg{width:100%;height:auto;display:block}
 .flload .trlegend{display:flex;gap:14px;margin:0 0 6px;flex-wrap:wrap}
@@ -1607,8 +1609,8 @@ header{padding:11px 16px 7px}
 .flhome .rec2{gap:12px;padding:22px 18px;align-items:center}
 .flhome .rec2 .recart{background:radial-gradient(120% 95% at 88% 22%,rgba(63,181,122,.16),transparent 52%);-webkit-mask-image:none;mask-image:none}
 .flhome .rec2 .recside{flex:1;min-width:0;padding-left:6px;display:flex;flex-direction:column;justify-content:center}
-.flhome .rec2 .recside .rectitle{font-family:'Anton';font-style:italic;font-size:28px;line-height:1;color:#161512;margin:0}
-.flhome .rec2 .recside .se{font-family:'Anton';font-style:italic;font-size:19px;line-height:1;margin-top:7px}
+.flhome .rec2 .recside .rectitle{font-family:'Anton';font-style:oblique 8deg;font-size:28px;line-height:1;color:#161512;margin:0}
+.flhome .rec2 .recside .se{font-family:'Anton';font-style:oblique 8deg;font-size:19px;line-height:1;margin-top:7px}
 .flhome .rec2 .reccv{margin-left:auto;align-self:center;color:#C9C5BC;font-size:24px;flex:none;position:relative;z-index:1}
 .flhome .statcard3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
 .flhome .scard{position:relative;background:#fff;border:1px solid #F1EBE3;border-radius:20px;padding:14px 11px 12px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent;transition:transform .12s ease}
@@ -1619,7 +1621,7 @@ header{padding:11px 16px 7px}
 .flhome .scard .scico.amb{background:rgba(242,169,59,.18);color:#D98E12}
 .flhome .scard .scico.emb{background:rgba(232,103,74,.12);color:#E8674A}
 .flhome .scard .scl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#9A988F;text-transform:uppercase}
-.flhome .scard .scv{font-family:'Anton';font-style:italic;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
+.flhome .scard .scv{font-family:'Anton';font-style:oblique 8deg;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
 .flhome .scard .scv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
 .flhome .scard .scs{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:700}
 .flhome .scard .scs .d{width:7px;height:7px;border-radius:50%;flex:none}
@@ -1661,11 +1663,11 @@ header{padding:11px 16px 7px}
 .flhome .tlrow .tlcard .tile{width:54px;height:38px;border-radius:13px;background:#E8674A;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;flex:none;box-shadow:0 4px 10px rgba(232,103,74,.2)}
 .flhome .tlrow.sleep .tlcard .tile{background:#6C7BD6;box-shadow:0 4px 10px rgba(108,123,214,.2)}
 .flhome .tlrow .tlcard .tile i{font-size:13px;opacity:.95}
-.flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:italic;font-size:15px;line-height:1}
+.flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:oblique 8deg;font-size:15px;line-height:1}
 .flhome .tlrow .tlcard .md{min-width:0}
-.flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flhome .tlrow .tlcard .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:italic;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
+.flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
 .flhome .addbig:active{transform:scale(.985)}
 .flhome .addbig i{font-size:20px}
 /* ===== Vitaux nocturnes (refonte statut strict) ===== */
@@ -1673,7 +1675,7 @@ header{padding:11px 16px 7px}
 .nvit .nvh{display:flex;align-items:center;gap:13px;padding:2px 2px 2px}
 .nvit .nvhic{width:50px;height:50px;border-radius:15px;background:#FCEFE9;color:#E8674A;display:grid;place-items:center;font-size:25px;flex:none}
 .nvit .nvht{flex:1;min-width:0}
-.nvit .nvtitle{font-family:'Anton';font-style:italic;text-transform:uppercase;font-size:22px;color:#161512;line-height:1}
+.nvit .nvtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:22px;color:#161512;line-height:1}
 .nvit .nvsub{font-size:14px;color:#8A857D;margin-top:4px}
 .nvit .nvdate{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #ECE6DD;border-radius:30px;padding:8px 13px;font-size:13px;font-weight:600;color:#161512;flex:none;white-space:nowrap}
 .nvit .nvdate i{color:#6C7BD6;font-size:15px}
@@ -1697,7 +1699,7 @@ header{padding:11px 16px 7px}
 .nvit .nvic.g{background:#E7F3EA;color:#2FA86A}
 .nvit .nvhead{flex:1;min-width:0}
 .nvit .nvname{font-size:16px;font-weight:800;color:#161512;letter-spacing:.01em}
-.nvit .nvval{font-family:'Anton';font-style:italic;font-size:40px;line-height:1;margin-top:4px;color:#161512}
+.nvit .nvval{font-family:'Anton';font-style:oblique 8deg;font-size:40px;line-height:1;margin-top:4px;color:#161512}
 .nvit .nvval small{font-family:'Inter';font-style:normal;font-size:16px;font-weight:700;color:#9A988F;margin-left:3px}
 .nvit .nvval.in{color:#2FA86A}
 .nvit .nvval.out{color:#E8674A}
@@ -1732,7 +1734,7 @@ header{padding:11px 16px 7px}
 .slx .slx-herotx{position:relative;z-index:1}
 .slx .slx-eyb{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#8E7BFF}
 .slx .slx-eyb i{font-size:16px}
-.slx .slx-hours{font-family:'Anton';font-style:italic;font-size:60px;line-height:.92;color:#161512;margin-top:9px;letter-spacing:-.01em}
+.slx .slx-hours{font-family:'Anton';font-style:oblique 8deg;font-size:60px;line-height:.92;color:#161512;margin-top:9px;letter-spacing:-.01em}
 .slx .slx-hours .u{font-size:33px;margin:0 5px;color:#161512}
 .slx .slx-hl{font-size:16px;color:#8F8982;margin-top:2px}
 .slx .slx-verdict{margin-top:22px}
@@ -1755,7 +1757,7 @@ header{padding:11px 16px 7px}
 .slx .slx-time .ic.ic-sun{background:#EEECFB;color:#6C7BD6}
 /* ===== Sommeil — carte nuit (54 bpm) + qualité/rythme (maquette) ===== */
 .slx .slx-night .snread{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin:6px 2px 10px}
-.slx .slx-night .snread .bpm{font-family:'Anton';font-style:italic;font-size:40px;line-height:1;background:linear-gradient(180deg,#7E6FE3,#5B45E8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#5B45E8}
+.slx .slx-night .snread .bpm{font-family:'Anton';font-style:oblique 8deg;font-size:40px;line-height:1;background:linear-gradient(180deg,#7E6FE3,#5B45E8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#5B45E8}
 .slx .slx-night .snread .u{font-size:17px;font-weight:800;color:#161512;margin-left:-2px}
 .slx .slx-night .snread .mn{font-size:14px;font-weight:600;color:#9A988F}
 .slx .slx-night .snread .mn em{font-style:normal;font-weight:800;color:#6B6FE3;text-transform:uppercase}
@@ -1770,7 +1772,7 @@ header{padding:11px 16px 7px}
 .slx .slx-quality .sqic{width:42px;height:42px;border-radius:50%;background:#EEECFB;color:#6B6FE3;display:grid;place-items:center;font-size:20px;flex:none}
 .slx .slx-quality .sqt{min-width:0}
 .slx .slx-quality .sqlbl{font-size:12px;font-weight:600;color:#8A857D;display:block;line-height:1.25}
-.slx .slx-quality .sqv{font-family:'Anton';font-style:italic;font-size:27px;line-height:1;color:#6B6FE3;margin-top:4px}
+.slx .slx-quality .sqv{font-family:'Anton';font-style:oblique 8deg;font-size:27px;line-height:1;color:#6B6FE3;margin-top:4px}
 .slx .slx-quality .sqv small{font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;color:#9A988F}
 .slx .slx-quality .sqsep{width:1px;align-self:stretch;background:#F1ECE4;margin:2px 0}
 .slx .slx-quality .sqR{flex:1;min-width:0;display:flex;align-items:center;gap:9px}
@@ -1789,105 +1791,67 @@ header{padding:11px 16px 7px}
 .slx .st3l{font-size:11px;font-weight:800;line-height:1.05;min-width:0}
 .slx .st3l.vio{color:#6B6FE3}
 .slx .st3l.cor{color:#E8674A}
-.slx .st3v{font-family:'Anton';font-style:italic;font-size:25px;line-height:1;color:#161512;white-space:nowrap}
+.slx .st3v{font-family:'Anton';font-style:oblique 8deg;font-size:25px;line-height:1;color:#161512;white-space:nowrap}
 .slx .st3v small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F;margin-left:2px}
 .slx .st3sub{font-size:11.5px;color:#9A988F;margin-top:7px;line-height:1.2}
 /* ===== Accueil — titre « Ma journée » ===== */
-.flhome .mjtitle{font-family:'Anton';font-style:italic;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
+.flhome .mjtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:none;font-size:34px;line-height:1;color:#161512;letter-spacing:.2px;margin:6px 2px 0}
 .flhome .mjtitle::after{content:'';display:block;width:118px;height:4px;border-radius:3px;margin-top:9px;background:linear-gradient(90deg,#E8674A 0 80%,transparent 80% 88%,#E8674A 88%)}
 .flhome .actwrap2 .actmeta2{margin-top:14px}
-.flhome .actcard{background:#FFFDF9;border:1px solid rgba(22,21,18,.08);border-radius:28px;box-shadow:0 12px 32px rgba(120,110,95,.10);padding:18px 16px;margin-top:6px}
+.flhome .actcard{background:#FFFDF9;border:1px solid rgba(22,21,18,.07);border-radius:26px;box-shadow:0 6px 22px rgba(120,110,95,.07);padding:16px 14px;margin-top:6px}
 .flhome .acthd{display:flex;align-items:center;justify-content:space-between}
 .flhome .actlbl{font-size:13px;font-weight:800;letter-spacing:1.6px;color:#161512}
 .flhome .actexp{color:#8F8982;font-size:19px;cursor:pointer}
 .flhome .actinner{background:#fff;border:1px solid rgba(22,21,18,.06);border-radius:24px;box-shadow:0 4px 16px rgba(120,110,95,.07);padding:14px;margin-top:14px}
-.flhome .actnuit{display:flex;align-items:center;gap:12px;background:rgba(109,120,232,.10);border:1px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 8px 18px rgba(109,120,232,.14);padding:13px 14px;margin-bottom:8px;cursor:pointer}
+.flhome .actnuit{display:flex;align-items:center;gap:12px;background:rgba(109,120,232,.10);border:1px solid rgba(255,255,255,.85);border-radius:20px;box-shadow:0 5px 14px rgba(109,120,232,.10);padding:13px 14px;margin-bottom:8px;cursor:pointer}
 .flhome .actnuit .anpast{width:46px;height:46px;border-radius:50%;background:#6C7BD6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
-.flhome .actnuit .anbadge{font-family:'Anton';font-style:italic;background:#6C7BD6;color:#fff;border-radius:13px;padding:8px 13px;font-size:20px;line-height:1;flex:none}
+.flhome .actnuit .anbadge{font-family:'Anton';font-style:oblique 8deg;background:#6C7BD6;color:#fff;border-radius:13px;padding:8px 13px;font-size:20px;line-height:1;flex:none}
 .flhome .actnuit .annt{min-width:0}
-.flhome .actnuit .annm{font-family:'Anton';font-style:italic;font-size:20px;color:#161512;line-height:1}
+.flhome .actnuit .annm{font-family:'Anton';font-style:oblique 8deg;font-size:20px;color:#161512;line-height:1}
 .flhome .actnuit .anmt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:4px}
 .flhome .actsep{height:1px;background:rgba(22,21,18,.08);margin:12px 4px 0}
 .flhome .actcta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:none;border:0;padding:15px 0 5px;color:#8F8982;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .12s}
 .flhome .actcta .p{color:#E8674A;font-size:18px;display:inline-flex}
 .flhome .actcta:active{transform:scale(.99)}
-.flhome .mjwrap{position:relative;margin:0 -2px 0;background:#FFFEFC;padding:0 2px 28px}
-.flhome .mjwave{display:block;width:100%;height:64px;margin-bottom:-1px;filter:drop-shadow(0 -8px 16px rgba(150,138,120,.09))}
-.flhome .mjwave path{fill:#FFFEFC}
+.flhome .mjwrap{position:relative;margin:0 -2px 0;background:transparent;padding:0 2px 28px}
+.flhome .mjwave{display:block;width:100%;height:12px;margin-bottom:-1px;filter:drop-shadow(0 -8px 16px rgba(150,138,120,.09))}
+.flhome .mjwave path{fill:transparent}
 .flhome .mjwrap>.actwrap2{margin-top:12px}
-/* ===== Accueil — Objectif hebdo + FC (maquette) ===== */
-.flhome .objhebdo{padding:20px 18px}
-.flhome .objhebdo .ohtop{display:flex;align-items:center;gap:16px}
-.flhome .objhebdo .ohring{width:128px;flex:none}
-.flhome .objhebdo .ohsep{width:1px;align-self:stretch;background:#F1ECE4;margin:8px 0}
-.flhome .objhebdo .ohinfo{flex:1;min-width:0}
-.flhome .objhebdo .ohl{font-size:18px;font-weight:700;color:#161512}
-.flhome .objhebdo .ohv{font-family:'Inter',sans-serif;font-weight:800;font-size:44px;line-height:1;color:#161512;margin-top:7px;letter-spacing:-.01em}
-.flhome .objhebdo .ohv small{font-weight:700;font-size:21px;color:#B9B4AE;letter-spacing:0}
-.flhome .objhebdo .ohrem{font-size:14px;font-weight:600;color:#E8674A;margin-top:11px}
-.flhome .objhebdo .ohrem b{font-weight:800}
-.flhome .objhebdo .ohbars{margin-top:16px}
-.flhome .fcnew{display:flex;align-items:stretch;gap:0;padding:0;overflow:hidden}
-.flhome .fcnew .fcL{flex:0 0 43%;background:#EAF5EE;padding:18px 15px;display:flex;flex-direction:column;align-items:flex-start}
-.flhome .fcnew .fcLtop{display:flex;align-items:center;gap:9px;margin-bottom:11px}
-.flhome .fcnew .fcic{width:40px;height:40px;border-radius:50%;background:#FCE0D7;color:#E8674A;display:grid;place-items:center;font-size:19px;flex:none}
-.flhome .fcnew .fcnow{font-size:15px;font-weight:800;color:#2FAE67}
-.flhome .fcnew .fcbpm2{font-family:'Inter',sans-serif;font-weight:900;font-size:42px;line-height:1;color:#161512}
-.flhome .fcnew .fcbpm2 small{font-size:16px;font-weight:700;color:#8A857D;margin-left:4px}
-.flhome .fcnew .fczone{display:inline-flex;align-items:center;gap:7px;border-radius:30px;padding:7px 12px;font-size:12.5px;font-weight:800;margin-top:13px;background:#D6EDDD;color:#1E7D46}
-.flhome .fcnew .fczone .zd{width:8px;height:8px;border-radius:50%;background:#2FAE67;flex:none}
-.flhome .fcnew .fcmsg{font-size:12.5px;color:#5F7A68;line-height:1.4;margin-top:13px}
-.flhome .fcnew .fcR{flex:1;min-width:0;padding:18px 14px 12px}
-.flhome .fcnew .fcrt{font-size:16px;font-weight:700;color:#161512}
-.flhome .fcnew .fcrs{font-size:13px;color:#9A988F;margin-top:2px}
-.flhome .fcnew .fcchart2{margin-top:10px}
 /* ===== Accueil ÉTAT DU JOUR — glassmorphism + fond abstrait ===== */
-.flhome{background:url('bg-home.png') top center/100% auto no-repeat,#FAF8F5}
+.flhome{background:url('bg-home.png') top center/100% auto repeat-y,#FAF8F5}
 .flhome .etat-title{text-align:center;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#77736C;margin:8px 0 2px}
 .flhome .caldate{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px auto 18px;width:fit-content}
 .flhome .caldate .cdnav{width:40px;height:40px;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.55);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:18px;cursor:pointer;font-family:inherit;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);flex:none}
 .flhome .caldate .cdnav:disabled{opacity:.3}
 .flhome .caldate .cdlbl{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(120,110,95,.16);background:rgba(255,255,255,.6);border-radius:30px;padding:9px 20px;font-family:inherit;font-size:14px;font-weight:700;color:#161512;cursor:pointer;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .flhome .caldate .cdlbl i{color:#77736C;font-size:16px}
-/* 2-col + wide cards (maquette réf) */
-.flhome .gstats2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
-.flhome .g2card{background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:22px;padding:15px 14px;box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column}
-.flhome .g2card:active{transform:scale(.98)}
-.flhome .g2top{display:flex;align-items:center;gap:11px}
-.flhome .g2top .gci{margin-bottom:0}
-.flhome .g2tx{flex:1;min-width:0}
-.flhome .gwide{display:flex;width:100%;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer}
-.flhome .gwide:active{transform:scale(.99)}
-.flhome .gwide .gci{margin-bottom:0}
-.flhome .gwtx{flex:none}
-.flhome .gwide .gchartw{flex:1;min-width:0;height:42px;margin-top:0}
 .flhome .etat-score{position:relative;width:248px;height:248px;margin:16px auto 24px;cursor:pointer}
-.flhome .etat-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 22px}
-.flhome .etat-row .etat-score{margin:0;flex:none;width:226px;height:226px}
-.flhome .stepside{flex:none;width:108px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:26px;box-shadow:0 12px 30px rgba(120,110,95,.10);padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:inherit;cursor:pointer}
-.flhome .stepside:active{transform:scale(.98)}
-.flhome .stepside .ssic{color:#2FA86A;font-size:30px;line-height:1}
-.flhome .stepside .ssl{font-size:11px;font-weight:800;letter-spacing:.12em;color:#77736C;margin-top:12px}
-.flhome .stepside .ssv{font-family:'Anton';font-style:italic;font-size:25px;color:#161512;line-height:1;margin-top:7px}
-.flhome .stepside .ssu{font-size:12px;font-weight:700;color:#9A988F;margin-top:3px}
-.flhome .stepside .ssarc{margin-top:11px}
+.flhome .etat-row{position:relative;display:flex;align-items:center;justify-content:center;margin:14px 0 22px}
+.flhome .etat-row .etat-score{margin:0;flex:none;width:246px;height:246px}
+.flhome .stepside{position:absolute;top:12px;left:2px;z-index:5;width:74px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:19px;box-shadow:0 6px 18px rgba(120,110,95,.08);padding:11px 7px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:inherit;cursor:pointer}
+.flhome .stepside:active{transform:scale(.97)}
+.flhome .stepside .ssic{color:#2FA86A;font-size:16px;line-height:1}
+.flhome .stepside .ssl{font-size:8px;font-weight:800;letter-spacing:.14em;color:#77736C;margin-top:7px}
+.flhome .stepside .ssv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;color:#161512;line-height:1;margin-top:4px}
+.flhome .stepside .ssu{font-size:8.5px;font-weight:700;color:#9A988F;margin-top:2px}
+.flhome .stepside .ssarc{width:42px;height:auto;margin-top:8px;display:block}
 .flhome .etat-score .es-ring{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
-.flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(120,110,95,.18),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
+.flhome .etat-score .es-disc{position:absolute;inset:36px;border-radius:50%;background:rgba(255,255,255,.66);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(120,110,95,.14),inset 0 1px 0 rgba(255,255,255,.9);z-index:1}
 .flhome .etat-score .es-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
-.flhome .etat-score .es-pct{font-family:'Anton';font-style:italic;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
+.flhome .etat-score .es-pct{font-family:'Anton';font-style:oblique 8deg;font-size:60px;line-height:.9;color:#161512;letter-spacing:-.01em}
 .flhome .etat-score .es-pct small{font-size:26px;font-weight:700}
 .flhome .etat-score .es-lbl{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#77736C;margin-top:6px}
-.flhome .etat-score .es-zone{font-family:'Anton';font-style:italic;font-size:20px;color:#2FA86A;margin-top:4px}
+.flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:20px;color:#2FA86A;margin-top:4px}
 .flhome .etat-score .es-chk{position:absolute;top:30px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:18px;z-index:4}
 .flhome .gstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
-.flhome .gcard{background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:22px;padding:14px 11px;box-shadow:0 12px 30px rgba(120,110,95,.10);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+.flhome .gcard{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:22px;padding:13px 11px;box-shadow:0 6px 20px rgba(120,110,95,.07);text-align:left;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
 .flhome .gcard:active{transform:scale(.97)}
-.flhome .gci{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:21px;margin-bottom:12px}
+.flhome .gci{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;margin-bottom:11px}
 .flhome .gci.vio{background:rgba(110,107,255,.16);color:#6E6BFF}
 .flhome .gci.amb{background:rgba(245,166,35,.20);color:#E0930A}
 .flhome .gci.emb{background:rgba(232,103,74,.14);color:#E8674A}
 .flhome .gcl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#77736C;text-transform:uppercase}
-.flhome .gcv{font-family:'Anton';font-style:italic;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
+.flhome .gcv{font-family:'Anton';font-style:oblique 8deg;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
 .flhome .gcv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
 .flhome .gcs{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:700}
 .flhome .gcs .d{width:7px;height:7px;border-radius:50%;flex:none}
@@ -1896,21 +1860,21 @@ header{padding:11px 16px 7px}
 .flhome .gcs.emb{color:#C0492C}.flhome .gcs.emb .d{background:#E8674A}
 .flhome .gcfoot{display:flex;align-items:center;gap:7px;margin-top:11px;padding-top:10px;border-top:1px solid rgba(120,110,95,.12)}
 .flhome .gcf{flex:1;min-width:0}
-.flhome .gcf b{display:block;font-family:'Anton';font-style:italic;font-size:15px;color:#161512;line-height:1}
+.flhome .gcf b{display:block;font-family:'Anton';font-style:oblique 8deg;font-size:15px;color:#161512;line-height:1}
 .flhome .gcf span{font-size:9px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#9A988F;margin-top:2px;display:block}
 .flhome .gcsep{width:1px;height:26px;background:rgba(120,110,95,.14);flex:none}
 .flhome .gcbar{height:8px;border-radius:5px;background:rgba(120,110,95,.12);overflow:hidden;margin-top:auto}
 .flhome .gcbar i{display:block;height:100%;border-radius:5px;background:#F5A623}
 .flhome .gchart{display:flex;align-items:flex-end;gap:2.5px;height:32px;margin-top:auto;padding-top:6px}
 .flhome .gchart i{flex:1;border-radius:3px;min-height:4px;display:block}
-.flhome .fchr{display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 30px rgba(120,110,95,.10)}
+.flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.72);border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
 .flhome .fchr .fchrL{flex:none}
 .flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.flhome .fchr .fchric{width:46px;height:46px;border-radius:15px;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:21px;flex:none}
+.flhome .fchr .fchric{width:44px;height:44px;border-radius:14px;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:20px;flex:none}
 .flhome .fchr .fchrt{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#77736C}
 .flhome .fchr .fchrlive{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.04em;color:#E8674A;margin-top:2px}
 .flhome .fchr .fchrlive .d{width:6px;height:6px;border-radius:50%;background:#E8674A}
-.flhome .fchr .fchrv{font-family:'Anton';font-style:italic;font-size:34px;line-height:1;color:#161512}
+.flhome .fchr .fchrv{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:1;color:#161512}
 .flhome .fchr .fchrv small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#9A988F;margin-left:3px}
 .flhome .fchr .fchrR{flex:1;min-width:0;height:64px}
 </style>
@@ -1949,7 +1913,7 @@ header{padding:11px 16px 7px}
     <div class="ssl">PAS</div>
     <div class="ssv" id="flSteps">—</div>
     <div class="ssu">pas</div>
-    <svg class="ssarc" width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><path d="M6,7 A28,28 0 0 0 58,7" fill="none" stroke="rgba(120,110,95,.18)" stroke-width="5" stroke-linecap="round"/><path id="flStepArc" d="M6,7 A28,28 0 0 0 58,7" fill="none" stroke="#2FA86A" stroke-width="5" stroke-linecap="round" stroke-dasharray="67" stroke-dashoffset="67"/></svg>
+    <svg class="ssarc" width="60" height="20" viewBox="0 0 60 20" aria-hidden="true"><path d="M5,7 A42,42 0 0 0 55,7" fill="none" stroke="rgba(120,110,95,.16)" stroke-width="4" stroke-linecap="round"/><path id="flStepArc" d="M5,7 A42,42 0 0 0 55,7" fill="none" stroke="#2FA86A" stroke-width="4" stroke-linecap="round" stroke-dasharray="49" stroke-dashoffset="49"/></svg>
   </button>
   </div>
 
@@ -2009,18 +1973,6 @@ header{padding:11px 16px 7px}
     </div>
   </div>
 
-  <div class="card objhebdo" onclick="openTrend('charge')">
-    <div class="ohtop">
-      <div class="ohring" id="flObjRing"></div>
-      <div class="ohsep"></div>
-      <div class="ohinfo">
-        <div class="ohl">Objectif hebdo</div>
-        <div class="ohv"><b id="flObjVal">—</b> <small>/ <span id="flObjGoal">16</span></small></div>
-        <div class="ohrem" id="flObjRem"></div>
-      </div>
-    </div>
-    <div class="ohbars" id="flWkChart"></div>
-  </div>
 
   <div class="card flad">
     <div class="fladart"></div>
@@ -2028,10 +1980,6 @@ header{padding:11px 16px 7px}
     <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p></div>
   </div>
 
-  <div class="card row" style="padding:14px 16px;" onclick="go('nutrition')">
-    <span class="mini"><div class="icob"><i class="ti ti-plant-2"></i></div><span><div class="an" style="font-size:18px;">Nutrition</div><div class="muted" style="font-size:12.5px;white-space:nowrap;" id="flNut">—</div></span></span>
-    <span class="mini" style="gap:8px;"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#ECE6DD" stroke-width="3.5"/><circle id="flNutRing" cx="18" cy="18" r="14" fill="none" stroke="#E8674A" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="68 88" transform="rotate(-90 18 18)"/></svg><i class="ti ti-chevron-right chev"></i></span>
-  </div>
   </div>
 </div></section>
 
@@ -2521,6 +2469,7 @@ header{padding:11px 16px 7px}
   <div class="ov" onclick="closeActSheet()"></div>
   <div class="pan">
     <div class="grab"></div>
+    <button class="ascl" type="button" onclick="closeActSheet()" aria-label="Fermer">✕</button>
     <div class="ct">Ajouter une activité</div>
     <div class="sportsearch"><i class="ti ti-search"></i><input id="asSearch" type="text" placeholder="Rechercher un sport…" oninput="asFilter(this.value)" autocomplete="off" autocorrect="off" spellcheck="false"></div>
     <div class="aschips" id="asChips">
@@ -2837,7 +2786,7 @@ function renderToday(){
  var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
  set('flSteps',fmtN(flStepsOf(K)));
- var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='67';_sa.style.strokeDashoffset=(67*(1-_sp)).toFixed(1)}
+ var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
  flWatchBatt();flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
  set('flKcalBars',flBars(seriesBack(null,9,function(k){return caloriesBurned(k)}),'#E8674A'));
@@ -3546,7 +3495,7 @@ function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et re
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump);try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e){toast('Copie impossible')}}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v104';
+const APP_VERSION='flint-v113';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
