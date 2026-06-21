@@ -1834,7 +1834,17 @@ body.sleepview{background:#FAF7F5}
 /* photo template (maquette) + overlay des valeurs */
 .slp-photo{position:relative;width:100%;container-type:inline-size}
 .slp-photo-bg{display:block;width:100%;height:auto}
-.slp-hit-back{position:absolute;left:0;top:0;width:20%;height:6.2%;background:none;border:0;z-index:6}
+/* header codé (retour + sélecteur de date) par-dessus la bande effacée */
+.slp-hdr{position:absolute;top:0;left:0;right:0;height:11.4%;display:flex;align-items:center;padding:0 4.5%;z-index:7}
+.slp-bk{flex:none;width:12%;display:flex;align-items:center;justify-content:flex-start;border:0;background:none;color:#6D63F6;font-size:7cqw;line-height:0;padding:0;transition:transform .12s}
+.slp-bk:active{transform:scale(.88)}
+.slp-hsp{flex:none;width:12%}
+.slp-dnav{flex:1;display:flex;align-items:center;justify-content:center;gap:2.6cqw}
+.slp-dn{border:0;background:#EDEAF8;color:#6D63F6;width:8.6cqw;height:8.6cqw;border-radius:50%;display:grid;place-items:center;font-size:4.6cqw;line-height:0;transition:transform .12s}
+.slp-dn:active{transform:scale(.88)}
+.slp-dn:disabled{opacity:.32}
+.slp-dlbl{border:0;background:none;display:inline-flex;align-items:center;gap:1.6cqw;font-family:'Inter',sans-serif;font-weight:800;font-size:4.2cqw;color:#6D63F6;letter-spacing:-.01em;line-height:1}
+.slp-dlbl i{font-size:4cqw}
 .slov{position:absolute;line-height:1;white-space:nowrap;z-index:5}
 .slov small{font-size:.5em;font-weight:700;color:#8D8983;font-family:'Inter';font-style:normal;margin-left:.1em}
 .slov .u{font-size:.42em;vertical-align:baseline;margin:0 .06em}
@@ -2714,9 +2724,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <section class="view" id="v-sleep">
 <div class="slp">
 
+  <input type="date" id="slpDatePick" onchange="slpPickDate(this.value)" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none">
   <div class="slp-photo">
-    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=2" alt="">
-    <button class="slp-hit-back" type="button" onclick="go('today')" aria-label="Retour"></button>
+    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=3" alt="">
+    <div class="slp-hdr">
+      <button class="slp-bk" type="button" onclick="go('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
+      <div class="slp-dnav">
+        <button class="slp-dn" type="button" onclick="slpDay(-1)" aria-label="Nuit précédente"><i class="ti ti-chevron-left"></i></button>
+        <button class="slp-dlbl" type="button" onclick="slpOpenPicker()"><span id="slpDate">Aujourd'hui</span> <i class="ti ti-calendar"></i></button>
+        <button class="slp-dn" id="slpNext" type="button" onclick="slpDay(1)" aria-label="Nuit suivante"><i class="ti ti-chevron-right"></i></button>
+      </div>
+      <span class="slp-hsp"></span>
+    </div>
     <div class="slov" data-sl="status" id="shEyebrow">Très bonne nuit</div>
     <div class="slov" data-sl="duration" id="shHours">7<span class="u">h</span>42</div>
     <div class="slov" data-sl="need" id="shNeed"><i class="ti ti-target-arrow"></i> Besoin 8h00 · Régularité 95%</div>
@@ -4107,7 +4126,7 @@ function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.r
 function shRingSVG(pct){var r=82,c=2*Math.PI*r,off=c*(1-Math.max(.04,Math.min(1,pct)));
  return '<svg viewBox="0 0 200 200" style="width:100%;display:block"><defs><linearGradient id="shg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#A99AF7"/><stop offset=".5" stop-color="#8E63E9"/><stop offset="1" stop-color="#E78AE7"/></linearGradient></defs><circle cx="100" cy="100" r="'+r+'" fill="none" stroke="#EEE9F7" stroke-width="13"/><circle cx="100" cy="100" r="'+r+'" fill="none" stroke="url(#shg)" stroke-width="13" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 100 100)"/></svg>';
 }
-function shLastSVG(){var W=320,H=140,padB=28,top=14,n=7,arr=[];for(var i=6;i>=0;i--){var s=sensorOf(tk(-i));arr.push({v:s&&s.sleepMin?s.sleepMin:0,off:-i})}
+function shLastSVG(){var W=320,H=140,padB=28,top=14,n=7,arr=[];for(var i=6;i>=0;i--){var s=sensorOf(tk(gDay-i));arr.push({v:s&&s.sleepMin?s.sleepMin:0,off:gDay-i})}
  var max=Math.max.apply(null,arr.map(function(a){return a.v}))||1,slot=W/n,bw=slot*0.4;
  function hm(m){return Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0')}
  var DD=['D','L','M','M','J','V','S'];var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">';
@@ -4153,13 +4172,17 @@ function layoutSleep(){
     s.textTransform=p.upper?'uppercase':'none';
   });
 }
-function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;layoutSleep();
+function slpDay(d){if(typeof haptic==='function')haptic();gDay=Math.min(0,gDay+d);renderSleep();window.scrollTo(0,0)}
+function slpPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var dd=new Date(val+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));renderSleep();window.scrollTo(0,0)}
+function slpOpenPicker(){var i=document.getElementById('slpDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.click()}}else i.click()}
+function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
+function renderSleep(){var t=sensorOf(tk(gDay)),need=(getProfile().need||8)*60;layoutSleep();updateSlpDate();
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
  function ft(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
  set('shStreak',recovStreak()||26);
  var rg=document.getElementById('shRing');
  if(!t||t.sleepMin==null){window._sleepScore=null;set('shHours','—');set('shNeed','');if(rg)rg.innerHTML=slDonutSVG([{v:1,color:'#ECE7DF'}]);set('shBed','—');set('shWake','—');set('shStages','');set('shRestore','—');set('shAwake','—');set('shAwakePc','—');set('shFcAvg','—');set('shScore','—');var sb0=document.getElementById('shScoreBar');if(sb0)sb0.style.width='0%';set('shCoachT','Pas de données');set('shCoachS','Connecte ta Polar Loop.');set('shScoreC','—');set('shInsight','Branche ta Polar Loop pour analyser tes nuits.');set('shEyebrow','En attente');var _vc0=document.getElementById('shVerdictChk');if(_vc0)_vc0.style.display='none';return}
- var nm=sleepNight(tk());
+ var nm=sleepNight(tk(gDay));
  set('shHours',Math.floor(t.sleepMin/60)+'<span class="u">h</span>'+String(t.sleepMin%60).padStart(2,'0'));
  (function(){var nh=Math.floor(need/60)+'h'+String(need%60).padStart(2,'0'),reg=sleepConsistency(),el=document.getElementById('shNeed');if(el)el.innerHTML='<i class="ti ti-target-arrow"></i> Besoin '+nh+(reg!=null?' · Régularité '+reg+'%':'');})();
  var stages=[{k:'Réveil',v:nm.awake,color:'#F4A98A'},{k:'Léger',v:nm.light,color:'#A9A6F5'},{k:'Profond',v:nm.deep,color:'#5B47E0'},{k:'REM',v:nm.rem,color:'#B45CE8'}];
@@ -4244,7 +4267,7 @@ function slStagesHTML(focus){var nm=slNm();if(!nm)return '';
   else{var fill=Math.min(100,dur/totMin*100),r=st2(key),box='';if(r){var bl=Math.max(0,Math.min(100,r.lo/totMin*100)),bh=Math.max(0,Math.min(100,r.hi/totMin*100));box='<span class="hab" style="left:'+bl.toFixed(1)+'%;width:'+Math.max(4,bh-bl).toFixed(1)+'%"></span>'}bar='<div class="stgbar2"><span class="f" style="width:'+fill.toFixed(1)+'%;background:'+col+'"></span>'+box+'</div>'}
   return '<div class="stgcard'+(sel?' sel':'')+(dim?' dim':'')+'" onclick="slFocus(\''+key+'\')"'+(sel?' style="border-color:'+col+'"':'')+'><div class="stghd"><span class="stgL"><span class="stgdot" style="border-color:'+col+(sel?';background:'+col:'')+'"></span><span style="min-width:0"><div class="stgnm">'+s[0]+'</div><div class="stgwhat">'+s[2]+'</div></span></span><span style="text-align:right;flex:none"><div class="stgdur">'+hm(dur)+'</div><div class="stgpc" style="color:'+band+'">'+pct+'%</div></span></div>'+bar+'</div>'}).join('');
 }
-function slNm(){return window._slNm||sleepNight(tk())}
+function slNm(){return window._slNm||sleepNight(tk(gDay))}
 function napModel(s){var dur=Math.max(5,s.dur||25),bed=tmin(s.start||'15:00'),wake=bed+dur;
  var awake=Math.min(3,Math.round(dur*0.04)),deep=dur>=20?Math.round(dur*0.32):Math.round(dur*0.14),rem=dur>=45?Math.round(dur*0.12):0,light=Math.max(0,dur-awake-deep-rem);
  var base=(sensorOf(tk(gDay))||{}).rhr;base=base!=null?base:50;
@@ -4772,7 +4795,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v167';
+const APP_VERSION='flint-v168';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
