@@ -2349,7 +2349,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd-rlbl{font-size:2.9cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9A988F;margin-top:1.5cqw}
 .flhome .fhd-zone{font-family:'Anton',sans-serif;font-size:5.4cqw;text-transform:uppercase;color:#2FA86A;margin-top:1.6cqw;letter-spacing:.01em}
 .flhome .fhd-chk{position:absolute;top:5%;right:7%;width:10cqw;height:10cqw;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:5cqw}
-.flhome .fhd-steps{position:absolute;left:85%;top:50.6%;transform:translate(-50%,-50%);border:0;background:none;font-family:'Anton',sans-serif;font-size:4.8cqw;color:#161512;cursor:pointer;line-height:1}
+.flhome .fhd-steps{position:absolute;left:85%;top:53.6%;transform:translate(-50%,-50%);border:0;background:none;font-family:'Anton',sans-serif;font-size:4.5cqw;color:#161512;cursor:pointer;line-height:1}
 .flhome .fhd-cal{position:absolute!important;left:50%;top:62.6%;transform:translateX(-50%);margin:0;display:flex;align-items:center;gap:2.6cqw;z-index:6}
 .flhome .fhd-cal .cdnav{width:9cqw;height:9cqw;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.92);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:4.4cqw;cursor:pointer;font-family:inherit;flex:none}
 .flhome .fhd-cal .cdnav:disabled{opacity:.3}
@@ -2366,8 +2366,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd-m .s.amb{color:#E0922A}
 .flhome .fhd-m .s.emb{color:#E8674A}
 .flhome .fhd-m .s .d{display:inline-block;width:1.5cqw;height:1.5cqw;border-radius:50%;background:currentColor;margin-right:1cqw;vertical-align:1px}
-.flhome .fhd-m .ft{font-size:2.5cqw;color:#9A988F;margin-top:1.6cqw}
-.flhome .fhd-m .ft b{color:#161512;font-weight:800}
+.flhome .fhd-m1 .ft2{display:flex;align-items:center;justify-content:center;gap:3cqw;margin-top:2.6cqw}
+.flhome .fhd-m1 .ft2 .c{display:flex;flex-direction:column;align-items:center;gap:.6cqw}
+.flhome .fhd-m1 .ft2 .c b{font-size:3.6cqw;font-weight:800;color:#161512;line-height:1}
+.flhome .fhd-m1 .ft2 .c span{font-size:2.3cqw;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A988F}
+.flhome .fhd-m1 .ft2 .sep{width:1px;height:6cqw;background:#E6DFD5}
 .flhome .fhd-hit{position:absolute;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:30px}
 .flhome .fhd-h1{left:5%;top:72%;width:30%;height:25%}
 .flhome .fhd-h2{left:35.5%;top:72%;width:29%;height:25%}
@@ -2481,7 +2484,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
   <div class="fhd">
-    <img class="fhd-bg" src="icons/home_empty.png?v=2" alt="">
+    <img class="fhd-bg" src="icons/home_empty.png?v=3" alt="">
 
     <!-- anneau récupération (codé, dynamique) -->
     <div class="fhd-ring" onclick="go('recovery')">
@@ -2505,7 +2508,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
 
     <!-- métriques (valeurs sur les cercles) -->
-    <div class="fhd-m fhd-m1"><div class="v" id="flSleep">—</div><div class="s vio"><span class="d"></span><span id="flSleepS">—</span></div><div class="ft"><b id="flBed">—</b> <small>Coucher</small> · <b id="flWake">—</b> <small>Réveil</small></div></div>
+    <div class="fhd-m fhd-m1"><div class="v" id="flSleep">—</div><div class="s vio"><span class="d"></span><span id="flSleepS">—</span></div><div class="ft2"><div class="c"><b id="flBed">—</b><span>Coucher</span></div><i class="sep"></i><div class="c"><b id="flWake">—</b><span>Réveil</span></div></div></div>
     <div class="fhd-m fhd-m2"><div class="v"><span id="flLoad">—</span> <small>/21</small></div><div class="s amb"><span class="d"></span><span id="flLoadT">—</span></div></div>
     <div class="fhd-m fhd-m3"><div class="v"><span id="flKcal">—</span> <small>kcal</small></div><div class="s emb"><span class="d"></span>Brûlées · estimé</div></div>
 
@@ -4889,7 +4892,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v184';
+const APP_VERSION='flint-v185';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
