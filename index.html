@@ -2285,6 +2285,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
  .mpick .mpr:active{transform:scale(.98)}
  .fltrend .tseg button:active,.mt2chartc .tseg button:active{transform:scale(.93)}
  .coachv .cchips button{transition:transform .14s ease,background-color .18s ease}
+ /* nav du bas + contrôles d'analyse + cartes sommeil + boutons de feuilles */
+ #nav button{transition:transform .14s cubic-bezier(.2,.7,.2,1),color .2s ease}
+ #nav button:active{transform:scale(.9)}
+ .mt2ico,.mt2ttl,.mt2goal,.msave,.mphd button,.caldd{transition:transform .14s cubic-bezier(.2,.7,.2,1),background-color .18s ease,box-shadow .18s ease}
+ .mt2ico:active{transform:scale(.9)}
+ .mt2ttl:active{transform:scale(.97)}
+ .mt2goal:active{transform:scale(.985)}
+ .msave:active{transform:scale(.97)}
+ .mpick .mphd button:active{transform:scale(.88)}
+ .caldd:active{transform:scale(.97)}
+ .flsleep .slx-night,.flsleep .slx-quality{transition:transform .14s cubic-bezier(.2,.7,.2,1),box-shadow .18s ease}
+ .flsleep .slx-night:active,.flsleep .slx-quality:active{transform:scale(.99)}
 }
 @media (prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -4607,7 +4619,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v146';
+const APP_VERSION='flint-v147';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
