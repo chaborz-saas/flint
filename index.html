@@ -1844,10 +1844,10 @@ body.sleepview{background:#F7F2EC}
 .slp-today{font-size:17px;font-weight:800;color:#6D63F6;letter-spacing:-.01em}
 .slp-calbtn{width:40px;height:40px;border:0;background:none;color:#6D63F6;font-size:22px;display:grid;place-items:center;line-height:0}
 /* illustration (lune/montagnes) — top-right, déborde par-dessus le coin du hero */
-.slp-illus{position:absolute;right:-16px;top:52px;width:272px;pointer-events:none;z-index:1;-webkit-mask-image:linear-gradient(to right,transparent,#000 28%);mask-image:linear-gradient(to right,transparent,#000 28%)}
+.slp-illus{position:absolute;right:-16px;top:44px;width:300px;pointer-events:none;z-index:1;-webkit-mask-image:linear-gradient(to right,transparent,#000 26%);mask-image:linear-gradient(to right,transparent,#000 26%)}
 .slp-illus img{width:100%;height:auto;display:block}
 /* hero card */
-.slp-hero{position:relative;z-index:3;background:linear-gradient(180deg,#FFFFFF 52%,#EFEAF9 100%);border-radius:30px;padding:24px 22px 18px;text-align:center;box-shadow:0 18px 40px rgba(96,90,160,.10);margin-top:16px}
+.slp-hero{position:relative;z-index:3;background:linear-gradient(180deg,#FFFFFF 52%,#EFEAF9 100%);border-radius:30px;padding:24px 22px 18px;text-align:center;box-shadow:0 18px 40px rgba(96,90,160,.10);margin-top:62px}
 .slp-eyb{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#6D63F6}
 .slp-eyb i{font-size:18px}
 .slp-hours{font-family:'Anton',sans-serif;font-weight:400;font-size:80px;line-height:.92;color:#111111;margin-top:14px;letter-spacing:.005em}
@@ -4829,7 +4829,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v160';
+const APP_VERSION='flint-v161';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
