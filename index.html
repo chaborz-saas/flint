@@ -2282,6 +2282,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .gcbar i{display:block;height:100%;border-radius:5px;background:#F5A623}
 .flhome .gchart{display:flex;align-items:flex-end;gap:2.5px;height:32px;margin-top:auto;padding-top:6px}
 .flhome .gchart i{flex:1;border-radius:3px;min-height:4px;display:block}
+.flhome .gcbarx{margin-top:auto}
+.flhome .gcbarx img{width:100%;height:auto;max-height:18px;object-fit:contain;display:block}
+.flhome .gchartx{margin-top:auto;padding-top:6px}
+.flhome .gchartx img{width:100%;height:40px;object-fit:contain;display:block}
+.flhome .fchr .fcimg img{width:100%;height:100%;object-fit:contain;display:block}
 .flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.96);border:1px solid #EFE9E0;border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
 .flhome .fchr .fchrL{flex:none}
 .flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
@@ -2401,14 +2406,14 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="gcl">Effort</div>
       <div class="gcv"><span id="flLoad">—</span> <small>/21</small></div>
       <div class="gcs amb"><span class="d"></span><span id="flLoadT">—</span></div>
-      <div class="gcbar"><i id="flLoadBar"></i></div>
+      <div class="gcbarx"><img src="icons/flint_bar_effort.png" alt="" loading="lazy"></div>
     </button>
     <button class="gcard" type="button" onclick="go('caltrend')">
       <span class="gci img"><img src="icons/flint_icon_calories.png" alt="" loading="lazy"></span>
       <div class="gcl">Calories</div>
       <div class="gcv"><span id="flKcal">—</span> <small>kcal</small></div>
       <div class="gcs emb"><span class="d"></span>Brûlées · estimé</div>
-      <div class="gchart" id="flKcalBars"></div>
+      <div class="gchartx"><img src="icons/flint_bars_calories.png" alt="" loading="lazy"></div>
     </button>
   </div>
 
@@ -2417,7 +2422,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="fchrtop"><span class="fchric"><i class="ti ti-heart"></i></span><div class="fchrtx"><div class="fchrt">FC au repos</div><div class="fchrlive">Cette nuit</div></div></div>
       <div class="fchrv"><b id="flLiveBpm">—</b> <small>bpm</small></div>
     </div>
-    <div class="fchrR" id="flFcMini"></div>
+    <div class="fchrR fcimg"><img src="icons/flint_line_fc.png" alt="" loading="lazy"></div>
   </div>
 
   <div class="mjwrap">
@@ -4702,7 +4707,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v150';
+const APP_VERSION='flint-v151';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
