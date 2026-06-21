@@ -4130,13 +4130,13 @@ function slDonutSVG(stages){var size=240,r=98,sw=16,cx=size/2,cy=size/2,C=2*Math
 var SLEEP_BASE={w:941,h:1548};
 var SLEEP_POS={
   status:    {top:476, left:366, size:33,  weight:800, color:'#6D63F6', font:'inter', align:'left',   anchorY:'center', upper:true, spacing:.04},
-  duration:  {top:574, left:470, size:144, weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center', spacing:-.01},
+  duration:  {top:574, left:470, size:128, weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center', spacing:-.01},
   need:      {top:800, left:470, size:31,  weight:700, color:'#5F5AF6', font:'inter', align:'center', anchorY:'center'},
-  bedtime:   {top:998, left:300, size:52,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
-  wakeTime:  {top:998, left:690, size:52,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
-  recovery:  {top:1440,left:88,  size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
-  awake:     {top:1440,left:360, size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
-  heartRate: {top:1440,left:635, size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'}
+  bedtime:   {top:980, left:268, size:43,  weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center'},
+  wakeTime:  {top:980, left:650, size:43,  weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center'},
+  recovery:  {top:1438,left:88,  size:40,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'},
+  awake:     {top:1438,left:360, size:40,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'},
+  heartRate: {top:1438,left:635, size:40,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'}
 };
 function layoutSleep(){
   var host=document.querySelector('#v-sleep .slp-photo');if(!host)return;
@@ -4772,7 +4772,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v164';
+const APP_VERSION='flint-v165';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
