@@ -423,6 +423,9 @@
   .flhome .flad .fladtx{position:relative;z-index:1;min-width:0;max-width:60%}
   .flhome .flad .fladtx h3{font-size:17px;font-weight:900;letter-spacing:-.01em;color:#161512;margin:0;line-height:1.2}
   .flhome .flad .fladtx p{font-size:14px;line-height:1.42;color:#6B655E;margin:7px 0 0}
+  .flhome .flad .fladcta{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;font-weight:800;color:#E8674A;letter-spacing:.01em}
+  .flhome .flad .fladcta i{font-size:15px}
+  .flhome .flad:active{transform:scale(.99)}
   .flhome .statcard{display:grid;grid-template-columns:1fr 1fr 1fr;padding:20px 4px}
   .flhome .scell{padding:2px 13px;background:none;border:0;font-family:inherit;text-align:left;cursor:pointer;display:block;width:100%;border-radius:14px;transition:transform .12s ease,background .15s ease;-webkit-tap-highlight-color:transparent}
   .flhome .scell:active{transform:scale(.95);background:#FBF7F1}
@@ -2248,6 +2251,32 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fchr .fchrv{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:1;color:#161512}
 .flhome .fchr .fchrv small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#9A988F;margin-left:3px}
 .flhome .fchr .fchrR{flex:1;min-width:0;height:64px}
+/* ===== Coach IA ===== */
+.coachv{display:flex;flex-direction:column;height:100dvh;padding:max(10px,env(safe-area-inset-top)) 0 0}
+.coachv .cvtop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 16px 10px;flex:none;border-bottom:1px solid #EFE9E0}
+.coachv .cvbk{width:42px;height:42px;flex:none;border:0;background:#F0ECE4;border-radius:13px;display:grid;place-items:center;color:#161512;font-size:20px;cursor:pointer}
+.coachv .cvttl{display:flex;align-items:center;gap:9px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:19px;letter-spacing:.5px;color:#161512}
+.coachv .cvav{width:30px;height:30px;border-radius:50%;background:#FBEAE4;color:#E8674A;display:grid;place-items:center;font-size:16px}
+.coachv .cthread{flex:1;overflow-y:auto;padding:18px 16px 8px;display:flex;flex-direction:column;gap:14px;-webkit-overflow-scrolling:touch}
+.coachv .cbub{display:flex;align-items:flex-end;gap:9px;max-width:88%}
+.coachv .cbub.coach{align-self:flex-start}
+.coachv .cbub.me{align-self:flex-end;flex-direction:row-reverse}
+.coachv .cbub .cav{width:30px;height:30px;flex:none;border-radius:50%;background:#FBEAE4;color:#E8674A;display:grid;place-items:center;font-size:15px}
+.coachv .cbub .ctx{font-size:14.5px;line-height:1.45;padding:12px 15px;border-radius:18px}
+.coachv .cbub.coach .ctx{background:#fff;border:1px solid #EFE9E0;color:#161512;border-bottom-left-radius:5px}
+.coachv .cbub.me .ctx{background:#E8674A;color:#fff;border-bottom-right-radius:5px;font-weight:600}
+.coachv .cbub.typing .ctx{display:flex;gap:5px;align-items:center;padding:14px 15px}
+.coachv .cdot{width:7px;height:7px;border-radius:50%;background:#C9C5BC;animation:cdotb 1s ease-in-out infinite}
+.coachv .cdot:nth-child(2){animation-delay:.15s}.coachv .cdot:nth-child(3){animation-delay:.3s}
+@keyframes cdotb{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.coachv .cchips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 10px;flex:none;scrollbar-width:none}
+.coachv .cchips::-webkit-scrollbar{display:none}
+.coachv .cchips button{flex:none;white-space:nowrap;background:#F0ECE4;border:1px solid #E6DFD5;border-radius:30px;padding:9px 14px;font-family:inherit;font-size:13px;font-weight:700;color:#37372F;cursor:pointer}
+.coachv .cchips button:active{transform:scale(.96)}
+.coachv .cinput{display:flex;align-items:center;gap:9px;padding:8px 14px calc(12px + env(safe-area-inset-bottom));flex:none;border-top:1px solid #EFE9E0;background:var(--bg)}
+.coachv .cinput input{flex:1;min-width:0;border:1px solid #E6DFD5;background:#fff;border-radius:24px;padding:13px 16px;font-family:inherit;font-size:15px;color:#161512;outline:none}
+.coachv .cinput button{width:44px;height:44px;flex:none;border:0;background:#E8674A;color:#fff;border-radius:50%;display:grid;place-items:center;font-size:20px;cursor:pointer}
+.coachv .cinput button:active{transform:scale(.92)}
 </style>
 </head>
 <body>
@@ -2355,10 +2384,10 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
   <div id="flDash"></div>
 
-  <div class="card flad">
+  <div class="card flad" onclick="openCoachIA()" style="cursor:pointer">
     <div class="fladart"></div>
     <div class="fladic"><i class="ti ti-bolt"></i></div>
-    <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p></div>
+    <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p><span class="fladcta">Demander au Coach IA <i class="ti ti-arrow-right"></i></span></div>
   </div>
 
   </div>
@@ -3044,6 +3073,28 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
 </div>
 
+<section class="view" id="v-coach">
+  <div class="coachv">
+    <div class="cvtop">
+      <button class="cvbk" type="button" onclick="goBack('today')"><i class="ti ti-chevron-left"></i></button>
+      <div class="cvttl"><span class="cvav"><i class="ti ti-bolt"></i></span>Coach IA</div>
+      <span class="cvbk" style="visibility:hidden"></span>
+    </div>
+    <div class="cthread" id="coachThread"></div>
+    <div class="cchips">
+      <button type="button" onclick="coachAsk('Suis-je prêt à m\'entraîner aujourd\'hui ?')">Prêt à m'entraîner ?</button>
+      <button type="button" onclick="coachAsk('Pourquoi ce score de récupération ?')">Pourquoi ce score ?</button>
+      <button type="button" onclick="coachAsk('Comment a été ma nuit ?')">Ma nuit ?</button>
+      <button type="button" onclick="coachAsk('Quel effort viser aujourd\'hui ?')">Quel effort viser ?</button>
+      <button type="button" onclick="coachAsk('Comment mieux récupérer ?')">Mieux récupérer ?</button>
+    </div>
+    <div class="cinput">
+      <input id="coachInput" type="text" placeholder="Pose ta question…" autocomplete="off" onkeydown="if(event.key==='Enter')coachSend()">
+      <button type="button" onclick="coachSend()" aria-label="Envoyer"><i class="ti ti-arrow-up"></i></button>
+    </div>
+  </div>
+</section>
+
 <nav id="nav">
   <button data-v="today" class="on" aria-current="page"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Aujourd'hui</button>
   <button data-v="load"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Effort</button>
@@ -3125,8 +3176,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='metrend'||v==='stress'||v==='goal');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='metrend'||v==='stress'||v==='goal'||v==='coach');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -4505,8 +4556,46 @@ function persistRecov(){const rv=recovery();if(rv)DB.set('recov_'+tk(),rv.s)}
 function wipeData(){if(!confirm('Vider TOUTES les données (démo incluse) et repartir sur tes vraies données capteur ?'))return;localStorage.clear();location.reload()}
 function exportData(){const dump={};Object.keys(localStorage).forEach(k=>dump[k]=localStorage.getItem(k));const t=JSON.stringify(dump,null,2);try{const blob=new Blob([t],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flint-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500);toast('⬇️ Données exportées (flint-data.json)')}catch(e){try{navigator.clipboard.writeText(t);toast('📋 Données copiées')}catch(e2){toast('Export impossible')}}}
 
+/* ===== Coach IA (réponses fondées sur les données du jour) ===== */
+function _cnorm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function openCoachIA(){go('coach')}
+function renderCoachIntro(){var host=document.getElementById('coachThread');if(!host||host.dataset.init==='1')return;host.dataset.init='1';host.innerHTML='';
+ var rv=recovery(),p=getProfile(),nm=p.name?(' '+esc(p.name)):'';
+ var intro=rv?('Salut'+nm+' 👋 Ta récup du jour est de <b>'+rv.s+'%</b>. Pose-moi une question — je m\'appuie sur tes vraies données.'):('Salut'+nm+' 👋 Je n\'ai pas encore ta nuit. Synchronise ta Polar Loop et je pourrai te conseiller précisément.');
+ coachPush('coach',intro);}
+function coachPush(who,html){var host=document.getElementById('coachThread');if(!host)return;var d=document.createElement('div');d.className='cbub '+who;d.innerHTML=(who==='coach'?'<span class="cav"><i class="ti ti-bolt"></i></span>':'')+'<div class="ctx">'+html+'</div>';host.appendChild(d);host.scrollTop=host.scrollHeight;}
+function coachAsk(q){coachPush('me',esc(q));var host=document.getElementById('coachThread');var t=document.createElement('div');t.className='cbub coach typing';t.innerHTML='<span class="cav"><i class="ti ti-bolt"></i></span><div class="ctx"><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div>';host.appendChild(t);host.scrollTop=host.scrollHeight;haptic();setTimeout(function(){t.remove();coachPush('coach',coachReply(q))},480);}
+function coachSend(){var i=document.getElementById('coachInput');if(!i)return;var v=i.value.trim();if(!v)return;i.value='';i.blur();coachAsk(v);}
+function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfile(),tg=strainTarget(),nm=esc(p.name||'');
+ if(!rv)return "Je n'ai pas encore tes données de cette nuit. Synchronise ta Polar Loop et je te conseillerai précisément.";
+ var s=rv.s,zone=s>=67?'haute':s>=34?'modérée':'basse';
+ if(/(pret|prete|entrain|pousser|seance|forme|aujourd|peux|wod|muscu|metcon)/.test(n)){
+  if(s>=67)return 'Feu vert 🔥 Ta récup est haute ('+s+'%). Ton corps a bien encaissé — c\'est le bon jour pour une grosse séance. Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b>. Reste à l\'écoute de tes sensations.';
+  if(s>=34)return 'Tu peux t\'entraîner, mais dose. Récup modérée ('+s+'%). Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b> — technique ou métcon léger plutôt qu\'un max. Garde de la marge pour demain.';
+  return 'Aujourd\'hui, lève le pied. Récup basse ('+s+'%) : ton corps n\'a pas fini d\'encaisser. Repos actif, mobilité ou marche. Si tu t\'entraînes, reste sous <b>'+tg[1]+'</b> d\'effort.';
+ }
+ if(/(pourquoi|score|recup\b|si bas|si haut|explique)/.test(n)){
+  var c=rv.c.slice().sort(function(a,b){return Math.abs(b[2])-Math.abs(a[2])});
+  var top=c[0],dir=top[2]>=0?'portée surtout par ta ':'pénalisée surtout par ta ',second=c[1]?(' et ta '+c[1][0]+' ('+c[1][1]+')'):'';
+  return 'Ton score est de <b>'+s+'%</b> ('+zone+'), '+dir+top[0]+' ('+top[1]+')'+second+'. Dans le calcul, la VFC pèse le plus, puis le sommeil, la FC au repos et la respiration.';
+ }
+ if(/(sommeil|dormi|dormir|nuit|reveil|coucher)/.test(n)){
+  var sn=sleepNight(tk());if(!sn)return "Pas de données de sommeil pour cette nuit.";
+  var need=(p.need||8)*60,hh=Math.floor(sn.asleep/60)+'h'+String(Math.round(sn.asleep%60)).padStart(2,'0');
+  var v=sn.asleep>=need-15?'C\'est dans ta cible 👍':sn.asleep>=need-60?'Un peu court — vise 30 min de plus.':'Nuit courte, couche-toi plus tôt ce soir.';
+  return 'Tu as dormi <b>'+hh+'</b> (besoin '+Math.floor(need/60)+'h). '+v+' Pour mieux récupérer : horaires réguliers, chambre fraîche et sombre, écrans coupés 30 min avant.';
+ }
+ if(/(effort|charge|intensite|combien|forcer|borg)/.test(n))return 'Vise un effort entre <b>'+tg[0]+' et '+tg[1]+'</b> aujourd\'hui (échelle 0-21). Au-delà tu creuses ta récup ; en dessous tu progresses moins. En crossfit, alterne une grosse séance et une séance technique le lendemain.';
+ if(/(mieux recup|recuperer|recup plus|progresser|conseil|ameliorer)/.test(n))return 'Tes 3 leviers, par ordre d\'impact : <b>1) le sommeil</b> (régularité + durée), <b>2) doser l\'effort</b> (évite d\'enchaîner les séances max), <b>3) l\'hygiène</b> (hydratation, alcool/caféine tardifs). Remplis ton journal et je te dirai ce qui pèse le plus pour toi.';
+ if(/(vfc|hrv|variabilite)/.test(n)){var b=baseStat('hrv'),hv=t&&t.hrv!=null?t.hrv:null;if(hv==null)return "Pas de VFC mesurée cette nuit.";var rel=b?(hv>=b.m+b.sd?'au-dessus de ta normale (bon signe)':hv<=b.m-b.sd?'sous ta normale (fatigue ou stress)':'dans ta plage habituelle'):'';return 'Ta VFC cette nuit : <b>'+hv+' ms</b>'+(rel?', '+rel:'')+'. Une VFC haute = système nerveux bien récupéré. Sommeil régulier, gestion du stress et hydratation l\'améliorent.';}
+ if(/(fc |cardiaque|pouls|battement|coeur|rhr)/.test(n)){var hr=t&&t.rhr!=null?t.rhr:null;if(hr==null)return "Pas de FC au repos mesurée cette nuit.";var br=baseStat('rhr'),rel=br?(hr>br.m+br.sd?'plus haute que ta normale — fatigue, stress ou début de maladie possible':'dans ta normale'):'';return 'Ta FC au repos : <b>'+hr+' bpm</b>'+(rel?', '+rel:'')+'. Plus elle est basse et stable, mieux c\'est.';}
+ if(/(fatigue|creve|epuise|nase|hs|crame)/.test(n)){if(s<34)return 'Tes données confirment : récup basse ('+s+'%). Normal de te sentir entamé. Priorise sommeil, hydratation et repos actif — tu reviendras plus fort.';return 'Tes données sont plutôt bonnes ('+s+'%). Si tu te sens fatigué malgré ça, écoute ton ressenti : le stress du quotidien pèse parfois plus que les chiffres.';}
+ if(/stress|anxi|tendu|nerveux/.test(n))return 'Le stress se lit sur ta VFC et ta FC au repos. Aujourd\'hui ta récup est '+zone+' ('+s+'%). Quelques minutes de respiration lente (cohérence cardiaque) le soir aident vraiment.';
+ if(/(merci|nickel|super|cool|parfait|top|genial)/.test(n))return 'Avec plaisir 💪 Je suis là quand tu veux.';
+ if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
+ return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v142';
+const APP_VERSION='flint-v143';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
