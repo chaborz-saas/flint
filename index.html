@@ -4246,7 +4246,7 @@ function slpCalRender(){
   for(var d=1;d<=dim;d++){var dt=new Date(y,m,d),ds=_slpYMD(dt),fut=dt>t,cls=(ds===selStr?'sel':'')+(ds===todayStr?' today':'');h+='<button class="'+cls.trim()+'"'+(fut?' disabled':'')+' onclick="slpCalPick(\''+ds+'\')">'+d+'</button>'}
   var g=document.getElementById('slpCalGrid');if(g)g.innerHTML=h;
 }
-function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
+function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
 function renderSleep(){var t=sensorOf(tk(gDay)),need=(getProfile().need||8)*60;layoutSleep();updateSlpDate();
  (function(){var sv=document.getElementById('v-sleep');if(sv&&!window._slpQuiet){sv.classList.remove('slpReveal');void sv.offsetWidth;sv.classList.add('slpReveal');clearTimeout(window._slpRT);window._slpRT=setTimeout(function(){sv.classList.remove('slpReveal')},1200)}window._slpQuiet=false})();
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
@@ -4867,7 +4867,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v179';
+const APP_VERSION='flint-v180';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
