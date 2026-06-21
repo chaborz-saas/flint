@@ -2350,6 +2350,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd-zone{font-family:'Anton',sans-serif;font-size:5.4cqw;text-transform:uppercase;color:#2FA86A;margin-top:1.6cqw;letter-spacing:.01em}
 .flhome .fhd-chk{position:absolute;top:5%;right:7%;width:10cqw;height:10cqw;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:5cqw}
 .flhome .fhd-steps{position:absolute;left:85%;top:53.6%;transform:translate(-50%,-50%);border:0;background:none;font-family:'Anton',sans-serif;font-size:4.5cqw;color:#161512;cursor:pointer;line-height:1}
+.flhome .fhd-fc{position:absolute;left:15.5%;top:53.9%;transform:translate(-50%,-50%);width:17.5cqw;height:29cqw;border-radius:50%;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.7);box-shadow:0 12px 30px rgba(120,110,95,.13);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqw;cursor:pointer;z-index:4}
+.flhome .fhd-fc i{color:#E8674A;font-size:5cqw;line-height:1}
+.flhome .fhd-fc .l{font-size:2.6cqw;font-weight:800;letter-spacing:.06em;color:#9A988F}
+.flhome .fhd-fc .v{font-family:'Anton',sans-serif;font-size:5cqw;color:#161512;line-height:1}
+.flhome .fhd-fc .u{font-size:2.4cqw;font-weight:700;color:#9A988F}
 .flhome .fhd-cal{position:absolute!important;left:50%;top:62.6%;transform:translateX(-50%);margin:0;display:flex;align-items:center;gap:2.6cqw;z-index:6}
 .flhome .fhd-cal .cdnav{width:9cqw;height:9cqw;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.92);border-radius:50%;display:grid;place-items:center;color:#77736C;font-size:4.4cqw;cursor:pointer;font-family:inherit;flex:none}
 .flhome .fhd-cal .cdnav:disabled{opacity:.3}
@@ -2501,6 +2506,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
     <!-- PAS (valeur dans l'œuf) -->
     <button class="fhd-steps" type="button" onclick="openTrend('steps')"><span id="flSteps">—</span></button>
+
+    <!-- œuf FC (codé, miroir du PAS) -->
+    <button class="fhd-fc" type="button" onclick="go('fcdetail')"><i class="ti ti-heart"></i><span class="l">FC</span><span class="v" id="flFcEgg">—</span><span class="u">bpm</span></button>
 
     <!-- sélecteur de date -->
     <div class="fhd-cal">
@@ -4039,7 +4047,7 @@ function renderToday(){
  set('flCalBars',flCalBarsSVG(seriesBack(null,9,function(k){return caloriesBurned(k)})));
  set('flEffortBar',flEffortBarSVG(Math.round(str/21*100)));
  var _bpm=t&&t.rhr?t.rhr:null;
- set('flLiveBpm',_bpm!=null?_bpm:'—');
+ set('flLiveBpm',_bpm!=null?_bpm:'—');set('flFcEgg',_bpm!=null?_bpm:'—');
  var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_bpm!=null?_bpm:62);
  var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  var _snm=t?sleepNight(K):null;set('flBed',_snm?flHM(_snm.bedMin):'—');set('flWake',_snm?flHM(_snm.wakeMin):'—');
@@ -4894,7 +4902,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v188';
+const APP_VERSION='flint-v189';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
