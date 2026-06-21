@@ -2341,7 +2341,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd{position:relative;width:100%;aspect-ratio:941/1672;container-type:inline-size;margin:4px -2px 0}
 .flhome .fhd-bg{display:block;width:100%;height:auto}
 .flhome .fhd-keep{display:none}
-.flhome .fhd-ring{position:absolute;left:50%;top:36.5%;transform:translate(-50%,-50%);width:66cqw;cursor:pointer}
+.flhome .fhd-ring{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);width:73cqw;cursor:pointer}
 .flhome .fhd-ring .es-ring{width:100%;height:auto;display:block}
 .flhome .fhd-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .flhome .fhd-pct{font-family:'Anton',sans-serif;font-weight:400;font-size:20cqw;line-height:.86;color:#161512}
@@ -2362,7 +2362,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd-m .v{font-family:'Anton',sans-serif;font-size:7cqw;color:#161512;line-height:1}
 .flhome .fhd-m .v small{font-family:'Inter',sans-serif;font-size:3cqw;font-weight:700;color:#9A988F}
 .flhome .fhd-m .s{font-size:2.9cqw;font-weight:800;margin-top:1.8cqw}
-.flhome .fhd-m1{top:80.3%}
+.flhome .fhd-m1{top:79.3%}.flhome .fhd-m1 .v{font-size:6cqw}.flhome .fhd-m1 .s{font-size:2.7cqw}
 .flhome .fhd-m1 .s{margin-top:1.1cqw}
 .flhome .fhd-m .s.vio{color:#6E6BFF}
 .flhome .fhd-m .s.amb{color:#E0922A}
@@ -2492,8 +2492,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="fhd-ring" onclick="go('recovery')">
       <svg class="es-ring" viewBox="0 0 120 120">
         <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
-        <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="8.5"/>
-        <circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="8.5" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="5.5"/>
+        <circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="5.5" stroke-linecap="round" transform="rotate(-90 60 60)"/>
       </svg>
       <div class="fhd-rc"><div class="fhd-pct"><span id="flRecup">85</span><small>%</small></div><div class="fhd-rlbl">Récupération</div><div class="fhd-zone" id="flZone">Prêt à charger</div></div>
       <div class="fhd-chk" id="flCheck"><i class="ti ti-check"></i></div>
@@ -4894,7 +4894,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v187';
+const APP_VERSION='flint-v188';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
