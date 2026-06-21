@@ -1840,11 +1840,12 @@ body.sleepview{background:#FAF7F5}
 .slp-bk:active{transform:scale(.88)}
 .slp-hsp{flex:none;width:12%}
 .slp-dnav{flex:1;display:flex;align-items:center;justify-content:center;gap:2.6cqw}
-.slp-dn{border:0;background:#EDEAF8;color:#6D63F6;width:8.6cqw;height:8.6cqw;border-radius:50%;display:grid;place-items:center;font-size:4.6cqw;line-height:0;transition:transform .12s}
+.slp-dn{border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.94);color:#77736C;width:9.4cqw;height:9.4cqw;border-radius:50%;display:grid;place-items:center;font-size:4.5cqw;line-height:0;box-shadow:0 6px 18px rgba(22,21,18,.05);transition:transform .12s}
 .slp-dn:active{transform:scale(.88)}
-.slp-dn:disabled{opacity:.32}
-.slp-dlbl{border:0;background:none;display:inline-flex;align-items:center;gap:1.6cqw;font-family:'Inter',sans-serif;font-weight:800;font-size:4.2cqw;color:#6D63F6;letter-spacing:-.01em;line-height:1}
-.slp-dlbl i{font-size:4cqw}
+.slp-dn:disabled{opacity:.3}
+.slp-dlbl{display:inline-flex;align-items:center;gap:1.9cqw;border:1px solid rgba(120,110,95,.16);background:rgba(255,255,255,.62);border-radius:30px;padding:2cqw 4.8cqw;font-family:'Inter',sans-serif;font-weight:700;font-size:3.9cqw;color:#161512;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .12s}
+.slp-dlbl:active{transform:scale(.96)}
+.slp-dlbl i{color:#77736C;font-size:4cqw}
 .slov{position:absolute;line-height:1;white-space:nowrap;z-index:5}
 /* calendrier custom */
 .slpcal-back{position:fixed;inset:0;background:rgba(20,18,12,.4);z-index:60;display:none;align-items:center;justify-content:center;padding:24px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -2768,7 +2769,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <button class="slp-bk" type="button" onclick="go('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
       <div class="slp-dnav">
         <button class="slp-dn" type="button" onclick="slpDay(-1)" aria-label="Nuit précédente"><i class="ti ti-chevron-left"></i></button>
-        <button class="slp-dlbl" type="button" onclick="slpOpenPicker()"><span id="slpDate">Aujourd'hui</span> <i class="ti ti-calendar"></i></button>
+        <button class="slp-dlbl" type="button" onclick="slpOpenPicker()"><i class="ti ti-calendar"></i><span id="slpDate">Aujourd'hui</span></button>
         <button class="slp-dn" id="slpNext" type="button" onclick="slpDay(1)" aria-label="Nuit suivante"><i class="ti ti-chevron-right"></i></button>
       </div>
       <span class="slp-hsp"></span>
@@ -4853,7 +4854,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v171';
+const APP_VERSION='flint-v172';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
