@@ -628,15 +628,21 @@
 .flrecovery .recfac .rfhic{width:42px;height:42px;border-radius:13px;background:rgba(110,107,255,.13);color:#6E6BFF;display:grid;place-items:center;font-size:20px;flex:none}
 .flrecovery .recfac .rfhtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
 .flrecovery .recfac .rfhsub{font-size:12.5px;color:#9A988F;margin-top:2px}
-.flrecovery .rfr{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:12px;padding:11px 0;border-top:1px solid #F1EBE3}
+.flrecovery .rfr{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #F1EBE3;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;font-family:inherit;text-align:left;cursor:pointer}
 .flrecovery .rfr:first-child{border-top:0}
-.flrecovery .rfr .rfi{width:34px;height:34px;border-radius:10px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:17px;flex:none}
-.flrecovery .rfr .rfn{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13.5px;letter-spacing:.3px;color:#37372F}
-.flrecovery .rfr .rfv{font-size:14px;font-weight:800;color:#161512;white-space:nowrap}
-.flrecovery .rfr .rfc{font-size:11px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;padding:5px 10px;border-radius:9px;flex:none}
-.flrecovery .rfr .rfc.up{background:rgba(47,168,106,.13);color:#1E7A47}
-.flrecovery .rfr .rfc.down{background:rgba(232,103,74,.13);color:#C0492C}
-.flrecovery .rfr .rfc.flat{background:#F1EFE8;color:#8A8580}
+.flrecovery .rfr .rfi{width:38px;height:38px;border-radius:11px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:18px;flex:none}
+.flrecovery .rfr .rfn{font-size:12.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#37372F;line-height:1.25}
+.flrecovery .rfr .rfval{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
+.flrecovery .rfr .rfv{font-family:'Anton';font-style:oblique 8deg;font-size:23px;color:#161512;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.flrecovery .rfr .rfv i{font-size:16px}
+.flrecovery .rfr .rfb{font-size:12px;font-weight:700;color:#9A988F;margin-top:2px;font-variant-numeric:tabular-nums}
+.flrecovery .rectrends .rtr{display:grid;grid-template-columns:auto 1fr auto auto auto;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #F1EBE3;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;font-family:inherit;text-align:left;cursor:pointer}
+.flrecovery .rectrends .rtr:first-child{border-top:0}
+.flrecovery .rectrends .rti{width:34px;height:34px;border-radius:10px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:16px;flex:none}
+.flrecovery .rectrends .rtn{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:#37372F}
+.flrecovery .rectrends .rtr .mt2spark{width:62px;height:26px}
+.flrecovery .rectrends .rtv{font-size:13.5px;font-weight:800;color:#161512;white-space:nowrap;font-variant-numeric:tabular-nums}
+.flrecovery .rectrends .rtc{color:#C9C5BC;font-size:16px}
 .flrecovery .rcor{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid #F1EBE3}
 .flrecovery .rcor:first-of-type{border-top:0}
 .flrecovery .rcl{flex:1;font-size:13.5px;font-weight:600;color:#37372F;min-width:0}
@@ -2624,6 +2630,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div id="recFactors"></div>
   </div>
 
+  <div class="card rectrends">
+    <div class="rfh" style="margin-bottom:4px"><span class="rfhic"><i class="ti ti-chart-line"></i></span><div class="rfht"><div class="rfhtitle">Tendances de la semaine</div><div class="rfhsub">7 derniers jours · touche pour le détail</div></div></div>
+    <div id="recTrends"></div>
+  </div>
+
   <div id="vitauxCard" class="nvit"></div>
 
   <div class="card healthc" id="healthCard"></div>
@@ -3964,17 +3975,45 @@ function renderRecovery(){renderVitaux();renderRecCorr();renderRecJournal();cons
  set('recPillT',rv.s>=67?'Très bon état':rv.s>=34?'État correct':'À surveiller');
  if(pe){pe.style.color=rc;pe.style.borderColor=rc+'55';var dot=pe.querySelector('.d');if(dot)dot.style.background=rc}
  var rule=document.querySelector('#v-recovery .rhrule');if(rule)rule.style.background=rc;
- set('recInsight',rv.s>=67?'HRV élevée et FC repos basse : ton système est prêt à encaisser une charge utile.':rv.s>=34?'Signaux corrects. Une charge modérée est le bon dosage aujourd\'hui.':'HRV basse et FC repos haute : ton corps réclame du repos. Lève le pied aujourd\'hui.');
+ set('recInsight',recInsightTxt(rv));
  var _rf=document.getElementById('recFactors');if(_rf)_rf.innerHTML=recFactorsHTML(rv);
+ renderRecTrends();
  renderHealth();
 }
-function recFactorsHTML(rv){if(!rv||!rv.c)return '';
- var ic={'HRV':'ti-activity-heartbeat','FC repos':'ti-heart','Sommeil':'ti-moon','Respiration':'ti-lungs'};
- var base={'HRV':baseStat('hrv'),'FC repos':baseStat('rhr'),'Respiration':baseStat('resp')};
- var cur={'HRV':(rv.today&&rv.today.hrv),'FC repos':(rv.today&&rv.today.rhr),'Respiration':(rv.today&&rv.today.resp)};
- return rv.c.map(function(f){var z=f[2],cls=z>0.4?'up':z<-0.4?'down':'flat',lbl=z>0.4?'aide':z<-0.4?'pèse':'neutre';
-  var b=base[f[0]],v=cur[f[0]],delta='';if(b&&v!=null){var pct=Math.round((v-b.m)/b.m*100);if(Math.abs(pct)>=1)delta=' · '+(pct>0?'+':'')+pct+'%';}
-  return '<div class="rfr"><span class="rfi"><i class="ti '+(ic[f[0]]||'ti-circle')+'"></i></span><span class="rfn">'+f[0]+'</span><span class="rfv">'+f[1]+delta+'</span><span class="rfc '+cls+'">'+lbl+'</span></div>';
+function _sleepPerfOf(k){var n=sleepNight(k);if(!n)return null;var need=(getProfile().need||8)*60;return Math.round(n.asleep/need*100)}
+function _sleepPerfBase(){var a=[];for(var i=1;i<=30;i++){var v=_sleepPerfOf(tk(-i));if(v!=null)a.push(v)}return a.length?(a.reduce(function(x,y){return x+y},0)/a.length):null}
+function recFactorsHTML(rv){if(!rv)return '';
+ var sb=_sleepPerfBase();
+ var rows=[
+  {label:'Variabilité de la fréquence cardiaque',icon:'ti-activity-heartbeat',cur:(rv.today&&rv.today.hrv!=null)?rv.today.hrv:null,base:baseStat('hrv'),lower:false,dec:false,unit:'',metric:'hrv'},
+  {label:'Fréquence cardiaque au repos',icon:'ti-heart',cur:(rv.today&&rv.today.rhr!=null)?rv.today.rhr:null,base:baseStat('rhr'),lower:true,dec:false,unit:'',metric:'rhr'},
+  {label:'Fréquence respiratoire',icon:'ti-lungs',cur:(rv.today&&rv.today.resp!=null)?rv.today.resp:null,base:baseStat('resp'),lower:true,dec:true,unit:'',metric:'resp'},
+  {label:'Votre sommeil',icon:'ti-moon',cur:_sleepPerfOf(tk()),base:sb!=null?{m:sb}:null,lower:false,dec:false,unit:'%',metric:'sleepperf'}
+ ];
+ return rows.map(function(r){
+  var fmt=function(v){return v==null?'—':((r.dec?(Math.round(v*10)/10).toString().replace('.',','):Math.round(v))+r.unit)};
+  var bm=r.base?r.base.m:null,thr=r.dec?0.05:0.5,dir=0;
+  if(r.cur!=null&&bm!=null){if(r.cur>bm+thr)dir=1;else if(r.cur<bm-thr)dir=-1}
+  var good=dir===0?null:(r.lower?dir<0:dir>0),col=dir===0?'#9A988F':good?'#3FB57A':'#F0492E';
+  var arrow=dir>0?'ti-caret-up-filled':dir<0?'ti-caret-down-filled':'ti-point-filled';
+  return '<button class="rfr" type="button" onclick="openMetricTrend(\''+r.metric+'\')"><span class="rfi"><i class="ti '+r.icon+'"></i></span><span class="rfn">'+r.label+'</span><span class="rfval"><span class="rfv">'+fmt(r.cur)+' <i class="ti '+arrow+'" style="color:'+col+'"></i></span><span class="rfb">'+(bm!=null?fmt(bm):'—')+'</span></span></button>';
+ }).join('');
+}
+function recInsightTxt(rv){if(!rv||!rv.c)return '';
+ var c=rv.c.slice().sort(function(a,b){return Math.abs(b[2])-Math.abs(a[2])}),top=c[0];
+ var base={'HRV':baseStat('hrv'),'FC repos':baseStat('rhr'),'Respiration':baseStat('resp')}[top[0]];
+ var cur={'HRV':rv.today&&rv.today.hrv,'FC repos':rv.today&&rv.today.rhr,'Respiration':rv.today&&rv.today.resp}[top[0]];
+ if(base&&cur!=null){var pct=Math.round((cur-base.m)/base.m*100),ab=Math.abs(pct);
+  if(top[0]==='HRV')return 'Ta VFC est '+ab+'% '+(pct>=0?'plus élevée':'plus basse')+" que d'habitude. "+(pct>=0?'Une VFC élevée indique un bon équilibre nerveux : tu encaisses bien le stress et l\'effort.':'Une VFC plus basse traduit de la fatigue ou du stress — dose ta journée.');
+  if(top[0]==='FC repos')return 'Ta FC au repos est '+ab+'% '+(pct>=0?'plus haute':'plus basse')+" que d'habitude. "+(pct<=0?'Plus elle est basse, mieux ton corps a récupéré.':'Une FC repos élevée peut signaler fatigue, stress ou une nuit difficile.');
+  return 'Ta fréquence respiratoire est '+(ab<2?'stable, dans ta normale':((pct>0?ab+'% au-dessus':ab+'% en dessous')+' de ta normale')+'. Très stable d\'ordinaire, tout écart marqué mérite l\'attention.');
+ }
+ return rv.s>=67?'Tes signaux sont au vert : ton corps est prêt à encaisser une charge utile.':rv.s>=34?'Signaux corrects. Une charge modérée est le bon dosage aujourd\'hui.':'Ton corps réclame du repos. Lève le pied aujourd\'hui.';
+}
+function renderRecTrends(){var host=document.getElementById('recTrends');if(!host)return;
+ var items=[{m:'recovery',l:'Récupération',i:'ti-battery-charging'},{m:'hrv',l:'VFC',i:'ti-activity-heartbeat'},{m:'rhr',l:'FC au repos',i:'ti-heart'},{m:'sleepperf',l:'Sommeil',i:'ti-moon'}];
+ host.innerHTML=items.map(function(it){var M=TREND[it.m];if(!M)return '';var v=M.val(tk()),vlab=v!=null?(tFmtV(M,v)+(M.unit?(' '+M.unit):'')):'—';
+  return '<button class="rtr" type="button" onclick="openMetricTrend(\''+it.m+'\')"><span class="rti"><i class="ti '+it.i+'"></i></span><span class="rtn">'+it.l+'</span>'+daySparkSVG(M,tk(),false)+'<span class="rtv">'+vlab+'</span><i class="ti ti-chevron-right rtc"></i></button>';
  }).join('');
 }
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
@@ -4619,7 +4658,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v147';
+const APP_VERSION='flint-v148';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
