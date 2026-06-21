@@ -643,6 +643,38 @@
 .flrecovery .rectrends .rtr .mt2spark{width:62px;height:26px}
 .flrecovery .rectrends .rtv{font-size:13.5px;font-weight:800;color:#161512;white-space:nowrap;font-variant-numeric:tabular-nums}
 .flrecovery .rectrends .rtc{color:#C9C5BC;font-size:16px}
+/* ===== Matrice d'impact (comportement) ===== */
+.flrecovery .bmxh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.flrecovery .bmxic{width:42px;height:42px;border-radius:13px;background:#F2ECE3;color:#5F5E58;display:grid;place-items:center;font-size:19px;flex:none}
+.flrecovery .bmxt{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
+.flrecovery .bmxs{font-size:12.5px;color:#9A988F;margin-top:2px}
+.flrecovery .bmxhdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 2px 6px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.flrecovery .bmxhdr .bmf{color:#E8674A;display:inline-flex;align-items:center;gap:5px}
+.flrecovery .bmxhdr .bma{color:#2FA86A;display:inline-flex;align-items:center;gap:5px}
+.flrecovery .bmxhdr .bmi{color:#9A988F;font-size:10px}
+.flrecovery .bmplot{position:relative;margin-top:4px}
+.flrecovery .bmaxis{position:absolute;left:50%;top:0;bottom:0;width:0;border-left:2px dotted #E2DCD2;transform:translateX(-50%)}
+.flrecovery .bmrl{position:absolute;left:50%;transform:translate(-50%,-50%);background:#161512;color:#fff;font-size:11px;font-weight:800;min-width:30px;height:24px;display:grid;place-items:center;border-radius:8px;padding:0 7px;font-variant-numeric:tabular-nums;z-index:2}
+.flrecovery .bmcolL{position:absolute;left:0;top:0;width:48%}
+.flrecovery .bmcolR{position:absolute;right:0;top:0;width:48%}
+.flrecovery .bmc{position:absolute;left:0;right:0;display:flex;align-items:center;gap:9px;height:46px;padding:0 12px;border-radius:13px;background:#fff;border:1px solid #EFE9E0;box-shadow:0 4px 14px rgba(120,110,95,.07)}
+.flrecovery .bmc.neg{border-left:4px solid #E8674A;background:linear-gradient(90deg,#FDF1ED,#fff 60%)}
+.flrecovery .bmc.pos{border-left:4px solid #2FA86A;background:linear-gradient(90deg,#EDF7F0,#fff 60%)}
+.flrecovery .bmc .bme{font-size:16px;flex:none;line-height:1}
+.flrecovery .bmc .bmcn{flex:1;min-width:0;font-size:13px;font-weight:700;color:#161512;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flrecovery .bmc .bmcv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;flex:none;font-variant-numeric:tabular-nums}
+.flrecovery .bmc.neg .bmcv{color:#C0492C}
+.flrecovery .bmc.pos .bmcv{color:#1E7A47}
+.flrecovery .bbrief .bbr{display:flex;align-items:flex-start;gap:13px;padding:14px;border-radius:14px;margin-top:12px}
+.flrecovery .bbrief .bbr.neg{background:#FDF1ED}
+.flrecovery .bbrief .bbr.pos{background:#EDF7F0}
+.flrecovery .bbrief .bbi{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:19px;flex:none;background:#fff}
+.flrecovery .bbrief .bbr.neg .bbi{color:#E8674A}
+.flrecovery .bbrief .bbr.pos .bbi{color:#2FA86A}
+.flrecovery .bbrief .bbt{font-size:13px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin-bottom:4px}
+.flrecovery .bbrief .bbr.neg .bbt{color:#C0492C}
+.flrecovery .bbrief .bbr.pos .bbt{color:#1E7A47}
+.flrecovery .bbrief .bbp{font-size:13.5px;line-height:1.45;color:#37372F}
 .flrecovery .rcor{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid #F1EBE3}
 .flrecovery .rcor:first-of-type{border-top:0}
 .flrecovery .rcl{flex:1;font-size:13.5px;font-weight:600;color:#37372F;min-width:0}
@@ -2456,9 +2488,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <!-- ===================== IMPACT COMPORTEMENT ===================== -->
 <section class="view" id="v-behavior">
 <div class="flrecovery">
-  <div class="pghd"><button class="bk" onclick="goBack('today')">‹</button><div><div class="pgt">Comportement.</div><div class="pgs">L'impact de tes habitudes sur ta récup.</div></div></div>
-  <div class="card" id="behCorrCard"></div>
-  <div class="card" id="behTipCard"></div>
+  <div class="pghd"><button class="bk" onclick="goBack('today')">‹</button><div><div class="pgt">Comportement</div><div class="pgs">L'impact de tes habitudes sur ta récup.</div></div></div>
+  <div class="card bmx" id="behMatrix"></div>
+  <div class="card bbrief" id="behBrief"></div>
 </div>
 </section>
 
@@ -3310,12 +3342,22 @@ function renderMjWeek(){var host=document.getElementById('mjWeek');if(!host)retu
  for(var i=6;i>=0;i--){var off=-i;var dt=new Date(t);dt.setDate(dt.getDate()+off);var fill=DB.get('journal_'+tk(off),{})._saved===true,today=off===0;
   html+='<div class="mjwd'+(fill?' done':'')+(today?' today':'')+'"><span class="d">'+DOW[dt.getDay()]+'</span><span class="o">'+(fill?'<i class="ti ti-check"></i>':'')+'</span></div>'}
  host.innerHTML=html}
-function renderBehavior(){var c=behaviorCorr();var host=document.getElementById('behCorrCard');
- if(host)host.innerHTML='<div class="rvh"><span class="ic" style="color:#6E6BFF"><i class="ti ti-link"></i></span><b>Impact sur ta récup</b></div>'+(c.length?c.slice(0,8).map(function(x){var pos=x.imp>0;return '<div class="rcor"><span class="rcl">'+x.lbl+'</span><span class="rcbar"><i style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(pos?'#2FA86A':'#E8674A')+'"></i></span><span class="rcv" style="color:'+(pos?'#1E7A47':'#C0492C')+'">'+(pos?'+':'')+x.imp+'%</span></div>'}).join(''):'<p class="sci" style="margin:0">Remplis ton journal quelques jours — Flint révélera ce qui aide ou nuit à ta récup.</p>');
- var tip=document.getElementById('behTipCard');if(tip){var neg=c.filter(function(x){return x.imp<0}),pos=c.filter(function(x){return x.imp>0});var h='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-bulb"></i></span><b>Ce que Flint en conclut</b></div>';
-  if(neg.length)h+='<p class="sci" style="margin:0 0 8px"><b style="color:#C0492C">À limiter :</b> '+neg.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
-  if(pos.length)h+='<p class="sci" style="margin:0"><b style="color:#1E7A47">Ce qui t\'aide :</b> '+pos.slice(0,2).map(function(x){return x.lbl}).join(', ')+'.</p>';
-  if(!c.length)h+='<p class="sci" style="margin:0">Pas encore assez de données. Remplis ton journal régulièrement pour révéler tes corrélations.</p>';tip.innerHTML=h}}
+function _behParts(lbl){var p=String(lbl).split(' ');return {emoji:p[0],name:p.slice(1).join(' ')}}
+function renderBehavior(){var c=behaviorCorr();var host=document.getElementById('behMatrix'),brief=document.getElementById('behBrief');if(!host)return;
+ var head='<div class="bmxh"><span class="bmxic"><i class="ti ti-layout-grid"></i></span><div><div class="bmxt">Matrice d\'impact</div><div class="bmxs">Selon l\'effet et l\'intensité sur ta récupération</div></div></div>';
+ if(!c.length){host.innerHTML=head+'<p class="sci" style="margin:6px 2px 0">Remplis ton journal quelques jours — Flint révélera ce qui aide ou freine ta récup.</p>';if(brief)brief.innerHTML='';return}
+ var neg=c.filter(function(x){return x.imp<0}),pos=c.filter(function(x){return x.imp>0});
+ var maxAbs=Math.max(20,Math.ceil(Math.max.apply(null,c.map(function(x){return Math.abs(x.imp)}))/10)*10);
+ var cardH=46,gap=12,H=Math.max(300,Math.max(neg.length,pos.length)*(cardH+gap)+24);
+ function col(arr){arr=arr.slice().sort(function(a,b){return Math.abs(b.imp)-Math.abs(a.imp)});var prev=-1;return arr.map(function(x){var ideal=(1-Math.abs(x.imp)/maxAbs)*(H-cardH);var y=Math.max(ideal,prev<0?0:prev+cardH+gap);prev=y;var P=_behParts(x.lbl),ps=x.imp>0;return '<div class="bmc '+(ps?'pos':'neg')+'" style="top:'+y.toFixed(0)+'px"><span class="bme">'+P.emoji+'</span><span class="bmcn">'+P.name+'</span><span class="bmcv">'+(ps?'+':'')+x.imp+'</span></div>'}).join('')}
+ var ruler=[maxAbs,Math.round(maxAbs/2),0].map(function(lv){var y=(1-lv/maxAbs)*(H-cardH)+cardH/2;return '<div class="bmrl" style="top:'+y.toFixed(0)+'px">'+lv+'</div>'}).join('');
+ host.innerHTML=head
+  +'<div class="bmxhdr"><span class="bmf"><i class="ti ti-arrow-left"></i> Freine ta récup</span><span class="bmi">Impact</span><span class="bma">Aide ta récup <i class="ti ti-arrow-right"></i></span></div>'
+  +'<div class="bmplot" style="height:'+H+'px"><div class="bmaxis"></div>'+ruler+'<div class="bmcolL">'+col(neg)+'</div><div class="bmcolR">'+col(pos)+'</div></div>';
+ if(brief){var nm=function(l){return _behParts(l).name},low=function(s){return s.charAt(0).toLowerCase()+s.slice(1)};var h='<div class="bmxh"><span class="bmxic" style="background:#F1ECE4;color:#161512"><i class="ti ti-bulb"></i></span><div class="bmxt">En bref</div></div>';
+  if(neg.length)h+='<div class="bbr neg"><span class="bbi"><i class="ti ti-alert-triangle"></i></span><div><div class="bbt">Priorité à corriger</div><div class="bbp">'+nm(neg[0].lbl)+(neg[1]?' et '+low(nm(neg[1].lbl)):'')+' freine'+(neg[1]?'nt':'')+' le plus ta récupération. Réduis-les pour gagner en énergie et en qualité de sommeil.</div></div></div>';
+  if(pos.length)h+='<div class="bbr pos"><span class="bbi"><i class="ti ti-circle-check"></i></span><div><div class="bbt">Habitudes à garder</div><div class="bbp">'+pos.slice(0,3).map(function(x){return low(nm(x.lbl))}).join(', ')+(pos.length===1?' a':' ont')+' un effet positif. Continue, tu es sur la bonne voie.</div></div></div>';
+  brief.innerHTML=h}}
 /* ---------- MON TABLEAU DE BORD ---------- */
 const DASH={
  hrv:{l:'Variabilité de la fréquence cardiaque',i:'ti-activity',p:'recovery',v:function(){var t=sensorOf(tk());return t&&t.hrv!=null?t.hrv+' ms':'—'}},
@@ -4658,7 +4700,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v148';
+const APP_VERSION='flint-v149';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
