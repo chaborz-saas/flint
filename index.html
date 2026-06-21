@@ -2341,11 +2341,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd{position:relative;width:100%;aspect-ratio:941/1672;container-type:inline-size;margin:4px -2px 0}
 .flhome .fhd-bg{display:block;width:100%;height:auto}
 .flhome .fhd-keep{display:none}
-.flhome .fhd-ring{position:absolute;left:50%;top:35.6%;transform:translate(-50%,-50%);width:58cqw;cursor:pointer}
+.flhome .fhd-ring{position:absolute;left:50%;top:36.5%;transform:translate(-50%,-50%);width:66cqw;cursor:pointer}
 .flhome .fhd-ring .es-ring{width:100%;height:auto;display:block}
 .flhome .fhd-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.flhome .fhd-pct{font-family:'Anton',sans-serif;font-weight:400;font-size:17cqw;line-height:.88;color:#161512}
-.flhome .fhd-pct small{font-size:7.5cqw;font-weight:700}
+.flhome .fhd-pct{font-family:'Anton',sans-serif;font-weight:400;font-size:20cqw;line-height:.86;color:#161512}
+.flhome .fhd-pct small{font-size:8.5cqw;font-weight:700}
 .flhome .fhd-rlbl{font-size:2.9cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9A988F;margin-top:1.5cqw}
 .flhome .fhd-zone{font-family:'Anton',sans-serif;font-size:5.4cqw;text-transform:uppercase;color:#2FA86A;margin-top:1.6cqw;letter-spacing:.01em}
 .flhome .fhd-chk{position:absolute;top:5%;right:7%;width:10cqw;height:10cqw;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:5cqw}
@@ -2490,8 +2490,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="fhd-ring" onclick="go('recovery')">
       <svg class="es-ring" viewBox="0 0 120 120">
         <defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs>
-        <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="6"/>
-        <circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="6" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="8.5"/>
+        <circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="8.5" stroke-linecap="round" transform="rotate(-90 60 60)"/>
       </svg>
       <div class="fhd-rc"><div class="fhd-pct"><span id="flRecup">85</span><small>%</small></div><div class="fhd-rlbl">Récupération</div><div class="fhd-zone" id="flZone">Prêt à charger</div></div>
       <div class="fhd-chk" id="flCheck"><i class="ti ti-check"></i></div>
@@ -4892,7 +4892,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v185';
+const APP_VERSION='flint-v186';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
