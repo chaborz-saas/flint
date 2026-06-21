@@ -1837,7 +1837,7 @@ body.sleepview{background:#FAF7F5}
 .slp-photo-bg{display:block;width:100%;height:auto}
 /* header 2 rangées (titre + ligne de date) par-dessus la bande effacée */
 .slp-hdr{position:absolute;top:1.5%;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 5%;z-index:7}
-.slp-bk{flex:none;border:0;background:none;color:#6D63F6;font-size:7cqw;line-height:0;padding:0;transition:transform .12s}
+.slp-bk{flex:none;width:9.6cqw;height:9.6cqw;display:grid;place-items:center;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.9);color:#6D63F6;font-size:5.2cqw;border-radius:50%;line-height:0;padding:0 .5cqw 0 0;box-shadow:0 5px 16px rgba(22,21,18,.06);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .12s}
 .slp-bk:active{transform:scale(.85)}
 .slp-h1{margin:0;font-family:'Inter',sans-serif;font-weight:800;font-size:5.6cqw;letter-spacing:-.01em;color:#1A1730}
 .slp-dots{flex:none;border:0;background:none;color:#6D63F6;font-size:6cqw;line-height:0;padding:0}
@@ -1852,7 +1852,7 @@ body.sleepview{background:#FAF7F5}
 /* calendrier custom */
 .slpcal-back{position:fixed;inset:0;background:rgba(20,18,12,.4);z-index:60;display:none;align-items:center;justify-content:center;padding:24px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .slpcal-back.on{display:flex}
-.slpcal{width:100%;max-width:330px;background:#fff;border-radius:26px;padding:18px 18px 16px;box-shadow:0 26px 64px rgba(20,18,12,.28);font-family:'Inter',sans-serif;animation:slpcalIn .2s cubic-bezier(.2,.8,.2,1)}
+.slpcal{width:100%;max-width:288px;background:#fff;border-radius:24px;padding:15px 15px 13px;box-shadow:0 26px 64px rgba(20,18,12,.28);font-family:'Inter',sans-serif;animation:slpcalIn .2s cubic-bezier(.2,.8,.2,1)}
 @keyframes slpcalIn{from{opacity:0;transform:scale(.93) translateY(10px)}to{opacity:1;transform:none}}
 .slpcal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .slpcal-hd b{font-size:16.5px;font-weight:800;color:#161512;text-transform:capitalize}
@@ -4867,7 +4867,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v180';
+const APP_VERSION='flint-v181';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
