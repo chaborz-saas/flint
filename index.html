@@ -1887,6 +1887,23 @@ body.sleepview{background:#FAF7F5}
 .slp-rest{margin-top:14px;padding:0 6.4%}
 .slp-rest .card{margin-bottom:12px}
 .slp-rest .card:last-child{margin-bottom:0}
+/* animation d'ouverture (casse l'effet "photo brute") */
+@keyframes slpFade{from{opacity:0}to{opacity:1}}
+@keyframes slpFadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+#v-sleep.slpReveal .slp-photo-bg{animation:slpFade .5s ease both}
+#v-sleep.slpReveal .slp-hdr{animation:slpFadeUp .42s ease both}
+#v-sleep.slpReveal .slov,#v-sleep.slpReveal .slp-vbox{animation:slpFade .42s ease both}
+#v-sleep.slpReveal [data-sl="status"]{animation-delay:.06s}
+#v-sleep.slpReveal [data-sl="duration"]{animation-delay:.11s}
+#v-sleep.slpReveal [data-sl="need"]{animation-delay:.16s}
+#v-sleep.slpReveal [data-sl="bedtime"]{animation-delay:.20s}
+#v-sleep.slpReveal [data-sl="wakeTime"]{animation-delay:.23s}
+#v-sleep.slpReveal .slp-vbox{animation-delay:.27s}
+#v-sleep.slpReveal [data-sl="recovery"]{animation-delay:.31s}
+#v-sleep.slpReveal [data-sl="awake"]{animation-delay:.34s}
+#v-sleep.slpReveal [data-sl="heartRate"]{animation-delay:.37s}
+#v-sleep.slpReveal .slp-more,#v-sleep.slpReveal .slp-rest{animation:slpFadeUp .45s ease both;animation-delay:.30s}
+@media (prefers-reduced-motion:reduce){#v-sleep.slpReveal .slp-photo-bg,#v-sleep.slpReveal .slov,#v-sleep.slpReveal .slp-vbox,#v-sleep.slpReveal .slp-hdr,#v-sleep.slpReveal .slp-more,#v-sleep.slpReveal .slp-rest{animation:none}}
 .fljrnl{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
 .fljrnl .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
 .fljrnl .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
@@ -2865,21 +2882,6 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="card"><div class="ct"><i class="ti ti-bed-flat"></i>Efficacité du sommeil</div><div class="grid3" id="slEffGrid"></div></div>
 
   <div class="card" id="slRegulCard"><div class="ct"><i class="ti ti-repeat"></i>Régularité · coucher / réveil</div><div id="slRegulChart"></div><div class="splitc" style="margin-top:12px"><div class="left"><div class="big" style="font-size:30px" id="slRegul">—</div><div class="sci" id="slRegulSub"></div></div><div class="rightcol"><div class="iconb"><i class="ti ti-moon"></i></div><div class="sci" id="slIdealBed"></div></div></div></div>
-
-  <div class="card" id="slVitalsCard"><div class="ct"><i class="ti ti-activity-heartbeat"></i>Vitaux de la nuit</div><div class="grid3" id="slVitals"></div></div>
-
-  <div class="card" id="slNeedCard"><div class="ct"><i class="ti ti-bed"></i>Besoin de sommeil</div><div id="sleepNeedCard"></div></div>
-
-  <div class="card" id="coachCard"></div>
-
-  <div class="card splitc" id="slDebtCard">
-    <div class="left"><div class="ct"><i class="ti ti-clock-pause"></i>Dette de sommeil · 14j</div><div class="big" style="font-size:36px" id="slDebt">—</div><div class="sci" id="slDebtSub"></div></div>
-    <div class="rightcol"><div class="iconb"><i class="ti ti-moon"></i></div><div class="sci" id="slPlan"></div></div>
-  </div>
-
-  <div class="card" id="slBarsCard"><div class="ct"><i class="ti ti-chart-bar"></i>Sommeil · 14 nuits</div><div class="chartbox" id="slBars"></div></div>
-
-  <div class="card anomaly" id="slAnomaly" style="display:none"><div class="ct"><i class="ti ti-alert-triangle"></i>Nuit atypique</div><div class="sci" id="slAnomalyTxt"></div></div>
 </div>
 </section>
 
@@ -4212,7 +4214,7 @@ function layoutSleep(){
     s.textTransform=p.upper?'uppercase':'none';
   });
 }
-function slpDay(d){if(typeof haptic==='function')haptic();gDay=Math.min(0,gDay+d);renderSleep();window.scrollTo(0,0)}
+function slpDay(d){if(typeof haptic==='function')haptic();window._slpQuiet=true;gDay=Math.min(0,gDay+d);renderSleep();window.scrollTo(0,0)}
 function slpJump(which){if(typeof haptic==='function')haptic();var sel=which==='recovery'?'#v-sleep .slx-quality':'#v-sleep .slx-night';var el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
@@ -4220,8 +4222,8 @@ function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2
 function slpOpenPicker(){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
-function slpCalToday(){gDay=0;slpCalClose();renderSleep();window.scrollTo(0,0)}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));slpCalClose();renderSleep();window.scrollTo(0,0)}
+function slpCalToday(){window._slpQuiet=true;gDay=0;slpCalClose();renderSleep();window.scrollTo(0,0)}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();window._slpQuiet=true;var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));slpCalClose();renderSleep();window.scrollTo(0,0)}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -4235,6 +4237,7 @@ function slpCalRender(){
 }
 function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
 function renderSleep(){var t=sensorOf(tk(gDay)),need=(getProfile().need||8)*60;layoutSleep();updateSlpDate();
+ (function(){var sv=document.getElementById('v-sleep');if(sv&&!window._slpQuiet){sv.classList.remove('slpReveal');void sv.offsetWidth;sv.classList.add('slpReveal');clearTimeout(window._slpRT);window._slpRT=setTimeout(function(){sv.classList.remove('slpReveal')},1200)}window._slpQuiet=false})();
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
  function ft(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
  set('shStreak',recovStreak()||26);
@@ -4853,7 +4856,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v174';
+const APP_VERSION='flint-v175';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
