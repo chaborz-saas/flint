@@ -2356,7 +2356,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .etat-score .es-zone{font-family:'Anton';font-style:oblique 8deg;font-size:19px;letter-spacing:.01em;color:#2FA86A;margin-top:5px;white-space:nowrap;text-transform:uppercase}
 .flhome .etat-score .es-chk{position:absolute;top:30px;right:24px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:18px;z-index:4}
 /* ===== Accueil — dashboard maquette image + overlay (.fhd) ===== */
-.flhome .fhd{position:relative;width:100%;aspect-ratio:941/1672;container-type:inline-size;margin:-46px -2px 0}
+.flhome .fhd{position:relative;width:100%;aspect-ratio:941/1672;container-type:inline-size;margin:-46px -2px -56px}
 .flhome .fhd-bg{display:block;width:100%;height:auto}
 .flhome .fhd-keep{display:none}
 .flhome .fhd-smile{position:absolute;left:84.2%;top:59%;transform:translate(-50%,-50%);width:8cqw;pointer-events:none;z-index:4}
@@ -2371,7 +2371,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fhd-chk{position:absolute;top:5%;right:7%;width:10cqw;height:10cqw;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(47,168,106,.22);display:grid;place-items:center;color:#2FA86A;font-size:5cqw}
 .flhome .fhd-steps{position:absolute;left:85%;top:53.6%;transform:translate(-50%,-50%);border:0;background:none;font-family:'Anton',sans-serif;font-size:4.5cqw;color:#161512;cursor:pointer;line-height:1}
 .flhome .fhd-fc{position:absolute;left:15.5%;top:53.9%;transform:translate(-50%,-50%);width:17.5cqw;height:29cqw;border-radius:50%;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.7);box-shadow:0 12px 30px rgba(120,110,95,.13);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqw;cursor:pointer;z-index:4}
-.flhome .fhd-fc i{color:#E8674A;font-size:5cqw;line-height:1}
+.flhome .fhd-fc i{color:#E8674A;font-size:5cqw;line-height:1;display:block;transform-origin:center;will-change:transform;animation:flHeartBeat var(--beat,1.05s) ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.flhome .fhd-fc i{animation:none}}
 .flhome .fhd-fc .l{font-size:2.6cqw;font-weight:800;letter-spacing:.06em;color:#9A988F}
 .flhome .fhd-fc .v{font-family:'Anton',sans-serif;font-size:5cqw;color:#161512;line-height:1}
 .flhome .fhd-fc .u{font-size:2.4cqw;font-weight:700;color:#9A988F}
@@ -2578,14 +2579,6 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="fhd-smile"><svg viewBox="0 0 60 20"><path d="M5,9 A40,40 0 0 0 55,9" fill="none" stroke="rgba(120,110,95,.16)" stroke-width="4.5" stroke-linecap="round"/><path id="flStepArc" d="M5,9 A40,40 0 0 0 55,9" fill="none" stroke="#2FAE67" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="49" stroke-dashoffset="49"/></svg></div>
 
     <span class="fhd-keep"><span id="flEffortBar"></span><span id="flCalBars"></span></span>
-  </div>
-
-  <div class="card fchr" id="flFcCard" onclick="go('fcdetail')">
-    <div class="fchrL">
-      <div class="fchrtop"><span class="fchric"><i class="ti ti-heart"></i></span><div class="fchrtx"><div class="fchrt">FC au repos</div><div class="fchrlive">Cette nuit</div></div></div>
-      <div class="fchrv"><b id="flLiveBpm">—</b> <small>bpm</small></div>
-    </div>
-    <div class="fchrR fcimg"><img src="icons/flint_line_fc.png" alt="" loading="lazy"></div>
   </div>
 
   <div class="mjwrap">
@@ -4089,7 +4082,7 @@ function renderToday(){
  set('flEffortBar',flEffortBarSVG(Math.round(str/21*100)));
  var _bpm=t&&t.rhr?t.rhr:null;
  set('flLiveBpm',_bpm!=null?_bpm:'—');set('flFcEgg',_bpm!=null?_bpm:'—');
- (function(){var fcc=document.getElementById('flFcCard');if(fcc&&_bpm)fcc.style.setProperty('--beat',Math.max(.5,Math.min(1.6,60/_bpm)).toFixed(2)+'s')})();
+ (function(){var fce=document.querySelector('#v-today .fhd-fc');if(fce&&_bpm)fce.style.setProperty('--beat',Math.max(.5,Math.min(1.6,60/_bpm)).toFixed(2)+'s')})();
  var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_bpm!=null?_bpm:62);
  var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  var _snm=t?sleepNight(K):null;set('flBed',_snm?flHM(_snm.bedMin):'—');set('flWake',_snm?flHM(_snm.wakeMin):'—');
@@ -4944,7 +4937,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v200';
+const APP_VERSION='flint-v201';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
