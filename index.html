@@ -1846,6 +1846,8 @@ body.sleepview{background:#FAF7F5}
 .slp-dlbl{border:0;background:none;display:inline-flex;align-items:center;gap:1.6cqw;font-family:'Inter',sans-serif;font-weight:800;font-size:4.2cqw;color:#6D63F6;letter-spacing:-.01em;line-height:1}
 .slp-dlbl i{font-size:4cqw}
 .slov{position:absolute;line-height:1;white-space:nowrap;z-index:5}
+.slp-hit-m{position:absolute;background:none;border:0;z-index:6;cursor:pointer;border-radius:22px;-webkit-tap-highlight-color:transparent;transition:background .12s}
+.slp-hit-m:active{background:rgba(110,99,246,.07)}
 .slov small{font-size:.5em;font-weight:700;color:#8D8983;font-family:'Inter';font-style:normal;margin-left:.1em}
 .slov .u{font-size:.42em;vertical-align:baseline;margin:0 .06em}
 .slov i{font-size:1.05em;vertical-align:-.06em}
@@ -2726,7 +2728,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
   <input type="date" id="slpDatePick" onchange="slpPickDate(this.value)" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none">
   <div class="slp-photo">
-    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=3" alt="">
+    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=4" alt="">
     <div class="slp-hdr">
       <button class="slp-bk" type="button" onclick="go('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
       <div class="slp-dnav">
@@ -2736,7 +2738,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       </div>
       <span class="slp-hsp"></span>
     </div>
-    <div class="slov" data-sl="status" id="shEyebrow">Très bonne nuit</div>
+    <div class="slov" data-sl="status"><i class="ti ti-moon"></i> <span id="shEyebrow">Très bonne nuit</span></div>
     <div class="slov" data-sl="duration" id="shHours">7<span class="u">h</span>42</div>
     <div class="slov" data-sl="need" id="shNeed"><i class="ti ti-target-arrow"></i> Besoin 8h00 · Régularité 95%</div>
     <div class="slov" data-sl="bedtime" id="shBed">23:06</div>
@@ -2748,6 +2750,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="slov" data-sl="recovery" id="shRestore">3h42</div>
     <div class="slov" data-sl="awake" id="shAwake">12<small>min</small></div>
     <div class="slov" data-sl="heartRate" id="shFcAvg">47<small>bpm</small></div>
+    <button class="slp-hit-m" type="button" style="left:6.4%;top:83.5%;width:26.6%;height:15.4%" onclick="slpJump('recovery')" aria-label="Détail récupérateur"></button>
+    <button class="slp-hit-m" type="button" style="left:36.6%;top:83.5%;width:26.6%;height:15.4%" onclick="slpJump('awake')" aria-label="Détail éveil"></button>
+    <button class="slp-hit-m" type="button" style="left:66.8%;top:83.5%;width:26.6%;height:15.4%" onclick="slpJump('fc')" aria-label="Détail FC nocturne"></button>
   </div>
 
   <button class="slp-more" type="button">
@@ -4148,14 +4153,14 @@ function slDonutSVG(stages){var size=240,r=98,sw=16,cx=size/2,cy=size/2,C=2*Math
    top/left en px sur la base, size en px (→ cqw), weight, color, font, align, anchorY. */
 var SLEEP_BASE={w:941,h:1548};
 var SLEEP_POS={
-  status:    {top:476, left:366, size:33,  weight:800, color:'#6D63F6', font:'inter', align:'left',   anchorY:'center', upper:true, spacing:.04},
-  duration:  {top:574, left:470, size:128, weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center', spacing:-.01},
+  status:    {top:474, left:470, size:33,  weight:800, color:'#6D63F6', font:'inter', align:'center', anchorY:'center', upper:true, spacing:.04},
+  duration:  {top:598, left:470, size:116, weight:900, color:'#222222', font:'anton', align:'center', anchorY:'center', spacing:-.01},
   need:      {top:800, left:470, size:31,  weight:700, color:'#5F5AF6', font:'inter', align:'center', anchorY:'center'},
   bedtime:   {top:980, left:268, size:43,  weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center'},
   wakeTime:  {top:980, left:690, size:43,  weight:900, color:'#1A1A1A', font:'anton', align:'center', anchorY:'center'},
-  recovery:  {top:1438,left:88,  size:34,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'},
-  awake:     {top:1438,left:360, size:34,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'},
-  heartRate: {top:1438,left:635, size:34,  weight:900, color:'#1A1A1A', font:'anton', align:'left',   anchorY:'center'}
+  recovery:  {top:1432,left:88,  size:29,  weight:900, color:'#262626', font:'anton', align:'left',   anchorY:'center'},
+  awake:     {top:1432,left:360, size:29,  weight:900, color:'#262626', font:'anton', align:'left',   anchorY:'center'},
+  heartRate: {top:1432,left:635, size:29,  weight:900, color:'#262626', font:'anton', align:'left',   anchorY:'center'}
 };
 function layoutSleep(){
   var host=document.querySelector('#v-sleep .slp-photo');if(!host)return;
@@ -4173,6 +4178,7 @@ function layoutSleep(){
   });
 }
 function slpDay(d){if(typeof haptic==='function')haptic();gDay=Math.min(0,gDay+d);renderSleep();window.scrollTo(0,0)}
+function slpJump(which){if(typeof haptic==='function')haptic();var sel=which==='recovery'?'#v-sleep .slx-quality':'#v-sleep .slx-night';var el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
 function slpPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var dd=new Date(val+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));renderSleep();window.scrollTo(0,0)}
 function slpOpenPicker(){var i=document.getElementById('slpDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.click()}}else i.click()}
 function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
@@ -4795,7 +4801,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v168';
+const APP_VERSION='flint-v169';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
