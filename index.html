@@ -1479,7 +1479,8 @@
 .slx .slx-time{display:grid;grid-template-columns:1fr 1fr;padding:16px 8px}
 .slx .slx-th{display:flex;align-items:center;justify-content:center;gap:13px}
 .slx .slx-th+.slx-th{border-left:1px solid #F1EBE3}
-.slx .slx-th .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:#EFEAFB;color:#7D6FE0;flex:none}
+.slx .slx-th .ic{width:50px;height:50px;display:grid;place-items:center;flex:none}
+.slx .slx-th .ic img{width:100%;height:100%;object-fit:contain;display:block}
 .slx .slx-th .tt .l{display:block;font-size:14px;font-weight:600;color:#8F8982;margin-bottom:2px}
 .slx .slx-th .tt b{font-family:'Anton';font-style:oblique 8deg;font-size:26px;color:#161512;line-height:1}
 .slx .slx-fcn{display:flex;align-items:center;gap:12px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit}
@@ -1793,8 +1794,8 @@ header{padding:11px 16px 7px}
 @media (prefers-reduced-motion:reduce){.nvit .nvsum,.nvit .nvcard{animation:none}.nvit .nvmk:not(.in){animation:none}}
 /* ===== Sommeil — hero illustration + répartition (maquette) ===== */
 .slx .slx-hero{position:relative;overflow:hidden;padding:22px 18px;min-height:192px}
-.slx .slx-heroart{position:absolute;top:0;right:0;bottom:0;width:66%;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 40%);mask-image:linear-gradient(to right,transparent 0,#000 40%)}
-.slx .slx-heroart svg{width:100%;height:100%;display:block}
+.slx .slx-heroart{position:absolute;top:-6px;right:-4px;bottom:auto;width:60%;max-width:230px;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 34%);mask-image:linear-gradient(to right,transparent 0,#000 34%)}
+.slx .slx-heroart img{width:100%;height:auto;display:block}
 .slx .slx-herotx{position:relative;z-index:1}
 .slx .slx-eyb{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#8E7BFF}
 .slx .slx-eyb i{font-size:16px}
@@ -2193,9 +2194,8 @@ body.modalview nav,body.modalview header{display:none}
 .slx .slx-3stat{display:flex;align-items:flex-start;gap:6px;padding:15px 11px}
 .slx .st3{flex:1;min-width:0}
 .slx .st3top{display:flex;align-items:center;gap:6px;margin-bottom:9px;min-width:0}
-.slx .st3ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:16px;flex:none}
-.slx .st3ic.vio{background:#EEECFB;color:#6B6FE3}
-.slx .st3ic.cor{background:#FCEFE9;color:#E8674A}
+.slx .st3ic{width:36px;height:36px;display:grid;place-items:center;flex:none}
+.slx .st3ic img{width:100%;height:100%;object-fit:contain;display:block}
 .slx .st3l{font-size:11px;font-weight:800;line-height:1.05;min-width:0}
 .slx .st3l.vio{color:#6B6FE3}
 .slx .st3l.cor{color:#E8674A}
@@ -2688,7 +2688,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="flsleep slx">
 
   <div class="card slx-hero">
-    <div class="slx-heroart"><svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="slSky" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="150" y2="220"><stop offset="0" stop-color="#4A39C4"/><stop offset=".45" stop-color="#7E6FE3"/><stop offset=".72" stop-color="#C4B0EE"/><stop offset="1" stop-color="#ECDCF3"/></linearGradient><linearGradient id="slLake" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="0" y2="220"><stop offset="0" stop-color="#C9B7EE"/><stop offset="1" stop-color="#6A59C6"/></linearGradient></defs><rect width="320" height="220" fill="url(#slSky)"/><g fill="#fff"><circle cx="150" cy="28" r="1.4"/><circle cx="182" cy="52" r="1"/><circle cx="120" cy="58" r="1.1"/><circle cx="208" cy="34" r="1.3"/><circle cx="248" cy="74" r="1"/><circle cx="292" cy="40" r="1.2"/><circle cx="270" cy="18" r="1"/><circle cx="172" cy="18" r=".9"/><circle cx="228" cy="96" r=".9"/></g><circle cx="256" cy="56" r="26" fill="#fff"/><circle cx="268" cy="47" r="24" fill="url(#slSky)"/><path d="M0 150 L58 96 L108 130 L158 82 L208 120 L262 86 L320 124 L320 220 L0 220Z" fill="#A293EC" opacity=".5"/><path d="M0 168 L52 122 L104 156 L150 112 L202 150 L252 116 L320 150 L320 220 L0 220Z" fill="#6E5DCB"/><path d="M118 164 L178 120 L230 154 L280 124 L320 150 L320 220 L118 220Z" fill="#52429F"/><rect y="158" width="320" height="62" fill="url(#slLake)" opacity=".92"/><ellipse cx="252" cy="172" rx="9" ry="26" fill="#fff" opacity=".1"/></svg></div>
+    <div class="slx-heroart"><img src="icons/sleep/sleep_landscape.png" alt="" loading="lazy"></div>
     <div class="slx-herotx">
       <div class="slx-eyb"><i class="ti ti-moon"></i> <span id="shEyebrow">Très bonne nuit</span></div>
       <div class="slx-hours" id="shHours">—</div>
@@ -2699,14 +2699,14 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
 
   <div class="card slx-3stat">
-    <div class="st3"><div class="st3top"><span class="st3ic vio"><i class="ti ti-bolt"></i></span><span class="st3l vio">Récupérateur</span></div><div class="st3v" id="shRestore">—</div><div class="st3sub">Sommeil réparateur</div></div>
-    <div class="st3"><div class="st3top"><span class="st3ic cor"><i class="ti ti-eye"></i></span><span class="st3l cor">Éveil</span></div><div class="st3v" id="shAwake">—</div><div class="st3sub" id="shAwakePc">—</div></div>
-    <div class="st3"><div class="st3top"><span class="st3ic vio"><i class="ti ti-heart"></i></span><span class="st3l vio">FC nocturne</span></div><div class="st3v" id="shFcAvg">—</div><div class="st3sub">Moyenne</div></div>
+    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_recovery.png" alt="" loading="lazy"></span><span class="st3l vio">Récupérateur</span></div><div class="st3v" id="shRestore">—</div><div class="st3sub">Sommeil réparateur</div></div>
+    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_awake.png" alt="" loading="lazy"></span><span class="st3l cor">Éveil</span></div><div class="st3v" id="shAwake">—</div><div class="st3sub" id="shAwakePc">—</div></div>
+    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_heart_rate.png" alt="" loading="lazy"></span><span class="st3l vio">FC nocturne</span></div><div class="st3v" id="shFcAvg">—</div><div class="st3sub">Moyenne</div></div>
   </div>
 
   <div class="card slx-time">
-    <div class="slx-th"><div class="ic ic-bed"><i class="ti ti-bed"></i></div><div class="tt"><span class="l coral">Coucher</span><b id="shBed">—</b><span class="sub"><i class="ti ti-moon"></i></span></div></div>
-    <div class="slx-th"><div class="ic ic-sun"><i class="ti ti-sunrise"></i></div><div class="tt"><span class="l violet">Réveil</span><b id="shWake">—</b><span class="sub v"><i class="ti ti-sunrise"></i></span></div></div>
+    <div class="slx-th"><div class="ic"><img src="icons/sleep/sleep_bedtime.png" alt="" loading="lazy"></div><div class="tt"><span class="l coral">Coucher</span><b id="shBed">—</b></div></div>
+    <div class="slx-th"><div class="ic"><img src="icons/sleep/sleep_wakeup.png" alt="" loading="lazy"></div><div class="tt"><span class="l violet">Réveil</span><b id="shWake">—</b></div></div>
   </div>
 
   <button class="card slx-night" type="button" onclick="openSleepNight()">
@@ -4713,7 +4713,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v153';
+const APP_VERSION='flint-v154';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
