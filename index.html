@@ -2449,7 +2449,14 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.96);border:1px solid #EFE9E0;border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
 .flhome .fchr .fchrL{flex:none}
 .flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.flhome .fchr .fchric{width:44px;height:44px;border-radius:14px;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:20px;flex:none}
+.flhome .fchr .fchric{position:relative;width:44px;height:44px;border-radius:14px;background:rgba(232,103,74,.13);color:#E8674A;display:grid;place-items:center;font-size:20px;flex:none}
+.flhome .fchr .fchric::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(232,103,74,.30);animation:flHeartRipple var(--beat,1.05s) ease-out infinite;pointer-events:none}
+.flhome .fchr .fchric i{display:block;transform-origin:center;will-change:transform;animation:flHeartBeat var(--beat,1.05s) ease-in-out infinite}
+@keyframes flHeartBeat{0%,55%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(1)}36%{transform:scale(1.12)}48%{transform:scale(1)}}
+@keyframes flHeartRipple{0%{box-shadow:0 0 0 0 rgba(232,103,74,.30)}45%{box-shadow:0 0 0 9px rgba(232,103,74,0)}100%{box-shadow:0 0 0 0 rgba(232,103,74,0)}}
+@keyframes flLiveDot{0%,55%,100%{transform:scale(1);opacity:1}12%{transform:scale(1.5);opacity:.55}24%{transform:scale(1);opacity:1}}
+.flhome .fchr .fchrlive .d{animation:flLiveDot var(--beat,1.05s) ease-in-out infinite}
+.flhome #flFcCard.fcpast .fchric i,.flhome #flFcCard.fcpast .fchric::after,.flhome #flFcCard.fcpast .fchrlive .d{animation:none}
 .flhome .fchr .fchrt{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#77736C}
 .flhome .fchr .fchrlive{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#77736C;margin-top:2px}
 .flhome .fchr .fchrlive .d{width:6px;height:6px;border-radius:50%;background:#E8674A}
@@ -2932,14 +2939,6 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
   <div class="stglbl">Stades du sommeil · touche pour explorer</div>
   <div id="slStages"></div>
-
-  <div class="card row resto">
-    <span class="mini"><span class="restoic"><i class="ti ti-sparkles"></i></span><span><div class="hsh">Sommeil réparateur</div><div class="big" style="font-size:30px;margin-top:2px" id="slRestore">—</div></span></span>
-  </div>
-
-  <div class="card"><div class="ct"><i class="ti ti-bed-flat"></i>Efficacité du sommeil</div><div class="grid3" id="slEffGrid"></div></div>
-
-  <div class="card" id="slRegulCard"><div class="ct"><i class="ti ti-repeat"></i>Régularité · coucher / réveil</div><div id="slRegulChart"></div><div class="splitc" style="margin-top:12px"><div class="left"><div class="big" style="font-size:30px" id="slRegul">—</div><div class="sci" id="slRegulSub"></div></div><div class="rightcol"><div class="iconb"><i class="ti ti-moon"></i></div><div class="sci" id="slIdealBed"></div></div></div></div>
 </div>
 </section>
 
@@ -4084,6 +4083,7 @@ function renderToday(){
  set('flEffortBar',flEffortBarSVG(Math.round(str/21*100)));
  var _bpm=t&&t.rhr?t.rhr:null;
  set('flLiveBpm',_bpm!=null?_bpm:'—');set('flFcEgg',_bpm!=null?_bpm:'—');
+ (function(){var fcc=document.getElementById('flFcCard');if(fcc&&_bpm)fcc.style.setProperty('--beat',Math.max(.5,Math.min(1.6,60/_bpm)).toFixed(2)+'s')})();
  var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_bpm!=null?_bpm:62);
  var _fc=document.getElementById('flFcCard');if(_fc)_fc.classList.toggle('fcpast',!today);
  var _snm=t?sleepNight(K):null;set('flBed',_snm?flHM(_snm.bedMin):'—');set('flWake',_snm?flHM(_snm.wakeMin):'—');
@@ -4938,7 +4938,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v196';
+const APP_VERSION='flint-v197';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
