@@ -1837,8 +1837,13 @@ body.sleepview{background:#FAF7F5}
 .slp-hit-back{position:absolute;left:0;top:0;width:20%;height:6.2%;background:none;border:0;z-index:6}
 .slov{position:absolute;line-height:1;white-space:nowrap;z-index:5}
 .slov small{font-size:.5em;font-weight:700;color:#8D8983;font-family:'Inter';font-style:normal;margin-left:.1em}
-.slov .u{font-size:.42em;vertical-align:baseline}
+.slov .u{font-size:.42em;vertical-align:baseline;margin:0 .06em}
 .slov i{font-size:1.05em;vertical-align:-.06em}
+/* verdict dynamique (check + titre + sous-titre) posé dans la bulle vide */
+.slp-vbox{position:absolute;left:9.5%;top:77.4%;transform:translateY(-50%);display:flex;align-items:center;gap:3.6cqw;z-index:5}
+.slp-vchk{width:7cqw;height:7cqw;border-radius:50%;background:#2DBB6A;color:#fff;display:grid;place-items:center;font-size:4cqw;flex:none}
+.slp-vtx b{display:block;font-family:'Inter',sans-serif;font-weight:800;font-size:4.7cqw;color:#111111;line-height:1.05}
+.slp-vtx span{display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:3.4cqw;color:#8D8983;margin-top:.5cqw}
 /* "Détails du sommeil / Voir plus" (codé) — aligné sur les cartes de la maquette */
 .slp-more{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:20px 6.4% 0}
 .slp-more .t{font-size:19px;font-weight:800;color:#161512}
@@ -2710,14 +2715,17 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="slp">
 
   <div class="slp-photo">
-    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=1" alt="">
+    <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=2" alt="">
     <button class="slp-hit-back" type="button" onclick="go('today')" aria-label="Retour"></button>
     <div class="slov" data-sl="status" id="shEyebrow">Très bonne nuit</div>
     <div class="slov" data-sl="duration" id="shHours">7<span class="u">h</span>42</div>
     <div class="slov" data-sl="need" id="shNeed"><i class="ti ti-target-arrow"></i> Besoin 8h00 · Régularité 95%</div>
     <div class="slov" data-sl="bedtime" id="shBed">23:06</div>
     <div class="slov" data-sl="wakeTime" id="shWake">07:00</div>
-    <div class="slov" data-sl="verdict" id="shCoachT">Excellente nuit.</div>
+    <div class="slp-vbox">
+      <span class="slp-vchk" id="shVChk"><i class="ti ti-check"></i></span>
+      <div class="slp-vtx"><b id="shCoachT">Excellente nuit.</b><span id="shCoachS">Tu es dans ta cible.</span></div>
+    </div>
     <div class="slov" data-sl="recovery" id="shRestore">3h42</div>
     <div class="slov" data-sl="awake" id="shAwake">12<small>min</small></div>
     <div class="slov" data-sl="heartRate" id="shFcAvg">47<small>bpm</small></div>
@@ -4126,7 +4134,6 @@ var SLEEP_POS={
   need:      {top:800, left:470, size:31,  weight:700, color:'#5F5AF6', font:'inter', align:'center', anchorY:'center'},
   bedtime:   {top:998, left:300, size:52,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
   wakeTime:  {top:998, left:690, size:52,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
-  verdict:   {top:1186,left:205, size:48,  weight:800, color:'#111111', font:'inter', align:'left',   anchorY:'center'},
   recovery:  {top:1440,left:88,  size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
   awake:     {top:1440,left:360, size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
   heartRate: {top:1440,left:635, size:48,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'}
@@ -4180,7 +4187,7 @@ function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;layou
  var verdict=score>=80?'Excellente nuit.':score>=60?'Nuit correcte.':score>=40?'Nuit légère.':'Nuit courte.';
  set('shCoachT',verdict);set('shScoreC',verdict);
  set('shEyebrow',score>=80?'Très bonne nuit':score>=60?'Bonne nuit':score>=40?'Nuit correcte':'Nuit courte');
- var _vc=document.getElementById('shVerdictChk');if(_vc)_vc.style.display=score>=60?'inline-grid':'none';
+ (function(){var vc=document.getElementById('shVChk');if(vc){var ok=score>=60;vc.style.background=ok?'#2DBB6A':score>=40?'#F5A623':'#E8674A';vc.innerHTML='<i class="ti ti-'+(ok?'check':'alert-triangle')+'"></i>'}})();
  set('shCoachS',t.sleepMin<need-30?'Tu peux viser un peu plus long.':t.sleepMin>need+30?'Beau volume de sommeil.':'Tu es dans ta cible.');
  var bR=baseStat('rhr'),fcHigh=bR&&nm.rhr!=null&&nm.rhr>bR.m+bR.sd;
  set('shInsightT',fcHigh?'Rythme élevé cette nuit':'Rythme stable cette nuit');
@@ -4765,7 +4772,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v163';
+const APP_VERSION='flint-v164';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
