@@ -2282,11 +2282,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .gcbar i{display:block;height:100%;border-radius:5px;background:#F5A623}
 .flhome .gchart{display:flex;align-items:flex-end;gap:2.5px;height:32px;margin-top:auto;padding-top:6px}
 .flhome .gchart i{flex:1;border-radius:3px;min-height:4px;display:block}
-.flhome .gcbarx{margin-top:auto}
-.flhome .gcbarx img{width:100%;height:auto;max-height:18px;object-fit:contain;display:block}
-.flhome .gchartx{margin-top:auto;padding-top:6px}
-.flhome .gchartx img{width:100%;height:40px;object-fit:contain;display:block}
-.flhome .fchr .fcimg img{width:100%;height:100%;object-fit:contain;display:block}
+.flhome .gcbar2{margin-top:auto}
+.flhome .gchart2{margin-top:auto;padding-top:6px;height:46px}
+.flhome .gchart2 svg{height:100%}
+.flhome .fchr .fcimg{height:86px}
+.flhome .fchr .fcimg img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .flhome .fchr{display:flex;align-items:center;gap:14px;padding:15px;background:rgba(255,255,255,.96);border:1px solid #EFE9E0;border-radius:22px;box-shadow:0 6px 20px rgba(120,110,95,.07)}
 .flhome .fchr .fchrL{flex:none}
 .flhome .fchr .fchrtop{display:flex;align-items:center;gap:10px;margin-bottom:9px}
@@ -2406,14 +2406,14 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="gcl">Effort</div>
       <div class="gcv"><span id="flLoad">—</span> <small>/21</small></div>
       <div class="gcs amb"><span class="d"></span><span id="flLoadT">—</span></div>
-      <div class="gcbarx"><img src="icons/flint_bar_effort.png" alt="" loading="lazy"></div>
+      <div class="gcbar2" id="flEffortBar"></div>
     </button>
     <button class="gcard" type="button" onclick="go('caltrend')">
       <span class="gci img"><img src="icons/flint_icon_calories.png" alt="" loading="lazy"></span>
       <div class="gcl">Calories</div>
       <div class="gcv"><span id="flKcal">—</span> <small>kcal</small></div>
       <div class="gcs emb"><span class="d"></span>Brûlées · estimé</div>
-      <div class="gchartx"><img src="icons/flint_bars_calories.png" alt="" loading="lazy"></div>
+      <div class="gchart2" id="flCalBars"></div>
     </button>
   </div>
 
@@ -3839,6 +3839,12 @@ function recovStreak(){let n=0;for(let i=0;i<90;i++){const has=i===0?recovery()!
 /* estimation des calories brûlées (l'app ne stocke pas l'énergie active) — à affiner par Félix avec le poids du user */
 function flStepsOf(k){k=k||tk();var seed=trSeed('steps|'+k);var v=8800+((seed%5200)-2600);return Math.max(3200,v)}
 function flBars(vals,color){var mx=Math.max.apply(null,vals.map(function(v){return v||0}).concat([1]));return vals.map(function(v,i){var h=Math.max(8,Math.round((v||0)/mx*100));return '<i style="height:'+h+'%;background:'+color+';opacity:'+(i===vals.length-1?1:.45)+'"></i>'}).join('')}
+function _lerpCol(a,b,t){function p(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}var A=p(a),B=p(b);return 'rgb('+Math.round(A[0]+(B[0]-A[0])*t)+','+Math.round(A[1]+(B[1]-A[1])*t)+','+Math.round(A[2]+(B[2]-A[2])*t)+')'}
+function flEffortBarSVG(pct){pct=Math.max(4,Math.min(100,Math.round(pct||0)));var W=300,H=15,r=7.5,fw=Math.max(H,W*pct/100);
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="flEffG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FBB838"/><stop offset="1" stop-color="#F58E1C"/></linearGradient></defs><rect x="0" y="0" width="'+W+'" height="'+H+'" rx="'+r+'" fill="#EFE7DA"/><rect x="0" y="0" width="'+fw.toFixed(1)+'" height="'+H+'" rx="'+r+'" fill="url(#flEffG)"/></svg>'}
+function flCalBarsSVG(vals){var W=300,H=78,n=vals.length||1,gap=W*0.02,bw=(W-(n-1)*gap)/n,mx=Math.max.apply(null,vals.map(function(v){return v||0}).concat([1])),s='';
+ for(var i=0;i<n;i++){var v=vals[i]||0,h=Math.max(bw,(v/mx)*(H-4)),x=i*(bw+gap),y=H-h,t=n>1?i/(n-1):1,col=_lerpCol('#F9D2C6','#E8674A',t);s+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,8).toFixed(1)+'" fill="'+col+'"/>'}
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:100%;display:block">'+s+'</svg>'}
 function flWatchBatt(){var el=document.getElementById('wbatt'),v=document.getElementById('wbattV');if(!el||!v)return;var seed=trSeed('batt|'+tk());var pct=58+(seed%39);v.textContent=pct+' %';el.classList.toggle('mid',pct<40);el.classList.toggle('low',pct<20)}
 const KCAL_PER_MIN={1:6,2:8,3:10,4:13};
 function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);let act=0;ss.forEach(s=>{if(s.type==='nap')return;act+=(s.dur||30)*(KCAL_PER_MIN[s.int||2]||8)});const now=new Date();const frac=k===tk()?(now.getHours()*60+now.getMinutes())/1440:1;return Math.round(act+1600*frac)}
@@ -3910,8 +3916,8 @@ function renderToday(){
  var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
  flRenderWkStrip();
  set('flSleepBars',flBars(seriesBack('sleepMin',7),'#5E6FE6'));
- set('flKcalBars',flBars(seriesBack(null,9,function(k){return caloriesBurned(k)}),'#E8674A'));
- var _lb=document.getElementById('flLoadBar');if(_lb)_lb.style.width=Math.max(5,Math.min(100,Math.round(str/21*100)))+'%';
+ set('flCalBars',flCalBarsSVG(seriesBack(null,9,function(k){return caloriesBurned(k)})));
+ set('flEffortBar',flEffortBarSVG(Math.round(str/21*100)));
  var _bpm=t&&t.rhr?t.rhr:null;
  set('flLiveBpm',_bpm!=null?_bpm:'—');
  var _fcm=document.getElementById('flFcMini');if(_fcm)_fcm.innerHTML=flFcWaveSVG(_bpm!=null?_bpm:62);
@@ -4707,7 +4713,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v152';
+const APP_VERSION='flint-v153';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
