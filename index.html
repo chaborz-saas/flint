@@ -1846,6 +1846,28 @@ body.sleepview{background:#FAF7F5}
 .slp-dlbl{border:0;background:none;display:inline-flex;align-items:center;gap:1.6cqw;font-family:'Inter',sans-serif;font-weight:800;font-size:4.2cqw;color:#6D63F6;letter-spacing:-.01em;line-height:1}
 .slp-dlbl i{font-size:4cqw}
 .slov{position:absolute;line-height:1;white-space:nowrap;z-index:5}
+/* calendrier custom */
+.slpcal-back{position:fixed;inset:0;background:rgba(20,18,12,.4);z-index:60;display:none;align-items:center;justify-content:center;padding:24px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.slpcal-back.on{display:flex}
+.slpcal{width:100%;max-width:330px;background:#fff;border-radius:26px;padding:18px 18px 16px;box-shadow:0 26px 64px rgba(20,18,12,.28);font-family:'Inter',sans-serif;animation:slpcalIn .2s cubic-bezier(.2,.8,.2,1)}
+@keyframes slpcalIn{from{opacity:0;transform:scale(.93) translateY(10px)}to{opacity:1;transform:none}}
+.slpcal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.slpcal-hd b{font-size:16.5px;font-weight:800;color:#161512;text-transform:capitalize}
+.slpcal-nav{display:flex;gap:8px}
+.slpcal-nav button{width:36px;height:36px;border:0;border-radius:50%;background:#F1ECF8;color:#6D63F6;font-size:18px;display:grid;place-items:center;cursor:pointer;line-height:0;transition:transform .12s}
+.slpcal-nav button:active{transform:scale(.88)}
+.slpcal-nav button:disabled{opacity:.3}
+.slpcal-wd{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
+.slpcal-wd span{text-align:center;font-size:11px;font-weight:800;color:#B0ABA2;text-transform:uppercase}
+.slpcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.slpcal-grid button{aspect-ratio:1;border:0;background:none;border-radius:50%;font-family:inherit;font-size:14.5px;font-weight:600;color:#262626;cursor:pointer;display:grid;place-items:center;transition:background .12s}
+.slpcal-grid button:active{background:#F1ECF8}
+.slpcal-grid button:disabled{color:#D7D1C8;cursor:default;background:none}
+.slpcal-grid button.today{color:#6D63F6;font-weight:800}
+.slpcal-grid button.sel{background:#6D63F6;color:#fff;font-weight:800}
+.slpcal-grid .blank{visibility:hidden}
+.slpcal-today{width:100%;margin-top:14px;border:0;background:#F1ECF8;color:#6D63F6;font-family:inherit;font-weight:800;font-size:14.5px;padding:12px;border-radius:15px;cursor:pointer;transition:transform .12s}
+.slpcal-today:active{transform:scale(.98)}
 .slp-hit-m{position:absolute;background:none;border:0;z-index:6;cursor:pointer;border-radius:22px;-webkit-tap-highlight-color:transparent;transition:background .12s}
 .slp-hit-m:active{background:rgba(110,99,246,.07)}
 .slov small{font-size:.5em;font-weight:700;color:#8D8983;font-family:'Inter';font-style:normal;margin-left:.1em}
@@ -2726,7 +2748,20 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <section class="view" id="v-sleep">
 <div class="slp">
 
-  <input type="date" id="slpDatePick" onchange="slpPickDate(this.value)" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none">
+  <div class="slpcal-back" id="slpCal" onclick="if(event.target===this)slpCalClose()">
+    <div class="slpcal">
+      <div class="slpcal-hd">
+        <b id="slpCalTitle">—</b>
+        <div class="slpcal-nav">
+          <button type="button" onclick="slpCalMonth(-1)" aria-label="Mois précédent"><i class="ti ti-chevron-left"></i></button>
+          <button type="button" id="slpCalNext" onclick="slpCalMonth(1)" aria-label="Mois suivant"><i class="ti ti-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="slpcal-wd"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+      <div class="slpcal-grid" id="slpCalGrid"></div>
+      <button class="slpcal-today" type="button" onclick="slpCalToday()">Aujourd'hui</button>
+    </div>
+  </div>
   <div class="slp-photo">
     <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=4" alt="">
     <div class="slp-hdr">
@@ -4179,8 +4214,25 @@ function layoutSleep(){
 }
 function slpDay(d){if(typeof haptic==='function')haptic();gDay=Math.min(0,gDay+d);renderSleep();window.scrollTo(0,0)}
 function slpJump(which){if(typeof haptic==='function')haptic();var sel=which==='recovery'?'#v-sleep .slx-quality':'#v-sleep .slx-night';var el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
-function slpPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var dd=new Date(val+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));renderSleep();window.scrollTo(0,0)}
-function slpOpenPicker(){var i=document.getElementById('slpDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.click()}}else i.click()}
+/* ===== Calendrier custom (remplace le picker natif) ===== */
+var slpCalView=null;
+function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function slpOpenPicker(){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
+function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
+function slpCalToday(){gDay=0;slpCalClose();renderSleep();window.scrollTo(0,0)}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));slpCalClose();renderSleep();window.scrollTo(0,0)}
+function slpCalRender(){
+  var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
+  var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
+  var MO=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var tt=document.getElementById('slpCalTitle');if(tt)tt.textContent=MO[m]+' '+y;
+  var nb=document.getElementById('slpCalNext');if(nb)nb.disabled=(y>t.getFullYear()||(y===t.getFullYear()&&m>=t.getMonth()));
+  var fw=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),h='';
+  for(var i=0;i<fw;i++)h+='<span class="blank"></span>';
+  for(var d=1;d<=dim;d++){var dt=new Date(y,m,d),ds=_slpYMD(dt),fut=dt>t,cls=(ds===selStr?'sel':'')+(ds===todayStr?' today':'');h+='<button class="'+cls.trim()+'"'+(fut?' disabled':'')+' onclick="slpCalPick(\''+ds+'\')">'+d+'</button>'}
+  var g=document.getElementById('slpCalGrid');if(g)g.innerHTML=h;
+}
 function updateSlpDate(){var el=document.getElementById('slpDate');if(el){var lbl;if(gDay===0)lbl='Aujourd\'hui';else if(gDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+gDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}el.textContent=lbl}var nb=document.getElementById('slpNext');if(nb)nb.disabled=gDay>=0}
 function renderSleep(){var t=sensorOf(tk(gDay)),need=(getProfile().need||8)*60;layoutSleep();updateSlpDate();
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
@@ -4801,7 +4853,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v169';
+const APP_VERSION='flint-v170';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
