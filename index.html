@@ -1731,8 +1731,8 @@ header{padding:11px 16px 7px}
 .flhome .tlrow .tlcard .tile i{font-size:13px;opacity:.95}
 .flhome .tlrow .tlcard .tile b{font-family:'Anton';font-style:oblique 8deg;font-size:15px;line-height:1}
 .flhome .tlrow .tlcard .md{min-width:0}
-.flhome .tlrow .tlcard .nm{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:20px;color:#161512;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.flhome .tlrow .tlcard .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .tlrow .tlcard .nm{font-family:'Inter',sans-serif;font-style:normal;text-transform:none;font-size:15.5px;font-weight:800;letter-spacing:-.01em;color:#161512;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flhome .tlrow .tlcard .mt{font-size:12px;font-weight:600;color:#8F8982;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .flhome .addbig{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;background:#E8674A;color:#fff;border:2px dashed rgba(255,255,255,.65);border-radius:20px;min-height:58px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;letter-spacing:.5px;font-size:16px;cursor:pointer;box-shadow:0 12px 28px rgba(232,103,74,.34);transition:transform .12s}
 .flhome .addbig:active{transform:scale(.985)}
 .flhome .addbig i{font-size:20px}
@@ -2296,7 +2296,7 @@ body.modalview nav,body.modalview header{display:none}
 .flhome .actnuit .anpast{width:46px;height:46px;border-radius:50%;background:#6C7BD6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
 .flhome .actnuit .anbadge{font-family:'Anton';font-style:oblique 8deg;background:#6C7BD6;color:#fff;border-radius:13px;padding:8px 13px;font-size:20px;line-height:1;flex:none}
 .flhome .actnuit .annt{min-width:0}
-.flhome .actnuit .annm{font-family:'Anton';font-style:oblique 8deg;font-size:20px;color:#161512;line-height:1}
+.flhome .actnuit .annm{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.01em;font-size:15.5px;color:#161512;line-height:1.1}
 .flhome .actnuit .anmt{font-size:12.5px;font-weight:600;color:#8F8982;margin-top:4px}
 .flhome .actsep{height:1px;background:rgba(22,21,18,.08);margin:12px 4px 0}
 .flhome .actcta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:none;border:0;padding:15px 0 5px;color:#8F8982;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .12s}
@@ -4869,7 +4869,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v182';
+const APP_VERSION='flint-v183';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
