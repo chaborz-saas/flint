@@ -2263,6 +2263,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .gci.vio{background:rgba(110,107,255,.16);color:#6E6BFF}
 .flhome .gci.amb{background:rgba(245,166,35,.20);color:#E0930A}
 .flhome .gci.emb{background:rgba(232,103,74,.14);color:#E8674A}
+.flhome .gci.img{width:54px;height:54px;background:none;border-radius:0;margin-bottom:7px;margin-left:-3px}
+.flhome .gci.img img{width:100%;height:100%;object-fit:contain;display:block}
 .flhome .gcl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#77736C;text-transform:uppercase}
 .flhome .gcv{font-family:'Anton';font-style:oblique 8deg;font-size:24px;line-height:1;margin:6px 0 0;color:#161512;white-space:nowrap}
 .flhome .gcv small{font-family:'Inter';font-style:normal;font-size:12px;font-weight:700;color:#9A988F}
@@ -2388,21 +2390,21 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
   <div class="gstats">
     <button class="gcard" type="button" onclick="go('sleep')">
-      <span class="gci vio"><i class="ti ti-moon"></i></span>
+      <span class="gci img"><img src="icons/flint_icon_moon.png" alt="" loading="lazy"></span>
       <div class="gcl">Sommeil</div>
       <div class="gcv" id="flSleep">—</div>
       <div class="gcs vio"><span class="d"></span><span id="flSleepS">—</span></div>
       <div class="gcfoot"><div class="gcf"><b id="flBed">—</b><span>Coucher</span></div><i class="gcsep"></i><div class="gcf"><b id="flWake">—</b><span>Réveil</span></div></div>
     </button>
     <button class="gcard" type="button" onclick="go('load')">
-      <span class="gci amb"><i class="ti ti-bolt"></i></span>
+      <span class="gci img"><img src="icons/flint_icon_effort.png" alt="" loading="lazy"></span>
       <div class="gcl">Effort</div>
       <div class="gcv"><span id="flLoad">—</span> <small>/21</small></div>
       <div class="gcs amb"><span class="d"></span><span id="flLoadT">—</span></div>
       <div class="gcbar"><i id="flLoadBar"></i></div>
     </button>
     <button class="gcard" type="button" onclick="go('caltrend')">
-      <span class="gci emb"><i class="ti ti-flame"></i></span>
+      <span class="gci img"><img src="icons/flint_icon_calories.png" alt="" loading="lazy"></span>
       <div class="gcl">Calories</div>
       <div class="gcv"><span id="flKcal">—</span> <small>kcal</small></div>
       <div class="gcs emb"><span class="d"></span>Brûlées · estimé</div>
@@ -4700,7 +4702,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v149';
+const APP_VERSION='flint-v150';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
