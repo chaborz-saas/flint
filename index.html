@@ -1836,9 +1836,9 @@ body.sleepview{background:#FAF7F5}
 .slp-photo-bg{display:block;width:100%;height:auto}
 /* header codé (retour + sélecteur de date) par-dessus la bande effacée */
 .slp-hdr{position:absolute;top:0;left:0;right:0;height:11.4%;display:flex;align-items:center;padding:0 4.5%;z-index:7}
-.slp-bk{flex:none;width:12%;display:flex;align-items:center;justify-content:flex-start;border:0;background:none;color:#6D63F6;font-size:7cqw;line-height:0;padding:0;transition:transform .12s}
-.slp-bk:active{transform:scale(.88)}
-.slp-hsp{flex:none;width:12%}
+.slp-bk{flex:none;width:9.4cqw;height:9.4cqw;display:grid;place-items:center;border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.72);color:#161512;font-size:5.4cqw;border-radius:3cqw;line-height:0;padding:0 .4cqw 0 0;box-shadow:0 6px 18px rgba(22,21,18,.05);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .12s}
+.slp-bk:active{transform:scale(.9)}
+.slp-hsp{flex:none;width:9.4cqw}
 .slp-dnav{flex:1;display:flex;align-items:center;justify-content:center;gap:2.6cqw}
 .slp-dn{border:1px solid rgba(120,110,95,.14);background:rgba(255,255,255,.94);color:#77736C;width:9.4cqw;height:9.4cqw;border-radius:50%;display:grid;place-items:center;font-size:4.5cqw;line-height:0;box-shadow:0 6px 18px rgba(22,21,18,.05);transition:transform .12s}
 .slp-dn:active{transform:scale(.88)}
@@ -4856,7 +4856,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v175';
+const APP_VERSION='flint-v176';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
