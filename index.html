@@ -2768,20 +2768,6 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <section class="view" id="v-sleep">
 <div class="slp">
 
-  <div class="slpcal-back" id="slpCal" onclick="if(event.target===this)slpCalClose()">
-    <div class="slpcal">
-      <div class="slpcal-hd">
-        <b id="slpCalTitle">—</b>
-        <div class="slpcal-nav">
-          <button type="button" onclick="slpCalMonth(-1)" aria-label="Mois précédent"><i class="ti ti-chevron-left"></i></button>
-          <button type="button" id="slpCalNext" onclick="slpCalMonth(1)" aria-label="Mois suivant"><i class="ti ti-chevron-right"></i></button>
-        </div>
-      </div>
-      <div class="slpcal-wd"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-      <div class="slpcal-grid" id="slpCalGrid"></div>
-      <button class="slpcal-today" type="button" onclick="slpCalToday()">Aujourd'hui</button>
-    </div>
-  </div>
   <div class="slp-photo">
     <img class="slp-photo-bg" src="icons/sleep/mockup_empty.png?v=4" alt="">
     <div class="slp-hdr">
@@ -3269,6 +3255,21 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <button data-v="nutrition"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a8 8 0 0 1-8 8H11a8 8 0 0 1-8-8z"/><path d="M5 11a7 7 0 0 1 14 0"/><path d="M12 2v2"/></svg>Nutrition</button>
 </nav>
 <div class="toast" id="toast"></div>
+
+<div class="slpcal-back" id="slpCal" onclick="if(event.target===this)slpCalClose()">
+  <div class="slpcal">
+    <div class="slpcal-hd">
+      <b id="slpCalTitle">—</b>
+      <div class="slpcal-nav">
+        <button type="button" onclick="slpCalMonth(-1)" aria-label="Mois précédent"><i class="ti ti-chevron-left"></i></button>
+        <button type="button" id="slpCalNext" onclick="slpCalMonth(1)" aria-label="Mois suivant"><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="slpcal-wd"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div class="slpcal-grid" id="slpCalGrid"></div>
+    <button class="slpcal-today" type="button" onclick="slpCalToday()">Aujourd'hui</button>
+  </div>
+</div>
 
 <script>
 const DB={get:(k,d)=>{try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
@@ -3945,7 +3946,7 @@ function caloriesBurned(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);let act=0
 var gDay=0;
 function flDay(d){haptic();gDay=Math.min(0,gDay+d);renderToday();}
 function _fmtD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function flOpenPicker(){var i=document.getElementById('flDatePick');if(!i)return;var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);var mn=new Date(t);mn.setDate(mn.getDate()-365);i.max=_fmtD(t);i.min=_fmtD(mn);i.value=_fmtD(cur);if(i.showPicker){try{i.showPicker()}catch(e){i.focus();i.click()}}else{i.focus();i.click()}}
+function flOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='today';slpCalOpen()}
 function flPickDate(val){if(!val)return;var t=new Date();t.setHours(0,0,0,0);var d=new Date(val+'T00:00:00');var off=Math.round((d-t)/86400000);gDay=Math.min(0,off);renderToday();window.scrollTo(0,0)}
 function flFcMiniSVG(rhr){var pts=[62,59,61,65,63,57,64,62,60,66,55,49,rhr||47],W=164,H=72,pad=6,min=40,max=80;
  var gx=function(i){return pad+(i/(pts.length-1))*(W-pad-22)},gy=function(v){return pad+((max-Math.max(min,Math.min(max,v)))/(max-min))*(H-pad*2)};
@@ -4227,11 +4228,13 @@ function slpJump(which){if(typeof haptic==='function')haptic();openSleepNight()}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
 function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function slpOpenPicker(){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+gDay);slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='sleep';slpCalOpen()}
+function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else{renderSleep()}window.scrollTo(0,0)}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
-function slpCalToday(){window._slpQuiet=true;gDay=0;slpCalClose();renderSleep();window.scrollTo(0,0)}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();window._slpQuiet=true;var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));slpCalClose();renderSleep();window.scrollTo(0,0)}
+function slpCalToday(){gDay=0;slpCalClose();_calRerender()}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');gDay=Math.min(0,Math.round((dd-t)/86400000));slpCalClose();_calRerender()}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -4864,7 +4867,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v178';
+const APP_VERSION='flint-v179';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
