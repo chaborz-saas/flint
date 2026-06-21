@@ -1825,6 +1825,20 @@ header{padding:11px 16px 7px}
 .flhome .mjinfo .mjib{color:#E8674A;font-size:17px;display:inline-flex}
 body.modalview nav,body.modalview header{display:none}
 body.trendview header{display:none}
+body.sleepview header,body.sleepview nav{display:none}
+body.sleepview{padding-bottom:0}
+/* === Écran Sommeil : image template + overlay de valeurs (positions pilotées par SLEEP_POS en JS) === */
+body.sleepview #v-sleep .flsleep{position:relative;width:100%;aspect-ratio:941/1672;min-height:0;padding:0;background:url(icons/sleep/mockup_full.png?v=5) top center / 100% 100% no-repeat;container-type:inline-size}
+body.sleepview .slov{position:absolute;line-height:1;white-space:nowrap}
+/* mise en forme interne (les tailles relatives suivent le fontSize défini par la config) */
+body.sleepview .ov-eyb{display:inline-flex;align-items:center;gap:.5em}
+body.sleepview .ov-eyb i{font-size:1.18em}
+body.sleepview .ov-need{display:inline-flex;align-items:center;gap:.45em}
+body.sleepview .ov-need i{font-size:1.15em}
+body.sleepview .ov-hours .u{font-size:.58em;margin:0 .04em}
+body.sleepview .ov-verdict b{display:block;font-size:1em;font-weight:inherit;line-height:1.05}
+body.sleepview .ov-verdict span{display:block;font-size:.78em;font-weight:500;color:#8D8983;margin-top:.32em}
+body.sleepview .slov small{font-size:.5em;font-weight:700;color:#8D8983;font-family:'Inter';font-style:normal;margin-left:.12em}
 .fljrnl{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
 .fljrnl .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
 .fljrnl .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
@@ -2686,62 +2700,15 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <!-- ===================== SOMMEIL ===================== -->
 <section class="view" id="v-sleep">
 <div class="flsleep slx">
-
-  <div class="card slx-hero">
-    <div class="slx-heroart"><img src="icons/sleep/sleep_landscape.png" alt="" loading="lazy"></div>
-    <div class="slx-herotx">
-      <div class="slx-eyb"><i class="ti ti-moon"></i> <span id="shEyebrow">Très bonne nuit</span></div>
-      <div class="slx-hours" id="shHours">—</div>
-      <div class="slx-hl">Heures de sommeil</div>
-      <div class="slx-need" id="shNeed"></div>
-      <div class="slx-verdict"><b id="shCoachT">Excellente nuit.</b><div class="vr"><span id="shCoachS">Tu es dans ta cible.</span><span class="slx-chk" id="shVerdictChk"><i class="ti ti-check"></i></span></div></div>
-    </div>
-  </div>
-
-  <div class="card slx-3stat">
-    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_recovery.png" alt="" loading="lazy"></span><span class="st3l vio">Récupérateur</span></div><div class="st3v" id="shRestore">—</div><div class="st3sub">Sommeil réparateur</div></div>
-    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_awake.png" alt="" loading="lazy"></span><span class="st3l cor">Éveil</span></div><div class="st3v" id="shAwake">—</div><div class="st3sub" id="shAwakePc">—</div></div>
-    <div class="st3"><div class="st3top"><span class="st3ic"><img src="icons/sleep/sleep_heart_rate.png" alt="" loading="lazy"></span><span class="st3l vio">FC nocturne</span></div><div class="st3v" id="shFcAvg">—</div><div class="st3sub">Moyenne</div></div>
-  </div>
-
-  <div class="card slx-time">
-    <div class="slx-th"><div class="ic"><img src="icons/sleep/sleep_bedtime.png" alt="" loading="lazy"></div><div class="tt"><span class="l coral">Coucher</span><b id="shBed">—</b></div></div>
-    <div class="slx-th"><div class="ic"><img src="icons/sleep/sleep_wakeup.png" alt="" loading="lazy"></div><div class="tt"><span class="l violet">Réveil</span><b id="shWake">—</b></div></div>
-  </div>
-
-  <button class="card slx-night" type="button" onclick="openSleepNight()">
-    <div class="snh"><span class="sni"><i class="ti ti-activity-heartbeat"></i></span><div class="snt"><b>Sommeil de la dernière nuit</b><span>Fréquence cardiaque pendant la nuit</span></div><i class="ti ti-chevron-right cv"></i></div>
-    <div class="snread"><b class="bpm" id="shNightBpm">—</b><span class="u">bpm</span><span class="mn">à <em>MINUIT</em> · <span id="shNightClock">00:00</span></span><span class="dur"><i class="ti ti-clock"></i> Durée <b id="shNightDur">—</b></span></div>
-    <div class="snbox" id="shNightBox"><div id="shNightHR"></div><div class="vl" id="shNightVl"></div><div class="cz" id="shNightCz"></div></div>
-    <div class="snfoot"><b id="shNightBed">23:06</b><span class="leg">– – – plage habituelle</span><b id="shNightWake">07:00</b></div>
-  </button>
-
-  <button class="card slx-dern" type="button" onclick="openSleepNight()">
-    <div class="dnh"><b>Dernières nuits</b><i class="ti ti-chevron-right"></i></div>
-    <div id="shLastChart"></div>
-  </button>
-
-  <button class="card slx-quality" type="button" onclick="openSleepNight()">
-    <div class="sqL">
-      <span class="sqic"><i class="ti ti-moon-stars"></i></span>
-      <div class="sqt"><span class="sqlbl">Qualité du sommeil</span><div class="sqv" id="shScore">—</div></div>
-    </div>
-    <div class="sqsep"></div>
-    <div class="sqR">
-      <span class="sqri"><i class="ti ti-circle-check"></i></span>
-      <div class="sqrt"><b id="shInsightT">Rythme stable cette nuit</b><span id="shInsight">Ta fréquence cardiaque est restée dans ta plage habituelle.</span></div>
-      <i class="ti ti-chevron-right cv"></i>
-    </div>
-  </button>
-
-  <div class="card slx-why">
-    <div class="whyh">Pourquoi ce score ?</div>
-    <div class="why3">
-      <div class="whyf"><span class="whyic"><i class="ti ti-clock"></i></span><div class="whyl">DURÉE</div><div class="whyv" id="shWhyV1">—</div><div class="whyq" id="shWhyQ1">—</div><div class="whybar"><i id="shWhyB1"></i></div></div>
-      <div class="whyf"><span class="whyic"><i class="ti ti-calendar-stats"></i></span><div class="whyl">RÉGULARITÉ</div><div class="whyv" id="shWhyV2">—</div><div class="whyq" id="shWhyQ2">—</div><div class="whybar"><i id="shWhyB2"></i></div></div>
-      <div class="whyf"><span class="whyic"><i class="ti ti-bell"></i></span><div class="whyl">RÉVEILS</div><div class="whyv" id="shWhyV3">—</div><div class="whyq" id="shWhyQ3">—</div><div class="whybar"><i id="shWhyB3"></i></div></div>
-    </div>
-  </div>
+  <div class="slov ov-eyb" data-sl="status"><i class="ti ti-moon"></i> <span id="shEyebrow">Très bonne nuit</span></div>
+  <div class="slov ov-hours" data-sl="duration" id="shHours">—</div>
+  <div class="slov ov-need" data-sl="need" id="shNeed"></div>
+  <div class="slov ov-bed" data-sl="bedtime" id="shBed">—</div>
+  <div class="slov ov-wake" data-sl="wakeTime" id="shWake">—</div>
+  <div class="slov ov-verdict" data-sl="verdict"><b id="shCoachT">Excellente nuit.</b><span id="shCoachS">Tu es dans ta cible.</span></div>
+  <div class="slov ov-m1" data-sl="recovery" id="shRestore">—</div>
+  <div class="slov ov-m2" data-sl="awake" id="shAwake">—</div>
+  <div class="slov ov-m3" data-sl="heartRate" id="shFcAvg">—</div>
 </div>
 </section>
 
@@ -3250,7 +3217,7 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
  flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
@@ -4094,7 +4061,40 @@ function slDonutSVG(stages){var size=240,r=98,sw=16,cx=size/2,cy=size/2,C=2*Math
   segs+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+s.color+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-acc).toFixed(2)+'" transform="rotate(-90 '+cx+' '+cy+')"/>';
   acc+=frac*C});
  return '<svg viewBox="0 0 '+size+' '+size+'">'+segs+'</svg>'}
-function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;
+/* ===== Écran Sommeil : image template + overlay piloté par config =====
+   Base de travail = dimensions du PNG template. Tout se règle ici :
+   top/left (en px sur la base), size (px → converti en cqw = % de largeur),
+   weight, color, font ('anton'|'inter'), align ('center'|'left'),
+   anchorY ('center'|'top'), + options upper / spacing / width. */
+var SLEEP_BASE={w:941,h:1672};
+var SLEEP_POS={
+  status:    {top:481, left:470, size:29,  weight:800, color:'#6D63F6', font:'inter', align:'center', anchorY:'center', upper:true, spacing:.05},
+  duration:  {top:592, left:470, size:122, weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center', spacing:-.01},
+  need:      {top:767, left:470, size:25,  weight:700, color:'#5F5AF6', font:'inter', align:'center', anchorY:'center'},
+  bedtime:   {top:946, left:334, size:53,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
+  wakeTime:  {top:946, left:710, size:53,  weight:900, color:'#111111', font:'anton', align:'center', anchorY:'center'},
+  verdict:   {top:1127,left:230, size:33,  weight:800, color:'#111111', font:'inter', align:'left',   anchorY:'center'},
+  recovery:  {top:1391,left:152, size:51,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
+  awake:     {top:1391,left:367, size:51,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'},
+  heartRate: {top:1391,left:613, size:51,  weight:900, color:'#111111', font:'anton', align:'left',   anchorY:'center'}
+};
+function layoutSleep(){
+  var host=document.querySelector('#v-sleep .flsleep');if(!host)return;
+  Object.keys(SLEEP_POS).forEach(function(k){
+    var el=host.querySelector('[data-sl="'+k+'"]');if(!el)return;var p=SLEEP_POS[k],s=el.style;
+    s.top=(p.top/SLEEP_BASE.h*100).toFixed(3)+'%';
+    s.left=(p.left/SLEEP_BASE.w*100).toFixed(3)+'%';
+    s.transform='translate('+(p.align==='center'?'-50%':'0')+','+(p.anchorY==='center'?'-50%':'0')+')';
+    s.fontSize=(p.size/SLEEP_BASE.w*100).toFixed(3)+'cqw';   // cqw = 1% largeur conteneur → scale proportionnel
+    s.fontWeight=p.weight;s.color=p.color;s.textAlign=p.align;
+    s.fontFamily=p.font==='anton'?"'Anton',sans-serif":"'Inter',sans-serif";
+    s.fontStyle=p.font==='anton'?'oblique 8deg':'normal';
+    s.letterSpacing=(p.spacing!=null?p.spacing:0)+'em';
+    s.textTransform=p.upper?'uppercase':'none';
+    if(p.width!=null)s.width=(p.width/SLEEP_BASE.w*100).toFixed(3)+'%';
+  });
+}
+function renderSleep(){var t=sensorOf(tk()),need=(getProfile().need||8)*60;layoutSleep();
  function hhmm(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
  function ft(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
  set('shStreak',recovStreak()||26);
@@ -4713,7 +4713,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v154';
+const APP_VERSION='flint-v155';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
