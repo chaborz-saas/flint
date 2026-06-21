@@ -1829,7 +1829,7 @@ body.sleepview header,body.sleepview nav{display:none}
 body.sleepview{padding-bottom:0}
 /* ===================== ÉCRAN SOMMEIL — recodé pixel-perfect (.slp) ===================== */
 body.sleepview{background:#F7F2EC}
-.slp{font-family:'Inter',sans-serif;color:#111111;background:#F7F2EC;min-height:100vh;padding:0 20px 28px;max-width:465px;margin:0 auto;-webkit-font-smoothing:antialiased}
+.slp{position:relative;font-family:'Inter',sans-serif;color:#111111;background:#F7F2EC;min-height:100vh;padding:0 20px 28px;max-width:465px;margin:0 auto;-webkit-font-smoothing:antialiased}
 .slp button{font-family:inherit;cursor:pointer}
 /* header */
 .slp-top{display:flex;align-items:center;justify-content:space-between;padding:12px 0 6px}
@@ -1843,8 +1843,8 @@ body.sleepview{background:#F7F2EC}
 .slp-darr:active{transform:scale(.9)}
 .slp-today{font-size:17px;font-weight:800;color:#6D63F6;letter-spacing:-.01em}
 .slp-calbtn{width:40px;height:40px;border:0;background:none;color:#6D63F6;font-size:22px;display:grid;place-items:center;line-height:0}
-/* illustration (lune/montagnes) — top-right, déborde derrière le hero */
-.slp-illus{position:absolute;right:-18px;top:-6px;width:210px;pointer-events:none;z-index:1;-webkit-mask-image:linear-gradient(to right,transparent,#000 32%);mask-image:linear-gradient(to right,transparent,#000 32%)}
+/* illustration (lune/montagnes) — top-right, déborde par-dessus le coin du hero */
+.slp-illus{position:absolute;right:-16px;top:52px;width:272px;pointer-events:none;z-index:1;-webkit-mask-image:linear-gradient(to right,transparent,#000 28%);mask-image:linear-gradient(to right,transparent,#000 28%)}
 .slp-illus img{width:100%;height:auto;display:block}
 /* hero card */
 .slp-hero{position:relative;z-index:3;background:linear-gradient(180deg,#FFFFFF 52%,#EFEAF9 100%);border-radius:30px;padding:24px 22px 28px;text-align:center;box-shadow:0 18px 40px rgba(96,90,160,.10);margin-top:16px}
@@ -2768,8 +2768,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <span class="slp-today">Aujourd'hui</span>
     <button class="slp-calbtn" type="button"><i class="ti ti-calendar"></i></button>
     <button class="slp-darr" type="button"><i class="ti ti-chevron-right"></i></button>
-    <div class="slp-illus"><img src="icons/sleep/sleep_landscape.png?v=2" alt="" loading="lazy"></div>
   </div>
+
+  <div class="slp-illus"><img src="icons/sleep/sleep_landscape.png?v=3" alt="" loading="lazy"></div>
 
   <div class="slp-hero">
     <div class="slp-eyb"><i class="ti ti-moon"></i><span id="shEyebrow">Très bonne nuit</span></div>
@@ -4828,7 +4829,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v158';
+const APP_VERSION='flint-v159';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
