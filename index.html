@@ -1891,6 +1891,10 @@ body.sleepview{background:#F7F2EC}
 .slp-more{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:22px 4px 0}
 .slp-more .t{font-size:19px;font-weight:800;color:#161512}
 .slp-more .vp{display:inline-flex;align-items:center;gap:4px;font-size:15px;font-weight:700;color:#6D63F6}
+/* suite de la page (graphiques + détails) */
+.slp-rest{margin-top:14px}
+.slp-rest .card{margin-bottom:12px}
+.slp-rest .card:last-child{margin-bottom:0}
 .fljrnl{font-family:'Inter',sans-serif;color:#161512;padding:6px 2px 16px;min-height:100vh}
 .fljrnl .jtop{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px}
 .fljrnl .jx{width:40px;height:40px;border-radius:13px;border:1px solid rgba(22,21,18,.08);background:#fff;color:#161512;font-size:20px;display:grid;place-items:center;cursor:pointer}
@@ -2816,6 +2820,42 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <span class="t">Détails du sommeil</span>
     <span class="vp">Voir plus <i class="ti ti-chevron-right"></i></span>
   </button>
+
+  <div class="slx slp-rest">
+    <button class="card slx-night" type="button" onclick="openSleepNight()">
+      <div class="snh"><span class="sni"><i class="ti ti-activity-heartbeat"></i></span><div class="snt"><b>Sommeil de la dernière nuit</b><span>Fréquence cardiaque pendant la nuit</span></div><i class="ti ti-chevron-right cv"></i></div>
+      <div class="snread"><b class="bpm" id="shNightBpm">—</b><span class="u">bpm</span><span class="mn">à <em>MINUIT</em> · <span id="shNightClock">00:00</span></span><span class="dur"><i class="ti ti-clock"></i> Durée <b id="shNightDur">—</b></span></div>
+      <div class="snbox" id="shNightBox"><div id="shNightHR"></div><div class="vl" id="shNightVl"></div><div class="cz" id="shNightCz"></div></div>
+      <div class="snfoot"><b id="shNightBed">23:06</b><span class="leg">– – – plage habituelle</span><b id="shNightWake">07:00</b></div>
+    </button>
+
+    <button class="card slx-dern" type="button" onclick="openSleepNight()">
+      <div class="dnh"><b>Dernières nuits</b><i class="ti ti-chevron-right"></i></div>
+      <div id="shLastChart"></div>
+    </button>
+
+    <button class="card slx-quality" type="button" onclick="openSleepNight()">
+      <div class="sqL">
+        <span class="sqic"><i class="ti ti-moon-stars"></i></span>
+        <div class="sqt"><span class="sqlbl">Qualité du sommeil</span><div class="sqv" id="shScore">—</div></div>
+      </div>
+      <div class="sqsep"></div>
+      <div class="sqR">
+        <span class="sqri"><i class="ti ti-circle-check"></i></span>
+        <div class="sqrt"><b id="shInsightT">Rythme stable cette nuit</b><span id="shInsight">Ta fréquence cardiaque est restée dans ta plage habituelle.</span></div>
+        <i class="ti ti-chevron-right cv"></i>
+      </div>
+    </button>
+
+    <div class="card slx-why">
+      <div class="whyh">Pourquoi ce score ?</div>
+      <div class="why3">
+        <div class="whyf"><span class="whyic"><i class="ti ti-clock"></i></span><div class="whyl">DURÉE</div><div class="whyv" id="shWhyV1">—</div><div class="whyq" id="shWhyQ1">—</div><div class="whybar"><i id="shWhyB1"></i></div></div>
+        <div class="whyf"><span class="whyic"><i class="ti ti-calendar-stats"></i></span><div class="whyl">RÉGULARITÉ</div><div class="whyv" id="shWhyV2">—</div><div class="whyq" id="shWhyQ2">—</div><div class="whybar"><i id="shWhyB2"></i></div></div>
+        <div class="whyf"><span class="whyic"><i class="ti ti-bell"></i></span><div class="whyl">RÉVEILS</div><div class="whyv" id="shWhyV3">—</div><div class="whyq" id="shWhyQ3">—</div><div class="whybar"><i id="shWhyB3"></i></div></div>
+      </div>
+    </div>
+  </div>
 
 </div>
 </section>
@@ -4788,7 +4828,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v156';
+const APP_VERSION='flint-v157';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
