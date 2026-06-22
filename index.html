@@ -2948,6 +2948,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .balgoal button{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;padding:11px 4px;border-radius:12px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease,color .14s ease}
 .balgoal button i{font-size:16px}
 .balgoal button.on{color:var(--ink)}
+.balx-date{display:flex;align-items:center;justify-content:center;gap:7px;width:auto;margin:0 auto 2px;border:0;background:transparent;font-family:var(--disp);font-style:oblique 6deg;font-size:21px;color:var(--ink);text-transform:capitalize;letter-spacing:.01em;cursor:pointer;padding:4px 10px}
+.balx-date i{font-size:16px;color:var(--accent)}
+.balx-date:active{transform:scale(.96)}
 .balx-stage{position:relative;width:100%;aspect-ratio:913/1723;container-type:inline-size;margin-bottom:6px}
 .balx-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .balx-vec{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -2974,6 +2977,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </span>
     <span class="balobj-edit">Modifier<i class="ti ti-chevron-right"></i></span>
   </button>
+  <button class="balx-date" id="balDateHdr" type="button" onclick="balToday()"><i class="ti ti-calendar-event"></i><span id="balDateTxt">Aujourd'hui</span></button>
   <div class="balx-stage">
     <img class="balx-bg" src="icons/balance_empty.png?v=3" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
@@ -4668,6 +4672,7 @@ function balStatus(net,hasFood){
 }
 function balDay(d){var nd=Math.min(0,Math.max(-180,_balDay+d));if(nd===_balDay)return;_balDay=nd;haptic();renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
+function balToday(){if(_balDay!==0){_balDay=0;haptic();renderBalance()}}
 /* swipe gauche/droite sur le héro pour surfer entre les jours */
 function bindBalSwipe(){var st=document.querySelector('#v-balance .balx-stage');if(!st||st._sw)return;st._sw=1;var x0=null,y0=null,moved=false;
  st.addEventListener('pointerdown',function(e){x0=e.clientX;y0=e.clientY;moved=false});
@@ -4748,8 +4753,7 @@ function balVec(b,st,k){
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .75s cubic-bezier(.3,.9,.3,1) both"/>';
  s+='<text x="'+cx+'" y="332" text-anchor="middle" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="94" fill="'+(b.hasFood?'var(--ink)':'var(--faint)')+'">'+netStr+'</text>';
- var dlab=_balDay===0?'BILAN DU JOUR':(_balDay===-1?'HIER':(function(){var dt=new Date();dt.setDate(dt.getDate()+_balDay);return dt.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase().replace(/\./g,'')})());
- s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">'+dlab+' · KCAL</text>';
+ s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">BILAN DU JOUR · KCAL</text>';
  // CONSO / DEP nombres + remplissage barres
  var mx=Math.max(b.in,b.out,1);
  s+='<text x="66" y="735" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="56" fill="var(--ink)">'+fmtN(b.in)+'</text>';
@@ -4810,6 +4814,8 @@ function renderBalance(){
  set('goSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
  var bn=document.getElementById('balNext');if(bn)bn.disabled=_balDay>=0;bindBalSwipe();
+ var dl;if(_balDay===0)dl='Aujourd\'hui';else if(_balDay===-1)dl='Hier';else{var dd=new Date();dd.setDate(dd.getDate()+_balDay);dl=dd.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}
+ set('balDateTxt',dl.charAt(0).toUpperCase()+dl.slice(1));
  var st=balStatus(b.net,b.hasFood);
  document.getElementById('balVec').innerHTML=balVec(b,st,k);
  var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
@@ -5731,7 +5737,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v224';
+const APP_VERSION='flint-v225';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
