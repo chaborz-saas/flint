@@ -2926,7 +2926,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
 
   <div class="bal2-card">
-    <div class="bal2-ch"><div class="bal2-ct2"><i class="ti ti-chart-line"></i>Aujourd'hui</div><div class="bal2-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
+    <div class="bal2-ch"><div class="bal2-ct2"><i class="ti ti-chart-line"></i><span id="balCurveTitle">Aujourd'hui</span></div><div class="bal2-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
     <div id="balCurve"></div>
   </div>
 
@@ -4562,19 +4562,23 @@ function balCurveSVG(k){
 }
 /* courbe net des 7 derniers jours (en milliers de kcal) */
 function bal7SVG(){
- var pts=[];for(var i=6;i>=0;i--){var off=-i,kk=tk(off),bb=balanceOf(kk),hf=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+off);pts.push({v:hf?bb.net/1000:null,lab:['D','L','M','M','J','V','S'][d.getDay()]+d.getDate()})}
+ var pts=[];for(var i=6;i>=0;i--){var off=-i,kk=tk(off),bb=balanceOf(kk),hf=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+off);pts.push({v:hf?bb.net/1000:null,lab:['D','L','M','M','J','V','S'][d.getDay()]+d.getDate(),off:off})}
  var vals=pts.map(function(p){return p.v}).filter(function(v){return v!=null});if(!vals.length)vals=[0];
- var mn=Math.min.apply(null,vals.concat([0])),mx=Math.max.apply(null,vals.concat([0]));if(mn===mx){mn-=1;mx+=1}var pad=(mx-mn)*0.25;mn-=pad;mx+=pad;
- var W=300,H=150,padL=8,padR=8,padT=26,padB=22,n=7;
+ var mn=Math.min.apply(null,vals.concat([0])),mx=Math.max.apply(null,vals.concat([0]));if(mn===mx){mn-=1;mx+=1}var pd=(mx-mn)*0.25;mn-=pd;mx+=pd;
+ var W=300,H=150,padL=8,padR=8,padT=26,padB=22,n=7,colW=(W-padL-padR)/(n-1);
  function X(i){return padL+i*(W-padL-padR)/(n-1)}function Y(v){return padT+(mx-v)/(mx-mn)*(H-padT-padB)}
- var line=[],dots='',labs='';
- pts.forEach(function(p,i){
-  if(p.v!=null){line.push([X(i),Y(p.v)]);dots+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="3.6" fill="#fff" stroke="var(--green)" stroke-width="2.4"/>';labs+='<text x="'+X(i).toFixed(1)+'" y="'+(Y(p.v)-9).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="var(--green)" font-family="Inter,sans-serif">'+(p.v>=0?'+':'−')+Math.abs(p.v).toFixed(1).replace('.',',')+'</text>'}
-  labs+='<text x="'+X(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-weight="700" fill="var(--faint)" font-family="Inter,sans-serif">'+p.lab+'</text>';
+ var line=[],dots='',labs='',rects='';
+ pts.forEach(function(p,i){var sel=p.off===_balDay;
+  if(p.v!=null){line.push([X(i),Y(p.v)]);
+   if(sel)dots+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="9" fill="var(--green)" opacity=".16"/>';
+   dots+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="'+(sel?4.8:3.6)+'" fill="'+(sel?'var(--green)':'#fff')+'" stroke="var(--green)" stroke-width="2.4"/>';
+   labs+='<text x="'+X(i).toFixed(1)+'" y="'+(Y(p.v)-9).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="var(--green)" font-family="Inter,sans-serif">'+(p.v>=0?'+':'−')+Math.abs(p.v).toFixed(1).replace('.',',')+'</text>'}
+  labs+='<text x="'+X(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-weight="'+(sel?'800':'700')+'" fill="'+(sel?'var(--ink)':'var(--faint)')+'" font-family="Inter,sans-serif">'+p.lab+'</text>';
+  rects+='<rect x="'+(X(i)-colW/2).toFixed(1)+'" y="0" width="'+colW.toFixed(1)+'" height="'+H+'" fill="transparent" style="cursor:pointer;pointer-events:all" onclick="balGoto('+p.off+')"/>';
  });
  var lp=line.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');
  var zy=Y(0),zero='<line x1="'+padL+'" y1="'+zy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+zy.toFixed(1)+'" stroke="var(--line)" stroke-dasharray="3 4"/>';
- return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+zero+'<path d="'+lp+'" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'+dots+labs+'</svg>';
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+zero+'<path d="'+lp+'" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'+dots+labs+rects+'</svg>';
 }
 function renderBalance(){
  var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
@@ -4585,6 +4589,8 @@ function renderBalance(){
  set('balInV',fmtN(b.in));set('balOutV',fmtN(b.out));
  var ib=document.getElementById('balInBar'),ob=document.getElementById('balOutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
+ var dlbl;if(_balDay===0)dlbl='Aujourd\'hui';else if(_balDay===-1)dlbl='Hier';else{var dd=new Date();dd.setDate(dd.getDate()+_balDay);var ds=dd.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});dlbl=ds.charAt(0).toUpperCase()+ds.slice(1)}
+ set('balCurveTitle',dlbl);
  document.getElementById('balCurve').innerHTML=balCurveSVG(k);
  document.getElementById('bal7').innerHTML=bal7SVG();
  var rem=b.out-b.in;
@@ -5418,7 +5424,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v208';
+const APP_VERSION='flint-v209';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
