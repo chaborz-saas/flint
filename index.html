@@ -3010,19 +3010,36 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .btr-sc{flex:1;background:var(--card);border-radius:18px;padding:15px 8px;box-shadow:var(--shadow);text-align:center;min-width:0}
 .btr-sv{font-family:var(--disp);font-style:oblique 6deg;font-size:28px;line-height:1;color:var(--ink)}
 .btr-sl{font-family:var(--sans);font-size:10.5px;font-weight:700;color:var(--ink2);margin-top:6px;line-height:1.2}
+.cal-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.cal-leg{display:flex;flex-wrap:wrap;gap:7px 11px}
+.cal-leg span{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:10.5px;font-weight:700;color:var(--ink2)}
+.cal-leg i{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cal-mnav{display:flex;align-items:center;justify-content:center;gap:16px;margin:2px 0 12px}
+.cal-mnav button{width:34px;height:34px;border:0;background:var(--bg2);border-radius:50%;font-size:18px;color:var(--ink);display:grid;place-items:center;cursor:pointer;line-height:0;padding-bottom:3px;font-family:inherit;transition:transform .14s ease}
+.cal-mnav button:active{transform:scale(.88)}
+.cal-mnav button:disabled{opacity:.35}
+.cal-mlabel{font-family:var(--sans);font-size:15px;font-weight:800;color:var(--ink);min-width:130px;text-align:center;text-transform:capitalize}
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:6px}
+.cal-dow span{text-align:center;font-family:var(--sans);font-size:9.5px;font-weight:800;color:var(--faint)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-cell{aspect-ratio:1;border:0;border-radius:11px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:2px;font-family:var(--sans);transition:transform .12s ease}
+.cal-cell:active{transform:scale(.9)}
+.cal-cell.empty,.cal-cell.fut{cursor:default;pointer-events:none}
+.cal-d{font-family:var(--disp);font-style:oblique 4deg;font-size:16px;line-height:1}
+.cal-k{font-size:9px;font-weight:800;line-height:1}
+.cal-cell.today{outline:2px solid var(--ink);outline-offset:1px}
 </style>
 <section class="view" id="v-baltrend">
 <div class="flnutrition btr">
-  <div class="pghd"><button class="bk" onclick="goBack('balance')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Balance · tendance</div></div>
-  <div class="btr-seg" id="btrSeg">
-    <span class="seg-ind"></span>
-    <button type="button" data-p="30" onclick="btrSet('30')">30 j</button>
-    <button type="button" data-p="90" onclick="btrSet('90')">90 j</button>
-    <button type="button" data-p="all" onclick="btrSet('all')">Tout</button>
-  </div>
+  <div class="pghd"><button class="bk" onclick="goBack('balance')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Calendrier</div></div>
   <div class="bal2-card">
-    <div class="bal2-ct2"><i class="ti ti-chart-line"></i>Bilan net par jour</div>
-    <div id="btrChart" style="margin-top:10px"></div>
+    <div class="cal-top">
+      <div class="bal2-ct2"><i class="ti ti-calendar-stats"></i>Solde calorique</div>
+      <div class="cal-leg"><span><i style="background:#E8674A"></i>Excédent</span><span><i style="background:#2FAE67"></i>Stable</span><span><i style="background:#F2A93B"></i>Déficit léger</span><span><i style="background:#D98324"></i>Déficit fort</span></div>
+    </div>
+    <div class="cal-mnav"><button type="button" id="calPrevM" onclick="calShiftM(-1)" aria-label="Mois précédent">‹</button><div class="cal-mlabel" id="calMlabel">—</div><button type="button" id="calNextM" onclick="calShiftM(1)" aria-label="Mois suivant">›</button></div>
+    <div class="cal-dow"><span>LUN</span><span>MAR</span><span>MER</span><span>JEU</span><span>VEN</span><span>SAM</span><span>DIM</span></div>
+    <div class="cal-grid" id="calGrid"></div>
   </div>
   <div class="btr-stat" id="btrStat"></div>
   <div class="bal-tie"><i class="ti ti-bolt"></i><div id="btrTie"></div></div>
@@ -4864,20 +4881,39 @@ function btrChartSVG(data,sel){
  return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;touch-action:none">'+grid+bars+xl+cur+'</svg>';
 }
 function btrScrub(cx){var svg=document.querySelector('#btrChart svg');if(!svg||!_btrArr.length)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*BTR_W,frac=(px-BTR_PADL)/(BTR_W-BTR_PADL-BTR_PADR),i=Math.floor(frac*_btrArr.length);i=Math.max(0,Math.min(_btrArr.length-1,i));if(i!==_btrSel){_btrSel=i;haptic(4)}document.getElementById('btrChart').innerHTML=btrChartSVG(_btrArr,_btrSel)}
+/* solde net -> état couleur (calendrier) : excédent / stable / déficit léger / fort */
+function calState(net){
+ if(net==null)return ['var(--faint)','transparent'];
+ if(net>20)return ['#C0492C','rgba(232,103,74,.12)'];
+ if(net>=-150)return ['#1E7A47','rgba(47,174,103,.13)'];
+ if(net>=-300)return ['#C98129','rgba(242,169,59,.16)'];
+ return ['#9A5A12','rgba(217,131,36,.20)'];
+}
+var _calMonth=0;
+function calShiftM(d){_calMonth=Math.min(0,_calMonth+d);haptic();renderBalTrend()}
+function calPick(off){_balDay=Math.min(0,off);haptic();go('balance')}
 function renderBalTrend(){
- [].forEach.call(document.querySelectorAll('#btrSeg button'),function(b){b.classList.toggle('on',b.dataset.p===_btrP)});moveSeg(document.getElementById('btrSeg'));
- var data=btrData();_btrArr=data;if(_btrSel!=null&&_btrSel>=data.length)_btrSel=null;
- var host=document.getElementById('btrChart');host.innerHTML=btrChartSVG(data,_btrSel);
- host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}btrScrub(e.clientX);host.onpointermove=function(ev){btrScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null}};
+ var base=new Date();base.setDate(1);base.setMonth(base.getMonth()+_calMonth);
+ var year=base.getFullYear(),month=base.getMonth();
+ var first=new Date(year,month,1),startDow=(first.getDay()+6)%7,dim=new Date(year,month+1,0).getDate();
+ var today=new Date();today.setHours(0,0,0,0);
+ var cells='',nets=[];
+ for(var i=0;i<startDow;i++)cells+='<div class="cal-cell empty"></div>';
+ for(var d=1;d<=dim;d++){var date=new Date(year,month,d);date.setHours(0,0,0,0);var off=Math.round((date-today)/86400000),fut=off>0,key=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+  if(fut){cells+='<div class="cal-cell fut"><span class="cal-d" style="color:var(--faint);opacity:.45">'+d+'</span></div>';continue}
+  var has=mealsOf(key).length>0,net=has?balanceOf(key).net:0;if(has)nets.push(net);
+  var stt=calState(net);
+  cells+='<button type="button" class="cal-cell'+(off===0?' today':'')+'" style="background:'+stt[1]+'" onclick="calPick('+off+')"><span class="cal-d" style="color:'+stt[0]+'">'+d+'</span><span class="cal-k" style="color:'+stt[0]+'">'+(net>0?'+':'')+fmtN(net)+'</span></button>';
+ }
+ set('calGrid',cells);
+ var ml=base.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});set('calMlabel',ml.charAt(0).toUpperCase()+ml.slice(1));
+ var cn=document.getElementById('calNextM');if(cn)cn.disabled=_calMonth>=0;
  var G=balGoals()[goalOf()];
- var nets=data.map(function(d){return d.net});
  var avg=nets.length?Math.round(nets.reduce(function(a,b){return a+b},0)/nets.length):0;
- var inT=data.filter(function(d){return d.net>=G.lo&&d.net<=G.hi}).length;
- var avgCol=balStatus(avg,true)[1];
- set('btrStat','<div class="btr-sc"><div class="btr-sv" style="color:'+avgCol+'">'+(avg>0?'+':(avg<0?'−':''))+fmtN(Math.abs(avg))+'</div><div class="btr-sl">bilan moyen / jour</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--green)">'+inT+'</div><div class="btr-sl">jours dans ta cible</div></div><div class="btr-sc"><div class="btr-sv">'+data.length+'</div><div class="btr-sl">jours suivis</div></div>');
- var pctIn=data.length?Math.round(inT/data.length*100):0;
- var tie=!data.length?'':pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+').</b> Belle régularité — c\'est ça qui fait les résultats.':'<b>'+pctIn+'% de jours dans ta cible.</b> Vise la constance : sur la durée, c\'est la régularité qui te rapproche de '+G.lbl.toLowerCase()+'.';
- set('btrTie',tie);
+ var inT=nets.filter(function(n){return n>=G.lo&&n<=G.hi}).length;
+ set('btrStat','<div class="btr-sc"><div class="btr-sv" style="color:'+balStatus(avg,true)[1]+'">'+(avg>0?'+':(avg<0?'−':''))+fmtN(Math.abs(avg))+'</div><div class="btr-sl">bilan moyen / jour</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--green)">'+inT+'</div><div class="btr-sl">jours dans ta cible</div></div><div class="btr-sc"><div class="btr-sv">'+nets.length+'</div><div class="btr-sl">jours suivis</div></div>');
+ var pctIn=nets.length?Math.round(inT/nets.length*100):0;
+ set('btrTie',!nets.length?'<b>Aucun repas loggé ce mois.</b> Prends tes repas en photo pour remplir ton calendrier.':(pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+') ce mois.</b> Belle régularité — c\'est ça qui paie.':'<b>'+pctIn+'% de jours dans ta cible ce mois.</b> Touche un jour pour voir le détail. La constance te rapproche de '+G.lbl.toLowerCase()+'.'));
 }
 /* ---------- AUJOURD'HUI · DÉTAIL COURBE (scrubbable) ---------- */
 var _bcSel=null,BC_W=340,BC_PADL=40,BC_PADR=46;
@@ -5701,7 +5737,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v222';
+const APP_VERSION='flint-v223';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
