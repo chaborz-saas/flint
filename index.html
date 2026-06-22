@@ -2906,7 +2906,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .balx-stage{position:relative;width:100%;aspect-ratio:913/1723;container-type:inline-size;margin-bottom:6px}
 .balx-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .balx-vec{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.balx-leaf{position:absolute;left:50%;top:14.2%;transform:translate(-50%,-50%);font-size:4.4cqw;display:grid;place-items:center}
+.balx-leaf{position:absolute;left:50%;top:12.2%;transform:translate(-50%,-50%);font-size:3.9cqw;display:grid;place-items:center}
 .balx-pill{position:absolute;left:50%;top:23.8%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:.7cqw;font-family:var(--sans);font-weight:800;font-size:2.4cqw;padding:.95cqw 2cqw;border-radius:999px;white-space:nowrap}
 .balx-pill i{font-size:2.7cqw}
 .balx-check{position:absolute;left:50%;top:27.7%;transform:translate(-50%,-50%);width:4.5cqw;height:4.5cqw;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;font-size:2.5cqw}
@@ -4563,11 +4563,12 @@ function bal7SVG(){
 function balVec(b,st,k){
  var col=st[1],s='';
  // HERO anneau + net
- var cx=456,cy=298,R=183,sw=15,c=2*Math.PI*R;
+ var cx=456,cy=300,R=181,sw=13,c=2*Math.PI*R;
  var pct=b.hasFood?(b.out>0?Math.min(100,b.in/b.out*100):(b.in>0?100:0)):0,off=c*(1-pct/100);
  var netStr=b.hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—';
- s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="var(--track)" stroke-width="'+sw+'"/>';
- s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')"/>';
+ s+='<defs><linearGradient id="bring" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+col+'" stop-opacity=".7"/><stop offset="1" stop-color="'+col+'"/></linearGradient></defs>';
+ s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#EFEBE4" stroke-width="'+sw+'"/>';
+ s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')"/>';
  s+='<text x="'+cx+'" y="332" text-anchor="middle" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="94" fill="'+(b.hasFood?'var(--ink)':'var(--faint)')+'">'+netStr+'</text>';
  s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">BILAN DU JOUR · KCAL</text>';
  // CONSO / DEP nombres + remplissage barres
@@ -5451,7 +5452,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v210';
+const APP_VERSION='flint-v211';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
