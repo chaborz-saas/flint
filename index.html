@@ -4791,21 +4791,15 @@ function balVec(b,st,k){
  if(b.hasFood)s+='<circle cx="'+gx(b.net).toFixed(1)+'" cy="1608" r="11" fill="#fff" stroke="'+oc+'" stroke-width="3.5"/>';
  s+='<text x="66" y="1645" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="0.5" fill="var(--faint)">DÉFICIT</text>';
  s+='<text x="405" y="1645" text-anchor="end" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="0.5" fill="var(--faint)">SURPLUS</text>';
- // 7 DERNIERS JOURS (cliquable)
- var pts=[];for(var i=6;i>=0;i--){var o=-i,kk=tk(o),bb=balanceOf(kk),hf=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+o);pts.push({v:hf?bb.net/1000:null,lab:['D','L','M','M','J','V','S'][d.getDay()]+d.getDate(),off:o})}
- var vv=pts.map(function(p){return p.v}).filter(function(x){return x!=null});if(!vv.length)vv=[0];
- var mn=Math.min.apply(null,vv.concat([0])),mxx=Math.max.apply(null,vv.concat([0]));if(mn===mxx){mn-=1;mxx+=1}var pdd=(mxx-mn)*0.22;mn-=pdd;mxx+=pdd;
- function X7(i){return 492+i*(842-492)/6}function Y7(v){return 1470+(mxx-v)/(mxx-mn)*130}
- var line=[],d7='',l7='',r7='';
- pts.forEach(function(p,i){var sel=p.off===_balDay;
-  if(p.v!=null){line.push([X7(i),Y7(p.v)]);
-   if(sel)d7+='<circle cx="'+X7(i).toFixed(1)+'" cy="'+Y7(p.v).toFixed(1)+'" r="11" fill="var(--green)" opacity=".16"/>';
-   d7+='<circle cx="'+X7(i).toFixed(1)+'" cy="'+Y7(p.v).toFixed(1)+'" r="'+(sel?6:4.5)+'" fill="'+(sel?'var(--green)':'#fff')+'" stroke="var(--green)" stroke-width="3"/>';
-   l7+='<text x="'+X7(i).toFixed(1)+'" y="'+(Y7(p.v)-13).toFixed(1)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="var(--green)">'+(p.v>=0?'+':'−')+Math.abs(p.v).toFixed(1).replace('.',',')+'</text>'}
-  l7+='<text x="'+X7(i).toFixed(1)+'" y="1636" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="'+(sel?'800':'700')+'" fill="'+(sel?'var(--ink)':'var(--faint)')+'">'+p.lab+'</text>';
- });
- var lp=line.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');
- s+='<path d="'+lp+'" fill="none" stroke="var(--green)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>'+d7+l7;
+ // 7 DERNIERS JOURS — mini calendrier (cases datées colorées)
+ var c0x=480,c1x=848,n7=7,sl7=(c1x-c0x)/n7,cw7=sl7-5,cyT=1494,cyH=104,DI7=['D','L','M','M','J','V','S'];
+ for(var i7=0;i7<n7;i7++){var o7=-(6-i7),kk7=tk(o7),hf7=mealsOf(kk7).length>0,net7=hf7?balanceOf(kk7).net:0,dt7=new Date();dt7.setHours(0,0,0,0);dt7.setDate(dt7.getDate()+o7);
+  var st7=calState(net7),cx7=c0x+i7*sl7+2.5,mid7=cx7+cw7/2,isT7=o7===0;
+  s+='<rect x="'+cx7.toFixed(1)+'" y="'+cyT+'" width="'+cw7.toFixed(1)+'" height="'+cyH+'" rx="11" fill="'+st7[1]+'"'+(isT7?' stroke="var(--ink)" stroke-width="2"':'')+'/>';
+  s+='<text x="'+mid7.toFixed(1)+'" y="'+(cyT+28)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="var(--faint)">'+DI7[dt7.getDay()]+'</text>';
+  s+='<text x="'+mid7.toFixed(1)+'" y="'+(cyT+62)+'" text-anchor="middle" style="font-family:\'Anton\',sans-serif;font-style:oblique 4deg" font-size="28" fill="'+st7[0]+'">'+dt7.getDate()+'</text>';
+  s+='<text x="'+mid7.toFixed(1)+'" y="'+(cyT+89)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="'+st7[0]+'">'+(net7>0?'+':'')+fmtN(net7)+'</text>';
+ }
  return s;
 }
 function renderBalance(){
@@ -5737,7 +5731,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v223';
+const APP_VERSION='flint-v224';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
