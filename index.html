@@ -2906,6 +2906,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .balx-stage{position:relative;width:100%;aspect-ratio:913/1723;container-type:inline-size;margin-bottom:6px}
 .balx-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .balx-vec{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.balx-hit{position:absolute;border:0;background:transparent;border-radius:5cqw;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:transform .14s ease}
+.balx-hit:active{transform:scale(.985)}
 .balx-leaf{position:absolute;left:50%;top:12.2%;transform:translate(-50%,-50%);font-size:3.9cqw;display:grid;place-items:center}
 .balx-pill{position:absolute;left:50%;top:23.8%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:.7cqw;font-family:var(--sans);font-weight:800;font-size:2.4cqw;padding:.95cqw 2cqw;border-radius:999px;white-space:nowrap}
 .balx-pill i{font-size:2.7cqw}
@@ -2917,6 +2919,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="balx-stage">
     <img class="balx-bg" src="icons/balance_empty.png?v=2" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
+    <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
+    <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
     <div class="balx-leaf" id="balLeaf"><i class="ti ti-leaf"></i></div>
     <div class="balx-pill" id="balPill"></div>
     <div class="balx-check" id="balCheck"></div>
@@ -5452,7 +5456,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v211';
+const APP_VERSION='flint-v212';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
