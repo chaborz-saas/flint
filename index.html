@@ -3219,6 +3219,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
   <div class="flcard">
     <div class="sect"><i class="ti ti-watch"></i>Capteur · Polar Loop</div>
+    <button class="fbtn primary" onclick="connectPolarBle()"><i class="ti ti-bluetooth"></i>Connecter ma Polar Loop</button>
+    <p class="hint" id="polarBleStatus" style="white-space:normal">Non connectée.</p>
     <button class="fbtn dark" onclick="pullHealthConnect()"><i class="ti ti-refresh"></i>Synchroniser mon capteur</button>
     <div class="divlab">Ou saisir la nuit à la main</div>
     <div class="fgrid">
@@ -4937,7 +4939,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v201';
+const APP_VERSION='flint-v202';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -4949,6 +4951,50 @@ checkUpdate();
 /* Barre de date auto-masquante (Whoop-like) : se cache au scroll bas, réapparaît épinglée au scroll haut */
 if('serviceWorker'in navigator&&!window.Capacitor)navigator.serviceWorker.register('sw.js').catch(()=>{});
 document.addEventListener('visibilitychange',function(){if(document.hidden)return;checkUpdate();if('serviceWorker'in navigator&&!window.Capacitor){navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update()}).catch(function(){})}});
+</script>
+<script>
+/* Connexion directe Polar Loop (plugin natif PolarBle) — diagnostic + scan brut. Ré-appliqué sur le front v201 de Dino. */
+(function(){
+  var listenersSet=false, connecting=false, lines=[], rawSeen={};
+  function log(m){lines.push(m); var e=document.getElementById('polarBleStatus'); if(e) e.innerHTML=lines.slice(-22).join('<br>');}
+  function T(p,ms,label){return Promise.race([Promise.resolve(p), new Promise(function(_,rej){setTimeout(function(){rej(new Error('pas de réponse ('+label+')'));},ms);})]);}
+  window.connectPolarBle=async function(){
+    lines=[]; rawSeen={};
+    var P=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.PolarBle;
+    log('1. Plugin PolarBle : '+(P?'OK ✅':'ABSENT ❌'));
+    var uaM=(navigator.userAgent||'').match(/Android\s+([\d.]+)/); log('   Android : '+(uaM?uaM[1]:'?'));
+    if(!P){log('→ Tu n\'es pas sur le vrai APK Android.');return;}
+    try{ var info=await P.getInfo(); log('   Plugin natif : v'+info.version+' · API '+info.api+' · perm:'+info.granted+' · BT allumé:'+info.bluetoothOn); }
+    catch(e){ log('   ⚠️ ANCIEN APK (pas de getInfo) → désinstalle FLINT puis réinstalle le dernier APK.'); }
+    if(!listenersSet){
+      listenersSet=true;
+      P.addListener('deviceFound',function(d){
+        log('📡 trouvé : '+(d.name||'(sans nom)')+' · rssi '+d.rssi);
+        var n=(d.name||'').toLowerCase();
+        if(!connecting&&n.indexOf('polar')>-1){connecting=true;log('→ connexion à '+(d.name||d.deviceId)+'…');P.stopScan();P.connect({deviceId:d.deviceId});}
+      });
+      P.addListener('status',function(s){log('état : '+s.status);});
+      P.addListener('hr',function(h){log('❤️ '+h.hr+' bpm'+(h.rr&&h.rr.length?' · RR '+h.rr.join('/'):''));});
+      P.addListener('error',function(e){log('❌ erreur native : '+(e&&e.message?e.message:e));});
+      P.addListener('raw',function(d){var a=d.address||'?';if(rawSeen[a])return;rawSeen[a]=1;var pol=((d.name||'')+'').toLowerCase().indexOf('polar')>-1;log((pol?'⭐ POLAR : ':'• ')+(d.name||'(sans nom)')+' · '+d.rssi+'dBm'+(pol?' ['+a+']':''));if(pol&&!connecting){connecting=true;log('→ tentative de connexion forcée à '+(d.name||a)+'…');try{P.rawStop&&P.rawStop();P.connect({deviceId:a});}catch(e){log('connect err: '+e.message);}}});
+    }
+    try{
+      log('2. Demande permissions…');
+      var perm;
+      try{ perm=await T(P.requestPermissions(),12000,'permissions'); }
+      catch(e){ log('⚠️ '+e.message); return; }
+      log('3. Permissions : '+JSON.stringify(perm));
+      connecting=false;
+      log('4. Scan Polar (SDK)…');
+      try{ await T(P.scan(),10000,'scan'); log('5. Scan Polar lancé ✅'); }
+      catch(e){ log('⚠️ scan Polar : '+e.message); }
+      log('6. SCAN BRUT (tout le Bluetooth, zéro filtre) :');
+      try{ await T(P.rawScan(),10000,'rawScan'); }
+      catch(e){ log('⚠️ scan brut : '+e.message); }
+      setTimeout(function(){ try{ P.rawStop&&P.rawStop(); P.stopScan&&P.stopScan(); }catch(e){} if(!connecting)log('— Fin (25s). Si AUCUNE ligne « ⭐ POLAR » ni appareil à signal fort (-40 à -60 dBm) n\'est apparu, ta Loop n\'émet rien du tout → souci matériel.'); },25000);
+    }catch(e){log('❌ erreur : '+(e&&e.message?e.message:e));}
+  };
+})();
 </script>
 </body>
 </html>
