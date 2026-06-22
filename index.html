@@ -2522,8 +2522,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
  .balgoal button:active,.btr-seg button:active{transform:scale(.94)}
  .balgoal button.on i{animation:segpop .42s cubic-bezier(.34,1.5,.4,1)}
  @keyframes segpop{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}
- /* ----- nav du bas : indicateur glissant + icône qui rebondit ----- */
- #nav{position:relative}
+ /* ----- nav du bas : indicateur glissant + icône qui rebondit (nav reste position:fixed) ----- */
  .nav-ind{position:absolute;top:0;left:0;width:30px;height:4px;border-radius:0 0 5px 5px;background:var(--accent);z-index:3;pointer-events:none;transition:transform .42s cubic-bezier(.34,1.5,.4,1)}
  #nav button svg{transition:transform .34s cubic-bezier(.34,1.55,.4,1)}
  #nav button.on svg{transform:translateY(-2px) scale(1.16)}
@@ -2921,7 +2920,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal2-objbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--green);transition:width .55s cubic-bezier(.2,.8,.2,1)}
 .bal2-objbar .mk{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--green);transform:translate(-50%,-50%);transition:left .55s cubic-bezier(.2,.8,.2,1)}
 .bal2-objends{display:flex;justify-content:space-between;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--faint);margin-top:8px}
-.balx{padding-bottom:30px}
+.balx{padding-bottom:88px}
 .balgoal{display:flex;gap:6px;background:var(--bg2);border-radius:16px;padding:4px;margin:2px 0 12px}
 .balgoal button{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;padding:11px 4px;border-radius:12px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease,color .14s ease}
 .balgoal button i{font-size:16px}
@@ -2970,7 +2969,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
 <!-- ===================== BALANCE · TENDANCE (all-time) ===================== -->
 <style>
-.btr{padding-bottom:34px}
+.btr{padding-bottom:88px}
 .btr-seg{display:flex;gap:6px;background:var(--bg2);border-radius:14px;padding:4px;margin-bottom:13px}
 .btr-seg button{flex:1;border:0;background:transparent;padding:10px;border-radius:10px;font-family:var(--sans);font-size:13px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease}
 .btr-seg button.on{color:var(--ink)}
@@ -5589,7 +5588,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v218';
+const APP_VERSION='flint-v219';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
