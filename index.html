@@ -2998,9 +2998,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <button class="bal2-navb" id="balNext" type="button" onclick="balDay(1)" aria-label="Jour suivant">›</button>
   </div>
   <div class="bal2-hero">
-    <div class="bal2-deco" aria-hidden="true"><svg viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><g fill="none" stroke="var(--green)" stroke-width="1" opacity=".18"><path d="M-20 70 Q 90 42 180 80 T 380 70"/><path d="M-20 112 Q 90 82 180 122 T 380 112"/><path d="M-20 154 Q 120 124 220 162 T 400 152"/></g><g fill="var(--green)" opacity=".25"><circle cx="42" cy="58" r="2"/><circle cx="302" cy="48" r="2"/><circle cx="332" cy="120" r="1.6"/><circle cx="58" cy="150" r="1.6"/><circle cx="282" cy="172" r="2"/></g></svg></div>
     <div class="bal2-ring" id="balRing"></div>
-    <div class="bal2-check" id="balCheck"></div>
   </div>
   <div class="bal2-duo">
     <button class="bal2-cd" type="button" onclick="go('nutrition')">
@@ -4922,7 +4920,6 @@ function renderBalance(){
  var dl;if(_balDay===0)dl='Aujourd\'hui';else if(_balDay===-1)dl='Hier';else{var dd=new Date();dd.setDate(dd.getDate()+_balDay);dl=dd.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}
  dl=dl.charAt(0).toUpperCase()+dl.slice(1);set('balDateTxt',dl);set('balCurveTitle',dl);
  document.getElementById('balRing').innerHTML=balRingHTML(b,st);
- var ck=document.getElementById('balCheck');if(ck){var ckg=st[1]==='var(--green)';ck.innerHTML='<i class="ti '+(ckg?'ti-check':st[3])+'" style="color:'+st[1]+'"></i>'}
  var mx=Math.max(b.in,b.out,1);set('balInV',fmtN(b.in));set('balOutV',fmtN(b.out));
  var ib=document.getElementById('balInBar'),ob=document.getElementById('balOutBar');if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
  document.getElementById('balCurve').innerHTML=balCurveNative(k);
@@ -5857,7 +5854,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v234';
+const APP_VERSION='flint-v235';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
