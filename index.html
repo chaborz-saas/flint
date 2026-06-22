@@ -2975,6 +2975,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
     <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
     <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
+    <button class="balx-hit" type="button" style="left:3.5%;top:50.2%;width:93%;height:25.6%" onclick="go('balcurve')" aria-label="Détail de la courbe du jour"></button>
     <button class="balx-hit" type="button" style="left:50.1%;top:77.7%;width:45%;height:19.2%" onclick="go('baltrend')" aria-label="Tendance de la balance sur la durée"></button>
     <div class="balx-leaf" id="balLeaf"><i class="ti ti-leaf"></i></div>
     <div class="balx-pill" id="balPill"></div>
@@ -3019,6 +3020,19 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
   <div class="btr-stat" id="btrStat"></div>
   <div class="bal-tie"><i class="ti ti-bolt"></i><div id="btrTie"></div></div>
+</div>
+</section>
+
+<!-- ===================== AUJOURD'HUI · DÉTAIL COURBE ===================== -->
+<section class="view" id="v-balcurve">
+<div class="flnutrition btr">
+  <div class="pghd"><button class="bk" onclick="goBack('balance')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Aujourd'hui · détail</div></div>
+  <div class="bal2-card">
+    <div class="bal2-ch"><div class="bal2-ct2"><i class="ti ti-chart-line"></i>Consommé vs dépensé</div><div class="bal2-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
+    <div id="bcChart" style="margin-top:8px"></div>
+  </div>
+  <div class="btr-stat" id="bcStat"></div>
+  <div class="bal-tie"><i class="ti ti-bolt"></i><div id="bcTie"></div></div>
 </div>
 </section>
 
@@ -3803,7 +3817,7 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend}[v]||(()=>{}))();
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -4851,6 +4865,40 @@ function renderBalTrend(){
  var tie=!data.length?'':pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+').</b> Belle régularité — c\'est ça qui fait les résultats.':'<b>'+pctIn+'% de jours dans ta cible.</b> Vise la constance : sur la durée, c\'est la régularité qui te rapproche de '+G.lbl.toLowerCase()+'.';
  set('btrTie',tie);
 }
+/* ---------- AUJOURD'HUI · DÉTAIL COURBE (scrubbable) ---------- */
+var _bcSel=null,BC_W=340,BC_PADL=40,BC_PADR=46;
+function bcDayCurve(k){var meals=mealsOf(k),totalIn=nutTotals(k).kcal,totalOut=caloriesBurned(k),n=meals.length;var times=meals.map(function(m,i){return n<=1?13:(8+i*(21-8)/(n-1))});return {totalIn:totalIn,totalOut:totalOut,cumIn:function(h){var x=0;for(var i=0;i<n;i++)x+=(meals[i].kcal||0)/(1+Math.exp(-(h-times[i])/0.9));return x},cumOut:function(h){return totalOut*Math.max(0,Math.min(1,(h-6)/18))}}}
+function bcChartSVG(k,sel){
+ var D=bcDayCurve(k),W=BC_W,H=212,padL=BC_PADL,padR=BC_PADR,padT=46,padB=28;
+ var yMax=Math.max(3000,Math.ceil(Math.max(D.totalIn,D.totalOut,1)/1000)*1000);
+ function X(h){return padL+(h-6)/18*(W-padL-padR)}function Y(v){return padT+(1-Math.min(v,yMax)/yMax)*(H-padT-padB)}
+ var grid='';for(var g=0;g<=yMax;g+=1000){var gy=Y(g);grid+='<line x1="'+padL+'" y1="'+gy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+gy.toFixed(1)+'" stroke="var(--line)"/><text x="'+(padL-6)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(g?fmtN(g):'0')+'</text>'}
+ var xlab='';[6,12,18,24].forEach(function(h){xlab+='<text x="'+X(h).toFixed(1)+'" y="'+(H-9)+'" text-anchor="middle" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(h<10?'0'+h:h)+':00</text>'});
+ var pin=[],pout=[];for(var h=6;h<=24.0001;h+=0.5){pin.push([X(h),Y(D.cumIn(h))]);pout.push([X(h),Y(D.cumOut(h))])}
+ function pth(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
+ function ar(p){return pth(p)+' L'+p[p.length-1][0].toFixed(1)+' '+Y(0).toFixed(1)+' L'+p[0][0].toFixed(1)+' '+Y(0).toFixed(1)+' Z'}
+ var ie=pin[pin.length-1],oe=pout[pout.length-1];
+ var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="bci" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--indigo)" stop-opacity=".16"/><stop offset="1" stop-color="var(--indigo)" stop-opacity="0"/></linearGradient><linearGradient id="bco" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".14"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'+grid;
+ s+='<path d="'+ar(pout)+'" fill="url(#bco)"/><path d="'+ar(pin)+'" fill="url(#bci)"/>';
+ s+='<path d="'+pth(pout)+'" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
+ s+='<path d="'+pth(pin)+'" fill="none" stroke="var(--indigo)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
+ s+='<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--accent)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--indigo)" stroke-width="2.6"/>';
+ s+='<text x="'+(oe[0]+6).toFixed(1)+'" y="'+(oe[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--accent)" font-family="Inter,sans-serif">'+fmtN(D.totalOut)+'</text>';
+ s+='<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--indigo)" font-family="Inter,sans-serif">'+fmtN(D.totalIn)+'</text>';
+ if(sel!=null){var x=X(sel),yi=Y(D.cumIn(sel)),yo=Y(D.cumOut(sel)),hm=Math.floor(sel)+'h'+String(Math.round((sel%1)*60)).padStart(2,'0');
+  s+='<line x1="'+x.toFixed(1)+'" y1="38" x2="'+x.toFixed(1)+'" y2="'+(H-padB)+'" stroke="#37372F" stroke-width="1.2" stroke-dasharray="3 3" opacity=".45"/>';
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+yo.toFixed(1)+'" r="4.5" fill="var(--accent)" stroke="#fff" stroke-width="2"/><circle cx="'+x.toFixed(1)+'" cy="'+yi.toFixed(1)+'" r="4.5" fill="var(--indigo)" stroke="#fff" stroke-width="2"/>';
+  var lbl=hm,tw=lbl.length*7+18,tx=Math.max(padL,Math.min(W-padR-tw,x-tw/2));
+  s+='<rect x="'+tx.toFixed(1)+'" y="6" width="'+tw.toFixed(1)+'" height="26" rx="7" fill="#1A1812"/><text x="'+(tx+tw/2).toFixed(1)+'" y="23" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#fff">'+lbl+'</text>';}
+ return s+'</svg>';
+}
+function bcStats(){var k=tk(),D=bcDayCurve(k),ci,co,lab;if(_bcSel!=null){ci=Math.round(D.cumIn(_bcSel));co=Math.round(D.cumOut(_bcSel));lab='à '+Math.floor(_bcSel)+'h'+String(Math.round((_bcSel%1)*60)).padStart(2,'0')}else{ci=D.totalIn;co=D.totalOut;lab='aujourd\'hui'}var net=ci-co;
+ set('bcStat','<div class="btr-sc"><div class="btr-sv" style="color:var(--indigo)">'+fmtN(ci)+'</div><div class="btr-sl">consommé '+lab+'</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--accent)">'+fmtN(co)+'</div><div class="btr-sl">dépensé '+lab+'</div></div><div class="btr-sc"><div class="btr-sv" style="color:'+balStatus(net,true)[1]+'">'+(net>0?'+':(net<0?'−':''))+fmtN(Math.abs(net))+'</div><div class="btr-sl">bilan '+lab+'</div></div>');}
+function bcScrub(cx){var svg=document.querySelector('#bcChart svg');if(!svg)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*BC_W;var h=6+(px-BC_PADL)/(BC_W-BC_PADL-BC_PADR)*18;_bcSel=Math.max(6,Math.min(24,h));document.getElementById('bcChart').innerHTML=bcChartSVG(tk(),_bcSel);bcStats();haptic(4)}
+function renderBalCurve(){_bcSel=null;var host=document.getElementById('bcChart');host.innerHTML=bcChartSVG(tk(),null);bcStats();
+ host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}bcScrub(e.clientX);host.onpointermove=function(ev){bcScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null}};
+ var net=nutTotals(tk()).kcal-caloriesBurned(tk());
+ set('bcTie',net<0?'<b>Tu es resté sous ta dépense aujourd\'hui.</b> Glisse le doigt sur la courbe pour voir l\'évolution heure par heure.':'<b>Ta consommation a dépassé ta dépense.</b> Glisse le doigt pour voir à partir de quand.');}
 
 /* ---------- RÉCUP ---------- */
 function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!host)return;var c=behaviorCorr();
@@ -5639,7 +5687,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v220';
+const APP_VERSION='flint-v221';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
