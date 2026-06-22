@@ -21,7 +21,7 @@
     --ink:#15140F; --ink2:#6E6A62; --faint:#A7A29A;
     --accent:#F0492E; --accentL:#FF6A48; --accentD:#D63A20;
     --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
-    --green:#3FB57A; --amber:#F2A93B; --indigo:#6C7BD6; --exp:#3E9E6E;
+    --green:#3FB57A; --amber:#F2A93B; --indigo:#6C7BD6; --exp:#3E9E6E; --cons:#CF4631;
     --shadow:0 10px 34px rgba(20,18,12,.05),0 2px 6px rgba(20,18,12,.03); --shadowL:0 14px 34px rgba(240,73,46,.22);
     --r:26px;
     --disp:'Anton',-apple-system,'Arial Narrow',sans-serif;
@@ -2910,7 +2910,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal2-leg{display:flex;gap:12px;font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink2)}
 .bal2-leg span{display:inline-flex;align-items:center;gap:5px}
 .bal2-leg .d{width:8px;height:8px;border-radius:50%}
-.bal2-leg .d.in{background:var(--accent)}.bal2-leg .d.out{background:var(--exp)}
+.bal2-leg .d.in{background:var(--cons)}.bal2-leg .d.out{background:var(--exp)}
 .bal2-obj{margin:6px 0 13px}
 .bal2-objl{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2)}
 .bal2-objv{font-family:var(--disp);font-style:oblique 6deg;font-size:33px;color:var(--green);line-height:1;margin-top:2px}
@@ -2979,7 +2979,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </button>
   <button class="balx-date" id="balDateHdr" type="button" onclick="balToday()"><i class="ti ti-calendar-event"></i><span id="balDateTxt">Aujourd'hui</span></button>
   <div class="balx-stage">
-    <img class="balx-bg" src="icons/balance_empty.png?v=5" alt="">
+    <img class="balx-bg" src="icons/balance_empty.png?v=6" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
     <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
     <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
@@ -4663,17 +4663,17 @@ function balStatus(net,hasFood){
  var g=goalOf(),G=balGoals()[g];
  if(net>=G.lo&&net<=G.hi)return ['Dans ta cible','var(--green)','#E9F6EE','ti-check'];
  if(g==='seche'){
-  if(net>200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-up-right'];
+  if(net>200)return ['À contre-courant','var(--cons)','#FBEAE6','ti-arrow-up-right'];
   if(net>G.hi)return ['Pas assez de déficit','var(--amber)','#FBF1DD','ti-minus'];
   return ['Déficit trop fort','var(--amber)','#FBF1DD','ti-arrow-down-right'];
  }
  if(g==='masse'){
-  if(net<-200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-down-right'];
+  if(net<-200)return ['À contre-courant','var(--cons)','#FBEAE6','ti-arrow-down-right'];
   if(net<G.lo)return ['Pas assez de surplus','var(--amber)','#FBF1DD','ti-minus'];
   return ['Surplus trop fort','var(--amber)','#FBF1DD','ti-arrow-up-right'];
  }
  var a=Math.abs(net);
- return a>550?['Hors équilibre','var(--accent)','#FBE9E4',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
+ return a>550?['Hors équilibre','var(--cons)','#FBEAE6',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
 }
 function balDay(d){var nd=Math.min(0,Math.max(-180,_balDay+d));if(nd===_balDay)return;_balDay=nd;haptic();renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
@@ -4753,7 +4753,7 @@ function balVec(b,st,k){
  var cx=456,cy=300,R=180,sw=16,c=2*Math.PI*R;
  var pct=b.hasFood?(b.out>0?Math.min(100,b.in/b.out*100):(b.in>0?100:0)):0,off=c*(1-pct/100);
  var netStr=b.hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—';
- var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--accent)':['#D63A20','#FF6A48'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
+ var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--cons)':['#B83D2A','#E0654A'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
  s+='<defs><linearGradient id="bring" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+gp[0]+'"/><stop offset="1" stop-color="'+gp[1]+'"/></linearGradient></defs>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .75s cubic-bezier(.3,.9,.3,1) both"/>';
@@ -4763,7 +4763,7 @@ function balVec(b,st,k){
  var mx=Math.max(b.in,b.out,1);
  s+='<text x="66" y="735" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="56" fill="var(--ink)">'+fmtN(b.in)+'</text>';
  s+='<text x="484" y="735" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="56" fill="var(--ink)">'+fmtN(b.out)+'</text>';
- s+='<rect x="66" y="794" width="'+Math.max(10,b.in/mx*345).toFixed(1)+'" height="13" rx="6.5" fill="var(--accent)"/>';
+ s+='<rect x="66" y="794" width="'+Math.max(10,b.in/mx*345).toFixed(1)+'" height="13" rx="6.5" fill="var(--cons)"/>';
  s+='<rect x="484" y="794" width="'+Math.max(10,b.out/mx*362).toFixed(1)+'" height="13" rx="6.5" fill="var(--exp)"/>';
  // GRAPHIQUE cumulé du jour (axes baked, on aligne dessus). Xc:6h→227,24h→798 ; Yc:0→1246,3000→982
  var meals=mealsOf(k),totalIn=b.in,totalOut=b.out,n=meals.length;
@@ -4775,14 +4775,14 @@ function balVec(b,st,k){
  function pth(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
  function ar(p){return pth(p)+' L'+p[p.length-1][0].toFixed(1)+' 1246 L'+p[0][0].toFixed(1)+' 1246 Z'}
  var ie=pin[pin.length-1],oe=pout[pout.length-1];
- s+='<defs><linearGradient id="bgi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".16"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient><linearGradient id="bgo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--exp)" stop-opacity=".16"/><stop offset="1" stop-color="var(--exp)" stop-opacity="0"/></linearGradient></defs>';
+ s+='<defs><linearGradient id="bgi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--cons)" stop-opacity=".16"/><stop offset="1" stop-color="var(--cons)" stop-opacity="0"/></linearGradient><linearGradient id="bgo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--exp)" stop-opacity=".16"/><stop offset="1" stop-color="var(--exp)" stop-opacity="0"/></linearGradient></defs>';
  s+='<path d="'+ar(pout)+'" fill="url(#bgo)"/><path d="'+ar(pin)+'" fill="url(#bgi)"/>';
  s+='<path d="'+pth(pout)+'" fill="none" stroke="var(--exp)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
- s+='<path d="'+pth(pin)+'" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
+ s+='<path d="'+pth(pin)+'" fill="none" stroke="var(--cons)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>';
  s+='<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="6" fill="#fff" stroke="var(--exp)" stroke-width="3.5"/>';
- s+='<circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="6" fill="#fff" stroke="var(--accent)" stroke-width="3.5"/>';
+ s+='<circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="6" fill="#fff" stroke="var(--cons)" stroke-width="3.5"/>';
  s+='<text x="806" y="'+(oe[1]+6).toFixed(1)+'" font-family="Inter,sans-serif" font-size="21" font-weight="800" fill="var(--exp)">'+fmtN(totalOut)+'</text>';
- s+='<text x="806" y="'+(ie[1]+6).toFixed(1)+'" font-family="Inter,sans-serif" font-size="21" font-weight="800" fill="var(--accent)">'+fmtN(totalIn)+'</text>';
+ s+='<text x="806" y="'+(ie[1]+6).toFixed(1)+'" font-family="Inter,sans-serif" font-size="21" font-weight="800" fill="var(--cons)">'+fmtN(totalIn)+'</text>';
  // OBJECTIF — jauge-cible adaptée à l'objectif (sécher / maintien / muscle)
  var G=balGoals()[goalOf()],inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo,oc=st[1],l1,num,l3;
  if(!b.hasFood){l1='Ton objectif';num='—';l3=G.lbl;}
@@ -4933,16 +4933,16 @@ function bcChartSVG(k,sel){
  function pth(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
  function ar(p){return pth(p)+' L'+p[p.length-1][0].toFixed(1)+' '+Y(0).toFixed(1)+' L'+p[0][0].toFixed(1)+' '+Y(0).toFixed(1)+' Z'}
  var ie=pin[pin.length-1],oe=pout[pout.length-1];
- var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="bci" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".16"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient><linearGradient id="bco" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--exp)" stop-opacity=".16"/><stop offset="1" stop-color="var(--exp)" stop-opacity="0"/></linearGradient></defs>'+grid;
+ var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="bci" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--cons)" stop-opacity=".16"/><stop offset="1" stop-color="var(--cons)" stop-opacity="0"/></linearGradient><linearGradient id="bco" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--exp)" stop-opacity=".16"/><stop offset="1" stop-color="var(--exp)" stop-opacity="0"/></linearGradient></defs>'+grid;
  s+='<path d="'+ar(pout)+'" fill="url(#bco)"/><path d="'+ar(pin)+'" fill="url(#bci)"/>';
  s+='<path d="'+pth(pout)+'" fill="none" stroke="var(--exp)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
- s+='<path d="'+pth(pin)+'" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
- s+='<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--exp)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--accent)" stroke-width="2.6"/>';
+ s+='<path d="'+pth(pin)+'" fill="none" stroke="var(--cons)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>';
+ s+='<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--exp)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--cons)" stroke-width="2.6"/>';
  s+='<text x="'+(oe[0]+6).toFixed(1)+'" y="'+(oe[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--exp)" font-family="Inter,sans-serif">'+fmtN(D.totalOut)+'</text>';
- s+='<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--accent)" font-family="Inter,sans-serif">'+fmtN(D.totalIn)+'</text>';
+ s+='<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--cons)" font-family="Inter,sans-serif">'+fmtN(D.totalIn)+'</text>';
  if(sel!=null){var x=X(sel),yi=Y(D.cumIn(sel)),yo=Y(D.cumOut(sel)),hm=Math.floor(sel)+'h'+String(Math.round((sel%1)*60)).padStart(2,'0');
   s+='<line x1="'+x.toFixed(1)+'" y1="38" x2="'+x.toFixed(1)+'" y2="'+(H-padB)+'" stroke="#37372F" stroke-width="1.2" stroke-dasharray="3 3" opacity=".45"/>';
-  s+='<circle cx="'+x.toFixed(1)+'" cy="'+yo.toFixed(1)+'" r="4.5" fill="var(--exp)" stroke="#fff" stroke-width="2"/><circle cx="'+x.toFixed(1)+'" cy="'+yi.toFixed(1)+'" r="4.5" fill="var(--accent)" stroke="#fff" stroke-width="2"/>';
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+yo.toFixed(1)+'" r="4.5" fill="var(--exp)" stroke="#fff" stroke-width="2"/><circle cx="'+x.toFixed(1)+'" cy="'+yi.toFixed(1)+'" r="4.5" fill="var(--cons)" stroke="#fff" stroke-width="2"/>';
   var lbl=hm,tw=lbl.length*7+18,tx=Math.max(padL,Math.min(W-padR-tw,x-tw/2));
   s+='<rect x="'+tx.toFixed(1)+'" y="6" width="'+tw.toFixed(1)+'" height="26" rx="7" fill="#1A1812"/><text x="'+(tx+tw/2).toFixed(1)+'" y="23" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#fff">'+lbl+'</text>';}
  return s+'</svg>';
@@ -4950,7 +4950,7 @@ function bcChartSVG(k,sel){
 function bcStats(){var k=tk(),D=bcDayCurve(k),ci,co,lab;if(_bcSel!=null){ci=Math.round(D.cumIn(_bcSel));co=Math.round(D.cumOut(_bcSel));lab='à '+Math.floor(_bcSel)+'h'+String(Math.round((_bcSel%1)*60)).padStart(2,'0')}else{ci=D.totalIn;co=D.totalOut;lab='aujourd\'hui'}var net=ci-co;
  var ns=balStatus(net,true);
  function bcsCard(ic,col,colL,val,lbl){return '<div class="bcs" style="--c:'+col+'"><div class="bcs-ic" style="color:'+col+';background:'+colL+'"><i class="ti '+ic+'"></i></div><div class="bcs-v" style="color:'+col+'">'+val+'</div><div class="bcs-l">'+lbl+'</div></div>'}
- set('bcStat',bcsCard('ti-flame','var(--accent)','rgba(240,73,46,.12)',fmtN(ci),'consommé '+lab)+bcsCard('ti-flame','var(--exp)','rgba(62,158,110,.14)',fmtN(co),'dépensé '+lab)+bcsCard(ns[3],ns[1],ns[2],(net>0?'+':(net<0?'−':''))+fmtN(Math.abs(net)),'bilan '+lab));}
+ set('bcStat',bcsCard('ti-flame','var(--cons)','rgba(207,70,49,.13)',fmtN(ci),'consommé '+lab)+bcsCard('ti-flame','var(--exp)','rgba(62,158,110,.14)',fmtN(co),'dépensé '+lab)+bcsCard(ns[3],ns[1],ns[2],(net>0?'+':(net<0?'−':''))+fmtN(Math.abs(net)),'bilan '+lab));}
 function bcScrub(cx){var svg=document.querySelector('#bcChart svg');if(!svg)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*BC_W;var h=6+(px-BC_PADL)/(BC_W-BC_PADL-BC_PADR)*18;_bcSel=Math.max(6,Math.min(24,h));document.getElementById('bcChart').innerHTML=bcChartSVG(tk(),_bcSel);bcStats();haptic(4)}
 function renderBalCurve(){_bcSel=null;var host=document.getElementById('bcChart');host.innerHTML=bcChartSVG(tk(),null);bcStats();
  host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}bcScrub(e.clientX);host.onpointermove=function(ev){bcScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null}};
@@ -5744,7 +5744,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v228';
+const APP_VERSION='flint-v229';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
