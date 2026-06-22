@@ -21,7 +21,7 @@
     --ink:#15140F; --ink2:#6E6A62; --faint:#A7A29A;
     --accent:#F0492E; --accentL:#FF6A48; --accentD:#D63A20;
     --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
-    --green:#3FB57A; --amber:#F2A93B; --indigo:#6C7BD6; --exp:#3E9E6E; --cons:#CF4631;
+    --green:#3FB57A; --amber:#F2A93B; --indigo:#6C7BD6; --exp:#F0492E; --cons:#6C7BD6;
     --shadow:0 10px 34px rgba(20,18,12,.05),0 2px 6px rgba(20,18,12,.03); --shadowL:0 14px 34px rgba(240,73,46,.22);
     --r:26px;
     --disp:'Anton',-apple-system,'Arial Narrow',sans-serif;
@@ -2979,7 +2979,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </button>
   <button class="balx-date" id="balDateHdr" type="button" onclick="balToday()"><i class="ti ti-calendar-event"></i><span id="balDateTxt">Aujourd'hui</span></button>
   <div class="balx-stage">
-    <img class="balx-bg" src="icons/balance_empty.png?v=7" alt="">
+    <img class="balx-bg" src="icons/balance_empty.png?v=8" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
     <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
     <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
@@ -4675,17 +4675,17 @@ function balStatus(net,hasFood){
  var g=goalOf(),G=balGoals()[g];
  if(net>=G.lo&&net<=G.hi)return ['Dans ta cible','var(--green)','#E9F6EE','ti-check'];
  if(g==='seche'){
-  if(net>200)return ['À contre-courant','var(--cons)','#FBEAE6','ti-arrow-up-right'];
+  if(net>200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-up-right'];
   if(net>G.hi)return ['Pas assez de déficit','var(--amber)','#FBF1DD','ti-minus'];
   return ['Déficit trop fort','var(--amber)','#FBF1DD','ti-arrow-down-right'];
  }
  if(g==='masse'){
-  if(net<-200)return ['À contre-courant','var(--cons)','#FBEAE6','ti-arrow-down-right'];
+  if(net<-200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-down-right'];
   if(net<G.lo)return ['Pas assez de surplus','var(--amber)','#FBF1DD','ti-minus'];
   return ['Surplus trop fort','var(--amber)','#FBF1DD','ti-arrow-up-right'];
  }
  var a=Math.abs(net);
- return a>550?['Hors équilibre','var(--cons)','#FBEAE6',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
+ return a>550?['Hors équilibre','var(--accent)','#FBE9E4',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
 }
 function balDay(d){var nd=Math.min(0,Math.max(-180,_balDay+d));if(nd===_balDay)return;_balDay=nd;haptic();renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
@@ -4765,7 +4765,7 @@ function balVec(b,st,k){
  var cx=456,cy=300,R=180,sw=16,c=2*Math.PI*R;
  var pct=b.hasFood?(b.out>0?Math.min(100,b.in/b.out*100):(b.in>0?100:0)):0,off=c*(1-pct/100);
  var netStr=b.hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—';
- var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--cons)':['#B83D2A','#E0654A'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
+ var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--accent)':['#D63A20','#FF6A48'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
  s+='<defs><linearGradient id="bring" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+gp[0]+'"/><stop offset="1" stop-color="'+gp[1]+'"/></linearGradient></defs>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .75s cubic-bezier(.3,.9,.3,1) both"/>';
@@ -4966,7 +4966,7 @@ function bcChartSVG(k,sel){
 function bcStats(){var k=bcKey(),D=bcDayCurve(k),ci,co,lab;if(_bcSel!=null){ci=Math.round(D.cumIn(_bcSel));co=Math.round(D.cumOut(_bcSel));lab='à '+Math.floor(_bcSel)+'h'+String(Math.round((_bcSel%1)*60)).padStart(2,'0')}else{ci=D.totalIn;co=D.totalOut;lab=bcDayLbl(false)}var net=ci-co;
  var ns=balStatus(net,true);
  function bcsCard(ic,col,colL,val,lbl){return '<div class="bcs" style="--c:'+col+'"><div class="bcs-ic" style="color:'+col+';background:'+colL+'"><i class="ti '+ic+'"></i></div><div class="bcs-v" style="color:'+col+'">'+val+'</div><div class="bcs-l">'+lbl+'</div></div>'}
- set('bcStat',bcsCard('ti-flame','var(--cons)','rgba(207,70,49,.13)',fmtN(ci),'consommé '+lab)+bcsCard('ti-flame','var(--exp)','rgba(62,158,110,.14)',fmtN(co),'dépensé '+lab)+bcsCard(ns[3],ns[1],ns[2],(net>0?'+':(net<0?'−':''))+fmtN(Math.abs(net)),'bilan '+lab));}
+ set('bcStat',bcsCard('ti-flame','var(--cons)','rgba(108,123,214,.14)',fmtN(ci),'consommé '+lab)+bcsCard('ti-flame','var(--exp)','rgba(240,73,46,.12)',fmtN(co),'dépensé '+lab)+bcsCard(ns[3],ns[1],ns[2],(net>0?'+':(net<0?'−':''))+fmtN(Math.abs(net)),'bilan '+lab));}
 function bcScrub(cx){var svg=document.querySelector('#bcChart svg');if(!svg)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*BC_W;var h=6+(px-BC_PADL)/(BC_W-BC_PADL-BC_PADR)*18;_bcSel=Math.max(6,Math.min(24,h));document.getElementById('bcChart').innerHTML=bcChartSVG(bcKey(),_bcSel);bcStats();haptic(4)}
 function renderBalCurve(){var host=document.getElementById('bcChart');host.innerHTML=bcChartSVG(bcKey(),_bcSel);bcStats();
  set('bcDateTxt',bcDayLbl(true));var bn=document.getElementById('bcNext');if(bn)bn.disabled=_bcDay>=0;
@@ -5761,7 +5761,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v231';
+const APP_VERSION='flint-v232';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
