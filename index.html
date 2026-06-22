@@ -2903,6 +2903,10 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal2-objbar .mk{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--green);transform:translate(-50%,-50%);transition:left .55s cubic-bezier(.2,.8,.2,1)}
 .bal2-objends{display:flex;justify-content:space-between;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--faint);margin-top:8px}
 .balx{padding-bottom:30px}
+.balgoal{display:flex;gap:6px;background:var(--bg2);border-radius:16px;padding:4px;margin:2px 0 12px}
+.balgoal button{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;padding:11px 4px;border-radius:12px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease,color .14s ease}
+.balgoal button i{font-size:16px}
+.balgoal button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
 .balx-stage{position:relative;width:100%;aspect-ratio:913/1723;container-type:inline-size;margin-bottom:6px}
 .balx-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .balx-vec{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -2916,8 +2920,13 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 </style>
 <section class="view" id="v-balance">
 <div class="flnutrition balx">
+  <div class="balgoal" id="balGoal">
+    <button type="button" data-g="seche" onclick="setBalGoal('seche')"><i class="ti ti-flame"></i>Sécher</button>
+    <button type="button" data-g="maintien" onclick="setBalGoal('maintien')"><i class="ti ti-equal"></i>Maintien</button>
+    <button type="button" data-g="masse" onclick="setBalGoal('masse')"><i class="ti ti-barbell"></i>Muscle</button>
+  </div>
   <div class="balx-stage">
-    <img class="balx-bg" src="icons/balance_empty.png?v=2" alt="">
+    <img class="balx-bg" src="icons/balance_empty.png?v=3" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
     <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
     <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
@@ -4521,13 +4530,31 @@ var MEAL_AI=[
 function analyzeMealPhoto(file){return new Promise(function(res){var m=MEAL_AI[Math.floor(Math.random()*MEAL_AI.length)];setTimeout(function(){res(Object.assign({},m))},1100+Math.random()*700)})}
 function balKey(){return tk(_balDay)}
 function balanceOf(k){var i=nutTotals(k).kcal,o=caloriesBurned(k);return {in:i,out:o,net:i-o}}
-/* statut couleur : déficit modéré = VERT (bon), surplus = ambre/rouge */
+/* ---- OBJECTIF (adapte toute la balance) : sécher / maintien / prise de muscle ---- */
+function balGoals(){return {
+ seche:{lbl:'Sécher',ic:'ti-flame',lo:-650,hi:-150},
+ maintien:{lbl:'Maintien',ic:'ti-equal',lo:-200,hi:200},
+ masse:{lbl:'Muscle',ic:'ti-barbell',lo:200,hi:650}
+}}
+function goalOf(){var g=DB.get('balGoal','maintien');return balGoals()[g]?g:'maintien'}
+function setBalGoal(g){DB.set('balGoal',g);haptic();renderBalance()}
+/* statut RELATIF à l'objectif : vert = dans ta cible, ambre = écart, rouge = à contre-courant */
 function balStatus(net,hasFood){
  if(!hasFood)return ['En attente','var(--faint)','#EDE8DE','ti-photo'];
+ var g=goalOf(),G=balGoals()[g];
+ if(net>=G.lo&&net<=G.hi)return ['Dans ta cible','var(--green)','#E9F6EE','ti-check'];
+ if(g==='seche'){
+  if(net>200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-up-right'];
+  if(net>G.hi)return ['Pas assez de déficit','var(--amber)','#FBF1DD','ti-minus'];
+  return ['Déficit trop fort','var(--amber)','#FBF1DD','ti-arrow-down-right'];
+ }
+ if(g==='masse'){
+  if(net<-200)return ['À contre-courant','var(--accent)','#FBE9E4','ti-arrow-down-right'];
+  if(net<G.lo)return ['Pas assez de surplus','var(--amber)','#FBF1DD','ti-minus'];
+  return ['Surplus trop fort','var(--amber)','#FBF1DD','ti-arrow-up-right'];
+ }
  var a=Math.abs(net);
- if(a<=250)return ['Équilibré','var(--green)','#E9F6EE','ti-check'];
- if(net<0)return a<=750?['Léger déficit','var(--green)','#E9F6EE','ti-leaf']:['Déficit marqué','var(--amber)','#FBF1DD','ti-arrow-down-right'];
- return a<=400?['Léger surplus','var(--amber)','#FBF1DD','ti-arrow-up-right']:['Surplus','var(--accent)','#FBE9E4','ti-arrow-up-right'];
+ return a>550?['Hors équilibre','var(--accent)','#FBE9E4',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
 }
 function balDay(d){_balDay=Math.min(0,_balDay+d);renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
@@ -4630,14 +4657,23 @@ function balVec(b,st,k){
  s+='<circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="6" fill="#fff" stroke="var(--indigo)" stroke-width="3.5"/>';
  s+='<text x="806" y="'+(oe[1]+6).toFixed(1)+'" font-family="Inter,sans-serif" font-size="21" font-weight="800" fill="var(--accent)">'+fmtN(totalOut)+'</text>';
  s+='<text x="806" y="'+(ie[1]+6).toFixed(1)+'" font-family="Inter,sans-serif" font-size="21" font-weight="800" fill="var(--indigo)">'+fmtN(totalIn)+'</text>';
- // OBJECTIF (texte redessiné) + remplissage curseur
- var rem=b.out-b.in,oc=rem>=0?'var(--green)':'var(--accent)';
- s+='<text x="66" y="1506" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="var(--ink2)">'+(rem>=0?'Encore':'Surplus de')+'</text>';
- s+='<text x="66" y="1551" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="34" fill="'+oc+'">'+fmtN(Math.abs(rem))+'</text>';
- s+='<text x="66" y="1581" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="var(--ink2)">kcal · '+(rem>=0?'pour l\'équilibre':'au-dessus')+'</text>';
- var ratio=b.out>0?Math.max(0.04,Math.min(1,b.in/b.out)):0,kx=66+ratio*339;
- s+='<rect x="66" y="1592" width="'+(ratio*339).toFixed(1)+'" height="12" rx="6" fill="'+oc+'"/>';
- s+='<circle cx="'+kx.toFixed(1)+'" cy="1598" r="11" fill="#fff" stroke="'+oc+'" stroke-width="3.5"/>';
+ // OBJECTIF — jauge-cible adaptée à l'objectif (sécher / maintien / muscle)
+ var G=balGoals()[goalOf()],inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo,oc=st[1],l1,num,l3;
+ if(!b.hasFood){l1='Ton objectif';num='—';l3=G.lbl;}
+ else if(inT){l1='Dans ta cible';num='✓';l3='objectif tenu 🎯';}
+ else if(below){l1='Mange plus';num=fmtN(G.lo-b.net);l3='kcal pour ta cible';}
+ else {l1='Mange moins';num=fmtN(b.net-G.hi);l3='kcal pour ta cible';}
+ s+='<text x="66" y="1506" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="var(--ink2)">'+l1+'</text>';
+ s+='<text x="66" y="1551" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="34" fill="'+oc+'">'+num+'</text>';
+ s+='<text x="66" y="1581" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="var(--ink2)">'+l3+'</text>';
+ var M=Math.max(900,Math.abs(b.net)+150,Math.abs(G.lo),Math.abs(G.hi));
+ function gx(v){return 66+(Math.max(-M,Math.min(M,v))+M)/(2*M)*339}
+ s+='<rect x="66" y="1602" width="339" height="12" rx="6" fill="#ECE7DF"/>';
+ s+='<rect x="'+gx(G.lo).toFixed(1)+'" y="1602" width="'+(gx(G.hi)-gx(G.lo)).toFixed(1)+'" height="12" rx="6" fill="var(--green)" opacity=".34"/>';
+ s+='<line x1="'+gx(0).toFixed(1)+'" y1="1597" x2="'+gx(0).toFixed(1)+'" y2="1619" stroke="var(--faint)" stroke-width="1.5" opacity=".55"/>';
+ if(b.hasFood)s+='<circle cx="'+gx(b.net).toFixed(1)+'" cy="1608" r="11" fill="#fff" stroke="'+oc+'" stroke-width="3.5"/>';
+ s+='<text x="66" y="1645" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="0.5" fill="var(--faint)">DÉFICIT</text>';
+ s+='<text x="405" y="1645" text-anchor="end" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="0.5" fill="var(--faint)">SURPLUS</text>';
  // 7 DERNIERS JOURS (cliquable)
  var pts=[];for(var i=6;i>=0;i--){var o=-i,kk=tk(o),bb=balanceOf(kk),hf=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+o);pts.push({v:hf?bb.net/1000:null,lab:['D','L','M','M','J','V','S'][d.getDay()]+d.getDate(),off:o})}
  var vv=pts.map(function(p){return p.v}).filter(function(x){return x!=null});if(!vv.length)vv=[0];
@@ -4657,16 +4693,18 @@ function balVec(b,st,k){
 }
 function renderBalance(){
  var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
+ var g=goalOf();[].forEach.call(document.querySelectorAll('#balGoal button'),function(bt){bt.classList.toggle('on',bt.dataset.g===g)});
  var st=balStatus(b.net,b.hasFood);
  document.getElementById('balVec').innerHTML=balVec(b,st,k);
  var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
  var pill=document.getElementById('balPill');if(pill){pill.innerHTML='<i class="ti '+st[3]+'"></i>'+st[0];pill.style.color=st[1];pill.style.background=st[2]}
  var ck=document.getElementById('balCheck');if(ck){var ckg=st[1]==='var(--green)';ck.innerHTML='<i class="ti '+(ckg?'ti-check':st[3])+'" style="color:'+st[1]+'"></i>'}
  set('balMeals',meals.length?meals.map(function(m,i){var thumb=m.photo?' style="background-image:url('+m.photo+')"':'';var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';return '<div class="bal-meal"><span class="bal-mthumb"'+thumb+'>'+ic+'</span><div style="min-width:0;flex:1"><div class="bal-mn">'+esc(m.name)+'</div><div class="bal-mt">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip'+(m.ai?' · <span style="color:var(--indigo);font-weight:800">IA</span>':'')+'</div></div><span class="bal-mk">'+m.kcal+'</span><span class="bal-mx" onclick="balDelMeal('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="margin:0">Aucun repas. Prends ton premier repas en photo 📸</p>');
- var rv=(typeof recovery==='function')?recovery():null,tie;
- if(rv&&rv.s<34)tie='<b>Récup basse aujourd\'hui.</b> Évite un gros déficit : ton corps a besoin de carburant pour réparer.';
- else if(b.net<-750&&b.hasFood)tie='<b>Déficit marqué.</b> Si tu enchaînes les séances, ce manque finira par peser sur ta VFC et ta récup.';
- else tie='<b>Les jours de grosse charge, vise l\'équilibre.</b> FLINT relie ce que tu manges à ce que tu récupères — un déficit répété freine la progression.';
+ var G=balGoals()[g],inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo,tie;
+ if(!b.hasFood)tie='<b>Choisis ton objectif et logue tes repas.</b> FLINT te dira chaque jour si tu vas dans le sens de '+G.lbl.toLowerCase()+'.';
+ else if(inT)tie='<b>Pile dans ta cible ('+G.lbl.toLowerCase()+').</b> C\'est le bon dosage aujourd\'hui — continue comme ça.';
+ else if(below)tie=(g==='seche')?'<b>Tu te restreins trop pour sécher.</b> Un déficit modéré sèche mieux sans casser ta récup — remange un peu.':'<b>En dessous de ta cible.</b> Il te manque du carburant pour avancer vers ton objectif '+G.lbl.toLowerCase()+'.';
+ else tie=(g==='masse')?'<b>Surplus trop large.</b> Vise un surplus maîtrisé pour prendre du muscle sans trop de gras.':'<b>Au-dessus de ta cible.</b> Tu manges plus que ce que vise ton objectif '+G.lbl.toLowerCase()+' aujourd\'hui.';
  set('balTie',tie);
 }
 function balPhotoStart(){var f=document.getElementById('balFile');if(f){f.value='';f.click()}}
@@ -4726,11 +4764,14 @@ function renderBalTrend(){
  var data=btrData();_btrArr=data;if(_btrSel!=null&&_btrSel>=data.length)_btrSel=null;
  var host=document.getElementById('btrChart');host.innerHTML=btrChartSVG(data,_btrSel);
  host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}btrScrub(e.clientX);host.onpointermove=function(ev){btrScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null}};
+ var G=balGoals()[goalOf()];
  var nets=data.map(function(d){return d.net});
  var avg=nets.length?Math.round(nets.reduce(function(a,b){return a+b},0)/nets.length):0;
- var green=data.filter(function(d){return Math.abs(d.net)<=250}).length;
- set('btrStat','<div class="btr-sc"><div class="btr-sv" style="color:'+(avg<=250?'var(--green)':'var(--accent)')+'">'+(avg>0?'+':(avg<0?'−':''))+fmtN(Math.abs(avg))+'</div><div class="btr-sl">bilan moyen / jour</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--green)">'+green+'</div><div class="btr-sl">jours équilibrés</div></div><div class="btr-sc"><div class="btr-sv">'+data.length+'</div><div class="btr-sl">jours suivis</div></div>');
- var tie=avg<-250?'<b>Tendance en déficit.</b> Garde un œil sur ta récup si tu enchaînes les jours bas — le corps répare avec du carburant.':avg>250?'<b>Tendance en surplus.</b> Sur la durée, vise plus d\'équilibre les jours sans grosse charge.':'<b>Belle régularité.</b> Tu manges globalement à hauteur de ta dépense.';
+ var inT=data.filter(function(d){return d.net>=G.lo&&d.net<=G.hi}).length;
+ var avgCol=balStatus(avg,true)[1];
+ set('btrStat','<div class="btr-sc"><div class="btr-sv" style="color:'+avgCol+'">'+(avg>0?'+':(avg<0?'−':''))+fmtN(Math.abs(avg))+'</div><div class="btr-sl">bilan moyen / jour</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--green)">'+inT+'</div><div class="btr-sl">jours dans ta cible</div></div><div class="btr-sc"><div class="btr-sv">'+data.length+'</div><div class="btr-sl">jours suivis</div></div>');
+ var pctIn=data.length?Math.round(inT/data.length*100):0;
+ var tie=!data.length?'':pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+').</b> Belle régularité — c\'est ça qui fait les résultats.':'<b>'+pctIn+'% de jours dans ta cible.</b> Vise la constance : sur la durée, c\'est la régularité qui te rapproche de '+G.lbl.toLowerCase()+'.';
  set('btrTie',tie);
 }
 
@@ -5521,7 +5562,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v216';
+const APP_VERSION='flint-v217';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
