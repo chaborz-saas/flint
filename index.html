@@ -2878,6 +2878,21 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal-f input{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--ink);background:var(--bg2);border:0;border-radius:12px;padding:11px 13px;width:100%;-webkit-user-select:text;user-select:text}
 .bal-save{width:100%;border:0;border-radius:15px;padding:15px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;background:var(--ink);cursor:pointer}
 .bal2{padding-bottom:30px}
+.bal2pad{padding-bottom:90px}
+.bal2-daynav{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 6px}
+.bal2-navb{width:36px;height:36px;border:0;background:var(--bg2);border-radius:50%;font-size:19px;color:var(--ink);display:grid;place-items:center;cursor:pointer;line-height:0;padding-bottom:3px;font-family:inherit;transition:transform .14s ease}
+.bal2-navb:active{transform:scale(.88)}
+.bal2-navb:disabled{opacity:.35;pointer-events:none}
+.bal2-datebtn{display:flex;align-items:center;gap:7px;border:0;background:var(--card);box-shadow:var(--shadow);border-radius:13px;padding:9px 16px;font-family:var(--disp);font-style:oblique 6deg;font-size:18px;color:var(--ink);text-transform:capitalize;cursor:pointer;min-width:150px;justify-content:center;transition:transform .14s ease}
+.bal2-datebtn i{font-size:15px;color:var(--accent);-webkit-text-stroke:0}
+.bal2-datebtn:active{transform:scale(.97)}
+button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:pointer;display:block;width:100%}
+.bal2-card.bal2-cardb{transition:transform .14s ease}
+.bal2-card.bal2-cardb:active{transform:scale(.99)}
+.bal2-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+.bal2-wk{border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 0}
+.bal2-wkd{font-family:var(--sans);font-size:7.5px;font-weight:800;line-height:1}
+.bal2-wkn{font-family:var(--disp);font-style:oblique 4deg;font-size:13px;line-height:1}
 .bal2-hero{position:relative;display:flex;justify-content:center;padding:16px 0 24px;margin-bottom:2px}
 .bal2-deco{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .bal2-ring{position:relative;width:230px;height:230px}
@@ -2967,7 +2982,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 @media (prefers-reduced-motion:reduce){.bal-cta,.bal-bfill,.bal-sheet .pan,.bal2-cdbar i,.bal2-objbar i,.bal2-objbar .mk,.bal2-ring circle{transition:none;animation:none}.bal-spin{animation:none}}
 </style>
 <section class="view" id="v-balance">
-<div class="flnutrition balx">
+<div class="flnutrition bal2 bal2pad">
   <button class="balobj" id="balObjCard" type="button" onclick="goalSheetOpen()">
     <span class="balobj-ic" id="goIc"><i class="ti ti-equal"></i></span>
     <span class="balobj-mid">
@@ -2977,29 +2992,50 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </span>
     <span class="balobj-edit">Modifier<i class="ti ti-chevron-right"></i></span>
   </button>
-  <button class="balx-date" id="balDateHdr" type="button" onclick="balToday()"><i class="ti ti-calendar-event"></i><span id="balDateTxt">Aujourd'hui</span></button>
-  <div class="balx-stage">
-    <img class="balx-bg" src="icons/balance_empty.png?v=8" alt="">
-    <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
-    <button class="balx-hit" type="button" style="left:4.6%;top:32.6%;width:43.5%;height:17.6%" onclick="go('nutrition')" aria-label="Détail des calories consommées"></button>
-    <button class="balx-hit" type="button" style="left:50.3%;top:32.6%;width:44.8%;height:17.6%" onclick="go('caltrend')" aria-label="Détail des calories dépensées"></button>
-    <button class="balx-hit" type="button" style="left:3.5%;top:50.2%;width:93%;height:25.6%" onclick="_bcDay=_balDay;_bcSel=null;go('balcurve')" aria-label="Détail de la courbe du jour"></button>
-    <button class="balx-hit" type="button" style="left:50.1%;top:77.7%;width:45%;height:19.2%" onclick="go('baltrend')" aria-label="Tendance de la balance sur la durée"></button>
-    <div class="balx-leaf" id="balLeaf"><i class="ti ti-leaf"></i></div>
-    <div class="balx-pill" id="balPill"></div>
-    <div class="balx-check" id="balCheck"></div>
-    <button class="balx-day prev" id="balPrev" type="button" onclick="balDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
-    <button class="balx-day next" id="balNext" type="button" onclick="balDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+  <div class="bal2-daynav">
+    <button class="bal2-navb" id="balPrev" type="button" onclick="balDay(-1)" aria-label="Jour précédent">‹</button>
+    <button class="bal2-datebtn" id="balDateHdr" type="button" onclick="balToday()"><i class="ti ti-calendar-event"></i><span id="balDateTxt">Aujourd'hui</span></button>
+    <button class="bal2-navb" id="balNext" type="button" onclick="balDay(1)" aria-label="Jour suivant">›</button>
   </div>
-
+  <div class="bal2-hero">
+    <div class="bal2-deco" aria-hidden="true"><svg viewBox="0 0 360 230" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><g fill="none" stroke="var(--green)" stroke-width="1" opacity=".18"><path d="M-20 70 Q 90 42 180 80 T 380 70"/><path d="M-20 112 Q 90 82 180 122 T 380 112"/><path d="M-20 154 Q 120 124 220 162 T 400 152"/></g><g fill="var(--green)" opacity=".25"><circle cx="42" cy="58" r="2"/><circle cx="302" cy="48" r="2"/><circle cx="332" cy="120" r="1.6"/><circle cx="58" cy="150" r="1.6"/><circle cx="282" cy="172" r="2"/></g></svg></div>
+    <div class="bal2-ring" id="balRing"></div>
+    <div class="bal2-check" id="balCheck"></div>
+  </div>
+  <div class="bal2-duo">
+    <button class="bal2-cd" type="button" onclick="go('nutrition')">
+      <div class="bal2-cdh"><span class="bal2-cdic in"><i class="ti ti-flame"></i></span><span class="bal2-cdl in">Consommé</span></div>
+      <div class="bal2-cdv"><span id="balInV">—</span> <small>kcal</small></div>
+      <div class="bal2-cdbar"><i class="in" id="balInBar"></i></div>
+    </button>
+    <button class="bal2-cd" type="button" onclick="go('caltrend')">
+      <div class="bal2-cdh"><span class="bal2-cdic out"><i class="ti ti-flame"></i></span><span class="bal2-cdl out">Dépensé</span></div>
+      <div class="bal2-cdv"><span id="balOutV">—</span> <small>kcal</small></div>
+      <div class="bal2-cdbar"><i class="out" id="balOutBar"></i></div>
+    </button>
+  </div>
+  <button class="bal2-card bal2-cardb" type="button" onclick="_bcDay=_balDay;_bcSel=null;go('balcurve')">
+    <div class="bal2-ch"><div class="bal2-ct2"><i class="ti ti-chart-line"></i><span id="balCurveTitle">Aujourd'hui</span></div><div class="bal2-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
+    <div id="balCurve"></div>
+  </button>
+  <div class="bal2-duo">
+    <button class="bal2-card sm bal2-cardb" type="button" onclick="go('baltrend')">
+      <div class="bal2-ct2"><i class="ti ti-target-arrow"></i>Objectif</div>
+      <div class="bal2-obj"><div class="bal2-objl" id="balObjL">Encore</div><div class="bal2-objv"><span id="balObjV">—</span></div><div class="bal2-objs" id="balObjS">pour ta cible</div></div>
+      <div id="balObjGauge"></div>
+      <div class="bal2-objends"><span>Déficit</span><span>Surplus</span></div>
+    </button>
+    <button class="bal2-card sm bal2-cardb" type="button" onclick="go('baltrend')">
+      <div class="bal2-ct2"><i class="ti ti-chart-bar"></i>7 jours</div>
+      <div class="bal2-week" id="bal7week" style="margin-top:9px"></div>
+    </button>
+  </div>
   <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
   <input type="file" id="balFile" accept="image/*" capture="environment" style="display:none" onchange="balPhotoPick(this)">
-
   <div class="bal2-card">
     <div class="bal2-ct2"><i class="ti ti-tools-kitchen-2"></i>Repas du jour</div>
-    <div id="balMeals" style="margin-top:6px"></div>
+    <div id="balMeals" style="margin-top:8px"></div>
   </div>
-
   <div class="bal-tie"><i class="ti ti-bolt"></i><div id="balTie"></div></div>
 </div>
 </section>
@@ -4691,7 +4727,7 @@ function balDay(d){var nd=Math.min(0,Math.max(-180,_balDay+d));if(nd===_balDay)r
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
 function balToday(){if(_balDay!==0){_balDay=0;haptic();renderBalance()}}
 /* swipe gauche/droite sur le héro pour surfer entre les jours */
-function bindBalSwipe(){var st=document.querySelector('#v-balance .balx-stage');if(!st||st._sw)return;st._sw=1;var x0=null,y0=null,moved=false;
+function bindBalSwipe(){var st=document.querySelector('#v-balance .bal2-hero');if(!st||st._sw)return;st._sw=1;var x0=null,y0=null,moved=false;
  st.addEventListener('pointerdown',function(e){x0=e.clientX;y0=e.clientY;moved=false});
  st.addEventListener('pointermove',function(e){if(x0!=null&&Math.abs(e.clientX-x0)>10)moved=true});
  st.addEventListener('pointerup',function(e){if(x0==null)return;var dx=e.clientX-x0,dy=e.clientY-y0;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){balDay(dx>0?-1:1)}x0=null});
@@ -4823,23 +4859,83 @@ function balVec(b,st,k){
  }
  return s;
 }
+/* ---- BALANCE en code pur (cartes natives) ---- */
+function balRingHTML(b,st){
+ var size=230,sw=15,r=size/2-sw/2-2,c=2*Math.PI*r;
+ var pct=b.hasFood?(b.out>0?Math.min(100,b.in/b.out*100):(b.in>0?100:0)):0,off=c*(1-pct/100);
+ var col=st[1],netStr=b.hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—';
+ var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--accent)':['#D63A20','#FF6A48'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
+ return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><defs><linearGradient id="br2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+gp[0]+'"/><stop offset="1" stop-color="'+gp[1]+'"/></linearGradient></defs>'
+  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>'
+  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="url(#br2)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .7s cubic-bezier(.3,.9,.3,1) both"/></svg>'
+  +'<div class="bal2-ringc"><div class="bal2-leaf" style="background:'+st[2]+';color:'+col+'"><i class="ti ti-leaf"></i></div>'
+  +'<div class="bal2-net">'+netStr+'</div><div class="bal2-netl">Bilan du jour · kcal</div>'
+  +'<div class="bal2-pill" style="color:'+col+';background:'+st[2]+'"><i class="ti '+st[3]+'"></i>'+st[0]+'</div></div>';
+}
+function balCurveNative(k){
+ var meals=mealsOf(k),totalIn=nutTotals(k).kcal,totalOut=caloriesBurned(k),n=meals.length;
+ var times=meals.map(function(m,i){return n<=1?13:(8+i*(21-8)/(n-1))});
+ function cumIn(h){var x=0;for(var i=0;i<n;i++)x+=(meals[i].kcal||0)/(1+Math.exp(-(h-times[i])/0.9));return x}
+ function cumOut(h){return totalOut*Math.max(0,Math.min(1,(h-6)/18))}
+ var W=330,H=168,padL=34,padR=46,padT=12,padB=24,yMax=Math.max(3000,Math.ceil(Math.max(totalIn,totalOut,1)/1000)*1000);
+ function X(h){return padL+(h-6)/18*(W-padL-padR)}function Y(v){return padT+(1-Math.min(v,yMax)/yMax)*(H-padT-padB)}
+ var grid='';for(var g2=0;g2<=yMax;g2+=1000){var gy=Y(g2);grid+='<line x1="'+padL+'" y1="'+gy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+gy.toFixed(1)+'" stroke="var(--line)"/><text x="'+(padL-6)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(g2?fmtN(g2):'0')+'</text>'}
+ var xlab='';[6,12,18,24].forEach(function(h){xlab+='<text x="'+X(h).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(h<10?'0'+h:h)+':00</text>'});
+ var pin=[],pout=[];for(var h=6;h<=24.0001;h+=0.5){pin.push([X(h),Y(cumIn(h))]);pout.push([X(h),Y(cumOut(h))])}
+ function pth(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
+ function ar(p){return pth(p)+' L'+p[p.length-1][0].toFixed(1)+' '+Y(0).toFixed(1)+' L'+p[0][0].toFixed(1)+' '+Y(0).toFixed(1)+' Z'}
+ var ie=pin[pin.length-1],oe=pout[pout.length-1];
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="bni" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--indigo)" stop-opacity=".16"/><stop offset="1" stop-color="var(--indigo)" stop-opacity="0"/></linearGradient><linearGradient id="bno" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".14"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'+grid
+  +'<path d="'+ar(pout)+'" fill="url(#bno)"/><path d="'+ar(pin)+'" fill="url(#bni)"/>'
+  +'<path d="'+pth(pout)+'" fill="none" stroke="var(--accent)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>'
+  +'<path d="'+pth(pin)+'" fill="none" stroke="var(--indigo)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>'
+  +'<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--accent)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--indigo)" stroke-width="2.6"/>'
+  +'<text x="'+(oe[0]+6).toFixed(1)+'" y="'+(oe[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--accent)" font-family="Inter,sans-serif">'+fmtN(totalOut)+'</text>'
+  +'<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--indigo)" font-family="Inter,sans-serif">'+fmtN(totalIn)+'</text>'+xlab+'</svg>';
+}
+function balObjGauge(b,G,st){
+ var M=Math.max(900,Math.abs(b.net)+150,Math.abs(G.lo),Math.abs(G.hi));
+ var W=300,H=26,padX=4,bw=W-2*padX,y=7;
+ function gx(v){return padX+(Math.max(-M,Math.min(M,v))+M)/(2*M)*bw}
+ var s='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">';
+ s+='<rect x="'+padX+'" y="'+y+'" width="'+bw+'" height="12" rx="6" fill="#ECE7DF"/>';
+ s+='<rect x="'+gx(G.lo).toFixed(1)+'" y="'+y+'" width="'+(gx(G.hi)-gx(G.lo)).toFixed(1)+'" height="12" rx="6" fill="var(--green)" opacity=".34"/>';
+ s+='<line x1="'+gx(0).toFixed(1)+'" y1="'+(y-4)+'" x2="'+gx(0).toFixed(1)+'" y2="'+(y+16)+'" stroke="var(--faint)" stroke-width="1.5" opacity=".55"/>';
+ if(b.hasFood)s+='<circle cx="'+gx(b.net).toFixed(1)+'" cy="'+(y+6)+'" r="9" fill="#fff" stroke="'+st[1]+'" stroke-width="3"/>';
+ return s+'</svg>';
+}
+function bal7week(){
+ var c='',DI=['D','L','M','M','J','V','S'];
+ for(var i=6;i>=0;i--){var o=-i,kk=tk(o),hf=mealsOf(kk).length>0,net=hf?balanceOf(kk).net:0,d=new Date();d.setDate(d.getDate()+o);
+  var stt=calState(net),isT=o===0;
+  c+='<div class="bal2-wk" style="background:'+stt[1]+(isT?';outline:2px solid var(--ink);outline-offset:1px':'')+'"><span class="bal2-wkd" style="color:var(--faint)">'+DI[d.getDay()]+'</span><span class="bal2-wkn" style="color:'+stt[0]+'">'+d.getDate()+'</span></div>';
+ }
+ return c;
+}
 function renderBalance(){
  var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
- var g=goalOf(),G=balGoals()[g],ad=goalAdherence();
+ var g=goalOf(),G=balGoals()[g],ad=goalAdherence(),st=balStatus(b.net,b.hasFood);
  var gi=document.getElementById('goIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
- set('goName',G.name);
- set('goSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
+ set('goName',G.name);set('goSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
  var bn=document.getElementById('balNext');if(bn)bn.disabled=_balDay>=0;bindBalSwipe();
  var dl;if(_balDay===0)dl='Aujourd\'hui';else if(_balDay===-1)dl='Hier';else{var dd=new Date();dd.setDate(dd.getDate()+_balDay);dl=dd.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}
- set('balDateTxt',dl.charAt(0).toUpperCase()+dl.slice(1));
- var st=balStatus(b.net,b.hasFood);
- document.getElementById('balVec').innerHTML=balVec(b,st,k);
- var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
- var pill=document.getElementById('balPill');if(pill){pill.innerHTML='<i class="ti '+st[3]+'"></i>'+st[0];pill.style.color=st[1];pill.style.background=st[2]}
+ dl=dl.charAt(0).toUpperCase()+dl.slice(1);set('balDateTxt',dl);set('balCurveTitle',dl);
+ document.getElementById('balRing').innerHTML=balRingHTML(b,st);
  var ck=document.getElementById('balCheck');if(ck){var ckg=st[1]==='var(--green)';ck.innerHTML='<i class="ti '+(ckg?'ti-check':st[3])+'" style="color:'+st[1]+'"></i>'}
+ var mx=Math.max(b.in,b.out,1);set('balInV',fmtN(b.in));set('balOutV',fmtN(b.out));
+ var ib=document.getElementById('balInBar'),ob=document.getElementById('balOutBar');if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
+ document.getElementById('balCurve').innerHTML=balCurveNative(k);
+ var inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo,l1,num,l3;
+ if(!b.hasFood){l1='Ton objectif';num='—';l3=G.name}
+ else if(inT){l1='Dans ta cible';num='✓';l3='objectif tenu'}
+ else if(below){l1='Mange plus';num=fmtN(G.lo-b.net);l3='kcal pour ta cible'}
+ else{l1='Mange moins';num=fmtN(b.net-G.hi);l3='kcal pour ta cible'}
+ set('balObjL',l1);set('balObjV',num);set('balObjS',l3);var ov=document.getElementById('balObjV');if(ov)ov.style.color=st[1];
+ document.getElementById('balObjGauge').innerHTML=balObjGauge(b,G,st);
+ document.getElementById('bal7week').innerHTML=bal7week();
  set('balMeals',meals.length?meals.map(function(m,i){var thumb=m.photo?' style="background-image:url('+m.photo+')"':'';var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';return '<div class="bal-meal"><span class="bal-mthumb"'+thumb+'>'+ic+'</span><div style="min-width:0;flex:1"><div class="bal-mn">'+esc(m.name)+'</div><div class="bal-mt">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip'+(m.ai?' · <span style="color:var(--indigo);font-weight:800">IA</span>':'')+'</div></div><span class="bal-mk">'+m.kcal+'</span><span class="bal-mx" onclick="balDelMeal('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="margin:0">Aucun repas. Prends ton premier repas en photo 📸</p>');
- var G=balGoals()[g],inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo,tie;
+ var tie;
  if(!b.hasFood)tie='<b>Choisis ton objectif et logue tes repas.</b> FLINT te dira chaque jour si tu vas dans le sens de '+G.lbl.toLowerCase()+'.';
  else if(inT)tie='<b>Pile dans ta cible ('+G.lbl.toLowerCase()+').</b> C\'est le bon dosage aujourd\'hui — continue comme ça.';
  else if(below)tie=(g==='seche')?'<b>Tu te restreins trop pour sécher.</b> Un déficit modéré sèche mieux sans casser ta récup — remange un peu.':'<b>En dessous de ta cible.</b> Il te manque du carburant pour avancer vers ton objectif '+G.lbl.toLowerCase()+'.';
@@ -5761,7 +5857,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v233';
+const APP_VERSION='flint-v234';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
