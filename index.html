@@ -2859,33 +2859,96 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal-f span{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--ink2)}
 .bal-f input{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--ink);background:var(--bg2);border:0;border-radius:12px;padding:11px 13px;width:100%;-webkit-user-select:text;user-select:text}
 .bal-save{width:100%;border:0;border-radius:15px;padding:15px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;background:var(--ink);cursor:pointer}
-@media (prefers-reduced-motion:reduce){.bal-cta,.bal-bfill,.bal-sheet .pan{transition:none;animation:none}.bal-spin{animation:none}}
+.bal2{padding-bottom:30px}
+.bal2-hero{position:relative;display:flex;justify-content:center;padding:16px 0 24px;margin-bottom:2px}
+.bal2-deco{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.bal2-ring{position:relative;width:230px;height:230px}
+.bal2-ring svg{display:block}
+.bal2-ringc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.bal2-leaf{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:21px;margin-bottom:6px}
+.bal2-net{font-family:var(--disp);font-style:oblique 6deg;font-size:62px;line-height:.9;color:var(--ink)}
+.bal2-netl{font-family:var(--sans);font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-top:5px}
+.bal2-pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12px;font-weight:800;padding:7px 14px;border-radius:999px;margin-top:11px}
+.bal2-pill i{font-size:15px}
+.bal2-check{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;font-size:19px}
+.bal2-duo{display:flex;gap:11px;margin-bottom:13px}
+.bal2-cd{flex:1;background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.bal2-cdh{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.bal2-cdic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.bal2-cdic.in{background:rgba(108,123,214,.14);color:var(--indigo)}
+.bal2-cdic.out{background:rgba(240,73,46,.12);color:var(--accent)}
+.bal2-cdl{font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.bal2-cdl.in{color:var(--indigo)}.bal2-cdl.out{color:var(--accent)}
+.bal2-cdv{font-family:var(--disp);font-style:oblique 6deg;font-size:29px;color:var(--ink);line-height:1}
+.bal2-cdv small{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);font-style:normal}
+.bal2-cdbar{height:7px;border-radius:5px;background:var(--track);margin-top:12px;overflow:hidden}
+.bal2-cdbar i{display:block;height:100%;border-radius:5px;width:0;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.bal2-cdbar i.in{background:var(--indigo)}.bal2-cdbar i.out{background:var(--accent)}
+.bal2-card{background:var(--card);border-radius:22px;padding:17px 18px;box-shadow:var(--shadow);margin-bottom:13px}
+.bal2-card.sm{flex:1;padding:15px;margin-bottom:0;min-width:0}
+.bal2-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.bal2-ct2{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
+.bal2-ct2 i{font-size:16px;color:var(--green)}
+.bal2-leg{display:flex;gap:12px;font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink2)}
+.bal2-leg span{display:inline-flex;align-items:center;gap:5px}
+.bal2-leg .d{width:8px;height:8px;border-radius:50%}
+.bal2-leg .d.in{background:var(--indigo)}.bal2-leg .d.out{background:var(--accent)}
+.bal2-obj{margin:6px 0 13px}
+.bal2-objl{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2)}
+.bal2-objv{font-family:var(--disp);font-style:oblique 6deg;font-size:33px;color:var(--green);line-height:1;margin-top:2px}
+.bal2-objv small{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);font-style:normal}
+.bal2-objs{font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink2);margin-top:3px}
+.bal2-objbar{position:relative;height:8px;border-radius:5px;background:var(--track)}
+.bal2-objbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--green);transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.bal2-objbar .mk{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--green);transform:translate(-50%,-50%);transition:left .55s cubic-bezier(.2,.8,.2,1)}
+.bal2-objends{display:flex;justify-content:space-between;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+@media (prefers-reduced-motion:reduce){.bal-cta,.bal-bfill,.bal-sheet .pan,.bal2-cdbar i,.bal2-objbar i,.bal2-objbar .mk,.bal2-ring circle{transition:none;animation:none}.bal-spin{animation:none}}
 </style>
 <section class="view" id="v-balance">
-<div class="flnutrition bal">
-  <div class="pghd"><button class="bk" onclick="goBack('nutrition')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Balance énergétique</div></div>
+<div class="flnutrition bal2">
+  <div class="bal2-hero">
+    <div class="bal2-deco" aria-hidden="true"><svg viewBox="0 0 360 240" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><g fill="none" stroke="var(--green)" stroke-width="1" opacity=".22"><path d="M-20 70 Q 90 40 180 80 T 380 70"/><path d="M-20 112 Q 90 82 180 122 T 380 112"/><path d="M-20 154 Q 120 124 220 162 T 400 152"/></g><g fill="var(--green)" opacity=".28"><circle cx="42" cy="58" r="2"/><circle cx="302" cy="48" r="2"/><circle cx="332" cy="120" r="1.6"/><circle cx="58" cy="150" r="1.6"/><circle cx="282" cy="172" r="2"/><circle cx="150" cy="38" r="1.5"/><circle cx="210" cy="200" r="1.6"/></g></svg></div>
+    <div class="bal2-ring" id="balRing"></div>
+    <div class="bal2-check" id="balCheck"></div>
+  </div>
 
-  <div class="bal-hero">
-    <div class="bal-nav"><button type="button" id="balPrev" onclick="balDay(-1)" aria-label="Jour précédent">‹</button><div class="bal-navd" id="balDate">Aujourd'hui</div><button type="button" id="balNext" onclick="balDay(1)" aria-label="Jour suivant">›</button></div>
-    <div class="bal-net"><div class="bal-netv" id="balNetV">—</div><div class="bal-netl">bilan du jour · kcal</div><span class="bal-pill" id="balPill"></span></div>
-    <div class="bal-bars">
-      <div class="bal-brow"><span class="bal-bic" style="background:var(--indigo)"><i class="ti ti-tools-kitchen-2"></i></span><div class="bal-bmid"><div class="bal-bl"><span>Consommé</span><b id="balInV">—</b></div><div class="bal-btrack"><div class="bal-bfill" id="balInBar" style="background:var(--indigo)"></div></div></div></div>
-      <div class="bal-brow"><span class="bal-bic" style="background:var(--accent)"><i class="ti ti-flame"></i></span><div class="bal-bmid"><div class="bal-bl"><span>Dépensé</span><b id="balOutV">—</b></div><div class="bal-btrack"><div class="bal-bfill" id="balOutBar" style="background:var(--accent)"></div></div></div></div>
+  <div class="bal2-duo">
+    <div class="bal2-cd">
+      <div class="bal2-cdh"><span class="bal2-cdic in"><i class="ti ti-flame"></i></span><span class="bal2-cdl in">Consommé</span></div>
+      <div class="bal2-cdv"><span id="balInV">—</span> <small>kcal</small></div>
+      <div class="bal2-cdbar"><i class="in" id="balInBar"></i></div>
+    </div>
+    <div class="bal2-cd">
+      <div class="bal2-cdh"><span class="bal2-cdic out"><i class="ti ti-flame"></i></span><span class="bal2-cdl out">Dépensé</span></div>
+      <div class="bal2-cdv"><span id="balOutV">—</span> <small>kcal</small></div>
+      <div class="bal2-cdbar"><i class="out" id="balOutBar"></i></div>
+    </div>
+  </div>
+
+  <div class="bal2-card">
+    <div class="bal2-ch"><div class="bal2-ct2"><i class="ti ti-chart-line"></i>Aujourd'hui</div><div class="bal2-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
+    <div id="balCurve"></div>
+  </div>
+
+  <div class="bal2-duo">
+    <div class="bal2-card sm">
+      <div class="bal2-ct2"><i class="ti ti-target-arrow"></i>Objectif</div>
+      <div class="bal2-obj"><div class="bal2-objl" id="balObjL">Encore</div><div class="bal2-objv"><span id="balObjV">—</span> <small>kcal</small></div><div class="bal2-objs" id="balObjS">pour l'équilibre</div></div>
+      <div class="bal2-objbar"><i id="balObjBar"></i><span class="mk" id="balObjMk"></span></div>
+      <div class="bal2-objends"><span>Déficit</span><span>Équilibre</span></div>
+    </div>
+    <div class="bal2-card sm">
+      <div class="bal2-ct2"><i class="ti ti-chart-bar"></i>7 jours</div>
+      <div id="bal7" style="margin-top:6px"></div>
     </div>
   </div>
 
   <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
   <input type="file" id="balFile" accept="image/*" capture="environment" style="display:none" onchange="balPhotoPick(this)">
 
-  <div class="bal-card">
-    <div class="bal-ct">Repas du jour</div>
-    <div id="balMeals"></div>
-  </div>
-
-  <div class="bal-card">
-    <div class="bal-ct">7 derniers jours</div>
-    <div class="bal-week" id="balWeek"></div>
-    <p class="bal-wsum" id="balWsum"></p>
+  <div class="bal2-card">
+    <div class="bal2-ct2"><i class="ti ti-tools-kitchen-2"></i>Repas du jour</div>
+    <div id="balMeals" style="margin-top:6px"></div>
   </div>
 
   <div class="bal-tie"><i class="ti ti-bolt"></i><div id="balTie"></div></div>
@@ -4445,41 +4508,96 @@ var MEAL_AI=[
 function analyzeMealPhoto(file){return new Promise(function(res){var m=MEAL_AI[Math.floor(Math.random()*MEAL_AI.length)];setTimeout(function(){res(Object.assign({},m))},1100+Math.random()*700)})}
 function balKey(){return tk(_balDay)}
 function balanceOf(k){var i=nutTotals(k).kcal,o=caloriesBurned(k);return {in:i,out:o,net:i-o}}
+/* statut couleur : déficit modéré = VERT (bon), surplus = ambre/rouge */
 function balStatus(net,hasFood){
  if(!hasFood)return ['En attente','var(--faint)','#EDE8DE','ti-photo'];
  var a=Math.abs(net);
  if(a<=250)return ['Équilibré','var(--green)','#E9F6EE','ti-check'];
- if(net>0)return a<=600?['Léger surplus','var(--amber)','#FBF1DD','ti-arrow-up-right']:['Surplus','var(--accent)','#FBE9E4','ti-arrow-up-right'];
- return a<=600?['Léger déficit','var(--amber)','#FBF1DD','ti-arrow-down-right']:['Déficit','var(--accent)','#FBE9E4','ti-arrow-down-right'];
+ if(net<0)return a<=750?['Léger déficit','var(--green)','#E9F6EE','ti-leaf']:['Déficit marqué','var(--amber)','#FBF1DD','ti-arrow-down-right'];
+ return a<=400?['Léger surplus','var(--amber)','#FBF1DD','ti-arrow-up-right']:['Surplus','var(--accent)','#FBE9E4','ti-arrow-up-right'];
 }
 function balDay(d){_balDay=Math.min(0,_balDay+d);renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
+/* anneau central : net + verdict ; remplissage = couverture conso/dépense */
+function balHeroHTML(b,st){
+ var size=230,sw=16,r=size/2-sw/2-2,c=2*Math.PI*r;
+ var pct=b.hasFood?(b.out>0?Math.min(100,b.in/b.out*100):(b.in>0?100:0)):0,off=c*(1-pct/100);
+ var col=st[1],netStr=b.hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—';
+ return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'
+  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="var(--track)" stroke-width="'+sw+'"/>'
+  +'<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')" style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)"/></svg>'
+  +'<div class="bal2-ringc"><div class="bal2-leaf" style="background:'+st[2]+';color:'+col+'"><i class="ti ti-leaf"></i></div>'
+  +'<div class="bal2-net">'+netStr+'</div><div class="bal2-netl">Bilan du jour · kcal</div>'
+  +'<div class="bal2-pill" style="color:'+col+';background:'+st[2]+'"><i class="ti '+st[3]+'"></i>'+st[0]+'</div></div>';
+}
+/* courbe cumulée du jour (conso vs dépense). Intraday non mesuré au stade maquette :
+   conso = somme de sigmoïdes posées sur des horaires de repas ; dépense = montée régulière (BMR).
+   >>> les devs remplaceront par les vraies courbes intraday du capteur. <<< */
+function balCurveSVG(k){
+ var meals=mealsOf(k),totalIn=nutTotals(k).kcal,totalOut=caloriesBurned(k),n=meals.length;
+ var times=meals.map(function(m,i){return n<=1?13:(8+i*(21-8)/(n-1))});
+ function cumIn(h){var s=0;for(var i=0;i<n;i++)s+=(meals[i].kcal||0)/(1+Math.exp(-(h-times[i])/0.9));return s}
+ function cumOut(h){return totalOut*Math.max(0,Math.min(1,(h-6)/18))}
+ var W=330,H=168,padL=34,padR=46,padT=12,padB=24,yMax=Math.max(3000,Math.ceil(Math.max(totalIn,totalOut,1)/1000)*1000);
+ function X(h){return padL+(h-6)/18*(W-padL-padR)}
+ function Y(v){return padT+(1-v/yMax)*(H-padT-padB)}
+ var grid='';for(var g=0;g<=yMax;g+=1000){var gy=Y(g);grid+='<line x1="'+padL+'" y1="'+gy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+gy.toFixed(1)+'" stroke="var(--line)"/><text x="'+(padL-6)+'" y="'+(gy+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(g?fmtN(g):'0')+'</text>'}
+ var pin=[],pout=[];for(var h=6;h<=24.0001;h+=0.5){pin.push([X(h),Y(cumIn(h))]);pout.push([X(h),Y(cumOut(h))])}
+ function path(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
+ function area(p){return path(p)+' L'+p[p.length-1][0].toFixed(1)+' '+Y(0).toFixed(1)+' L'+p[0][0].toFixed(1)+' '+Y(0).toFixed(1)+' Z'}
+ var inEnd=pin[pin.length-1],outEnd=pout[pout.length-1];
+ var xlab='';[6,12,18,24].forEach(function(h){xlab+='<text x="'+X(h).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="9" fill="var(--faint)" font-family="Inter,sans-serif">'+(h<10?'0'+h:h)+':00</text>'});
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs>'
+  +'<linearGradient id="balgi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--indigo)" stop-opacity=".18"/><stop offset="1" stop-color="var(--indigo)" stop-opacity="0"/></linearGradient>'
+  +'<linearGradient id="balgo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".16"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'
+  +grid
+  +'<path d="'+area(pout)+'" fill="url(#balgo)"/><path d="'+area(pin)+'" fill="url(#balgi)"/>'
+  +'<path d="'+path(pout)+'" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'
+  +'<path d="'+path(pin)+'" fill="none" stroke="var(--indigo)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'
+  +'<circle cx="'+outEnd[0].toFixed(1)+'" cy="'+outEnd[1].toFixed(1)+'" r="4" fill="#fff" stroke="var(--accent)" stroke-width="2.4"/>'
+  +'<circle cx="'+inEnd[0].toFixed(1)+'" cy="'+inEnd[1].toFixed(1)+'" r="4" fill="#fff" stroke="var(--indigo)" stroke-width="2.4"/>'
+  +'<text x="'+(outEnd[0]+6).toFixed(1)+'" y="'+(outEnd[1]+3).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--accent)" font-family="Inter,sans-serif">'+fmtN(totalOut)+'</text>'
+  +'<text x="'+(inEnd[0]+6).toFixed(1)+'" y="'+(inEnd[1]+3).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--indigo)" font-family="Inter,sans-serif">'+fmtN(totalIn)+'</text>'
+  +xlab+'</svg>';
+}
+/* courbe net des 7 derniers jours (en milliers de kcal) */
+function bal7SVG(){
+ var pts=[];for(var i=6;i>=0;i--){var off=-i,kk=tk(off),bb=balanceOf(kk),hf=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+off);pts.push({v:hf?bb.net/1000:null,lab:['D','L','M','M','J','V','S'][d.getDay()]+d.getDate()})}
+ var vals=pts.map(function(p){return p.v}).filter(function(v){return v!=null});if(!vals.length)vals=[0];
+ var mn=Math.min.apply(null,vals.concat([0])),mx=Math.max.apply(null,vals.concat([0]));if(mn===mx){mn-=1;mx+=1}var pad=(mx-mn)*0.25;mn-=pad;mx+=pad;
+ var W=300,H=150,padL=8,padR=8,padT=26,padB=22,n=7;
+ function X(i){return padL+i*(W-padL-padR)/(n-1)}function Y(v){return padT+(mx-v)/(mx-mn)*(H-padT-padB)}
+ var line=[],dots='',labs='';
+ pts.forEach(function(p,i){
+  if(p.v!=null){line.push([X(i),Y(p.v)]);dots+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="3.6" fill="#fff" stroke="var(--green)" stroke-width="2.4"/>';labs+='<text x="'+X(i).toFixed(1)+'" y="'+(Y(p.v)-9).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="var(--green)" font-family="Inter,sans-serif">'+(p.v>=0?'+':'−')+Math.abs(p.v).toFixed(1).replace('.',',')+'</text>'}
+  labs+='<text x="'+X(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-weight="700" fill="var(--faint)" font-family="Inter,sans-serif">'+p.lab+'</text>';
+ });
+ var lp=line.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');
+ var zy=Y(0),zero='<line x1="'+padL+'" y1="'+zy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+zy.toFixed(1)+'" stroke="var(--line)" stroke-dasharray="3 4"/>';
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+zero+'<path d="'+lp+'" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'+dots+labs+'</svg>';
+}
 function renderBalance(){
- var k=balKey(),b=balanceOf(k),meals=mealsOf(k),hasFood=meals.length>0;
- var lbl;if(_balDay===0)lbl='Aujourd\'hui';else if(_balDay===-1)lbl='Hier';else{var dt=new Date();dt.setDate(dt.getDate()+_balDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});lbl=ds.charAt(0).toUpperCase()+ds.slice(1)}
- set('balDate',lbl);var bn=document.getElementById('balNext');if(bn)bn.disabled=_balDay>=0;
- var st=balStatus(b.net,hasFood);
- set('balNetV',hasFood?((b.net>0?'+':(b.net<0?'−':''))+fmtN(Math.abs(b.net))):'—');
- var nv=document.getElementById('balNetV');if(nv)nv.style.color=hasFood?st[1]:'var(--faint)';
- var pill=document.getElementById('balPill');if(pill){pill.innerHTML='<i class="ti '+st[3]+'"></i>'+st[0];pill.style.color=st[1];pill.style.background=st[2]}
+ var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
+ var st=balStatus(b.net,b.hasFood);
+ document.getElementById('balRing').innerHTML=balHeroHTML(b,st);
+ var ck=document.getElementById('balCheck');if(ck){var ckGreen=st[1]==='var(--green)';ck.innerHTML='<i class="ti '+(ckGreen?'ti-check':st[3])+'" style="color:'+st[1]+'"></i>'}
  var mx=Math.max(b.in,b.out,1);
- set('balInV',fmtN(b.in)+' kcal');set('balOutV',fmtN(b.out)+' kcal');
+ set('balInV',fmtN(b.in));set('balOutV',fmtN(b.out));
  var ib=document.getElementById('balInBar'),ob=document.getElementById('balOutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
+ document.getElementById('balCurve').innerHTML=balCurveSVG(k);
+ document.getElementById('bal7').innerHTML=bal7SVG();
+ var rem=b.out-b.in;
+ set('balObjL',rem>=0?'Encore':'Surplus de');set('balObjV',fmtN(Math.abs(rem)));set('balObjS',rem>=0?'pour l\'équilibre':'au-dessus de l\'équilibre');
+ var ov=document.getElementById('balObjV');if(ov)ov.style.color=rem>=0?'var(--green)':'var(--accent)';
+ var ratio=b.out>0?Math.max(4,Math.min(100,b.in/b.out*100)):0;
+ var objBar=document.getElementById('balObjBar'),objMk=document.getElementById('balObjMk');
+ if(objBar){objBar.style.width=ratio.toFixed(1)+'%';objBar.style.background=rem>=0?'var(--green)':'var(--accent)'}
+ if(objMk){objMk.style.left=ratio.toFixed(1)+'%';objMk.style.borderColor=rem>=0?'var(--green)':'var(--accent)'}
  set('balMeals',meals.length?meals.map(function(m,i){var thumb=m.photo?' style="background-image:url('+m.photo+')"':'';var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';return '<div class="bal-meal"><span class="bal-mthumb"'+thumb+'>'+ic+'</span><div style="min-width:0;flex:1"><div class="bal-mn">'+esc(m.name)+'</div><div class="bal-mt">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip'+(m.ai?' · <span style="color:var(--indigo);font-weight:800">IA</span>':'')+'</div></div><span class="bal-mk">'+m.kcal+'</span><span class="bal-mx" onclick="balDelMeal('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="margin:0">Aucun repas. Prends ton premier repas en photo 📸</p>');
- var cells='',green=0,DI=['D','L','M','M','J','V','S'];
- for(var i=6;i>=0;i--){var off=_balDay-i,d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+off);
-  var kk=tk(off),bb=balanceOf(kk),hf=mealsOf(kk).length>0,ss=balStatus(bb.net,hf);
-  if(hf&&Math.abs(bb.net)<=250)green++;
-  var bg=hf?ss[1]:'var(--track)',txt=hf?((bb.net>0?'+':'−')+(Math.round(Math.abs(bb.net)/100)/10).toString().replace('.',',')):'';
-  var selOutline=off===_balDay?';outline:2px solid var(--ink);outline-offset:2px':'';
-  cells+='<button type="button" class="bal-day" onclick="balGoto('+off+')"><div class="bal-ddot" style="background:'+bg+selOutline+'">'+txt+'</div><div class="bal-dl">'+DI[d.getDay()]+' '+d.getDate()+'</div></button>';
- }
- set('balWeek',cells);
- set('balWsum','<b>'+green+' jour'+(green>1?'s':'')+' équilibré'+(green>1?'s':'')+'</b> sur les 7 derniers. Vise le vert : manger à hauteur de ta dépense soutient ta récup.');
  var rv=(typeof recovery==='function')?recovery():null,tie;
- if(rv&&rv.s<34&&_balDay===0)tie='<b>Récup basse aujourd\'hui.</b> Évite un gros déficit : ton corps a besoin de carburant pour réparer.';
- else if(b.net<-600&&hasFood)tie='<b>Déficit marqué.</b> Si tu enchaînes les séances, ce manque finira par peser sur ta VFC et ta récup.';
+ if(rv&&rv.s<34)tie='<b>Récup basse aujourd\'hui.</b> Évite un gros déficit : ton corps a besoin de carburant pour réparer.';
+ else if(b.net<-750&&b.hasFood)tie='<b>Déficit marqué.</b> Si tu enchaînes les séances, ce manque finira par peser sur ta VFC et ta récup.';
  else tie='<b>Les jours de grosse charge, vise l\'équilibre.</b> FLINT relie ce que tu manges à ce que tu récupères — un déficit répété freine la progression.';
  set('balTie',tie);
 }
@@ -5300,7 +5418,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v207';
+const APP_VERSION='flint-v208';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
