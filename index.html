@@ -2957,6 +2957,10 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .balx-pill{position:absolute;left:50%;top:23.8%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:.7cqw;font-family:var(--sans);font-weight:800;font-size:2.4cqw;padding:.95cqw 2cqw;border-radius:999px;white-space:nowrap}
 .balx-pill i{font-size:2.7cqw}
 .balx-check{position:absolute;left:50%;top:27.7%;transform:translate(-50%,-50%);width:4.5cqw;height:4.5cqw;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;font-size:2.5cqw}
+.balx-day{position:absolute;top:17.4%;transform:translateY(-50%);width:9.5cqw;height:9.5cqw;border:0;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--ink2);font-size:5cqw;cursor:pointer;z-index:4;transition:transform .14s ease,opacity .2s ease}
+.balx-day.prev{left:1.5%}.balx-day.next{right:1.5%}
+.balx-day:active{transform:translateY(-50%) scale(.88)}
+.balx-day:disabled{opacity:.3;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.bal-cta,.bal-bfill,.bal-sheet .pan,.bal2-cdbar i,.bal2-objbar i,.bal2-objbar .mk,.bal2-ring circle{transition:none;animation:none}.bal-spin{animation:none}}
 </style>
 <section class="view" id="v-balance">
@@ -2980,6 +2984,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="balx-leaf" id="balLeaf"><i class="ti ti-leaf"></i></div>
     <div class="balx-pill" id="balPill"></div>
     <div class="balx-check" id="balCheck"></div>
+    <button class="balx-day prev" id="balPrev" type="button" onclick="balDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+    <button class="balx-day next" id="balNext" type="button" onclick="balDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
   </div>
 
   <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
@@ -4643,8 +4649,14 @@ function balStatus(net,hasFood){
  var a=Math.abs(net);
  return a>550?['Hors équilibre','var(--accent)','#FBE9E4',net>0?'ti-arrow-up-right':'ti-arrow-down-right']:['Léger écart','var(--amber)','#FBF1DD',net>0?'ti-arrow-up-right':'ti-arrow-down-right'];
 }
-function balDay(d){_balDay=Math.min(0,_balDay+d);renderBalance()}
+function balDay(d){var nd=Math.min(0,Math.max(-180,_balDay+d));if(nd===_balDay)return;_balDay=nd;haptic();renderBalance()}
 function balGoto(off){_balDay=Math.min(0,off);haptic();renderBalance()}
+/* swipe gauche/droite sur le héro pour surfer entre les jours */
+function bindBalSwipe(){var st=document.querySelector('#v-balance .balx-stage');if(!st||st._sw)return;st._sw=1;var x0=null,y0=null,moved=false;
+ st.addEventListener('pointerdown',function(e){x0=e.clientX;y0=e.clientY;moved=false});
+ st.addEventListener('pointermove',function(e){if(x0!=null&&Math.abs(e.clientX-x0)>10)moved=true});
+ st.addEventListener('pointerup',function(e){if(x0==null)return;var dx=e.clientX-x0,dy=e.clientY-y0;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3){balDay(dx>0?-1:1)}x0=null});
+ st.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);}
 /* anneau central : net + verdict ; remplissage = couverture conso/dépense */
 function balHeroHTML(b,st){
  var size=230,sw=16,r=size/2-sw/2-2,c=2*Math.PI*r;
@@ -4719,7 +4731,8 @@ function balVec(b,st,k){
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .75s cubic-bezier(.3,.9,.3,1) both"/>';
  s+='<text x="'+cx+'" y="332" text-anchor="middle" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="94" fill="'+(b.hasFood?'var(--ink)':'var(--faint)')+'">'+netStr+'</text>';
- s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">BILAN DU JOUR · KCAL</text>';
+ var dlab=_balDay===0?'BILAN DU JOUR':(_balDay===-1?'HIER':(function(){var dt=new Date();dt.setDate(dt.getDate()+_balDay);return dt.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase().replace(/\./g,'')})());
+ s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">'+dlab+' · KCAL</text>';
  // CONSO / DEP nombres + remplissage barres
  var mx=Math.max(b.in,b.out,1);
  s+='<text x="66" y="735" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="56" fill="var(--ink)">'+fmtN(b.in)+'</text>';
@@ -4785,6 +4798,7 @@ function renderBalance(){
  set('goName',G.name);
  set('goSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
+ var bn=document.getElementById('balNext');if(bn)bn.disabled=_balDay>=0;bindBalSwipe();
  var st=balStatus(b.net,b.hasFood);
  document.getElementById('balVec').innerHTML=balVec(b,st,k);
  var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
@@ -5687,7 +5701,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v221';
+const APP_VERSION='flint-v222';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
