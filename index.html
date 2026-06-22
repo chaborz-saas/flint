@@ -2861,7 +2861,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal-sheet{position:fixed;inset:0;z-index:60;display:none}
 .bal-sheet.on{display:block}
 .bal-sheet .ov{position:absolute;inset:0;background:rgba(20,18,12,.45)}
-.bal-sheet .pan{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:18px 20px calc(22px + env(safe-area-inset-bottom));max-width:465px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.2);animation:balup .3s cubic-bezier(.2,.8,.2,1)}
+.bal-sheet .pan{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:18px 20px calc(22px + env(safe-area-inset-bottom));max-width:465px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.2);animation:balup .3s cubic-bezier(.2,.8,.2,1);max-height:90vh;overflow-y:auto}
 @keyframes balup{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .bal-sh-grip{width:40px;height:4px;border-radius:2px;background:var(--track);margin:0 auto 16px}
 .bal-sh-top{display:flex;gap:14px;align-items:center;margin-bottom:16px}
@@ -2921,6 +2921,29 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bal2-objbar .mk{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--green);transform:translate(-50%,-50%);transition:left .55s cubic-bezier(.2,.8,.2,1)}
 .bal2-objends{display:flex;justify-content:space-between;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--faint);margin-top:8px}
 .balx{padding-bottom:88px}
+.balobj{width:100%;display:flex;align-items:center;gap:13px;background:var(--card);border:0;border-radius:18px;padding:13px 16px;box-shadow:var(--shadow);cursor:pointer;text-align:left;margin:2px 0 12px;transition:transform .14s ease}
+.balobj:active{transform:scale(.99)}
+.balobj-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex-shrink:0;font-size:23px}
+.balobj-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.balobj-k{font-family:var(--sans);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.balobj-v{font-family:var(--disp);font-style:oblique 6deg;font-size:22px;color:var(--ink);line-height:1}
+.balobj-sub{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink2)}
+.balobj-edit{display:inline-flex;align-items:center;gap:1px;font-family:var(--sans);font-size:12px;font-weight:800;color:var(--accent);flex-shrink:0}
+.balobj-edit i{font-size:15px}
+.go-h{font-family:var(--disp);font-style:oblique 6deg;font-size:26px;color:var(--ink);margin-bottom:5px}
+.go-sub{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink2);margin-bottom:16px}
+.go-opt{width:100%;display:flex;align-items:center;gap:13px;background:var(--bg2);border:2px solid transparent;border-radius:16px;padding:13px;margin-bottom:10px;cursor:pointer;text-align:left;transition:border-color .18s ease,background .18s ease,transform .14s ease}
+.go-opt:active{transform:scale(.99)}
+.go-opt.on{border-color:var(--ink);background:var(--card)}
+.go-oic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;font-size:21px}
+.go-otx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.go-on{font-family:var(--sans);font-size:15px;font-weight:800;color:var(--ink)}
+.go-od{font-family:var(--sans);font-size:12.5px;color:var(--ink2);line-height:1.3}
+.go-ot{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--faint);margin-top:2px}
+.go-ock{flex-shrink:0;font-size:22px;opacity:0;transition:opacity .18s ease}
+.go-opt.on .go-ock{opacity:1}
+.go-confirm{width:100%;border:0;border-radius:15px;padding:16px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;background:var(--ink);cursor:pointer;margin-top:4px;transition:transform .14s ease}
+.go-confirm:active{transform:scale(.985)}
 .balgoal{display:flex;gap:6px;background:var(--bg2);border-radius:16px;padding:4px;margin:2px 0 12px}
 .balgoal button{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;padding:11px 4px;border-radius:12px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease,color .14s ease}
 .balgoal button i{font-size:16px}
@@ -2938,12 +2961,15 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 </style>
 <section class="view" id="v-balance">
 <div class="flnutrition balx">
-  <div class="balgoal" id="balGoal">
-    <span class="seg-ind"></span>
-    <button type="button" data-g="seche" onclick="setBalGoal('seche')"><i class="ti ti-flame"></i>Sécher</button>
-    <button type="button" data-g="maintien" onclick="setBalGoal('maintien')"><i class="ti ti-equal"></i>Maintien</button>
-    <button type="button" data-g="masse" onclick="setBalGoal('masse')"><i class="ti ti-barbell"></i>Muscle</button>
-  </div>
+  <button class="balobj" id="balObjCard" type="button" onclick="goalSheetOpen()">
+    <span class="balobj-ic" id="goIc"><i class="ti ti-equal"></i></span>
+    <span class="balobj-mid">
+      <span class="balobj-k">Ton objectif</span>
+      <span class="balobj-v" id="goName">Maintien</span>
+      <span class="balobj-sub" id="goSub">—</span>
+    </span>
+    <span class="balobj-edit">Modifier<i class="ti ti-chevron-right"></i></span>
+  </button>
   <div class="balx-stage">
     <img class="balx-bg" src="icons/balance_empty.png?v=3" alt="">
     <svg class="balx-vec" id="balVec" viewBox="0 0 913 1723" preserveAspectRatio="none"></svg>
@@ -2995,6 +3021,17 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="bal-tie"><i class="ti ti-bolt"></i><div id="btrTie"></div></div>
 </div>
 </section>
+
+<div class="bal-sheet" id="goSheet">
+  <div class="ov" onclick="goalSheetClose()"></div>
+  <div class="pan">
+    <div class="bal-sh-grip"></div>
+    <div class="go-h">Ton objectif</div>
+    <div class="go-sub">Dis à FLINT ce que tu veux accomplir. Toute ta balance se recalibre autour — et on suit ta régularité dans la durée.</div>
+    <div class="go-opts" id="goOpts"></div>
+    <button class="go-confirm" type="button" onclick="goalConfirm()">Confirmer mon objectif</button>
+  </div>
+</div>
 
 <div class="bal-sheet" id="balSheet">
   <div class="ov" onclick="balSheetClose()"></div>
@@ -4556,14 +4593,24 @@ var MEAL_AI=[
 function analyzeMealPhoto(file){return new Promise(function(res){var m=MEAL_AI[Math.floor(Math.random()*MEAL_AI.length)];setTimeout(function(){res(Object.assign({},m))},1100+Math.random()*700)})}
 function balKey(){return tk(_balDay)}
 function balanceOf(k){var i=nutTotals(k).kcal,o=caloriesBurned(k);return {in:i,out:o,net:i-o}}
-/* ---- OBJECTIF (adapte toute la balance) : sécher / maintien / prise de muscle ---- */
+/* ---- OBJECTIF (personnel, long terme — adapte toute la balance) ---- */
 function balGoals(){return {
- seche:{lbl:'Sécher',ic:'ti-flame',lo:-650,hi:-150},
- maintien:{lbl:'Maintien',ic:'ti-equal',lo:-200,hi:200},
- masse:{lbl:'Muscle',ic:'ti-barbell',lo:200,hi:650}
+ seche:{lbl:'Sécher',name:'Sécher',ic:'ti-flame',lo:-650,hi:-150,col:'var(--accent)',colL:'#FBEAE5',desc:'Perdre du gras en gardant ton muscle.',tgt:'Cible : déficit modéré · −150 à −650 kcal/j'},
+ maintien:{lbl:'Maintien',name:'Maintien',ic:'ti-equal',lo:-200,hi:200,col:'var(--indigo)',colL:'rgba(108,123,214,.14)',desc:'Stabiliser ton poids et tes performances.',tgt:'Cible : équilibre · ±200 kcal/j'},
+ masse:{lbl:'Muscle',name:'Prise de muscle',ic:'ti-barbell',lo:200,hi:650,col:'var(--green)',colL:'#E9F6EE',desc:'Construire du muscle proprement.',tgt:'Cible : léger surplus · +200 à +650 kcal/j'}
 }}
-function goalOf(){var g=DB.get('balGoal','maintien');return balGoals()[g]?g:'maintien'}
-function setBalGoal(g){DB.set('balGoal',g);haptic();renderBalance()}
+function goalObj(){var o=DB.get('balGoalObj',null);if(!o||!balGoals()[o.type]){var old=DB.get('balGoal',null);o={type:(balGoals()[old]?old:'maintien'),since:tk()};DB.set('balGoalObj',o)}return o}
+function goalOf(){return goalObj().type}
+function goalDays(){var p=String(goalObj().since).split('-');var sd=new Date(+p[0],(+p[1]||1)-1,(+p[2]||1));var t=new Date();t.setHours(0,0,0,0);return Math.max(1,Math.round((t-sd)/86400000)+1)}
+function goalAdherence(){var G=balGoals()[goalOf()],days=Math.min(goalDays(),400),inT=0,tot=0;for(var i=0;i<days;i++){var kk=tk(-i);if(mealsOf(kk).length){tot++;var n=balanceOf(kk).net;if(n>=G.lo&&n<=G.hi)inT++}}return {pct:tot?Math.round(inT/tot*100):0,inT:inT,tot:tot}}
+function setBalGoal(type){var o=goalObj();if(o.type!==type){DB.set('balGoalObj',{type:type,since:tk()});toast('Objectif mis à jour — balance recalibrée');haptic(12)}DB.set('balGoalSet',1);renderBalance()}
+/* fiche de choix d'objectif */
+var _goPick=null,_goShown=false;
+function goalSheetOpen(){_goPick=goalOf();renderGoalOpts();document.getElementById('goSheet').classList.add('on');haptic()}
+function goalSheetClose(){document.getElementById('goSheet').classList.remove('on')}
+function goalPick(t){_goPick=t;renderGoalOpts();haptic()}
+function goalConfirm(){if(_goPick)setBalGoal(_goPick);goalSheetClose()}
+function renderGoalOpts(){var G=balGoals();set('goOpts',['seche','maintien','masse'].map(function(t){var g=G[t],on=t===_goPick;return '<button type="button" class="go-opt'+(on?' on':'')+'" onclick="goalPick(\''+t+'\')"><span class="go-oic" style="color:'+g.col+';background:'+g.colL+'"><i class="ti '+g.ic+'"></i></span><span class="go-otx"><span class="go-on">'+g.name+'</span><span class="go-od">'+g.desc+'</span><span class="go-ot">'+g.tgt+'</span></span><span class="go-ock" style="color:'+g.col+'"><i class="ti ti-circle-check-filled"></i></span></button>'}).join(''))}
 /* statut RELATIF à l'objectif : vert = dans ta cible, ambre = écart, rouge = à contre-courant */
 function balStatus(net,hasFood){
  if(!hasFood)return ['En attente','var(--faint)','#EDE8DE','ti-photo'];
@@ -4719,7 +4766,11 @@ function balVec(b,st,k){
 }
 function renderBalance(){
  var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
- var g=goalOf();[].forEach.call(document.querySelectorAll('#balGoal button'),function(bt){bt.classList.toggle('on',bt.dataset.g===g)});moveSeg(document.getElementById('balGoal'));
+ var g=goalOf(),G=balGoals()[g],ad=goalAdherence();
+ var gi=document.getElementById('goIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
+ set('goName',G.name);
+ set('goSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
+ if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
  var st=balStatus(b.net,b.hasFood);
  document.getElementById('balVec').innerHTML=balVec(b,st,k);
  var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
@@ -5588,7 +5639,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v219';
+const APP_VERSION='flint-v220';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
