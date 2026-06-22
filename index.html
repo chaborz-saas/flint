@@ -2515,6 +2515,25 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
  .caldd:active{transform:scale(.97)}
  .flsleep .slx-night,.flsleep .slx-quality{transition:transform .14s cubic-bezier(.2,.7,.2,1),box-shadow .18s ease}
  .flsleep .slx-night:active,.flsleep .slx-quality:active{transform:scale(.99)}
+ /* ----- pastilles glissantes (segments) ----- */
+ .balgoal,.btr-seg{position:relative}
+ .seg-ind{position:absolute;top:4px;bottom:4px;left:0;width:0;border-radius:12px;background:var(--card);box-shadow:var(--shadow);z-index:0;pointer-events:none;transition:transform .4s cubic-bezier(.34,1.45,.42,1),width .4s cubic-bezier(.34,1.45,.42,1)}
+ .balgoal button,.btr-seg button{position:relative;z-index:1;transition:color .22s ease,transform .14s cubic-bezier(.2,.7,.2,1)}
+ .balgoal button:active,.btr-seg button:active{transform:scale(.94)}
+ .balgoal button.on i{animation:segpop .42s cubic-bezier(.34,1.5,.4,1)}
+ @keyframes segpop{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}
+ /* ----- nav du bas : indicateur glissant + icône qui rebondit ----- */
+ #nav{position:relative}
+ .nav-ind{position:absolute;top:0;left:0;width:30px;height:4px;border-radius:0 0 5px 5px;background:var(--accent);z-index:3;pointer-events:none;transition:transform .42s cubic-bezier(.34,1.5,.4,1)}
+ #nav button svg{transition:transform .34s cubic-bezier(.34,1.55,.4,1)}
+ #nav button.on svg{transform:translateY(-2px) scale(1.16)}
+ #nav button.on{animation:navpop .42s cubic-bezier(.34,1.5,.4,1)}
+ @keyframes navpop{0%,100%{transform:none}40%{transform:translateY(-2px)}}
+ /* ----- feedback clic généralisé ----- */
+ .fbtn,.addbtn,.bk,.bk2,.fcbk,.calbk,.slp-bk,.abk,.effbk,.bchip,.hsx-link,.fhd-fc,.swrow,.fld input{transition:transform .14s cubic-bezier(.2,.7,.2,1),background-color .18s ease,box-shadow .18s ease,border-color .18s ease}
+ .fbtn:active,.addbtn:active{transform:scale(.97)}
+ .bk:active,.bk2:active,.fcbk:active,.calbk:active,.slp-bk:active,.abk:active,.effbk:active{transform:scale(.87)}
+ .bchip:active{transform:scale(.93)}
 }
 @media (prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -2906,7 +2925,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .balgoal{display:flex;gap:6px;background:var(--bg2);border-radius:16px;padding:4px;margin:2px 0 12px}
 .balgoal button{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;padding:11px 4px;border-radius:12px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease,color .14s ease}
 .balgoal button i{font-size:16px}
-.balgoal button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.balgoal button.on{color:var(--ink)}
 .balx-stage{position:relative;width:100%;aspect-ratio:913/1723;container-type:inline-size;margin-bottom:6px}
 .balx-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .balx-vec{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -2921,6 +2940,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <section class="view" id="v-balance">
 <div class="flnutrition balx">
   <div class="balgoal" id="balGoal">
+    <span class="seg-ind"></span>
     <button type="button" data-g="seche" onclick="setBalGoal('seche')"><i class="ti ti-flame"></i>Sécher</button>
     <button type="button" data-g="maintien" onclick="setBalGoal('maintien')"><i class="ti ti-equal"></i>Maintien</button>
     <button type="button" data-g="masse" onclick="setBalGoal('masse')"><i class="ti ti-barbell"></i>Muscle</button>
@@ -2953,7 +2973,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .btr{padding-bottom:34px}
 .btr-seg{display:flex;gap:6px;background:var(--bg2);border-radius:14px;padding:4px;margin-bottom:13px}
 .btr-seg button{flex:1;border:0;background:transparent;padding:10px;border-radius:10px;font-family:var(--sans);font-size:13px;font-weight:800;color:var(--ink2);cursor:pointer;transition:background .14s ease}
-.btr-seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.btr-seg button.on{color:var(--ink)}
 .btr-stat{display:flex;gap:10px;margin-bottom:13px}
 .btr-sc{flex:1;background:var(--card);border-radius:18px;padding:15px 8px;box-shadow:var(--shadow);text-align:center;min-width:0}
 .btr-sv{font-family:var(--disp);font-style:oblique 6deg;font-size:28px;line-height:1;color:var(--ink)}
@@ -2963,6 +2983,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="flnutrition btr">
   <div class="pghd"><button class="bk" onclick="goBack('balance')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Balance · tendance</div></div>
   <div class="btr-seg" id="btrSeg">
+    <span class="seg-ind"></span>
     <button type="button" data-p="30" onclick="btrSet('30')">30 j</button>
     <button type="button" data-p="90" onclick="btrSet('90')">90 j</button>
     <button type="button" data-p="all" onclick="btrSet('all')">Tout</button>
@@ -3648,6 +3669,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 </section>
 
 <nav id="nav">
+  <span class="nav-ind" id="navInd"></span>
   <button data-v="today" class="on" aria-current="page"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Aujourd'hui</button>
   <button data-v="balance"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M6 6l6-1 6 1"/><path d="M12 3v17"/><path d="M9 12l-3-6-3 6a3 3 0 0 0 6 0z"/><path d="M21 12l-3-6-3 6a3 3 0 0 0 6 0z"/></svg>Balance</button>
   <button data-v="coach"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Coach</button>
@@ -3744,11 +3766,16 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
  flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+/* indicateurs glissants (nav + segments) */
+function moveSeg(box){if(!box)return;var a=box.querySelector('button.on'),ind=box.querySelector('.seg-ind');if(!a||!ind||!a.offsetWidth)return;ind.style.width=a.offsetWidth+'px';ind.style.transform='translateX('+a.offsetLeft+'px)';}
+function moveNav(){var nav=document.getElementById('nav');if(!nav)return;var a=nav.querySelector('button.on'),ind=document.getElementById('navInd');if(!a||!ind||!a.offsetWidth)return;ind.style.transform='translateX('+(a.offsetLeft+a.offsetWidth/2-15)+'px)';}
+window.addEventListener('resize',function(){moveNav();moveSeg(document.getElementById('balGoal'));moveSeg(document.getElementById('btrSeg'))});
+requestAnimationFrame(moveNav);
 
 // ===================== WHOOP-FAITHFUL MODULES =====================
 function hypnoSeq(s){const cyc=Math.max(3,Math.min(6,Math.round(s.sleepMin/95)));const seq=[];const dP=s.deep/cyc,rP=s.rem/cyc,lP=s.light/cyc;if(s.awake>3)seq.push([3,Math.round(s.awake*0.35)]);for(let c=0;c<cyc;c++){seq.push([1,Math.round(lP*0.45)]);const dw=Math.round(dP*Math.max(0.3,(2-c*1.4/cyc)));if(dw>2)seq.push([0,dw]);seq.push([1,Math.round(lP*0.3)]);const rw=Math.round(rP*(0.4+c*1.2/cyc));if(rw>2)seq.push([2,rw]);seq.push([1,Math.round(lP*0.25)])}if(s.awake>3)seq.push([3,Math.round(s.awake*0.3)]);return seq}
@@ -4630,7 +4657,7 @@ function balVec(b,st,k){
  var gp={'var(--green)':['#2FA868','#57CC8C'],'var(--amber)':['#E0922A','#F5BB52'],'var(--accent)':['#D63A20','#FF6A48'],'var(--faint)':['#CBC6BD','#DAD5CC']}[col]||['#2FA868','#57CC8C'];
  s+='<defs><linearGradient id="bring" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="'+gp[0]+'"/><stop offset="1" stop-color="'+gp[1]+'"/></linearGradient></defs>';
  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#ECE7DF" stroke-width="'+sw+'"/>';
- s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')"/>';
+ s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="url(#bring)" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+cx+' '+cy+')" style="--rc:'+c.toFixed(1)+';--ro:'+off.toFixed(1)+';animation:ringfill .75s cubic-bezier(.3,.9,.3,1) both"/>';
  s+='<text x="'+cx+'" y="332" text-anchor="middle" style="font-family:\'Anton\',sans-serif;font-style:oblique 6deg" font-size="94" fill="'+(b.hasFood?'var(--ink)':'var(--faint)')+'">'+netStr+'</text>';
  s+='<text x="'+cx+'" y="376" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" letter-spacing="1" fill="var(--faint)">BILAN DU JOUR · KCAL</text>';
  // CONSO / DEP nombres + remplissage barres
@@ -4693,7 +4720,7 @@ function balVec(b,st,k){
 }
 function renderBalance(){
  var k=balKey(),b=balanceOf(k),meals=mealsOf(k);b.hasFood=meals.length>0;
- var g=goalOf();[].forEach.call(document.querySelectorAll('#balGoal button'),function(bt){bt.classList.toggle('on',bt.dataset.g===g)});
+ var g=goalOf();[].forEach.call(document.querySelectorAll('#balGoal button'),function(bt){bt.classList.toggle('on',bt.dataset.g===g)});moveSeg(document.getElementById('balGoal'));
  var st=balStatus(b.net,b.hasFood);
  document.getElementById('balVec').innerHTML=balVec(b,st,k);
  var lf=document.getElementById('balLeaf');if(lf)lf.style.color=st[1];
@@ -4760,7 +4787,7 @@ function btrChartSVG(data,sel){
 }
 function btrScrub(cx){var svg=document.querySelector('#btrChart svg');if(!svg||!_btrArr.length)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*BTR_W,frac=(px-BTR_PADL)/(BTR_W-BTR_PADL-BTR_PADR),i=Math.floor(frac*_btrArr.length);i=Math.max(0,Math.min(_btrArr.length-1,i));if(i!==_btrSel){_btrSel=i;haptic(4)}document.getElementById('btrChart').innerHTML=btrChartSVG(_btrArr,_btrSel)}
 function renderBalTrend(){
- [].forEach.call(document.querySelectorAll('#btrSeg button'),function(b){b.classList.toggle('on',b.dataset.p===_btrP)});
+ [].forEach.call(document.querySelectorAll('#btrSeg button'),function(b){b.classList.toggle('on',b.dataset.p===_btrP)});moveSeg(document.getElementById('btrSeg'));
  var data=btrData();_btrArr=data;if(_btrSel!=null&&_btrSel>=data.length)_btrSel=null;
  var host=document.getElementById('btrChart');host.innerHTML=btrChartSVG(data,_btrSel);
  host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}btrScrub(e.clientX);host.onpointermove=function(ev){btrScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null}};
@@ -5562,7 +5589,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v217';
+const APP_VERSION='flint-v218';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
