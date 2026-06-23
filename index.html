@@ -3203,6 +3203,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .r2tselw{position:relative;flex:none}
 .rec2 .r2tsel{font-family:'Inter';font-size:12.5px;font-weight:700;color:#37372F;background:#F6F1E9;border:1px solid #ECE7DD;border-radius:11px;padding:7px 30px 7px 12px;cursor:pointer;-webkit-appearance:none;appearance:none}
 .rec2 .r2tselw i{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#9A948A;font-size:15px}
+.rec2 .r2topen{display:block;width:100%;background:none;border:0;padding:0;margin:0;font-family:inherit;cursor:pointer;transition:transform .14s ease}
+.rec2 .r2topen:active{transform:scale(.99)}
+.rec2 .r2tall{display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;font-weight:700;color:#8A8580;margin-top:6px}
+.rec2 .r2tall i{font-size:15px;color:#A7A29A}
 .rec2 .r2tchart svg{width:100%;display:block;height:auto}
 .rec2 .r2tempty{font-size:13px;color:#7C766B;text-align:center;padding:34px 10px}
 
@@ -3254,7 +3258,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
       <div class="r2thtitle">Tendance 7 jours</div>
       <div class="r2tselw"><select class="r2tsel" id="recTrendSel" onchange="recSetTrend(this.value)"><option value="recovery">Récupération (%)</option><option value="hrv">VFC (ms)</option><option value="rhr">FC au repos (bpm)</option><option value="sleepperf">Sommeil (%)</option></select><i class="ti ti-chevron-down"></i></div>
     </div>
-    <div id="recTrendChart" class="r2tchart"></div>
+    <button class="r2topen" type="button" onclick="openMetricTrend(window._recTrendMetric||'recovery')">
+      <div id="recTrendChart" class="r2tchart"></div>
+      <span class="r2tall">Voir tout l'historique<i class="ti ti-chevron-right"></i></span>
+    </button>
   </div>
 
   <button class="r2howlink" type="button" onclick="go('howscore')">Comment ce score est-il calculé ?<i class="ti ti-chevron-right"></i></button>
@@ -6034,7 +6041,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v239';
+const APP_VERSION='flint-v240';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
