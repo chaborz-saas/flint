@@ -3215,24 +3215,6 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .rhead{position:relative;overflow:visible}
 .rec2 .rhead-art{position:absolute;top:-24px;right:-12px;width:184px;height:138px;background:url('./recup-body.png') no-repeat top right;background-size:180px auto;pointer-events:none;z-index:0;opacity:.92;-webkit-mask-image:linear-gradient(to bottom,#000 48%,transparent 96%);mask-image:linear-gradient(to bottom,#000 48%,transparent 96%)}
 .rec2 .rhead .greet,.rec2 .rhead .date{position:relative;z-index:1}
-/* Récup : mockup vide en fond + overlays (méthode Sommeil) */
-.rec2 .recov-img{position:relative;width:100%;aspect-ratio:700/1057;background:url('./recup-empty.png') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 13px}
-.rec2 .recov-img .ov{position:absolute;line-height:1.15;font-family:'Inter',sans-serif;color:#15140F}
-.rec2 .recov-img .ovnw{white-space:nowrap}
-.rec2 .recov-img .ovv{font-family:'Anton';font-style:oblique 8deg;line-height:1;white-space:nowrap}
-.rec2 .recov-img .ovv small{font-family:'Inter';font-style:normal;font-weight:700;color:#9A948A}
-.rec2 .recov-img .ovpill{position:absolute;text-align:center;font-weight:800;border-radius:30px;white-space:nowrap}
-.rec2 .recov-img .ovtap{position:absolute;background:transparent;border:0;cursor:pointer;padding:0;z-index:6}
-.rec2 .recov-img .ovring{position:absolute}
-.rec2 .recov-img .ovring svg{width:100%;height:100%;display:block}
-.rec2 .recov-img .ovg{position:absolute;height:1.5cqw;border-radius:1cqw;background:#ECE7DD}
-.rec2 .recov-img .ovg .z{position:absolute;top:0;bottom:0;border-radius:1cqw;background:#BFE3CC}
-.rec2 .recov-img .ovg .d{position:absolute;top:50%;width:3.4cqw;height:3.4cqw;border-radius:50%;border:0.7cqw solid #fff;box-shadow:0 0.3cqw 0.8cqw rgba(0,0,0,.25);transform:translate(-50%,-50%)}
-.rec2 .recov-img .ovsc{position:absolute;height:3cqw}
-.rec2 .recov-img .ovsc span{position:absolute;top:0;font-size:2.4cqw;font-weight:600;color:#A7A29A;white-space:nowrap}
-.rec2 .recov-img .ovcap{position:absolute;display:flex;align-items:flex-start;gap:1.4cqw;font-size:2.7cqw;font-weight:600;color:#6E6A62;line-height:1.2}
-.rec2 .recov-img .ovcap .cd{width:1.7cqw;height:1.7cqw;border-radius:50%;flex:none;margin-top:.4cqw}
-.rec2 .recov-img .ovcap span:last-child{min-width:0}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -3256,7 +3238,22 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 </style>
 <section class="view" id="v-recovery">
 <div class="flrecovery rec2">
-  <div class="recov-img" id="recImg"></div>
+  <div class="rhead">
+    <div class="rhead-art" aria-hidden="true"></div>
+    <div class="greet">Récupération</div>
+    <div class="date">Lecture de ton corps · aujourd'hui</div>
+  </div>
+
+  <div class="card r2hero">
+    <div class="r2hring" id="recRing"></div>
+    <div class="r2hside">
+      <div class="r2htitle an" id="recTitle">—</div>
+      <div class="r2hdesc" id="recReco"></div>
+      <div class="r2hverdict" id="recVerdict" style="display:none"><span class="r2hvic" id="recVerdictIc"></span><span id="recVerdictT">—</span></div>
+    </div>
+  </div>
+
+  <div class="r2grid" id="recGauges"></div>
 
   <div class="card r2corr" id="recCorrCard"></div>
 
@@ -5250,47 +5247,19 @@ function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!hos
 function renderRecJournal(){var host=document.getElementById('recJournalCard');if(!host)return;var j=DB.get('journal_'+tk(),{});
  host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
 function recSetTrend(m){window._recTrendMetric=m;var h=document.getElementById('recTrendChart');if(h)h.innerHTML=recTrendChartSVG(m)}
-function renderRecovery(){renderRecCorr();var rv=recovery();
+function renderRecovery(){renderRecCorr();const rv=recovery();
+ var ring=document.getElementById('recRing'),vb=document.getElementById('recVerdict'),g=document.getElementById('recGauges');
  if(!window._recTrendMetric)window._recTrendMetric='recovery';
  var sel=document.getElementById('recTrendSel');if(sel)sel.value=window._recTrendMetric;
  var ch=document.getElementById('recTrendChart');if(ch)ch.innerHTML=recTrendChartSVG(window._recTrendMetric);
- var host=document.getElementById('recImg');if(host)host.innerHTML=recBuildOverlay(rv);
-}
-function recBuildOverlay(rv){
- if(!rv)return '';
+ if(!rv){if(ring)ring.innerHTML=ringHTML(0,140,'','RÉCUPÉRATION','var(--faint)','—');set('recTitle','En attente');set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');if(vb)vb.style.display='none';if(g)g.innerHTML='';return}
  var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631';
- var C=2*Math.PI*43,off=C*(1-Math.max(0,Math.min(100,rv.s))/100),h='';
- // anneau (track + arc + %) dessiné entièrement par-dessus la case vide
- h+='<div class="ovring" style="left:7.5%;top:26.4%;width:31%;aspect-ratio:1">'
-  +'<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="43" fill="none" stroke="#EAE4DA" stroke-width="7"/><circle cx="50" cy="50" r="43" fill="none" stroke="'+rc+'" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 50 50)"/></svg>'
-  +'<div class="ovv" style="position:absolute;left:50%;top:41%;transform:translate(-50%,-50%);font-size:9.5cqw;color:'+rc+'">'+rv.s+'<small style="font-family:inherit;color:'+rc+';font-size:.45em">%</small></div></div>';
- var title=rv.s>=67?'Prêt aujourd\'hui':rv.s>=34?'À doser':'Repos conseillé';
- var sub=rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte — dose ta journée':'Ton corps réclame du repos';
- var tg=strainTarget(),vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied';
- h+='<div class="ov ovv" style="left:45.3%;top:28.6%;transform:translateY(-50%);font-size:6.6cqw;color:#15140F">'+title+'</div>';
- h+='<div class="ov ovnw" style="left:45.3%;top:36.6%;transform:translateY(-50%);font-size:3.2cqw;color:#6E6A62">'+sub+'</div>';
- h+='<div class="ov" style="left:53.4%;top:43.6%;transform:translateY(-50%);max-width:40cqw;font-size:3.1cqw;font-weight:700;color:'+rc+';line-height:1.2">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</div>';
- var defs=recFactorDefs(rv);
- var POS=[
-  {pcx:40.3,pcy:55.9,x:6.7,vy:60.6,ny:65.7,gy:70.0,gw:39.3,scy:72.7,cy:76.0,tap:[3.5,52,45,25]},
-  {pcx:87.4,pcy:55.9,x:53.7,vy:60.6,ny:65.7,gy:70.0,gw:39.6,scy:72.7,cy:76.0,tap:[51.5,52,45,25]},
-  {pcx:40.9,pcy:81.2,x:6.7,vy:85.9,ny:91.0,gy:94.2,gw:39.3,scy:96.6,cy:99.0,tap:[3.5,78,45,21]},
-  {pcx:87.4,pcy:81.2,x:53.7,vy:85.9,ny:91.0,gy:94.2,gw:39.6,scy:96.6,cy:99.0,tap:[51.5,78,45,21]}
- ];
- defs.forEach(function(d,i){
-  var p=POS[i],st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
-  var w=d.high-d.low,tmin=d.tmin!=null?d.tmin:d.low-w*0.7,tmax=d.tmax!=null?d.tmax:d.high+w*0.7;
-  var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
-  var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur);
-  h+='<div class="ovpill" style="left:'+p.pcx+'%;top:'+p.pcy+'%;transform:translate(-50%,-50%);font-size:2.7cqw;color:'+tone[0]+';background:'+tone[1]+';padding:1.1cqw 2.6cqw">'+st.s+'</div>';
-  h+='<div class="ov ovv" style="left:'+p.x+'%;top:'+p.vy+'%;transform:translateY(-50%);font-size:7cqw">'+d.fmt(d.cur)+'<small style="font-size:.42em;margin-left:.12em">'+d.unit+'</small></div>';
-  h+='<div class="ov ovnw" style="left:'+p.x+'%;top:'+p.ny+'%;transform:translateY(-50%);font-size:2.9cqw;font-weight:600;color:#7C766B">Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>';
-  h+='<div class="ovg" style="left:'+p.x+'%;top:'+p.gy+'%;width:'+p.gw+'%"><span class="z" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%"></span><span class="d" style="left:'+dp.toFixed(1)+'%;background:'+dotc+'"></span></div>';
-  h+='<div class="ovsc" style="left:'+p.x+'%;top:'+p.scy+'%;width:'+p.gw+'%"><span style="left:0">'+d.fmt(tmin)+'</span><span style="left:'+zl.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.low)+'</span><span style="left:'+zh.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.high)+'</span><span style="left:100%;transform:translateX(-100%)">'+d.fmt(tmax)+'</span></div>';
-  h+='<div class="ovcap" style="left:'+p.x+'%;top:'+p.cy+'%;max-width:'+(p.gw+1)+'cqw"><span class="cd" style="background:'+tone[2]+'"></span><span>'+st.c+'</span></div>';
-  h+='<button class="ovtap" type="button" onclick="recWhyOpen(\''+d.key+'\')" style="left:'+p.tap[0]+'%;top:'+p.tap[1]+'%;width:'+p.tap[2]+'%;height:'+p.tap[3]+'%" aria-label="'+d.title+'"></button>';
- });
- return h;
+ if(ring)ring.innerHTML=ringHTML(rv.s,140,'','RÉCUPÉRATION',rc,rv.s+'<small>%</small>');
+ set('recTitle',rv.s>=67?'Prêt aujourd\'hui':rv.s>=34?'À doser':'Repos conseillé');
+ set('recReco',rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte — dose ta journée':'Ton corps réclame du repos');
+ var tg=strainTarget(),vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied',vi=rv.s>=67?'ti-arrow-up-right':rv.s>=34?'ti-activity':'ti-zzz';
+ if(vb){vb.style.display='';vb.style.color=rc;var ici=document.getElementById('recVerdictIc');if(ici){ici.innerHTML='<i class="ti '+vi+'"></i>';ici.style.color=rc;ici.style.background=rc+'1A'}set('recVerdictT',vk+' — vise un effort de '+tg[0]+'–'+tg[1]);}
+ if(g)g.innerHTML=recGaugesHTML(rv);
 }
 var REC_TONE={good:['#2E7D4F','#EAF4EE','#3FB57A'],warn:['#9A6500','#FBF1DD','#E0922A'],bad:['#B23A22','#FBEAE6','#CF4631']};
 var REC_BEH_ICON={cafeine:'ti-coffee',alcool:'ti-glass-full',ecrans:'ti-device-mobile',sportintense:'ti-barbell',magnesium:'ti-pill',meditation:'ti-yoga',repastard:'ti-tools-kitchen-2',hydrate:'ti-droplet'};
@@ -6230,7 +6199,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v246';
+const APP_VERSION='flint-v247';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
