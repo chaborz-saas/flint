@@ -3212,6 +3212,9 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 .rec2 .r2howlink{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:none;border:0;color:#8A8580;font-family:'Inter';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px;margin-top:2px}
 .rec2 .r2howlink i{font-size:15px}
+.rec2 .rhead{position:relative;overflow:visible}
+.rec2 .rhead-art{position:absolute;top:-24px;right:-12px;width:184px;height:138px;background:url('./recup-body.png') no-repeat top right;background-size:180px auto;pointer-events:none;z-index:0;opacity:.92;-webkit-mask-image:linear-gradient(to bottom,#000 48%,transparent 96%);mask-image:linear-gradient(to bottom,#000 48%,transparent 96%)}
+.rec2 .rhead .greet,.rec2 .rhead .date{position:relative;z-index:1}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -3236,6 +3239,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <section class="view" id="v-recovery">
 <div class="flrecovery rec2">
   <div class="rhead">
+    <div class="rhead-art" aria-hidden="true"></div>
     <div class="greet">Récupération</div>
     <div class="date">Lecture de ton corps · aujourd'hui</div>
   </div>
@@ -6195,7 +6199,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v244';
+const APP_VERSION='flint-v245';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
