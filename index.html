@@ -5298,7 +5298,7 @@ function recBuildOverlay(rv){
   var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
   var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur),gx=b.x+3.2,gw=b.w-6.4;
   h+='<div class="ovpill" style="left:'+(b.x+b.w-3.2)+'%;top:'+(b.y+3.4)+'%;transform:translate(-100%,-50%);font-size:2.7cqw;color:'+tone[0]+';background:'+tone[1]+';padding:1.1cqw 2.6cqw">'+st.s+'</div>';
-  h+='<div class="ov ovv" style="left:'+gx+'%;top:'+(b.y+9.4)+'%;transform:translateY(-50%);font-size:7cqw">'+d.fmt(d.cur)+'</div>';
+  h+='<div class="ov ovv" style="left:'+gx+'%;top:'+(b.y+9.1)+'%;transform:translateY(-50%);font-size:7cqw">'+d.fmt(d.cur)+(d.unit?'<small style="font-size:.4em;margin-left:.16em">'+d.unit+'</small>':'')+'</div>';
   h+='<div class="ov ovnw" style="left:'+gx+'%;top:'+(b.y+12.4)+'%;font-size:2.9cqw;font-weight:600;color:#7C766B">Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>';
   h+='<div class="ovg" style="left:'+gx+'%;top:'+(b.y+14.7)+'%;width:'+gw+'%"><span class="z" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%"></span><span class="d" style="left:'+dp.toFixed(1)+'%;background:'+dotc+'"></span></div>';
   h+='<div class="ovsc" style="left:'+gx+'%;top:'+(b.y+16.1)+'%;width:'+gw+'%"><span style="left:0">'+d.fmt(tmin)+'</span><span style="left:'+zl.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.low)+'</span><span style="left:'+zh.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.high)+'</span><span style="left:100%;transform:translateX(-100%)">'+d.fmt(tmax)+'</span></div>';
@@ -6245,7 +6245,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v253';
+const APP_VERSION='flint-v254';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
