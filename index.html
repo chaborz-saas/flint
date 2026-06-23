@@ -3151,50 +3151,93 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 </div>
 
 <!-- ===================== RÉCUPÉRATION ===================== -->
+<style>
+/* ===== RÉCUP v2 (maquette validée) — scopé .rec2 ===== */
+.rec2 .rhead{margin:6px 2px 12px}
+.rec2 .card{margin:0 0 13px}
+.rec2 .r2hero{display:flex;align-items:center;gap:6px;padding:20px 16px}
+.rec2 .r2hring{flex:0 0 auto;position:relative}
+.rec2 .r2hring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1}
+.rec2 .r2hring .rval{font-family:'Anton';font-style:oblique 8deg;line-height:1}
+.rec2 .r2hring .rval small{font-size:.42em;font-weight:inherit;margin-left:1px}
+.rec2 .r2hring .rsub{font-family:'Anton';font-style:oblique 8deg;font-size:10px;letter-spacing:.08em;color:#9A988F;margin-top:4px}
+.rec2 .r2hside{flex:1;min-width:0;padding-left:2px}
+.rec2 .r2htitle{font-size:32px;line-height:.98;color:#15140F;text-transform:none}
+.rec2 .r2hdesc{font-size:14.5px;color:#6E6A62;margin-top:9px;line-height:1.35}
+.rec2 .r2hverdict{display:inline-flex;align-items:center;gap:9px;margin-top:14px;font-size:14.5px;font-weight:700}
+.rec2 .r2hvic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:17px;flex:none}
+
+.rec2 .r2grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px}
+.rec2 .rgc{background:#fff;border:1px solid #F1EBE3;border-radius:20px;padding:15px 14px 14px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);text-align:left;font-family:inherit;cursor:pointer;transition:transform .14s ease;display:flex;flex-direction:column}
+.rec2 .rgc:active{transform:scale(.98)}
+.rec2 .rgc-h{display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.rec2 .rgc-ic{font-size:18px;flex:none;display:grid;place-items:center}
+.rec2 .rgc-t{flex:1;font-size:12px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#37372F;min-width:0}
+.rec2 .rgc-pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;flex:none}
+.rec2 .rgc-v{font-family:'Anton';font-style:oblique 8deg;font-size:29px;line-height:1;color:#15140F}
+.rec2 .rgc-v .u{font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;color:#9A988F;margin-left:4px}
+.rec2 .rgc-norm{font-size:12px;font-weight:600;color:#7C766B;margin-top:5px}
+.rec2 .rgc-g{position:relative;height:8px;border-radius:6px;background:#ECE7DD;margin-top:13px}
+.rec2 .rgc-zone{position:absolute;top:0;bottom:0;border-radius:6px;background:#BFE3CC}
+.rec2 .rgc-dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:#15140F;border:2.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.28);transform:translate(-50%,-50%)}
+.rec2 .rgc-sc{position:relative;height:14px;margin-top:7px}
+.rec2 .rgc-sc span{position:absolute;top:0;font-size:10.5px;font-weight:600;color:#A7A29A;transform:translateX(-50%);white-space:nowrap}
+.rec2 .rgc-sc span:first-child{transform:none}
+.rec2 .rgc-sc span:last-child{transform:translateX(-100%)}
+.rec2 .rgc-cap{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#6E6A62;margin-top:11px}
+.rec2 .rgc-cap .d{width:7px;height:7px;border-radius:50%;flex:none}
+
+.rec2 .r2corr{padding:16px}
+.rec2 .r2ch{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7C766B;margin:0 0 4px}
+.rec2 .r2cr{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-top:1px solid #F1EBE3;padding:13px 0;font-family:inherit;cursor:pointer;text-align:left}
+.rec2 .r2cr:first-of-type{border-top:0;padding-top:10px}
+.rec2 .r2ci{width:28px;color:#6E6A62;font-size:19px;flex:none;display:grid;place-items:center}
+.rec2 .r2cl{flex:1;font-size:14px;font-weight:600;color:#37372F;min-width:0}
+.rec2 .r2cv{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.rec2 .r2cc{color:#C9C3B9;font-size:17px;flex:none}
+.rec2 .r2cempty{font-size:13px;color:#7C766B;line-height:1.5;margin:6px 0 0}
+
+.rec2 .r2trend{padding:16px 14px 12px}
+.rec2 .r2th{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.rec2 .r2thtitle{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
+.rec2 .r2tselw{position:relative;flex:none}
+.rec2 .r2tsel{font-family:'Inter';font-size:12.5px;font-weight:700;color:#37372F;background:#F6F1E9;border:1px solid #ECE7DD;border-radius:11px;padding:7px 30px 7px 12px;cursor:pointer;-webkit-appearance:none;appearance:none}
+.rec2 .r2tselw i{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#9A948A;font-size:15px}
+.rec2 .r2tchart svg{width:100%;display:block;height:auto}
+.rec2 .r2tempty{font-size:13px;color:#7C766B;text-align:center;padding:34px 10px}
+
+.rec2 .r2howlink{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:none;border:0;color:#8A8580;font-family:'Inter';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px;margin-top:2px}
+.rec2 .r2howlink i{font-size:15px}
+</style>
 <section class="view" id="v-recovery">
-<div class="flrecovery">
+<div class="flrecovery rec2">
   <div class="rhead">
     <div class="greet">Récupération</div>
     <div class="date">Lecture de ton corps · aujourd'hui</div>
   </div>
 
-  <div class="card rhero">
-    <div class="rheroart"></div>
-    <div class="rhring" id="recRing"></div>
-    <div class="rhside">
-      <div class="rhpill" id="recPill"><span class="d"></span><span id="recPillT">—</span></div>
-      <div class="rhzone an" id="recZone">—</div>
-      <div class="rhrule"></div>
-      <div class="rhdesc" id="recReco"></div>
+  <div class="card r2hero">
+    <div class="r2hring" id="recRing"></div>
+    <div class="r2hside">
+      <div class="r2htitle an" id="recTitle">—</div>
+      <div class="r2hdesc" id="recReco"></div>
+      <div class="r2hverdict" id="recVerdict" style="display:none"><span class="r2hvic" id="recVerdictIc"></span><span id="recVerdictT">—</span></div>
     </div>
   </div>
 
-  <button class="rvverdict" id="recVerdict" type="button" onclick="go('load')" style="display:none">
-    <span class="rvvi" id="recVerdictIc"></span>
-    <div><div class="rvvk" id="recVerdictK">—</div><div class="rvvs" id="recVerdictS"></div></div>
-    <i class="ti ti-chevron-right rvvc"></i>
-  </button>
+  <div class="r2grid" id="recGauges"></div>
 
-  <div class="card rinsight">
-    <div class="rinic"><i class="ti ti-bolt"></i></div>
-    <div class="rintx" id="recInsight">—</div>
-    <i class="ti ti-chevron-right cv2"></i>
+  <div class="card r2corr" id="recCorrCard"></div>
+
+  <div class="card r2trend">
+    <div class="r2th">
+      <div class="r2thtitle">Tendance 7 jours</div>
+      <div class="r2tselw"><select class="r2tsel" id="recTrendSel" onchange="recSetTrend(this.value)"><option value="recovery">Récupération (%)</option><option value="hrv">VFC (ms)</option><option value="rhr">FC au repos (bpm)</option><option value="sleepperf">Sommeil (%)</option></select><i class="ti ti-chevron-down"></i></div>
+    </div>
+    <div id="recTrendChart" class="r2tchart"></div>
   </div>
 
-  <div class="card recfac">
-    <div class="rfh"><span class="rfhic"><i class="ti ti-adjustments-horizontal"></i></span><div class="rfht"><div class="rfhtitle">Ce qui explique ton score</div><div class="rfhsub">Tes 4 facteurs vs ta normale</div></div></div>
-    <div id="recFactors"></div>
-    <button class="hsx-link" type="button" onclick="go('howscore')"><i class="ti ti-info-circle"></i>Comment ce score est-il calculé ?<i class="ti ti-chevron-right"></i></button>
-  </div>
-
-  <div class="card rectrends">
-    <div class="rfh" style="margin-bottom:4px"><span class="rfhic"><i class="ti ti-chart-line"></i></span><div class="rfht"><div class="rfhtitle">Tendances de la semaine</div><div class="rfhsub">7 derniers jours · touche pour le détail</div></div></div>
-    <div id="recTrends"></div>
-  </div>
-
-  <div id="vitauxCard" class="nvit"></div>
-
-  <div class="card" id="recCorrCard"></div>
+  <button class="r2howlink" type="button" onclick="go('howscore')">Comment ce score est-il calculé ?<i class="ti ti-chevron-right"></i></button>
 </div>
 </section>
 
@@ -3949,7 +3992,7 @@ function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)
 const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
 function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr();renderRecJournal();renderRecCorr()}
 function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
-function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
+function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({id:b[0],lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
 function renderCorr(){const host=document.getElementById('corrCard');if(!host)return;const c=behaviorCorr();host.innerHTML='<div class="ct">Ce qui influence ta récup</div>'+(c.length?c.slice(0,7).map(x=>'<div class="cor"><span class="cl">'+x.lbl+'</span><span class="cbarw"><span class="cbarf" style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(x.imp>0?'var(--green)':'var(--accent)')+'"></span></span><span style="color:'+(x.imp>0?'var(--green)':'var(--accent)')+';font-weight:800;width:48px;text-align:right">'+(x.imp>0?'+':'')+x.imp+'%</span></div>').join(''):'<p class="sci">Remplis ton journal quelques jours pour révéler ce qui aide ou nuit à ta récup.</p>')}
 /* ---------- MON JOURNAL (style Flint) ---------- */
 const JQ=[
@@ -5071,25 +5114,76 @@ function renderBalCurve(){var host=document.getElementById('bcChart');host.inner
 
 /* ---------- RÉCUP ---------- */
 function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!host)return;var c=behaviorCorr();
- host.innerHTML='<div class="rvh"><span class="ic" style="color:#6E6BFF"><i class="ti ti-link"></i></span><b>Ce qui influence ta récup</b></div>'+(c.length?c.slice(0,6).map(function(x){var pos=x.imp>0;return '<div class="rcor"><span class="rcl">'+x.lbl+'</span><span class="rcbar"><i style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(pos?'#2FA86A':'#E8674A')+'"></i></span><span class="rcv" style="color:'+(pos?'#1E7A47':'#C0492C')+'">'+(pos?'+':'')+x.imp+'%</span></div>'}).join(''):'<p class="sci" style="margin:0">Coche ton journal quelques soirs — Flint révèle ce qui aide ou nuit à ta récup.</p>');}
+ var ICN={cafeine:'ti-coffee',alcool:'ti-glass-full',ecrans:'ti-device-mobile',sportintense:'ti-barbell',magnesium:'ti-pill',meditation:'ti-yoga',repastard:'ti-tools-kitchen-2',hydrate:'ti-droplet'};
+ host.innerHTML='<div class="r2ch">Ce qui influence ta récup</div>'+(c.length?c.slice(0,5).map(function(x){var pos=x.imp>0,col=pos?'#1E7A47':'#C0492C',lbl=String(x.lbl).replace(/^\S+\s/,'');return '<button class="r2cr" type="button" onclick="go(\'behavior\')"><span class="r2ci"><i class="ti '+(ICN[x.id]||'ti-point')+'"></i></span><span class="r2cl">'+lbl+'</span><span class="r2cv" style="color:'+col+'">'+(pos?'+':'')+x.imp+'%</span><i class="ti ti-chevron-right r2cc"></i></button>'}).join(''):'<p class="r2cempty">Coche ton journal du soir quelques jours — Flint révèle ce qui aide ou nuit à ta récup.</p>');}
 function renderRecJournal(){var host=document.getElementById('recJournalCard');if(!host)return;var j=DB.get('journal_'+tk(),{});
  host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
-function renderRecovery(){renderVitaux();renderRecCorr();const rv=recovery();
- var pe=document.getElementById('recPill');
- if(!rv){document.getElementById('recRing').innerHTML=ringHTML(0,132,'','','var(--faint)','—');set('recZone','—');document.getElementById('recZone').style.color='var(--faint)';set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');set('recInsight','En attente de ta nuit pour lire ton corps.');if(pe)pe.style.display='none';var _rf0=document.getElementById('recFactors');if(_rf0)_rf0.innerHTML='';var _vb0=document.getElementById('recVerdict');if(_vb0)_vb0.style.display='none';return}
- if(pe)pe.style.display='';
- var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631',rcl=rv.s>=67?'#EAF4EE':rv.s>=34?'#FBF1DD':'#FBEAE6';
- document.getElementById('recRing').innerHTML=ringHTML(rv.s,132,'','',rc,rv.s+'%');
- set('recZone',rv.zone);document.getElementById('recZone').style.color=rc;set('recReco',rv.reco);
- var vd=rv.s>=67?['POUSSE','Ton corps encaisse une charge lourde','ti-arrow-up-right','#1C7C4A','#E9F6EE']:rv.s>=34?['MAINTIENS','Charge modérée — dose ton effort','ti-activity','#9A6500','#FBF1DD']:['LÈVE LE PIED','Priorise le repos et le sommeil','ti-zzz','#B23A22','#FBE9E4'];
- var tg=strainTarget(),vb=document.getElementById('recVerdict');
- if(vb){vb.style.display='';vb.style.background=vd[4];vb.style.color=vd[3];var vic=document.getElementById('recVerdictIc');if(vic){vic.innerHTML='<i class="ti '+vd[2]+'"></i>';vic.style.color=vd[3]}set('recVerdictK',vd[0]);set('recVerdictS',vd[1]+' · vise un effort de '+tg[0]+'–'+tg[1]);}
- set('recPillT',rv.s>=67?'Très bon état':rv.s>=34?'État correct':'À surveiller');
- if(pe){pe.style.color=rc;pe.style.borderColor=rc+'55';var dot=pe.querySelector('.d');if(dot)dot.style.background=rc}
- var rule=document.querySelector('#v-recovery .rhrule');if(rule)rule.style.background=rc;
- set('recInsight',recInsightTxt(rv));
- var _rf=document.getElementById('recFactors');if(_rf)_rf.innerHTML=recFactorsHTML(rv);
- renderRecTrends();
+function recSetTrend(m){window._recTrendMetric=m;var h=document.getElementById('recTrendChart');if(h)h.innerHTML=recTrendChartSVG(m)}
+function renderRecovery(){renderRecCorr();const rv=recovery();
+ var ring=document.getElementById('recRing'),vb=document.getElementById('recVerdict'),g=document.getElementById('recGauges');
+ if(!window._recTrendMetric)window._recTrendMetric='recovery';
+ var sel=document.getElementById('recTrendSel');if(sel)sel.value=window._recTrendMetric;
+ var ch=document.getElementById('recTrendChart');if(ch)ch.innerHTML=recTrendChartSVG(window._recTrendMetric);
+ if(!rv){if(ring)ring.innerHTML=ringHTML(0,140,'','RÉCUPÉRATION','var(--faint)','—');set('recTitle','En attente');set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');if(vb)vb.style.display='none';if(g)g.innerHTML='';return}
+ var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631';
+ if(ring)ring.innerHTML=ringHTML(rv.s,140,'','RÉCUPÉRATION',rc,rv.s+'<small>%</small>');
+ set('recTitle',rv.s>=67?'Prêt aujourd\'hui':rv.s>=34?'À doser':'Repos conseillé');
+ set('recReco',rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte — dose ta journée':'Ton corps réclame du repos');
+ var tg=strainTarget(),vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied',vi=rv.s>=67?'ti-arrow-up-right':rv.s>=34?'ti-activity':'ti-zzz';
+ if(vb){vb.style.display='';vb.style.color=rc;var ici=document.getElementById('recVerdictIc');if(ici){ici.innerHTML='<i class="ti '+vi+'"></i>';ici.style.color=rc;ici.style.background=rc+'1A'}set('recVerdictT',vk+' — vise un effort de '+tg[0]+'–'+tg[1]);}
+ if(g)g.innerHTML=recGaugesHTML(rv);
+}
+function recGaugesHTML(rv){
+ var prof=getProfile(),need=(prof.need||8)*60,t=rv.today||{};
+ function fmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'h'+String(mm).padStart(2,'0'):h+'h';}
+ function r1(v){return (Math.round(v*10)/10).toString().replace('.',',');}
+ function r0(v){return String(Math.round(v));}
+ var defs=[],bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');
+ if(bH&&t.hrv!=null)defs.push({key:'hrv',ic:'ti-activity',col:'#3E9E6E',title:'VFC',cur:t.hrv,unit:'ms',low:bH.m-bH.sd,high:bH.m+bH.sd,fmt:r0,lowerBetter:false});
+ if(bR&&t.rhr!=null)defs.push({key:'rhr',ic:'ti-heart',col:'#E8674A',title:'FC au repos',cur:t.rhr,unit:'bpm',low:bR.m-bR.sd,high:bR.m+bR.sd,fmt:r0,lowerBetter:true});
+ if(bP&&t.resp!=null)defs.push({key:'resp',ic:'ti-lungs',col:'#3E9E6E',title:'Respiration',cur:t.resp,unit:'/min',low:bP.m-bP.sd,high:bP.m+bP.sd,fmt:r1,lowerBetter:true});
+ if(t.sleepMin!=null)defs.push({key:'sleepperf',ic:'ti-moon',col:'#6C7BD6',title:'Sommeil',cur:t.sleepMin,unit:'',low:need-75,high:need,tmin:need-180,tmax:need+60,fmt:fmtH,sleep:true});
+ if(!defs.length)return '<div class="r2tempty" style="grid-column:1/-1">En attente d\'une nuit portée.</div>';
+ return defs.map(function(d){
+  var w=d.high-d.low,tmin=d.tmin!=null?d.tmin:d.low-w*0.7,tmax=d.tmax!=null?d.tmax:d.high+w*0.7;
+  var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
+  var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur);
+  var st;
+  if(d.sleep)st=d.cur>=d.low?{s:'Suffisant',t:'good',c:'Objectif atteint.'}:{s:'Court',t:'warn',c:'Sous ton objectif.'};
+  else if(d.cur>=d.low&&d.cur<=d.high)st={s:'Normale',t:'good',c:'Dans la norme.'};
+  else if(d.cur>d.high)st=d.lowerBetter?{s:'Élevée',t:'warn',c:'Plus haute que d\'habitude.'}:{s:'Élevée',t:'good',c:'Au-dessus de ta plage.'};
+  else st=d.lowerBetter?{s:'Basse',t:'good',c:'Plus basse que d\'habitude.'}:{s:'Basse',t:'warn',c:'En dessous de ta plage.'};
+  var tone={good:['#2E7D4F','#EAF4EE','#3FB57A','#BFE3CC'],warn:['#9A6500','#FBF1DD','#E0922A','#F0DCAE'],bad:['#B23A22','#FBEAE6','#CF4631','#F2C7BC']}[st.t];
+  var normLab='Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'');
+  var valHTML=d.fmt(d.cur)+(d.unit?'<span class="u">'+d.unit+'</span>':'');
+  return '<button class="rgc" type="button" onclick="openMetricTrend(\''+d.key+'\')">'
+   +'<div class="rgc-h"><span class="rgc-ic" style="color:'+d.col+'"><i class="ti '+d.ic+'"></i></span><span class="rgc-t">'+d.title+'</span><span class="rgc-pill" style="color:'+tone[0]+';background:'+tone[1]+'">'+st.s+'</span></div>'
+   +'<div class="rgc-v">'+valHTML+'</div>'
+   +'<div class="rgc-norm">'+normLab+'</div>'
+   +'<div class="rgc-g"><span class="rgc-zone" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%;background:'+tone[3]+'"></span><span class="rgc-dot" style="left:'+dp.toFixed(1)+'%"></span></div>'
+   +'<div class="rgc-sc"><span style="left:0">'+d.fmt(tmin)+'</span><span style="left:'+zl.toFixed(1)+'%">'+d.fmt(d.low)+'</span><span style="left:'+zh.toFixed(1)+'%">'+d.fmt(d.high)+'</span><span style="left:100%">'+d.fmt(tmax)+'</span></div>'
+   +'<div class="rgc-cap"><span class="d" style="background:'+tone[2]+'"></span>'+st.c+'</div>'
+   +'</button>';
+ }).join('');
+}
+function recTrendChartSVG(mk){
+ var M=TREND[mk]||TREND.recovery,DOW=['DIM','LUN','MAR','MER','JEU','VEN','SAM'],days=[];
+ for(var i=6;i>=0;i--){var k=tk2off(tk(),-i),p=k.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);days.push({v:M.val(k),lab:DOW[dt.getDay()]});}
+ var present=days.map(function(d){return d.v}).filter(function(v){return v!=null});
+ if(present.length<2)return '<div class="r2tempty">Pas encore assez de données sur 7 jours.</div>';
+ var mn=Math.min.apply(null,present),mx=Math.max.apply(null,present);if(mn===mx){mn-=1;mx+=1}
+ var span=mx-mn,lo=mn-span*0.45,hi=mx+span*0.45;
+ if(M.unit==='%'){lo=Math.max(0,lo);hi=Math.min(100,hi);}
+ if(lo>=hi){lo=mn-1;hi=mx+1;}
+ var W=328,H=176,L=30,Rp=14,T=22,Bp=26,GREEN='#3E9E6E';
+ var X=function(i){return L+i*(W-L-Rp)/6},Y=function(v){return T+(1-(v-lo)/(hi-lo))*(H-T-Bp)};
+ var pts=days.map(function(d,i){return d.v==null?null:[X(i),Y(d.v)]}),pp=pts.filter(Boolean);
+ var g='';[hi,(lo+hi)/2,lo].forEach(function(gv){var gy=Y(gv).toFixed(1);g+='<line x1="'+L+'" y1="'+gy+'" x2="'+(W-Rp)+'" y2="'+gy+'" stroke="#EFEAE1" stroke-width="1" stroke-dasharray="3 4"/><text x="'+(L-7)+'" y="'+(+gy+3.5)+'" text-anchor="end" font-size="10" font-weight="700" fill="#B6B0A6">'+tFmtV(M,gv)+'</text>';});
+ var area='M'+pp[0][0].toFixed(1)+' '+(H-Bp)+' '+pp.map(function(p){return 'L'+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' ')+' L'+pp[pp.length-1][0].toFixed(1)+' '+(H-Bp)+' Z';
+ var line='',started=false;pts.forEach(function(p){if(!p){started=false;return}line+=(started?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)+' ';started=true;});
+ var dots='';days.forEach(function(d,i){if(d.v==null)return;var p=pts[i],last=(i===6);dots+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+(last?4.5:3.2)+'" fill="'+(last?GREEN:'#fff')+'" stroke="'+GREEN+'" stroke-width="2"/><text x="'+p[0].toFixed(1)+'" y="'+(p[1]-9).toFixed(1)+'" text-anchor="middle" font-size="'+(last?12:11)+'" font-weight="'+(last?800:700)+'" fill="'+(last?GREEN:'#6E6A62')+'">'+tFmtV(M,d.v)+'</text>';});
+ var xl='';days.forEach(function(d,i){xl+='<text x="'+X(i).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="10" font-weight="700" fill="'+(i===6?GREEN:'#A7A29A')+'">'+d.lab+'</text>';});
+ return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="rtgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+GREEN+'" stop-opacity=".22"/><stop offset="1" stop-color="'+GREEN+'" stop-opacity="0"/></linearGradient></defs>'+g+'<path d="'+area+'" fill="url(#rtgrad)"/><path d="'+line.trim()+'" fill="none" stroke="'+GREEN+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'+dots+xl+'</svg>';
 }
 function _sleepPerfOf(k){var n=sleepNight(k);if(!n)return null;var need=(getProfile().need||8)*60;return Math.round(n.asleep/need*100)}
 function _sleepPerfBase(){var a=[];for(var i=1;i<=30;i++){var v=_sleepPerfOf(tk(-i));if(v!=null)a.push(v)}return a.length?(a.reduce(function(x,y){return x+y},0)/a.length):null}
@@ -5855,7 +5949,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v237';
+const APP_VERSION='flint-v238';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
