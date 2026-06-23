@@ -3562,53 +3562,133 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 </section>
 
 <!-- ===================== FC · DÉTAIL FRÉQUENCE CARDIAQUE ===================== -->
+<style>
+/* ===== FC v2 (maquette validée) — scopé .fc2 ===== */
+.fc2{font-family:'Inter',sans-serif;color:#15140F;padding:2px 2px 26px}
+.fc2top{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 2px}
+.fc2bk{width:38px;height:38px;border-radius:50%;border:0;background:#fff;box-shadow:0 2px 8px rgba(20,18,12,.08);font-size:22px;color:#15140F;cursor:pointer;line-height:1}
+.fc2live{display:inline-flex;align-items:center;gap:7px;background:#EAF4EE;color:#2E7D4F;font-size:12px;font-weight:800;letter-spacing:.04em;padding:7px 13px;border-radius:30px}
+.fc2live .d{width:8px;height:8px;border-radius:50%;background:#3FB57A}
+.fc2hd{margin:10px 2px 14px}
+.fc2hd h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:30px;line-height:1;margin:0;color:#15140F}
+.fc2hd p{font-size:13.5px;color:#7C766B;margin:5px 0 0}
+.fc2 .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:0 0 13px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);width:100%;text-align:left;font-family:inherit;display:block}
+.fc2 button.card{cursor:pointer;transition:transform .14s ease}
+.fc2 button.card:active{transform:scale(.99)}
+.fc2ct{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;margin:0 0 10px}
+.fc2link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#8A8580;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.fc2hero{display:flex;align-items:center;gap:16px;padding:20px 16px}
+.fc2hicon{width:92px;height:92px;border-radius:50%;background:#EAF4EE;display:grid;place-items:center;flex:none;color:#3E9E6E;font-size:40px}
+.fc2hbpm{font-family:'Anton';font-style:oblique 8deg;font-size:52px;line-height:.9;color:#15140F}
+.fc2hbpm small{font-family:'Inter';font-style:normal;font-size:18px;font-weight:700;color:#9A948A;margin-left:5px}
+.fc2zone{display:inline-block;color:#fff;font-size:13.5px;font-weight:800;padding:6px 14px;border-radius:30px;margin:10px 0 0}
+.fc2stable{font-size:13px;color:#7C766B;margin-top:9px}
+.fc2calm{font-size:14px;color:#37372F;margin-top:7px;font-weight:600}
+.fc2chart svg{width:100%;display:block;height:auto}
+.fc2stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;border-top:1px solid #F1EBE3;margin-top:12px;padding-top:13px}
+.fc2st{text-align:center}
+.fc2st:not(:last-child){border-right:1px solid #F1EBE3}
+.fc2st .l{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#9A948A}
+.fc2st .v{font-family:'Anton';font-style:oblique 8deg;font-size:24px;color:#15140F;margin-top:5px}
+.fc2st .v small{font-family:'Inter';font-style:normal;font-size:11px;font-weight:700;color:#9A948A;margin-left:3px}
+.fc2gridcard{padding:16px}
+.fc2gc-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:center}
+.fc2bigrow{display:flex;align-items:baseline;flex-wrap:wrap;margin-top:2px}
+.fc2big{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:1;color:#3E9E6E}
+.fc2bigu{font-family:'Inter';font-size:13px;font-weight:700;color:#9A948A;margin-left:4px}
+.fc2norme{font-size:12.5px;color:#7C766B;margin-left:10px}
+.fc2gauge{position:relative;height:8px;border-radius:6px;background:#ECE7DD;margin-top:14px}
+.fc2g-zone{position:absolute;top:0;bottom:0;border-radius:6px;background:#BFE3CC}
+.fc2g-dot{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#3E9E6E;border:2.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:translate(-50%,-50%)}
+.fc2scale{position:relative;height:14px;margin-top:7px}
+.fc2scale span{position:absolute;top:0;font-size:10.5px;font-weight:600;color:#A7A29A;transform:translateX(-50%);white-space:nowrap}
+.fc2scale span:first-child{transform:none}
+.fc2scale span:last-child{transform:translateX(-100%)}
+.fc2gc-side{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.fc2chk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800}
+.fc2chk i{font-size:17px}
+.fc2zrow{display:grid;grid-template-columns:auto auto auto 1fr auto;align-items:center;gap:9px;padding:11px 0;border-top:1px solid #F1EBE3}
+.fc2zrow:first-of-type{border-top:0}
+.fc2zdot{width:9px;height:9px;border-radius:50%;flex:none}
+.fc2zname{font-size:14px;font-weight:700;color:#15140F}
+.fc2zbpm{font-size:12.5px;color:#9A948A;white-space:nowrap}
+.fc2zbar{height:7px;border-radius:6px;background:#ECE7DD;overflow:hidden;min-width:36px}
+.fc2zbar i{display:block;height:100%;border-radius:6px}
+.fc2ztime{font-size:13.5px;font-weight:800;color:#37372F;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fc2lf{display:flex;align-items:center;gap:13px}
+.fc2lf-ic{width:48px;height:48px;border-radius:50%;background:#EAF4EE;display:grid;place-items:center;color:#3E9E6E;font-size:22px;flex:none}
+.fc2lf-tx{flex:1;font-size:14.5px;font-weight:700;line-height:1.3;color:#15140F;min-width:0}
+.fc2lf-link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#8A8580;flex:none;white-space:nowrap}
+</style>
 <section class="view" id="v-fcdetail">
-<div class="flfc">
-  <div class="fchd">
-    <button class="fcbk" onclick="goBack('today')" aria-label="Retour">‹</button>
-    <span class="live"><span class="ld"></span><span>En direct</span></span>
+<div class="fc2">
+  <div class="fc2top">
+    <button class="fc2bk" onclick="goBack('today')" aria-label="Retour">‹</button>
+    <span class="fc2live"><span class="d"></span>EN DIRECT</span>
   </div>
-  <div class="ptitle"><h1>Fréquence cardiaque</h1><p>Aujourd'hui · Mesure continue</p></div>
+  <div class="fc2hd"><h1>Fréquence cardiaque</h1><p>Aujourd'hui · mesure continue</p></div>
 
-  <section class="hero">
-    <div class="herotop">
+  <div class="card fc2hero">
+    <div class="fc2hicon"><i class="ti ti-heartbeat"></i></div>
+    <div>
+      <div class="fc2hbpm"><span id="fcCur">47</span><small>bpm</small></div>
+      <div class="fc2zone" id="fcZonePill">Zone de repos</div>
+      <div class="fc2stable" id="fcStable">Stable depuis 18 min</div>
+      <div class="fc2calm" id="fcCalm">Ton système cardiovasculaire est calme.</div>
+    </div>
+  </div>
+
+  <button class="card fc2day" type="button" onclick="openMetricTrend('fcavg')">
+    <div class="fc2ct">Courbe du jour</div>
+    <div id="fcDayChart" class="fc2chart"></div>
+    <div class="fc2stats">
+      <div class="fc2st"><div class="l">Min jour</div><div class="v" id="fcMin">47<small>bpm</small></div></div>
+      <div class="fc2st"><div class="l">Moyenne</div><div class="v" id="fcAvg">58<small>bpm</small></div></div>
+      <div class="fc2st"><div class="l">Pic</div><div class="v" id="fcPeak">128<small>bpm</small></div></div>
+    </div>
+  </button>
+
+  <button class="card fc2gridcard" type="button" onclick="openMetricTrend('rhr')">
+    <div class="fc2ct">FC au repos nocturne</div>
+    <div class="fc2gc-grid">
       <div>
-        <p class="eyb">Actuellement</p>
-        <div class="hbpm"><span class="hv" id="fcHeroBpm">47</span><span class="hu">BPM</span></div>
+        <div class="fc2bigrow"><span class="fc2big" id="fcRest">52</span><span class="fc2bigu">bpm</span><span class="fc2norme" id="fcNorme">Norme perso : 47–56 bpm</span></div>
+        <div class="fc2gauge" id="fcRestGauge"></div>
+        <div class="fc2scale" id="fcRestScale"></div>
       </div>
-      <div class="hicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 13.6 12 21l-7.5-7.4A5 5 0 1 1 12 6a5 5 0 1 1 7.5 7.6z" fill="#E8674A" fill-opacity=".14"/><path d="M3.5 12.5h4l1.5 3 3-9 2 6 1.5-3h4"/></svg></div>
+      <div class="fc2gc-side">
+        <div class="fc2chk" id="fcRestChk"></div>
+        <div id="fcRestSpark" style="width:100%"></div>
+        <span class="fc2link">voir l'historique</span>
+      </div>
     </div>
-    <div class="hstate">
-      <div class="hsr"><span class="badge-rest">Zone de repos</span><span class="hstable">Stable depuis 18 min</span></div>
-      <p>Ton système cardiovasculaire est calme.</p>
-    </div>
-  </section>
+  </button>
 
-  <section class="chcard">
-    <div class="chh">
-      <div><h2>Évolution aujourd'hui</h2><p>Dernières 6 heures</p></div>
-      <span class="chpill"><span id="fcChartPill">47</span> BPM</span>
+  <button class="card fc2gridcard" type="button" onclick="openMetricTrend('vo2')">
+    <div class="fc2ct">Forme cardio</div>
+    <div class="fc2gc-grid">
+      <div>
+        <div style="font-size:12.5px;color:#7C766B;margin-bottom:2px">VO₂ max estimée</div>
+        <div class="fc2bigrow"><span class="fc2big" id="fcVo2">49</span><span class="fc2bigu">ml/kg/min</span></div>
+        <div id="fcVo2Verdict" style="font-size:13px;margin-top:8px;line-height:1.35"></div>
+      </div>
+      <div class="fc2gc-side">
+        <div id="fcVo2Spark" style="width:100%"></div>
+        <span class="fc2link">voir l'historique ›</span>
+      </div>
     </div>
-    <div class="chsvg" id="fcChart"></div>
-    <div class="chx"><span>06h</span><span>09h</span><span>12h</span><span>15h</span></div>
-  </section>
+  </button>
 
-  <div class="stat3">
-    <div class="stc"><div class="stl">Repos</div><div class="stv"><b id="fcRestStat">47</b><small>BPM</small></div><div class="std">Très calme</div></div>
-    <div class="stc"><div class="stl">Moyenne</div><div class="stv"><b>58</b><small>BPM</small></div><div class="std">Aujourd'hui</div></div>
-    <div class="stc"><div class="stl">Pic</div><div class="stv"><b>126</b><small>BPM</small></div><div class="std">Séance légère</div></div>
+  <div class="card">
+    <div class="fc2ct">Zones cardiaques</div>
+    <div id="fcZonesList"></div>
   </div>
 
-  <section class="lflint">
-    <div class="lfh"><span class="lfi">✦</span><h2>Lecture FLINT</h2></div>
-    <p class="lftxt">Ta fréquence cardiaque est basse et stable. C'est cohérent avec une récupération élevée. Garde une intensité maîtrisée si tu t'entraînes aujourd'hui.</p>
-    <div class="lfreco">Recommandation : effort 14–18</div>
-  </section>
-
-  <section class="zcard">
-    <h2>Zones cardiaques</h2>
-    <div id="fcZones"></div>
-  </section>
+  <button class="card fc2lf" type="button" onclick="go('recovery')">
+    <span class="fc2lf-ic"><i class="ti ti-heart"></i></span>
+    <div class="fc2lf-tx" id="fcLf">FC basse et stable, cohérente avec une bonne récup</div>
+    <span class="fc2lf-link">Voir ma récup <i class="ti ti-chevron-right"></i></span>
+  </button>
 </div>
 </section>
 
@@ -5700,12 +5780,75 @@ function fcChartSVG(points){const W=320,H=160,pad=18,min=40,max=80;
  s+='<path d="'+line+'" fill="none" stroke="#E8674A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>';
  s+='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="6" fill="#FAF8F5" stroke="#E8674A" stroke-width="4"/></svg>';
  return s}
-function renderHeartDetail(){const t=sensorOf(tk())||{};const rhr=t.rhr!=null?t.rhr:47;
- const D={chartPoints:[62,59,61,65,63,57,64,62,60,66,55,49,rhr],
-  zones:[['Repos','47–60 BPM','3h12',82,'#3B6D11'],['Léger','61–100 BPM','1h48',46,'rgba(232,103,74,.5)'],['Actif','101–140 BPM','32 min',18,'#E8674A'],['Intense','141+ BPM','0 min',0,'rgba(22,21,18,.12)']]};
- set('fcHeroBpm',rhr);set('fcChartPill',rhr);set('fcRestStat',rhr);
- set('fcChart',fcChartSVG(D.chartPoints));
- set('fcZones',D.zones.map(z=>'<div class="z2"><div class="z2top"><div><div class="z2l">'+z[0]+'</div><div class="z2r">'+z[1]+'</div></div><div class="z2d">'+z[2]+'</div></div><div class="z2bar"><i style="width:'+z[3]+'%;background:'+z[4]+'"></i></div></div>').join(''));
+var FC2_ZONES=[['Repos','#3E9E6E'],['Léger','#8FC7A6'],['Actif','#E0922A'],['Intense','#CF4631']];
+function fc2Bounds(rhr,fcmax){var hrr=Math.max(60,fcmax-rhr);return [rhr-5,Math.round(rhr+0.10*hrr),Math.round(rhr+0.42*hrr),Math.round(rhr+0.72*hrr),fcmax];}
+function fc2ZoneIdx(bpm,b){if(bpm<b[1])return 0;if(bpm<b[2])return 1;if(bpm<b[3])return 2;return 3;}
+function fc2DayCurve(rhr,fcmax,strain,nowH){
+ var bump=Math.max(34,Math.min(fcmax-rhr-6,50+strain*2.1));
+ var spikeH=Math.max(10.5,Math.min(13.5,nowH-2)),hasW=spikeH<=nowH-0.3,pts=[];
+ for(var h=5.5;h<=nowH+1e-6;h+=0.1){
+  var base=(h<7)?(rhr+2+Math.sin(h*1.2)*1.5):(rhr+8+Math.sin((h-6)*0.5)*5);
+  if(hasW)base+=bump*Math.exp(-Math.pow(h-spikeH,2)/0.2);
+  var noise=(Math.sin(h*11.3)+Math.sin(h*5.1)*0.6)*1.6;
+  pts.push({h:h,v:Math.max(rhr-2,Math.min(fcmax-2,Math.round(base+noise)))});}
+ var tailN=Math.min(8,pts.length);
+ for(var i=0;i<tailN;i++){var idx=pts.length-1-i;pts[idx].v=Math.min(pts[idx].v,Math.round(rhr+3+i*1.3));}
+ return pts;}
+function fc2DayChartSVG(curve,peak){
+ var W=328,H=176,L=32,R=10,T=12,B=24,G='#3E9E6E';
+ var ymin=30,ymax=Math.max(120,Math.ceil((peak+8)/30)*30),h0=curve[0].h,h1=curve[curve.length-1].h;
+ var X=function(h){return L+(h-h0)/(h1-h0||1)*(W-L-R)},Y=function(v){return T+(1-(v-ymin)/(ymax-ymin))*(H-T-B)};
+ var g='';for(var ty=ymin;ty<=ymax;ty+=30){var gy=Y(ty).toFixed(1);g+='<line x1="'+L+'" y1="'+gy+'" x2="'+(W-R)+'" y2="'+gy+'" stroke="#EFEAE1" stroke-width="1" stroke-dasharray="3 4"/><text x="'+(L-6)+'" y="'+(+gy+3.5)+'" text-anchor="end" font-size="10" font-weight="700" fill="#B6B0A6">'+ty+'</text>';}
+ var line=curve.map(function(p,i){return (i?'L':'M')+X(p.h).toFixed(1)+' '+Y(p.v).toFixed(1)}).join(' ');
+ var area='M'+X(h0).toFixed(1)+' '+(H-B)+' '+curve.map(function(p){return 'L'+X(p.h).toFixed(1)+' '+Y(p.v).toFixed(1)}).join(' ')+' L'+X(h1).toFixed(1)+' '+(H-B)+' Z';
+ var last=curve[curve.length-1],xl='';
+ for(var hh=Math.ceil(h0);hh<=Math.floor(h1);hh++)xl+='<text x="'+X(hh).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="10" font-weight="700" fill="#A7A29A">'+(hh<10?'0'+hh:hh)+'h</text>';
+ return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="fcdg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+G+'" stop-opacity=".2"/><stop offset="1" stop-color="'+G+'" stop-opacity="0"/></linearGradient></defs>'+g+'<path d="'+area+'" fill="url(#fcdg)"/><path d="'+line+'" fill="none" stroke="'+G+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'+xl+'<circle cx="'+X(last.h).toFixed(1)+'" cy="'+Y(last.v).toFixed(1)+'" r="4" fill="'+G+'"/></svg>';}
+function fc2Spark(M,n){n=n||12;var vals=[];for(var i=n-1;i>=0;i--)vals.push(M.val(tk2off(tk(),-i)));var vv=vals.filter(function(x){return x!=null});if(vv.length<2)return '';var mn=Math.min.apply(null,vv),mx=Math.max.apply(null,vv);if(mn===mx){mn-=1;mx+=1}var W=200,H=50,P=6,G='#3E9E6E';var X=function(i){return P+i*(W-2*P)/(n-1)},Y=function(v){return P+(1-(v-mn)/(mx-mn))*(H-2*P)};var pts=vals.map(function(v,i){return v==null?null:[X(i),Y(v)]}).filter(Boolean);var line=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' ');var area='M'+pts[0][0].toFixed(1)+' '+(H-P)+' '+pts.map(function(p){return 'L'+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' ')+' L'+pts[pts.length-1][0].toFixed(1)+' '+(H-P)+' Z';var gid='fcsp'+Math.round(mn*7+mx*13+n);return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:100%;height:46px;display:block"><defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+G+'" stop-opacity=".22"/><stop offset="1" stop-color="'+G+'" stop-opacity="0"/></linearGradient></defs><path d="'+area+'" fill="url(#'+gid+')"/><path d="'+line+'" fill="none" stroke="'+G+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';}
+function fc2RestCard(rhr){
+ var bs=baseStat('rhr'),lo,hi;
+ if(bs){lo=Math.round(bs.m-bs.sd);hi=Math.round(bs.m+bs.sd);}else{lo=rhr;hi=rhr+9;}
+ if(hi<=lo)hi=lo+6;
+ var tmin=lo-12,tmax=hi+14,pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
+ set('fcRest',rhr);set('fcNorme','Norme perso : '+lo+'–'+hi+' bpm');
+ var g=document.getElementById('fcRestGauge');if(g)g.innerHTML='<span class="fc2g-zone" style="left:'+pct(lo).toFixed(1)+'%;width:'+(pct(hi)-pct(lo)).toFixed(1)+'%"></span><span class="fc2g-dot" style="left:'+pct(rhr).toFixed(1)+'%"></span>';
+ set('fcRestScale','<span style="left:0">'+tmin+'</span><span style="left:'+pct(lo).toFixed(1)+'%">'+lo+'</span><span style="left:'+pct(hi).toFixed(1)+'%">'+hi+'</span><span style="left:100%">'+tmax+'</span>');
+ var st;if(rhr<=hi)st={t:'Dans ta norme',c:'#1E7A47',ic:'ti-circle-check'};else if(bs&&rhr<=bs.m+2*bs.sd)st={t:'Au-dessus',c:'#9A6500',ic:'ti-alert-circle'};else st={t:'Nettement haute',c:'#B23A22',ic:'ti-alert-triangle'};
+ var chk=document.getElementById('fcRestChk');if(chk){chk.innerHTML='<i class="ti '+st.ic+'"></i>'+st.t;chk.style.color=st.c;}
+ var sp=document.getElementById('fcRestSpark');if(sp)sp.innerHTML=fc2Spark(TREND.rhr,12);
+}
+function fc2Vo2Card(age){
+ var v=TREND.vo2.val(tk());if(v==null){set('fcVo2','—');set('fcVo2Verdict','En attente de données');return;}
+ set('fcVo2',v);
+ var vd=TREND.vo2.verdict?TREND.vo2.verdict(v):{t:'Bon',c:'#3E9E6E'};
+ var ref=Math.round(48-Math.max(0,age-25)*0.32);
+ var comp=v>=ref+2?'au-dessus de ta tranche d\'âge':v<=ref-2?'sous ta tranche d\'âge':'dans ta tranche d\'âge';
+ var e=document.getElementById('fcVo2Verdict');if(e)e.innerHTML='<b style="color:'+vd.c+'">'+vd.t+'</b> — '+comp;
+ var sp=document.getElementById('fcVo2Spark');if(sp)sp.innerHTML=fc2Spark(TREND.vo2,12);
+}
+function fc2ZonesHTML(curve,b){
+ var mins=[0,0,0,0];curve.forEach(function(p){mins[fc2ZoneIdx(p.v,b)]+=6;});
+ var mx=Math.max.apply(null,mins)||1;
+ function fmt(m){m=Math.round(m);return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');}
+ return FC2_ZONES.map(function(z,i){return '<div class="fc2zrow"><span class="fc2zdot" style="background:'+z[1]+'"></span><span class="fc2zname">'+z[0]+'</span><span class="fc2zbpm">'+b[i]+'–'+b[i+1]+' bpm</span><span class="fc2zbar"><i style="width:'+(mins[i]/mx*100).toFixed(0)+'%;background:'+z[1]+'"></i></span><span class="fc2ztime">'+fmt(mins[i])+'</span></div>';}).join('');
+}
+function renderHeartDetail(){
+ var t=sensorOf(tk())||{},p=getProfile(),age=p.age||28,fcmax=220-age,rhr=t.rhr!=null?t.rhr:47;
+ var now=new Date(),nowH=Math.max(8,Math.min(23.5,now.getHours()+now.getMinutes()/60));
+ var strain=loadStrain(tk());
+ var curve=fc2DayCurve(rhr,fcmax,strain,nowH),vals=curve.map(function(p){return p.v});
+ var cur=vals[vals.length-1],mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),avg=Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length),peak=mx;
+ var b=fc2Bounds(rhr,fcmax),zi=fc2ZoneIdx(cur,b),zc=FC2_ZONES[zi];
+ set('fcCur',cur);
+ var zp=document.getElementById('fcZonePill');if(zp){zp.textContent='Zone '+['de repos','légère','active','intense'][zi];zp.style.background=zc[1];}
+ set('fcCalm',zi===0?'Ton système cardiovasculaire est calme.':zi===1?'Activité légère en cours.':zi===2?'Tu es en effort actif.':'Effort intense en cours.');
+ set('fcDayChart',fc2DayChartSVG(curve,peak));
+ var sm=function(id,v,c){var e=document.getElementById(id);if(e){e.innerHTML=v+'<small>bpm</small>';e.style.color=c||'#15140F';}};
+ sm('fcMin',mn,'#3E9E6E');sm('fcAvg',avg,'#15140F');sm('fcPeak',mx,'#F0492E');
+ fc2RestCard(rhr);fc2Vo2Card(age);
+ set('fcZonesList',fc2ZonesHTML(curve,b));
+ var bs=baseStat('rhr');
+ set('fcLf',(bs&&rhr>bs.m+bs.sd)?'FC au repos au-dessus de ta normale — surveille fatigue ou stress.':'FC basse et stable, cohérente avec une bonne récup.');
 }
 function renderHeartZones(){const t=sensorOf(tk())||{};const p=getProfile();const age=p.age||28;const fcmax=220-age;const rhr=t.rhr!=null?t.rhr:47;
  const curve=fcDayCurve(rhr,162);const dmax=Math.max.apply(null,curve);
@@ -6038,7 +6181,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v241';
+const APP_VERSION='flint-v242';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
