@@ -3218,12 +3218,12 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .rhead-art{position:absolute;top:30px;right:-22px;width:60%;max-width:272px;aspect-ratio:3/4;background:url('./recup-body.png') no-repeat top right;background-size:contain;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 72%,transparent 100%)}
 .rec2 .rhead .greet{font-size:46px;line-height:.96;position:relative;z-index:1}
 .rec2 .rhead .date{position:relative;z-index:1}
-.rec2 .recnav{display:inline-flex;align-items:center;gap:11px;margin-top:18px;position:relative;z-index:1;max-width:64%}
-.rec2 .recnav-a{width:44px;height:44px;border-radius:50%;border:1px solid #ECE7DD;background:#F6F1E9;color:#3E9E6E;font-size:19px;cursor:pointer;display:grid;place-items:center;line-height:1;flex:none;transition:transform .12s ease}
+.rec2 .recnav{display:inline-flex;align-items:center;gap:9px;margin-top:18px;position:relative;z-index:1;width:auto}
+.rec2 .recnav-a{width:42px;height:42px;border-radius:50%;border:0;background:#EAF4EC;color:#3E9E6E;font-size:19px;cursor:pointer;display:grid;place-items:center;line-height:1;flex:none;transition:transform .12s ease}
 .rec2 .recnav-a:active{transform:scale(.92)}
-.rec2 .recnav-a[disabled]{cursor:default}
-.rec2 .recnav-d{flex:none;display:inline-flex;align-items:center;gap:8px;background:none;border:0;font-family:'Inter';font-size:17px;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
-.rec2 .recnav-d i{font-size:19px}
+.rec2 .recnav-a[disabled]{cursor:default;background:#F1EEE8;color:#C8C2B8}
+.rec2 .recnav-d{flex:none;display:inline-flex;align-items:center;gap:7px;background:#EAF4EC;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
+.rec2 .recnav-d i{font-size:18px}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -6218,7 +6218,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v249';
+const APP_VERSION='flint-v250';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
