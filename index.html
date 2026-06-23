@@ -3579,6 +3579,8 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .fc2link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#8A8580;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .fc2hero{display:flex;align-items:center;gap:16px;padding:20px 16px}
 .fc2hicon{width:92px;height:92px;border-radius:50%;background:#EAF4EE;display:grid;place-items:center;flex:none;color:#3E9E6E;font-size:40px}
+.fc2eyb{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#A7A29A;margin-bottom:3px}
+.fc2note{font-size:11.5px;color:#9A948A;margin-top:8px;line-height:1.35}
 .fc2hbpm{font-family:'Anton';font-style:oblique 8deg;font-size:52px;line-height:.9;color:#15140F}
 .fc2hbpm small{font-family:'Inter';font-style:normal;font-size:18px;font-weight:700;color:#9A948A;margin-left:5px}
 .fc2zone{display:inline-block;color:#fff;font-size:13.5px;font-weight:800;padding:6px 14px;border-radius:30px;margin:10px 0 0}
@@ -3617,8 +3619,9 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .fc2ztime{font-size:13.5px;font-weight:800;color:#37372F;font-variant-numeric:tabular-nums;white-space:nowrap}
 .fc2lf{display:flex;align-items:center;gap:13px}
 .fc2lf-ic{width:48px;height:48px;border-radius:50%;background:#EAF4EE;display:grid;place-items:center;color:#3E9E6E;font-size:22px;flex:none}
-.fc2lf-tx{flex:1;font-size:14.5px;font-weight:700;line-height:1.3;color:#15140F;min-width:0}
-.fc2lf-link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#8A8580;flex:none;white-space:nowrap}
+.fc2lf-main{flex:1;min-width:0}
+.fc2lf-tx{font-size:14.5px;font-weight:700;line-height:1.3;color:#15140F}
+.fc2lf-link{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#3E9E6E;margin-top:7px;white-space:nowrap}
 </style>
 <section class="view" id="v-fcdetail">
 <div class="fc2">
@@ -3631,6 +3634,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
   <div class="card fc2hero">
     <div class="fc2hicon"><i class="ti ti-heartbeat"></i></div>
     <div>
+      <div class="fc2eyb">Actuellement</div>
       <div class="fc2hbpm"><span id="fcCur">47</span><small>bpm</small></div>
       <div class="fc2zone" id="fcZonePill">Zone de repos</div>
       <div class="fc2stable" id="fcStable">Stable depuis 18 min</div>
@@ -3655,6 +3659,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
         <div class="fc2bigrow"><span class="fc2big" id="fcRest">52</span><span class="fc2bigu">bpm</span><span class="fc2norme" id="fcNorme">Norme perso : 47–56 bpm</span></div>
         <div class="fc2gauge" id="fcRestGauge"></div>
         <div class="fc2scale" id="fcRestScale"></div>
+        <div class="fc2note" id="fcRestNote"></div>
       </div>
       <div class="fc2gc-side">
         <div class="fc2chk" id="fcRestChk"></div>
@@ -3686,8 +3691,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
   <button class="card fc2lf" type="button" onclick="go('recovery')">
     <span class="fc2lf-ic"><i class="ti ti-heart"></i></span>
-    <div class="fc2lf-tx" id="fcLf">FC basse et stable, cohérente avec une bonne récup</div>
-    <span class="fc2lf-link">Voir ma récup <i class="ti ti-chevron-right"></i></span>
+    <div class="fc2lf-main">
+      <div class="fc2lf-tx" id="fcLf">FC basse et stable, cohérente avec une bonne récup</div>
+      <span class="fc2lf-link">Voir ma récup <i class="ti ti-chevron-right"></i></span>
+    </div>
   </button>
 </div>
 </section>
@@ -5810,11 +5817,16 @@ function fc2RestCard(rhr){
  if(bs){lo=Math.round(bs.m-bs.sd);hi=Math.round(bs.m+bs.sd);}else{lo=rhr;hi=rhr+9;}
  if(hi<=lo)hi=lo+6;
  var tmin=lo-12,tmax=hi+14,pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
+ var st;
+ if(rhr<lo)st={t:'Sous ta norme',c:'#1E7A47',ic:'ti-arrow-down-circle',dot:'#3E9E6E'};
+ else if(rhr<=hi)st={t:'Dans ta norme',c:'#1E7A47',ic:'ti-circle-check',dot:'#3E9E6E'};
+ else if(bs&&rhr<=bs.m+2*bs.sd)st={t:'Au-dessus',c:'#9A6500',ic:'ti-alert-circle',dot:'#E0922A'};
+ else st={t:'Nettement haute',c:'#B23A22',ic:'ti-alert-triangle',dot:'#CF4631'};
  set('fcRest',rhr);set('fcNorme','Norme perso : '+lo+'–'+hi+' bpm');
- var g=document.getElementById('fcRestGauge');if(g)g.innerHTML='<span class="fc2g-zone" style="left:'+pct(lo).toFixed(1)+'%;width:'+(pct(hi)-pct(lo)).toFixed(1)+'%"></span><span class="fc2g-dot" style="left:'+pct(rhr).toFixed(1)+'%"></span>';
+ var g=document.getElementById('fcRestGauge');if(g)g.innerHTML='<span class="fc2g-zone" style="left:'+pct(lo).toFixed(1)+'%;width:'+(pct(hi)-pct(lo)).toFixed(1)+'%"></span><span class="fc2g-dot" style="left:'+pct(rhr).toFixed(1)+'%;background:'+st.dot+'"></span>';
  set('fcRestScale','<span style="left:0">'+tmin+'</span><span style="left:'+pct(lo).toFixed(1)+'%">'+lo+'</span><span style="left:'+pct(hi).toFixed(1)+'%">'+hi+'</span><span style="left:100%">'+tmax+'</span>');
- var st;if(rhr<=hi)st={t:'Dans ta norme',c:'#1E7A47',ic:'ti-circle-check'};else if(bs&&rhr<=bs.m+2*bs.sd)st={t:'Au-dessus',c:'#9A6500',ic:'ti-alert-circle'};else st={t:'Nettement haute',c:'#B23A22',ic:'ti-alert-triangle'};
  var chk=document.getElementById('fcRestChk');if(chk){chk.innerHTML='<i class="ti '+st.ic+'"></i>'+st.t;chk.style.color=st.c;}
+ var rn=document.getElementById('fcRestNote');if(rn)rn.textContent=rhr<lo?'Encore plus bas que ton habitude — excellent.':rhr<=hi?'Cohérent avec ton repos habituel.':'Au-dessus de ton habitude — fatigue ou stress ?';
  var sp=document.getElementById('fcRestSpark');if(sp)sp.innerHTML=fc2Spark(TREND.rhr,12);
 }
 function fc2Vo2Card(age){
@@ -6181,7 +6193,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v242';
+const APP_VERSION='flint-v243';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
