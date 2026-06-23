@@ -2918,7 +2918,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal2-cdbar i{display:block;height:100%;border-radius:5px;width:0;transition:width .55s cubic-bezier(.2,.8,.2,1)}
 .bal2-cdbar i.in{background:var(--indigo)}.bal2-cdbar i.out{background:var(--accent)}
 .bal2-card{background:var(--card);border-radius:22px;padding:17px 18px;box-shadow:var(--shadow);margin-bottom:13px}
-.bal2-card.sm{flex:1;padding:15px;margin-bottom:0;min-width:0}
+.bal2-card.sm{flex:1;padding:15px;margin-bottom:0;min-width:0;display:flex;flex-direction:column}
+.sevenj-mid{flex:1;display:flex;align-items:center;justify-content:center;width:100%}
+.bal2-wksum{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--ink2);line-height:1.3;margin-top:10px}
+.bal2-wksum b{color:var(--ink)}
 .bal2-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
 .bal2-ct2{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
 .bal2-ct2 i{font-size:16px;color:var(--green)}
@@ -3025,7 +3028,8 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     </button>
     <button class="bal2-card sm bal2-cardb" type="button" onclick="go('baltrend')">
       <div class="bal2-ct2"><i class="ti ti-chart-bar"></i>7 jours</div>
-      <div class="bal2-week" id="bal7week" style="margin-top:9px"></div>
+      <div class="sevenj-mid"><div class="bal2-week" id="bal7week"></div></div>
+      <div class="bal2-wksum" id="bal7sum"></div>
     </button>
   </div>
   <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
@@ -4931,6 +4935,7 @@ function renderBalance(){
  set('balObjL',l1);set('balObjV',num);set('balObjS',l3);var ov=document.getElementById('balObjV');if(ov)ov.style.color=st[1];
  document.getElementById('balObjGauge').innerHTML=balObjGauge(b,G,st);
  document.getElementById('bal7week').innerHTML=bal7week();
+ (function(){var n=0,t=0;for(var i=0;i<7;i++){var kk=tk(-i);if(mealsOf(kk).length){t++;var nn=balanceOf(kk).net;if(nn>=G.lo&&nn<=G.hi)n++}}set('bal7sum',t?('<b>'+n+'/'+t+'</b> jours dans ta cible'):'Logue tes repas');})();
  set('balMeals',meals.length?meals.map(function(m,i){var thumb=m.photo?' style="background-image:url('+m.photo+')"':'';var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';return '<div class="bal-meal"><span class="bal-mthumb"'+thumb+'>'+ic+'</span><div style="min-width:0;flex:1"><div class="bal-mn">'+esc(m.name)+'</div><div class="bal-mt">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip'+(m.ai?' · <span style="color:var(--indigo);font-weight:800">IA</span>':'')+'</div></div><span class="bal-mk">'+m.kcal+'</span><span class="bal-mx" onclick="balDelMeal('+i+')">✕</span></div>'}).join(''):'<p class="sci" style="margin:0">Aucun repas. Prends ton premier repas en photo 📸</p>');
  var tie;
  if(!b.hasFood)tie='<b>Choisis ton objectif et logue tes repas.</b> FLINT te dira chaque jour si tu vas dans le sens de '+G.lbl.toLowerCase()+'.';
@@ -5854,7 +5859,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v235';
+const APP_VERSION='flint-v236';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
