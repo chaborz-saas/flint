@@ -683,6 +683,23 @@
 .flrecovery .bmc .bmcv{font-family:'Anton';font-style:oblique 8deg;font-size:17px;flex:none;font-variant-numeric:tabular-nums}
 .flrecovery .bmc.neg .bmcv{color:#C0492C}
 .flrecovery .bmc.pos .bmcv{color:#1E7A47}
+/* matrice d'impact v2 — flux 2 colonnes (robuste) */
+.flrecovery .bm2cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.flrecovery .bm2col{display:flex;flex-direction:column;gap:9px}
+.flrecovery .bmc2{background:#fff;border:1px solid #EFE9E0;border-radius:14px;padding:11px 12px;box-shadow:0 3px 12px rgba(120,110,95,.06)}
+.flrecovery .bmc2.neg{border-left:4px solid #E8674A;background:linear-gradient(90deg,#FDF1ED,#fff 70%)}
+.flrecovery .bmc2.pos{border-left:4px solid #2FA86A;background:linear-gradient(90deg,#EDF7F0,#fff 70%)}
+.flrecovery .bmc2 .bmc2t{display:flex;align-items:center;gap:8px}
+.flrecovery .bmc2 .bme{font-size:16px;flex:none;line-height:1}
+.flrecovery .bmc2 .bmcn{flex:1;min-width:0;font-size:13px;font-weight:700;color:#161512;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flrecovery .bmc2 .bmcv{font-family:'Anton';font-style:oblique 8deg;font-size:16px;flex:none;font-variant-numeric:tabular-nums}
+.flrecovery .bmc2.neg .bmcv{color:#C0492C}
+.flrecovery .bmc2.pos .bmcv{color:#1E7A47}
+.flrecovery .bmc2 .bmc2bar{height:5px;border-radius:4px;background:#F0E9E0;overflow:hidden;margin-top:8px}
+.flrecovery .bmc2 .bmc2bar i{display:block;height:100%;border-radius:4px}
+.flrecovery .bmc2.neg .bmc2bar i{background:#E8674A}
+.flrecovery .bmc2.pos .bmc2bar i{background:#2FA86A}
+.flrecovery .bm2empty{font-size:12.5px;color:#7C766B;line-height:1.4;padding:8px 2px}
 .flrecovery .bbrief .bbr{display:flex;align-items:flex-start;gap:13px;padding:14px;border-radius:14px;margin-top:12px}
 .flrecovery .bbrief .bbr.neg{background:#FDF1ED}
 .flrecovery .bbrief .bbr.pos{background:#EDF7F0}
@@ -4210,12 +4227,12 @@ function renderBehavior(){var c=behaviorCorr();var host=document.getElementById(
  if(!c.length){host.innerHTML=head+'<p class="sci" style="margin:6px 2px 0">Remplis ton journal quelques jours — Flint révélera ce qui aide ou freine ta récup.</p>';if(brief)brief.innerHTML='';return}
  var neg=c.filter(function(x){return x.imp<0}),pos=c.filter(function(x){return x.imp>0});
  var maxAbs=Math.max(20,Math.ceil(Math.max.apply(null,c.map(function(x){return Math.abs(x.imp)}))/10)*10);
- var cardH=46,gap=12,H=Math.max(300,Math.max(neg.length,pos.length)*(cardH+gap)+24);
- function col(arr){arr=arr.slice().sort(function(a,b){return Math.abs(b.imp)-Math.abs(a.imp)});var prev=-1;return arr.map(function(x){var ideal=(1-Math.abs(x.imp)/maxAbs)*(H-cardH);var y=Math.max(ideal,prev<0?0:prev+cardH+gap);prev=y;var P=_behParts(x.lbl),ps=x.imp>0;return '<div class="bmc '+(ps?'pos':'neg')+'" style="top:'+y.toFixed(0)+'px"><span class="bme">'+P.emoji+'</span><span class="bmcn">'+P.name+'</span><span class="bmcv">'+(ps?'+':'')+x.imp+'</span></div>'}).join('')}
- var ruler=[maxAbs,Math.round(maxAbs/2),0].map(function(lv){var y=(1-lv/maxAbs)*(H-cardH)+cardH/2;return '<div class="bmrl" style="top:'+y.toFixed(0)+'px">'+lv+'</div>'}).join('');
+ function byMag(a,b){return Math.abs(b.imp)-Math.abs(a.imp)}
+ function bcard(x){var P=_behParts(x.lbl),ps=x.imp>0,w=Math.max(8,Math.min(100,Math.abs(x.imp)/maxAbs*100));return '<div class="bmc2 '+(ps?'pos':'neg')+'"><div class="bmc2t"><span class="bme">'+P.emoji+'</span><span class="bmcn">'+P.name+'</span><span class="bmcv">'+(ps?'+':'')+x.imp+'</span></div><div class="bmc2bar"><i style="width:'+w.toFixed(0)+'%"></i></div></div>'}
+ var negS=neg.slice().sort(byMag),posS=pos.slice().sort(byMag);
  host.innerHTML=head
-  +'<div class="bmxhdr"><span class="bmf"><i class="ti ti-arrow-left"></i> Freine ta récup</span><span class="bmi">Impact</span><span class="bma">Aide ta récup <i class="ti ti-arrow-right"></i></span></div>'
-  +'<div class="bmplot" style="height:'+H+'px"><div class="bmaxis"></div>'+ruler+'<div class="bmcolL">'+col(neg)+'</div><div class="bmcolR">'+col(pos)+'</div></div>';
+  +'<div class="bmxhdr"><span class="bmf"><i class="ti ti-arrow-left"></i> Freine ta récup</span><span class="bma">Aide ta récup <i class="ti ti-arrow-right"></i></span></div>'
+  +'<div class="bm2cols"><div class="bm2col">'+(negS.length?negS.map(bcard).join(''):'<p class="bm2empty">Rien ne freine ta récup 👏</p>')+'</div><div class="bm2col">'+(posS.length?posS.map(bcard).join(''):'<p class="bm2empty">Coche ton journal pour révéler ce qui aide.</p>')+'</div></div>';
  if(brief){var nm=function(l){return _behParts(l).name},low=function(s){return s.charAt(0).toLowerCase()+s.slice(1)};var h='<div class="bmxh"><span class="bmxic" style="background:#F1ECE4;color:#161512"><i class="ti ti-bulb"></i></span><div class="bmxt">En bref</div></div>';
   if(neg.length)h+='<div class="bbr neg"><span class="bbi"><i class="ti ti-alert-triangle"></i></span><div><div class="bbt">Priorité à corriger</div><div class="bbp">'+nm(neg[0].lbl)+(neg[1]?' et '+low(nm(neg[1].lbl)):'')+' freine'+(neg[1]?'nt':'')+' le plus ta récupération. Réduis-les pour gagner en énergie et en qualité de sommeil.</div></div></div>';
   if(pos.length)h+='<div class="bbr pos"><span class="bbi"><i class="ti ti-circle-check"></i></span><div><div class="bbt">Habitudes à garder</div><div class="bbp">'+pos.slice(0,3).map(function(x){return low(nm(x.lbl))}).join(', ')+(pos.length===1?' a':' ont')+' un effet positif. Continue, tu es sur la bonne voie.</div></div></div>';
@@ -6266,7 +6283,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v261';
+const APP_VERSION='flint-v262';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
