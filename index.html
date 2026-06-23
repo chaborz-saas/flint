@@ -3208,6 +3208,26 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 .rec2 .r2howlink{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:none;border:0;color:#8A8580;font-family:'Inter';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px;margin-top:2px}
 .rec2 .r2howlink i{font-size:15px}
+.rec2 .rgc-cap{justify-content:flex-start}
+.rec2 .rgc-capt{flex:1;min-width:0}
+.rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
+/* feuille « pourquoi » d'un facteur */
+.rec2why .rw-head{display:flex;align-items:center;gap:13px;margin:2px 0 14px}
+.rec2why .rw-ic{width:46px;height:46px;border-radius:14px;background:#F3EEE6;display:grid;place-items:center;font-size:23px;flex:none}
+.rec2why .rw-title{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:18px;letter-spacing:.3px;color:#161512}
+.rec2why .rw-val{font-size:13.5px;font-weight:600;color:#6E6A62;margin-top:2px}
+.rec2why .rw-interp{font-size:14.5px;line-height:1.5;color:#37372F;margin:0 0 18px}
+.rec2why .rw-sec{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#9A948A;margin:18px 0 8px}
+.rec2why .rw-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #F1EBE3}
+.rec2why .rw-row:first-of-type{border-top:0}
+.rec2why .rw-rico{width:34px;height:34px;border-radius:10px;background:#F3EEE6;color:#6E6A62;display:grid;place-items:center;font-size:18px;flex:none}
+.rec2why .rw-rl{flex:1;font-size:14.5px;font-weight:600;color:#37372F;min-width:0}
+.rec2why .rw-corr{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rec2why .rw-tag{font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;flex:none}
+.rec2why .rw-empty{font-size:13.5px;line-height:1.5;color:#7C766B;background:#FAF6F0;border-radius:14px;padding:14px 15px;margin:6px 0 0}
+.rec2why .rw-cta{display:flex;align-items:center;gap:9px;width:100%;background:#F6F1E9;border:0;border-radius:15px;padding:14px 15px;margin-top:20px;font-family:'Inter';font-size:14px;font-weight:700;color:#161512;cursor:pointer}
+.rec2why .rw-cta i:first-child{color:#3E9E6E;font-size:18px}
+.rec2why .rw-cta i:last-child{margin-left:auto;color:#A7A29A}
 </style>
 <section class="view" id="v-recovery">
 <div class="flrecovery rec2">
@@ -3240,6 +3260,14 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
   <button class="r2howlink" type="button" onclick="go('howscore')">Comment ce score est-il calculé ?<i class="ti ti-chevron-right"></i></button>
 </div>
 </section>
+<div class="sheet" id="recWhySheet">
+  <div class="ov" onclick="recWhyClose()"></div>
+  <div class="pan rec2why">
+    <div class="grab"></div>
+    <button class="ascl" type="button" onclick="recWhyClose()" aria-label="Fermer">✕</button>
+    <div id="recWhyBody"></div>
+  </div>
+</div>
 
 <!-- ===================== TRANSPARENCE · COMMENT TON SCORE EST CALCULÉ ===================== -->
 <style>
@@ -5133,39 +5161,96 @@ function renderRecovery(){renderRecCorr();const rv=recovery();
  if(vb){vb.style.display='';vb.style.color=rc;var ici=document.getElementById('recVerdictIc');if(ici){ici.innerHTML='<i class="ti '+vi+'"></i>';ici.style.color=rc;ici.style.background=rc+'1A'}set('recVerdictT',vk+' — vise un effort de '+tg[0]+'–'+tg[1]);}
  if(g)g.innerHTML=recGaugesHTML(rv);
 }
-function recGaugesHTML(rv){
+var REC_TONE={good:['#2E7D4F','#EAF4EE','#3FB57A'],warn:['#9A6500','#FBF1DD','#E0922A'],bad:['#B23A22','#FBEAE6','#CF4631']};
+var REC_BEH_ICON={cafeine:'ti-coffee',alcool:'ti-glass-full',ecrans:'ti-device-mobile',sportintense:'ti-barbell',magnesium:'ti-pill',meditation:'ti-yoga',repastard:'ti-tools-kitchen-2',hydrate:'ti-droplet'};
+/* quel comportement agit sur quel signal — dir +1 = aide, -1 = nuit */
+var REC_IMPACT={
+ hrv:[{id:'alcool',dir:-1},{id:'cafeine',dir:-1},{id:'sportintense',dir:-1},{id:'repastard',dir:-1},{id:'magnesium',dir:1},{id:'meditation',dir:1},{id:'hydrate',dir:1}],
+ rhr:[{id:'alcool',dir:-1},{id:'cafeine',dir:-1},{id:'sportintense',dir:-1},{id:'repastard',dir:-1},{id:'meditation',dir:1},{id:'hydrate',dir:1}],
+ resp:[{id:'alcool',dir:-1},{id:'sportintense',dir:-1},{id:'meditation',dir:1}],
+ sleepperf:[{id:'alcool',dir:-1},{id:'cafeine',dir:-1},{id:'ecrans',dir:-1},{id:'repastard',dir:-1},{id:'magnesium',dir:1},{id:'meditation',dir:1}]
+};
+function recFmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'h'+String(mm).padStart(2,'0'):h+'h';}
+function recGrade(d){
+ var sd=d.sd||((d.high-d.low)/2)||1;
+ if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',c:'Un peu court ce soir.'}:{s:'Insuffisant',t:'bad',c:'Sous ton objectif.'};}
+ if(d.cur>=d.low&&d.cur<=d.high)return {s:'Normale',t:'good',c:'Dans ta normale.'};
+ if(d.cur>d.high){
+  if(!d.lowerBetter)return {s:'Élevée',t:'good',c:'Au-dessus de ta plage — bon signe.'};
+  var ex=(d.cur-d.high)/sd;return ex<=1?{s:'Élevée',t:'warn',c:'Un peu élevée.'}:{s:'Très élevée',t:'bad',c:'Nettement élevée.'};
+ }
+ if(d.lowerBetter)return {s:'Basse',t:'good',c:d.key==='resp'?'Calme, sous ta normale.':'Plus basse que d\'habitude — bon signe.'};
+ var df=(d.low-d.cur)/sd;return df<=1?{s:'Basse',t:'warn',c:'Un peu sous ta plage.'}:{s:'Très basse',t:'bad',c:'Nettement sous ta plage.'};
+}
+function recFactorDefs(rv){
  var prof=getProfile(),need=(prof.need||8)*60,t=rv.today||{};
- function fmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'h'+String(mm).padStart(2,'0'):h+'h';}
  function r1(v){return (Math.round(v*10)/10).toString().replace('.',',');}
  function r0(v){return String(Math.round(v));}
  var defs=[],bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');
- if(bH&&t.hrv!=null)defs.push({key:'hrv',ic:'ti-activity',col:'#3E9E6E',title:'VFC',cur:t.hrv,unit:'ms',low:bH.m-bH.sd,high:bH.m+bH.sd,fmt:r0,lowerBetter:false});
- if(bR&&t.rhr!=null)defs.push({key:'rhr',ic:'ti-heart',col:'#E8674A',title:'FC au repos',cur:t.rhr,unit:'bpm',low:bR.m-bR.sd,high:bR.m+bR.sd,fmt:r0,lowerBetter:true});
- if(bP&&t.resp!=null)defs.push({key:'resp',ic:'ti-lungs',col:'#3E9E6E',title:'Respiration',cur:t.resp,unit:'/min',low:bP.m-bP.sd,high:bP.m+bP.sd,fmt:r1,lowerBetter:true});
- if(t.sleepMin!=null)defs.push({key:'sleepperf',ic:'ti-moon',col:'#6C7BD6',title:'Sommeil',cur:t.sleepMin,unit:'',low:need-75,high:need,tmin:need-180,tmax:need+60,fmt:fmtH,sleep:true});
+ if(bH&&t.hrv!=null)defs.push({key:'hrv',ic:'ti-activity',col:'#3E9E6E',title:'VFC',cur:t.hrv,unit:'ms',low:bH.m-bH.sd,high:bH.m+bH.sd,sd:bH.sd,fmt:r0,lowerBetter:false});
+ if(bR&&t.rhr!=null)defs.push({key:'rhr',ic:'ti-heart',col:'#E8674A',title:'FC au repos',cur:t.rhr,unit:'bpm',low:bR.m-bR.sd,high:bR.m+bR.sd,sd:bR.sd,fmt:r0,lowerBetter:true});
+ if(bP&&t.resp!=null)defs.push({key:'resp',ic:'ti-lungs',col:'#3E9E6E',title:'Respiration',cur:t.resp,unit:'/min',low:bP.m-bP.sd,high:bP.m+bP.sd,sd:bP.sd,fmt:r1,lowerBetter:true});
+ if(t.sleepMin!=null)defs.push({key:'sleepperf',ic:'ti-moon',col:'#6C7BD6',title:'Sommeil',cur:t.sleepMin,unit:'',low:need-75,high:need,tmin:need-180,tmax:need+60,fmt:recFmtH,sleep:true});
+ defs.forEach(function(d){d.state=recGrade(d)});
+ return defs;
+}
+function recGaugesHTML(rv){
+ var defs=recFactorDefs(rv);
  if(!defs.length)return '<div class="r2tempty" style="grid-column:1/-1">En attente d\'une nuit portée.</div>';
  return defs.map(function(d){
   var w=d.high-d.low,tmin=d.tmin!=null?d.tmin:d.low-w*0.7,tmax=d.tmax!=null?d.tmax:d.high+w*0.7;
   var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
   var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur);
-  var st;
-  if(d.sleep)st=d.cur>=d.low?{s:'Suffisant',t:'good',c:'Objectif atteint.'}:{s:'Court',t:'warn',c:'Sous ton objectif.'};
-  else if(d.cur>=d.low&&d.cur<=d.high)st={s:'Normale',t:'good',c:'Dans la norme.'};
-  else if(d.cur>d.high)st=d.lowerBetter?{s:'Élevée',t:'warn',c:'Plus haute que d\'habitude.'}:{s:'Élevée',t:'good',c:'Au-dessus de ta plage.'};
-  else st=d.lowerBetter?{s:'Basse',t:'good',c:'Plus basse que d\'habitude.'}:{s:'Basse',t:'warn',c:'En dessous de ta plage.'};
-  var tone={good:['#2E7D4F','#EAF4EE','#3FB57A','#BFE3CC'],warn:['#9A6500','#FBF1DD','#E0922A','#F0DCAE'],bad:['#B23A22','#FBEAE6','#CF4631','#F2C7BC']}[st.t];
+  var st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
   var normLab='Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'');
   var valHTML=d.fmt(d.cur)+(d.unit?'<span class="u">'+d.unit+'</span>':'');
-  return '<button class="rgc" type="button" onclick="openMetricTrend(\''+d.key+'\')">'
+  return '<button class="rgc" type="button" onclick="recWhyOpen(\''+d.key+'\')">'
    +'<div class="rgc-h"><span class="rgc-ic" style="color:'+d.col+'"><i class="ti '+d.ic+'"></i></span><span class="rgc-t">'+d.title+'</span><span class="rgc-pill" style="color:'+tone[0]+';background:'+tone[1]+'">'+st.s+'</span></div>'
    +'<div class="rgc-v">'+valHTML+'</div>'
    +'<div class="rgc-norm">'+normLab+'</div>'
-   +'<div class="rgc-g"><span class="rgc-zone" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%;background:'+tone[3]+'"></span><span class="rgc-dot" style="left:'+dp.toFixed(1)+'%"></span></div>'
+   +'<div class="rgc-g"><span class="rgc-zone" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%"></span><span class="rgc-dot" style="left:'+dp.toFixed(1)+'%;background:'+dotc+'"></span></div>'
    +'<div class="rgc-sc"><span style="left:0">'+d.fmt(tmin)+'</span><span style="left:'+zl.toFixed(1)+'%">'+d.fmt(d.low)+'</span><span style="left:'+zh.toFixed(1)+'%">'+d.fmt(d.high)+'</span><span style="left:100%">'+d.fmt(tmax)+'</span></div>'
-   +'<div class="rgc-cap"><span class="d" style="background:'+tone[2]+'"></span>'+st.c+'</div>'
+   +'<div class="rgc-cap"><span class="d" style="background:'+tone[2]+'"></span><span class="rgc-capt">'+st.c+'</span><i class="ti ti-chevron-right rgc-cc"></i></div>'
    +'</button>';
  }).join('');
 }
+function recWhyData(key){
+ var j=DB.get('journal_'+tk(),{}),corr={};behaviorCorr().forEach(function(x){corr[x.id]=x.imp});
+ var BL={};BEHAVIORS.forEach(function(b){BL[b[0]]=b[1]});
+ var imp=REC_IMPACT[key]||[],onHurt=[],onHelp=[],pot=[];
+ imp.forEach(function(it){var c=corr[it.id];var rec={id:it.id,lbl:BL[it.id],dir:it.dir,corr:c,positive:(c!=null?c>0:it.dir>0)};if(j[it.id]){(rec.positive?onHelp:onHurt).push(rec)}else{pot.push(rec)}});
+ // priorité des leviers : corrélation historique forte d'abord
+ pot.sort(function(a,b){return Math.abs(b.corr||0)-Math.abs(a.corr||0)});
+ return {onHurt:onHurt,onHelp:onHelp,pot:pot};
+}
+function recWhyInterp(key,t){
+ if(key==='hrv')return t==='good'?'Ta variabilité cardiaque est dans le haut de ta plage : bon équilibre nerveux, ton corps encaisse bien le stress et l\'effort.':'Ta VFC est sous ta normale — souvent le signe d\'une fatigue, d\'un stress ou d\'une récupération incomplète.';
+ if(key==='rhr')return t==='good'?'Ta fréquence cardiaque au repos est basse : signe d\'un cœur reposé et bien récupéré.':'Ta FC au repos est plus haute que d\'habitude — fatigue, stress, alcool ou nuit trop courte peuvent la faire monter.';
+ if(key==='resp')return t==='good'?'Ta fréquence respiratoire est stable, dans ta normale : rien d\'inhabituel cette nuit.':'Ta fréquence respiratoire est au-dessus de ta normale — effort tardif, alcool ou début d\'infection peuvent l\'expliquer.';
+ if(key==='sleepperf')return t==='good'?'Tu as atteint ta fenêtre de sommeil cible : une bonne base pour récupérer.':'Tu as dormi sous ton objectif — le manque de sommeil pèse directement sur ta récup du lendemain.';
+ return '';
+}
+function recWhyRow(r,tag,positive){
+ var col=positive?'#1E7A47':'#C0492C',bg=positive?'#EAF4EE':'#FBEAE6',lbl=String(r.lbl).replace(/^\S+\s/,'');
+ var corrTxt=(r.corr!=null)?'<span class="rw-corr" style="color:'+(r.corr>0?'#1E7A47':'#C0492C')+'">'+(r.corr>0?'+':'')+r.corr+'% récup</span>':'';
+ return '<div class="rw-row"><span class="rw-rico"><i class="ti '+(REC_BEH_ICON[r.id]||'ti-point')+'"></i></span><span class="rw-rl">'+lbl+'</span>'+corrTxt+'<span class="rw-tag" style="color:'+col+';background:'+bg+'">'+tag+'</span></div>';
+}
+function recWhyHTML(key,rv){
+ var d=null;recFactorDefs(rv).forEach(function(x){if(x.key===key)d=x});
+ if(!d)return '<p class="rw-empty">Donnée indisponible.</p>';
+ var st=d.state,tcol=REC_TONE[st.t][0];
+ var head='<div class="rw-head"><span class="rw-ic" style="color:'+d.col+'"><i class="ti '+d.ic+'"></i></span><div><div class="rw-title">'+d.title+'</div><div class="rw-val">'+d.fmt(d.cur)+(d.unit?' '+d.unit:'')+' · <b style="color:'+tcol+'">'+st.s+'</b></div></div></div>';
+ var interp='<p class="rw-interp">'+recWhyInterp(key,st.t)+'</p>';
+ var data=recWhyData(key),blocks='';
+ if(data.onHurt.length||data.onHelp.length){blocks+='<div class="rw-sec">Ce que tu as coché ce soir</div>';data.onHurt.forEach(function(r){blocks+=recWhyRow(r,'a pu nuire',false)});data.onHelp.forEach(function(r){blocks+=recWhyRow(r,'a aidé',true)});}
+ var pot=data.pot.slice(0,4);
+ if(pot.length){blocks+='<div class="rw-sec">Leviers pour demain</div>';pot.forEach(function(r){blocks+=recWhyRow(r,r.positive?'à privilégier':'à éviter',r.positive)});}
+ if(!data.onHurt.length&&!data.onHelp.length&&!pot.length)blocks='<p class="rw-empty">Coche ton journal du soir quelques jours — Flint reliera ce signal à tes vraies habitudes.</p>';
+ var cta='<button class="rw-cta" type="button" onclick="recWhyClose();openMetricTrend(\''+key+'\')"><i class="ti ti-chart-line"></i>Voir la tendance 7 jours<i class="ti ti-chevron-right"></i></button>';
+ return head+interp+blocks+cta;
+}
+function recWhyOpen(key){var rv=recovery();if(!rv)return;var b=document.getElementById('recWhyBody');if(b)b.innerHTML=recWhyHTML(key,rv);var s=document.getElementById('recWhySheet');if(s)s.classList.add('on');if(typeof haptic==='function')haptic();}
+function recWhyClose(){var s=document.getElementById('recWhySheet');if(s)s.classList.remove('on');}
 function recTrendChartSVG(mk){
  var M=TREND[mk]||TREND.recovery,DOW=['DIM','LUN','MAR','MER','JEU','VEN','SAM'],days=[];
  for(var i=6;i>=0;i--){var k=tk2off(tk(),-i),p=k.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);days.push({v:M.val(k),lab:DOW[dt.getDay()]});}
@@ -5949,7 +6034,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v238';
+const APP_VERSION='flint-v239';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
