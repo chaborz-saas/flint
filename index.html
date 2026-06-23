@@ -3212,9 +3212,16 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 .rec2 .r2howlink{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:none;border:0;color:#8A8580;font-family:'Inter';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px;margin-top:2px}
 .rec2 .r2howlink i{font-size:15px}
-.rec2 .rhead{position:relative;overflow:visible}
-.rec2 .rhead-art{position:absolute;top:-24px;right:-12px;width:184px;height:138px;background:url('./recup-body.png') no-repeat top right;background-size:180px auto;pointer-events:none;z-index:0;opacity:.92;-webkit-mask-image:linear-gradient(to bottom,#000 48%,transparent 96%);mask-image:linear-gradient(to bottom,#000 48%,transparent 96%)}
-.rec2 .rhead .greet,.rec2 .rhead .date{position:relative;z-index:1}
+.rec2 .rhead{position:relative;overflow:visible;min-height:230px;margin:6px 2px 14px}
+.rec2 .rhead-art{position:absolute;top:-18px;right:-22px;width:62%;max-width:280px;aspect-ratio:3/4;background:url('./recup-body.png') no-repeat top right;background-size:contain;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 72%,transparent 100%)}
+.rec2 .rhead .greet{font-size:46px;line-height:.96;position:relative;z-index:1}
+.rec2 .rhead .date{position:relative;z-index:1}
+.rec2 .recnav{display:flex;align-items:center;gap:12px;margin-top:18px;position:relative;z-index:1}
+.rec2 .recnav-a{width:46px;height:46px;border-radius:50%;border:1px solid #ECE7DD;background:#F6F1E9;color:#3E9E6E;font-size:20px;cursor:pointer;display:grid;place-items:center;line-height:1;flex:none;transition:transform .12s ease}
+.rec2 .recnav-a:active{transform:scale(.92)}
+.rec2 .recnav-a[disabled]{cursor:default}
+.rec2 .recnav-d{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;font-family:'Inter';font-size:17px;font-weight:800;color:#3E9E6E;cursor:pointer}
+.rec2 .recnav-d i{font-size:19px}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -3242,6 +3249,11 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <div class="rhead-art" aria-hidden="true"></div>
     <div class="greet">Récupération</div>
     <div class="date">Lecture de ton corps · aujourd'hui</div>
+    <div class="recnav">
+      <button class="recnav-a" type="button" onclick="recDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+      <button class="recnav-d" type="button" onclick="recCalOpen()"><span id="recDateLbl">Aujourd'hui</span> <i class="ti ti-calendar"></i></button>
+      <button class="recnav-a" id="recNavNext" type="button" onclick="recDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+    </div>
   </div>
 
   <div class="card r2hero">
@@ -4047,7 +4059,7 @@ function sleepNight(k){k=k||tk();var s=sensorOf(k);if(!s||s.sleepMin==null)retur
 function baseStat(field){const a=[];const d=new Date();d.setDate(d.getDate()-1);for(let i=0;i<30;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const s=DB.get('sensor_'+k,null);if(s&&s[field]!=null)a.push(s[field]);d.setDate(d.getDate()-1)}if(a.length<3)return null;const m=a.reduce((x,y)=>x+y,0)/a.length;const sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)||1;return {m,sd,n:a.length}}
 function loadOf(k){const ss=DB.get('sessions_'+k,[]);let L=0;ss.forEach(s=>{if(s.type==='nap')return;L+=Math.round((s.dur||0)*(s.int||2)*1.7)});const sen=sensorOf(k);if(sen&&sen.load)L=Math.max(L,sen.load);return L}
 function loadAvg(n,off){let t=0,c=0;const d=new Date();d.setDate(d.getDate()-(off||0));for(let i=0;i<n;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();t+=loadOf(k);c++;d.setDate(d.getDate()-1)}return c?t/c:0}
-function recovery(){const t=sensorOf(tk());if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Conditions optimales pour performer.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
+function recovery(off){const t=sensorOf(tk(off||0));if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Conditions optimales pour performer.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/520))).toFixed(1)))}
 function actStrain(s){const L=(s.dur||0)*(s.int||2)*1.7;return +(21*(1-Math.exp(-L/520))).toFixed(1)}
 function strainTarget(){const rv=recovery();if(!rv)return [10,14];const r=rv.s;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
@@ -5247,17 +5259,21 @@ function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!hos
 function renderRecJournal(){var host=document.getElementById('recJournalCard');if(!host)return;var j=DB.get('journal_'+tk(),{});
  host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
 function recSetTrend(m){window._recTrendMetric=m;var h=document.getElementById('recTrendChart');if(h)h.innerHTML=recTrendChartSVG(m)}
-function renderRecovery(){renderRecCorr();const rv=recovery();
+function recDateFmt(off){var d=new Date();d.setDate(d.getDate()+(off||0));if(!off)return 'Aujourd\'hui';var J=['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],M=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];return J[d.getDay()]+' '+d.getDate()+' '+M[d.getMonth()];}
+function recDay(d){if(typeof haptic==='function')haptic();window._recDay=Math.min(0,(window._recDay||0)+d);renderRecovery();}
+function recCalOpen(){if(typeof haptic==='function')haptic();window._calMode='recovery';slpCalOpen();}
+function renderRecovery(){renderRecCorr();var off=window._recDay||0,rv=recovery(off);
  var ring=document.getElementById('recRing'),vb=document.getElementById('recVerdict'),g=document.getElementById('recGauges');
+ set('recDateLbl',recDateFmt(off));var nx=document.getElementById('recNavNext');if(nx){nx.disabled=off>=0;nx.style.opacity=off>=0?'.32':'1';}
  if(!window._recTrendMetric)window._recTrendMetric='recovery';
  var sel=document.getElementById('recTrendSel');if(sel)sel.value=window._recTrendMetric;
  var ch=document.getElementById('recTrendChart');if(ch)ch.innerHTML=recTrendChartSVG(window._recTrendMetric);
- if(!rv){if(ring)ring.innerHTML=ringHTML(0,140,'','RÉCUPÉRATION','var(--faint)','—');set('recTitle','En attente');set('recReco','Connecte ta Polar Loop ou recharge la démo dans Profil.');if(vb)vb.style.display='none';if(g)g.innerHTML='';return}
+ if(!rv){if(ring)ring.innerHTML=ringHTML(0,140,'','RÉCUPÉRATION','var(--faint)','—');set('recTitle','Pas de donnée');set('recReco',off?'Aucune nuit enregistrée ce jour-là.':'Connecte ta Polar Loop ou recharge la démo dans Profil.');if(vb)vb.style.display='none';if(g)g.innerHTML='';return}
  var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631';
  if(ring)ring.innerHTML=ringHTML(rv.s,140,'','RÉCUPÉRATION',rc,rv.s+'<small>%</small>');
- set('recTitle',rv.s>=67?'Prêt aujourd\'hui':rv.s>=34?'À doser':'Repos conseillé');
+ set('recTitle',rv.s>=67?'Prêt'+(off?'':' aujourd\'hui'):rv.s>=34?'À doser':'Repos conseillé');
  set('recReco',rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte — dose ta journée':'Ton corps réclame du repos');
- var tg=strainTarget(),vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied',vi=rv.s>=67?'ti-arrow-up-right':rv.s>=34?'ti-activity':'ti-zzz';
+ var tg=rv.s>=67?[14,18]:rv.s>=34?[10,14]:[6,10],vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied',vi=rv.s>=67?'ti-arrow-up-right':rv.s>=34?'ti-activity':'ti-zzz';
  if(vb){vb.style.display='';vb.style.color=rc;var ici=document.getElementById('recVerdictIc');if(ici){ici.innerHTML='<i class="ti '+vi+'"></i>';ici.style.color=rc;ici.style.background=rc+'1A'}set('recVerdictT',vk+' — vise un effort de '+tg[0]+'–'+tg[1]);}
  if(g)g.innerHTML=recGaugesHTML(rv);
 }
@@ -5492,13 +5508,13 @@ function slpJump(which){if(typeof haptic==='function')haptic();openSleepNight()}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
 function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
 function slpOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='sleep';slpCalOpen()}
-function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else{renderSleep()}window.scrollTo(0,0)}
+function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else{renderSleep()}window.scrollTo(0,0)}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
 function slpCalToday(){gDay=0;slpCalClose();_calRerender()}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else{gDay=off}slpCalClose();_calRerender()}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else{gDay=off}slpCalClose();_calRerender()}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -6199,7 +6215,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v247';
+const APP_VERSION='flint-v248';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
