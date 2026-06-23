@@ -5180,14 +5180,10 @@ var REC_IMPACT={
 function recFmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'h'+String(mm).padStart(2,'0'):h+'h';}
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
- if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',c:'Un peu court ce soir.'}:{s:'Insuffisant',t:'bad',c:'Sous ton objectif.'};}
- if(d.cur>=d.low&&d.cur<=d.high)return {s:'Normale',t:'good',c:'Dans ta normale.'};
- if(d.cur>d.high){
-  if(!d.lowerBetter)return {s:'Élevée',t:'good',c:'Au-dessus de ta plage — bon signe.'};
-  var ex=(d.cur-d.high)/sd;return ex<=1?{s:'Élevée',t:'warn',c:'Un peu élevée.'}:{s:'Très élevée',t:'bad',c:'Nettement élevée.'};
- }
- if(d.lowerBetter)return {s:'Basse',t:'good',c:d.key==='resp'?'Calme, sous ta normale.':'Plus basse que d\'habitude — bon signe.'};
- var df=(d.low-d.cur)/sd;return df<=1?{s:'Basse',t:'warn',c:'Un peu sous ta plage.'}:{s:'Très basse',t:'bad',c:'Nettement sous ta plage.'};
+ if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',dir:0,c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',dir:-1,c:'Un peu sous ton objectif.'}:{s:'Insuffisant',t:'bad',dir:-1,c:'Nettement sous ton objectif.'};}
+ if(d.cur>=d.low&&d.cur<=d.high)return {s:'Normale',t:'good',dir:0,c:'Dans ta normale.'};
+ if(d.cur>d.high){var ex=(d.cur-d.high)/sd;return ex<=1?{s:'Élevée',t:'warn',dir:1,c:'Au-dessus de ta plage.'}:{s:'Très élevée',t:'bad',dir:1,c:'Nettement au-dessus de ta plage.'};}
+ var df=(d.low-d.cur)/sd;return df<=1?{s:'Basse',t:'warn',dir:-1,c:'Sous ta plage habituelle.'}:{s:'Très basse',t:'bad',dir:-1,c:'Nettement sous ta plage.'};
 }
 function recFactorDefs(rv){
  var prof=getProfile(),need=(prof.need||8)*60,t=rv.today||{};
@@ -5230,11 +5226,12 @@ function recWhyData(key){
  pot.sort(function(a,b){return Math.abs(b.corr||0)-Math.abs(a.corr||0)});
  return {onHurt:onHurt,onHelp:onHelp,pot:pot};
 }
-function recWhyInterp(key,t){
- if(key==='hrv')return t==='good'?'Ta variabilité cardiaque est dans le haut de ta plage : bon équilibre nerveux, ton corps encaisse bien le stress et l\'effort.':'Ta VFC est sous ta normale — souvent le signe d\'une fatigue, d\'un stress ou d\'une récupération incomplète.';
- if(key==='rhr')return t==='good'?'Ta fréquence cardiaque au repos est basse : signe d\'un cœur reposé et bien récupéré.':'Ta FC au repos est plus haute que d\'habitude — fatigue, stress, alcool ou nuit trop courte peuvent la faire monter.';
- if(key==='resp')return t==='good'?'Ta fréquence respiratoire est stable, dans ta normale : rien d\'inhabituel cette nuit.':'Ta fréquence respiratoire est au-dessus de ta normale — effort tardif, alcool ou début d\'infection peuvent l\'expliquer.';
- if(key==='sleepperf')return t==='good'?'Tu as atteint ta fenêtre de sommeil cible : une bonne base pour récupérer.':'Tu as dormi sous ton objectif — le manque de sommeil pèse directement sur ta récup du lendemain.';
+function recWhyInterp(key,st){
+ var dir=st.dir;
+ if(key==='hrv'){if(dir===0)return 'Ta variabilité cardiaque est dans ta plage habituelle : bon équilibre nerveux, ton corps encaisse bien le stress et l\'effort.';if(dir>0)return 'Ta VFC est au-dessus de ta plage habituelle. C\'est souvent bon signe (forme, calme), mais un pic isolé peut aussi suivre un gros repos ou une variation de mesure — regarde la tendance.';return 'Ta VFC est sous ta plage habituelle — souvent le signe d\'une fatigue, d\'un stress ou d\'une récupération incomplète.';}
+ if(key==='rhr'){if(dir===0)return 'Ta fréquence cardiaque au repos est dans ta plage habituelle : cœur reposé.';if(dir>0)return 'Ta FC au repos est plus haute que d\'habitude — fatigue, stress, alcool ou nuit trop courte peuvent la faire monter.';return 'Ta FC au repos est sous ta plage habituelle. En général bon signe (cœur bien reposé), à confirmer sur la tendance.';}
+ if(key==='resp'){if(dir===0)return 'Ta fréquence respiratoire est stable, dans ta normale : rien d\'inhabituel cette nuit.';if(dir>0)return 'Ta fréquence respiratoire est au-dessus de ta normale — effort tardif, alcool ou début d\'infection peuvent l\'expliquer.';return 'Ta fréquence respiratoire est sous ta normale — généralement sans gravité, à surveiller si ça persiste.';}
+ if(key==='sleepperf')return st.t==='good'?'Tu as atteint ta fenêtre de sommeil cible : une bonne base pour récupérer.':'Tu as dormi sous ton objectif — le manque de sommeil pèse directement sur ta récup du lendemain.';
  return '';
 }
 function recWhyRow(r,tag,positive){
@@ -5247,7 +5244,7 @@ function recWhyHTML(key,rv){
  if(!d)return '<p class="rw-empty">Donnée indisponible.</p>';
  var st=d.state,tcol=REC_TONE[st.t][0];
  var head='<div class="rw-head"><span class="rw-ic" style="color:'+d.col+'"><i class="ti '+d.ic+'"></i></span><div><div class="rw-title">'+d.title+'</div><div class="rw-val">'+d.fmt(d.cur)+(d.unit?' '+d.unit:'')+' · <b style="color:'+tcol+'">'+st.s+'</b></div></div></div>';
- var interp='<p class="rw-interp">'+recWhyInterp(key,st.t)+'</p>';
+ var interp='<p class="rw-interp">'+recWhyInterp(key,st)+'</p>';
  var data=recWhyData(key),blocks='';
  if(data.onHurt.length||data.onHelp.length){blocks+='<div class="rw-sec">Ce que tu as coché ce soir</div>';data.onHurt.forEach(function(r){blocks+=recWhyRow(r,'a pu nuire',false)});data.onHelp.forEach(function(r){blocks+=recWhyRow(r,'a aidé',true)});}
  var pot=data.pot.slice(0,4);
@@ -6041,7 +6038,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v240';
+const APP_VERSION='flint-v241';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
