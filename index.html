@@ -3256,6 +3256,13 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .recov-img .ovnav-a[disabled]{background:#F1EEE8;color:#C8C2B8}
 .rec2 .recov-img .ovnav-d{display:inline-flex;align-items:center;gap:1.3cqw;background:#EAF4EC;border:0;border-radius:30px;padding:1.7cqw 3cqw;font-family:'Inter';font-size:3.4cqw;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
 .rec2 .recov-img .ovnav-d i{font-size:3.8cqw}
+.rec2{position:relative}
+.rec2 .rec-back{position:absolute;top:4px;left:2px;z-index:20;width:46px;height:46px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.14);color:#15140F;font-size:21px;display:grid;place-items:center;cursor:pointer;animation:recBackIn .45s cubic-bezier(.34,1.56,.64,1) both;transition:transform .2s cubic-bezier(.34,1.7,.5,1),box-shadow .2s ease,background .2s ease}
+.rec2 .rec-back i{transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
+.rec2 .rec-back:hover{box-shadow:0 7px 20px rgba(20,18,12,.18)}
+.rec2 .rec-back:active{transform:scale(.84);background:#F1F7F2}
+.rec2 .rec-back:active i{transform:translateX(-3px)}
+@keyframes recBackIn{0%{opacity:0;transform:scale(.5) translateX(-8px)}100%{opacity:1;transform:scale(1) translateX(0)}}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -3279,6 +3286,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 </style>
 <section class="view" id="v-recovery">
 <div class="flrecovery rec2">
+  <button class="rec-back" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
   <div class="recov-img" id="recImg"></div>
 
   <div class="card r2corr" id="recCorrCard"></div>
@@ -6254,7 +6262,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v258';
+const APP_VERSION='flint-v259';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
