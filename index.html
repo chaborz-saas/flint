@@ -3212,15 +3212,17 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 .rec2 .r2howlink{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:none;border:0;color:#8A8580;font-family:'Inter';font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px;margin-top:2px}
 .rec2 .r2howlink i{font-size:15px}
-.rec2 .rhead{position:relative;overflow:visible;min-height:230px;margin:6px 2px 14px}
-.rec2 .rhead-art{position:absolute;top:-18px;right:-22px;width:62%;max-width:280px;aspect-ratio:3/4;background:url('./recup-body.png') no-repeat top right;background-size:contain;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 72%,transparent 100%)}
+.rec2 .rhead{position:relative;overflow:visible;min-height:248px;margin:0 2px 14px}
+.rec2 .rec-bk{position:relative;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:#fff;box-shadow:0 2px 8px rgba(20,18,12,.08);color:#15140F;font-size:19px;line-height:1;cursor:pointer;display:grid;place-items:center;margin:0 0 14px;transition:transform .12s ease}
+.rec2 .rec-bk:active{transform:scale(.92)}
+.rec2 .rhead-art{position:absolute;top:30px;right:-22px;width:60%;max-width:272px;aspect-ratio:3/4;background:url('./recup-body.png') no-repeat top right;background-size:contain;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 72%,transparent 100%)}
 .rec2 .rhead .greet{font-size:46px;line-height:.96;position:relative;z-index:1}
 .rec2 .rhead .date{position:relative;z-index:1}
-.rec2 .recnav{display:flex;align-items:center;gap:12px;margin-top:18px;position:relative;z-index:1}
-.rec2 .recnav-a{width:46px;height:46px;border-radius:50%;border:1px solid #ECE7DD;background:#F6F1E9;color:#3E9E6E;font-size:20px;cursor:pointer;display:grid;place-items:center;line-height:1;flex:none;transition:transform .12s ease}
+.rec2 .recnav{display:inline-flex;align-items:center;gap:11px;margin-top:18px;position:relative;z-index:1;max-width:64%}
+.rec2 .recnav-a{width:44px;height:44px;border-radius:50%;border:1px solid #ECE7DD;background:#F6F1E9;color:#3E9E6E;font-size:19px;cursor:pointer;display:grid;place-items:center;line-height:1;flex:none;transition:transform .12s ease}
 .rec2 .recnav-a:active{transform:scale(.92)}
 .rec2 .recnav-a[disabled]{cursor:default}
-.rec2 .recnav-d{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:none;border:0;font-family:'Inter';font-size:17px;font-weight:800;color:#3E9E6E;cursor:pointer}
+.rec2 .recnav-d{flex:none;display:inline-flex;align-items:center;gap:8px;background:none;border:0;font-family:'Inter';font-size:17px;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
 .rec2 .recnav-d i{font-size:19px}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
@@ -3247,6 +3249,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <div class="flrecovery rec2">
   <div class="rhead">
     <div class="rhead-art" aria-hidden="true"></div>
+    <button class="rec-bk" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
     <div class="greet">Récupération</div>
     <div class="date">Lecture de ton corps · aujourd'hui</div>
     <div class="recnav">
@@ -6215,7 +6218,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v248';
+const APP_VERSION='flint-v249';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
