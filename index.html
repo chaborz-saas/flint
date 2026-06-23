@@ -3241,11 +3241,11 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .recov-img .ovsc span{position:absolute;top:0;font-size:2.4cqw;font-weight:600;color:#A7A29A;white-space:nowrap}
 .rec2 .recov-img .ovcap{position:absolute;display:flex;align-items:flex-start;gap:1.4cqw;font-size:2.7cqw;font-weight:600;color:#6E6A62;line-height:1.2}
 .rec2 .recov-img .ovcap .cd{width:1.7cqw;height:1.7cqw;border-radius:50%;flex:none;margin-top:.4cqw}
-.rec2 .recov-img .ovnav{position:absolute;display:inline-flex;align-items:center;gap:2cqw;z-index:5}
-.rec2 .recov-img .ovnav-a{width:11cqw;height:11cqw;border-radius:50%;border:0;background:#EAF4EC;color:#3E9E6E;font-size:5cqw;cursor:pointer;display:grid;place-items:center;flex:none}
+.rec2 .recov-img .ovnav{position:absolute;display:inline-flex;align-items:center;gap:1.5cqw;z-index:5}
+.rec2 .recov-img .ovnav-a{width:8.2cqw;height:8.2cqw;border-radius:50%;border:0;background:#EAF4EC;color:#3E9E6E;font-size:3.9cqw;cursor:pointer;display:grid;place-items:center;flex:none}
 .rec2 .recov-img .ovnav-a[disabled]{background:#F1EEE8;color:#C8C2B8}
-.rec2 .recov-img .ovnav-d{display:inline-flex;align-items:center;gap:1.6cqw;background:#EAF4EC;border:0;border-radius:30px;padding:2.4cqw 4cqw;font-family:'Inter';font-size:4.2cqw;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
-.rec2 .recov-img .ovnav-d i{font-size:4.6cqw}
+.rec2 .recov-img .ovnav-d{display:inline-flex;align-items:center;gap:1.3cqw;background:#EAF4EC;border:0;border-radius:30px;padding:1.7cqw 3cqw;font-family:'Inter';font-size:3.4cqw;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
+.rec2 .recov-img .ovnav-d i{font-size:3.8cqw}
 .rec2 .rgc-cap{justify-content:flex-start}
 .rec2 .rgc-capt{flex:1;min-width:0}
 .rec2 .rgc-cc{color:#CFC9BF;font-size:15px;flex:none}
@@ -5289,8 +5289,8 @@ function recBuildOverlay(rv){
  var sub=rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte':'Ton corps réclame du repos';
  var tg=rv.s>=67?[14,18]:rv.s>=34?[10,14]:[6,10],vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied';
  h+='<div class="ov ovv" style="left:46%;top:33%;font-size:6.6cqw;color:#15140F">'+title+'</div>';
- h+='<div class="ov ovnw" style="left:46%;top:39.5%;font-size:3.1cqw;color:#6E6A62">'+sub+'</div>';
- h+='<div class="ov" style="left:46%;top:43.2%;display:inline-flex;align-items:center;gap:2cqw;background:#EAF4EC;border-radius:30px;padding:2.2cqw 3.4cqw;max-width:50cqw"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:4cqw"></i><span style="font-size:3cqw;font-weight:700;color:'+rc+';line-height:1.2">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</span></div>';
+ h+='<div class="ov ovnw" style="left:46%;top:38.8%;font-size:3cqw;color:#6E6A62">'+sub+'</div>';
+ h+='<div class="ov" style="left:46%;top:42.4%;display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF4EC;border-radius:30px;padding:1.5cqw 2.6cqw;max-width:46cqw"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:3.2cqw"></i><span style="font-size:2.5cqw;font-weight:700;color:'+rc+';line-height:1.18">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</span></div>';
  var defs=recFactorDefs(rv),BOX=[{x:3.5,y:50.8,w:45.4},{x:50.5,y:50.8,w:45.7},{x:3.5,y:71.6,w:45.4},{x:50.5,y:71.6,w:45.7}];
  defs.forEach(function(d,i){
   var b=BOX[i],st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
@@ -6245,7 +6245,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v252';
+const APP_VERSION='flint-v253';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
