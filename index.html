@@ -3225,21 +3225,39 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 <div class="bal-sheet" id="balSheet">
   <div class="ov" onclick="balSheetClose()"></div>
-  <div class="pan">
+  <div class="pan balsh2">
     <div class="bal-sh-grip"></div>
-    <div class="bal-sh-top">
-      <div class="bal-sh-img" id="balShImg"><i class="ti ti-photo"></i></div>
-      <div style="min-width:0"><div class="bal-sh-h" id="balShH">Analyse de ton repas…</div><div class="bal-sh-sub" id="balShSub"><span class="bal-spin"></span>L'IA estime les calories</div></div>
+    <div class="bsh-photowrap">
+      <div class="bsh-photo" id="balShImg"><i class="ti ti-photo"></i></div>
+      <div class="bsh-pills" id="bshPills"></div>
     </div>
-    <div id="balShForm" style="display:none">
-      <div class="bal-fgrid">
-        <div class="bal-f full"><span>Repas</span><input id="balFName" type="text"></div>
-        <div class="bal-f"><span>Calories</span><input id="balFKcal" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Protéines (g)</span><input id="balFProt" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Glucides (g)</span><input id="balFCarb" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Lipides (g)</span><input id="balFFat" type="number" inputmode="numeric"></div>
+    <div class="bsh-body">
+      <div class="bsh-tagrow"><span class="bsh-tag" id="bshTag"><i class="ti ti-bookmark"></i> Repas</span><span class="bsh-time" id="bshTime"></span></div>
+      <input id="balFName" class="bsh-name" type="text" placeholder="Nom du plat" aria-label="Nom du plat">
+      <div class="bsh-status" id="balShSub"><span class="bal-spin"></span>L'IA estime les calories</div>
+      <div class="bsh-cal">
+        <span class="bsh-calic"><i class="ti ti-flame"></i></span>
+        <div><div class="bsh-callab">Calories</div><div class="bsh-calv"><span id="bshKcal">—</span> <small>kcal</small></div></div>
       </div>
-      <button class="bal-save" onclick="balConfirm()">Ajouter à ma journée</button>
+      <div class="bsh-macros">
+        <div class="bsh-mac"><span class="bsh-macic p"><i class="ti ti-meat"></i></span><div class="bsh-macl">Protéines</div><div class="bsh-macv"><span id="bshProt">—</span><small>g</small></div></div>
+        <div class="bsh-mac"><span class="bsh-macic c"><i class="ti ti-bread"></i></span><div class="bsh-macl">Glucides</div><div class="bsh-macv"><span id="bshCarb">—</span><small>g</small></div></div>
+        <div class="bsh-mac"><span class="bsh-macic f"><i class="ti ti-droplet"></i></span><div class="bsh-macl">Lipides</div><div class="bsh-macv"><span id="bshFat">—</span><small>g</small></div></div>
+      </div>
+      <div class="bsh-health">
+        <span class="bsh-hic"><i class="ti ti-heart"></i></span>
+        <span class="bsh-hl">Score santé</span>
+        <span class="bsh-htrack"><i id="bshHealthBar"></i></span>
+        <span class="bsh-hv"><b id="bshHealth">—</b>/10</span>
+      </div>
+      <div id="balShForm" style="display:none">
+        <input id="balFKcal" type="hidden"><input id="balFProt" type="hidden"><input id="balFCarb" type="hidden"><input id="balFFat" type="hidden">
+        <div class="bsh-actions">
+          <button class="bsh-fix" type="button" onclick="nutFix()"><i class="ti ti-sparkles"></i> Corriger</button>
+          <button class="bsh-save" type="button" onclick="balConfirm()">Valider</button>
+        </div>
+      </div>
+      <div id="balShH" style="display:none"></div>
     </div>
   </div>
 </div>
@@ -6476,7 +6494,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v273';
+const APP_VERSION='flint-v274';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
