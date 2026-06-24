@@ -6040,7 +6040,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v242';
+const APP_VERSION='flint-v243';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6095,6 +6095,74 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
       setTimeout(function(){ try{ P.rawStop&&P.rawStop(); P.stopScan&&P.stopScan(); }catch(e){} if(!connecting)log('— Fin (25s). Si AUCUNE ligne « ⭐ POLAR » ni appareil à signal fort (-40 à -60 dBm) n\'est apparu, ta Loop n\'émet rien du tout → souci matériel.'); },25000);
     }catch(e){log('❌ erreur : '+(e&&e.message?e.message:e));}
   };
+})();
+</script>
+<script>
+/* ===== Scan repas façon Cal AI — branche le vrai cerveau (proxy Gemini) sur le hook de Dino + liste éditable aliment-par-aliment. Script isolé. ===== */
+(function(){
+  /* >>> À REMPLACER par l'URL de ta fonction Vercel après déploiement <<< */
+  window.FLINT_SCAN_API = window.FLINT_SCAN_API || 'https://flint-proxy.vercel.app/api/scan-meal';
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function fallback(){ window._flintScanItems=null; return {name:'Mon repas',kcal:600,prot:35,carb:60,fat:22}; }
+  window.analyzeMealPhoto=function(file){
+    return new Promise(function(resolve){
+      try{
+        var rd=new FileReader();
+        rd.onload=function(e){
+          _downscaleImg(e.target.result,1024,function(dataUrl){
+            if(!dataUrl){resolve(fallback());return;}
+            fetch(window.FLINT_SCAN_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:dataUrl})})
+              .then(function(r){return r.json();})
+              .then(function(d){
+                if(!d||!d.items||!d.items.length){resolve(fallback());return;}
+                window._flintScanItems=d.items.map(function(it){return Object.assign({},it);});
+                setTimeout(renderItems,30);
+                var t=d.total||{};
+                resolve({name:d.mealName||'Mon repas',kcal:Math.round(t.kcal||0),prot:Math.round(t.prot||0),carb:Math.round(t.carb||0),fat:Math.round(t.fat||0)});
+              })
+              .catch(function(){resolve(fallback());});
+          });
+        };
+        rd.onerror=function(){resolve(fallback());};
+        rd.readAsDataURL(file);
+      }catch(e){resolve(fallback());}
+    });
+  };
+  function recalc(){
+    var items=window._flintScanItems||[];
+    var t=items.reduce(function(a,it){return {k:a.k+(+it.kcal||0),p:a.p+(+it.prot||0),c:a.c+(+it.carb||0),f:a.f+(+it.fat||0)};},{k:0,p:0,c:0,f:0});
+    var g=function(id){return document.getElementById(id);};
+    if(g('balFKcal'))g('balFKcal').value=Math.round(t.k);
+    if(g('balFProt'))g('balFProt').value=Math.round(t.p);
+    if(g('balFCarb'))g('balFCarb').value=Math.round(t.c);
+    if(g('balFFat'))g('balFFat').value=Math.round(t.f);
+  }
+  window._flintEditGrams=function(i,val){
+    var it=(window._flintScanItems||[])[i];if(!it)return;
+    if(!it._base)it._base={kcal:it.kcal,prot:it.prot,carb:it.carb,fat:it.fat,grams:it.grams||1};
+    var ng=Math.max(0,+val||0),b=it._base,f=b.grams>0?ng/b.grams:1;
+    it.grams=ng;it.kcal=Math.round(b.kcal*f);it.prot=Math.round(b.prot*f);it.carb=Math.round(b.carb*f);it.fat=Math.round(b.fat*f);
+    recalc();renderItems();
+  };
+  window._flintDelItem=function(i){var a=window._flintScanItems||[];a.splice(i,1);recalc();renderItems();};
+  function renderItems(){
+    var items=window._flintScanItems,form=document.getElementById('balShForm');if(!form||!items)return;
+    var host=document.getElementById('scanItems');
+    if(!host){host=document.createElement('div');host.id='scanItems';host.style.cssText='margin:6px 0 14px';form.parentNode.insertBefore(host,form);}
+    var rows=items.map(function(it,i){
+      var low=(it.confidence!=null&&it.confidence<0.5);
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-top:0.5px solid rgba(20,18,12,.08)">'
+        +'<div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">'+esc(it.name)+(low?' <span style="color:#F2A93B;font-size:11px">· à vérifier</span>':'')+'</div>'
+        +'<div style="font-size:12px;color:#8a8a82;margin-top:3px"><input type="number" inputmode="numeric" value="'+it.grams+'" onchange="_flintEditGrams('+i+',this.value)" style="width:60px;border:1px solid rgba(20,18,12,.15);background:#fff;border-radius:8px;padding:4px 6px;font-size:12px;font-weight:700"> g</div></div>'
+        +'<div style="font-family:var(--disp,inherit);font-weight:800;font-size:18px;white-space:nowrap">'+it.kcal+'</div>'
+        +'<button type="button" aria-label="Retirer" onclick="_flintDelItem('+i+')" style="border:0;background:none;color:#b3b0a8;font-size:15px;cursor:pointer;padding:4px 2px">✕</button></div>';
+    }).join('');
+    var tot=items.reduce(function(a,it){return a+(+it.kcal||0);},0);
+    host.innerHTML='<div style="font-size:11px;font-weight:800;color:#a7a29a;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px">Aliments détectés · ajuste les grammes</div>'+rows
+      +'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0 2px;border-top:1px solid rgba(20,18,12,.12);margin-top:4px;font-weight:800"><span>Total estimé</span><span style="font-family:var(--disp,inherit);font-size:20px">'+tot+' kcal</span></div>';
+  }
+  var _close=window.balSheetClose;
+  if(typeof _close==='function'){window.balSheetClose=function(){var h=document.getElementById('scanItems');if(h)h.remove();window._flintScanItems=null;return _close.apply(this,arguments);};}
 })();
 </script>
 </body>
