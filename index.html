@@ -2587,8 +2587,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
 
     <!-- PAS (valeur dans l'œuf) -->
-    <button class="fhd-steps" type="button" onclick="go('steps')"><span id="flSteps">—</span></button>
-    <button class="fhd-hit fhd-hit-pas" type="button" onclick="go('steps')" aria-label="Pas"></button>
+    <button class="fhd-steps" type="button" onclick="openMetricTrend('steps')"><span id="flSteps">—</span></button>
+    <button class="fhd-hit fhd-hit-pas" type="button" onclick="openMetricTrend('steps')" aria-label="Pas"></button>
 
     <!-- œuf FC (codé, miroir du PAS) -->
     <button class="fhd-fc" type="button" onclick="go('fcdetail')"><i class="ti ti-heart"></i><span class="l">FC</span><span class="v" id="flFcEgg">—</span><span class="u">bpm</span></button>
@@ -2714,7 +2714,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <!-- ===================== VOIR LES TENDANCES ===================== -->
 <section class="view" id="v-metrend">
 <div class="mt2">
-  <div class="mt2top">
+  <div id="mtStepsTop" class="stp" style="display:none"></div>
+  <div class="mt2top" id="mt2top">
     <button class="mt2ico" type="button" onclick="goBack('today')"><i class="ti ti-chevron-left"></i></button>
     <h1 class="mt2ttl" id="mt2Title" onclick="openMetricPicker()">—</h1>
     <button class="mt2ico" type="button" onclick="metrendInfo()"><i class="ti ti-info-small"></i></button>
@@ -3372,17 +3373,6 @@ body.stepsview header{display:none}
 .stp .stp-badge b{display:block;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;margin-bottom:3px}
 .stp .stp-badge span{font-size:13px;color:#6E6A62;line-height:1.4}
 </style>
-<section class="view" id="v-steps">
-<div class="stp">
-  <div class="steps-img" id="stepsImg"></div>
-  <div class="card stp-week">
-    <div class="stp-wh"><b>Tes pas</b><span id="stpTrendHd">—</span></div>
-    <div class="stp-seg" id="stpSeg"><button type="button" data-r="S" onclick="stpRange('S')">7J</button><button type="button" data-r="M" onclick="stpRange('M')">30J</button><button type="button" data-r="6M" onclick="stpRange('6M')">6M</button></div>
-    <div id="stpChart" class="stp-chart"></div>
-  </div>
-  <div class="card stp-badge" id="stpBadge"></div>
-</div>
-</section>
 
 <!-- ===================== TRANSPARENCE · COMMENT TON SCORE EST CALCULÉ ===================== -->
 <style>
@@ -4170,8 +4160,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');document.body.classList.toggle('stepsview',v==='steps');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,steps:renderSteps,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -4502,6 +4492,7 @@ function trendPts(M,range,off){var n=range==='S'?7:(range==='M'?30:185),step=ran
 function trendAvg(pts){var v=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v});return v.length?v.reduce(function(a,b){return a+b},0)/v.length:null}
 function metShort(M){return M.short||M.label.toLowerCase()}
 function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='bar'||M.chart==='stack';
+ (function(){var isS=(_tMetric==='steps'),top=document.getElementById('mtStepsTop'),hdr=document.getElementById('mt2top');if(top){top.style.display=isS?'':'none';top.innerHTML=isS?stepsHeroHTML():'';}if(hdr)hdr.style.display=isS?'none':'';})();
  var seg=document.getElementById('tSeg');if(seg)seg.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.r===_tRange)});
  set('mt2Title',M.label);set('mt2Sub',M.intro||('Explore ta '+metShort(M).toLowerCase()+' jour après jour et comprends son impact sur ta récupération et tes performances.'));
  set('tAvgU',M.unit);set('tExplT',M.explT);set('tExplP',M.explP);
@@ -5417,59 +5408,20 @@ function recFmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'
 /* ---------- PAS ---------- */
 function stpGoal(){var st=DB.get('stepGoal',null);if(st!=null)return st;var a=trend30(TREND.steps)||10000;return Math.max(6000,Math.round(a*1.05/100)*100);}
 function stpHM(min){min=Math.round(min);var h=Math.floor(min/60),m=min%60;return h>0?(h+'h'+String(m).padStart(2,'0')):(m+' min');}
-function stpChartSVG(days){
- var W=328,H=180,L=30,R=10,T=14,B=24,vals=days.map(function(d){return d.v});
- var ymax=Math.max(18000,Math.ceil(Math.max.apply(null,vals)/6000)*6000),n=days.length,slot=(W-L-R)/n,bw=Math.min(22,slot*0.52);
- var g='';[0,6000,12000,18000].forEach(function(t){if(t>ymax)return;var y=(T+(1-t/ymax)*(H-T-B)).toFixed(1);g+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#EFEAE1" stroke-width="1" stroke-dasharray="3 4"/><text x="'+(L-6)+'" y="'+(+y+3.5)+'" text-anchor="end" font-size="9.5" font-weight="700" fill="#B6B0A6">'+(t/1000)+'k</text>';});
- var bars='';days.forEach(function(d,i){var x=L+i*slot+slot/2,bh=Math.max(2,(d.v/ymax)*(H-T-B)),y=H-B-bh;bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="5" fill="'+(d.today?'#F0492E':'url(#stpg)')+'"/><text x="'+x.toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" font-weight="700" fill="'+(d.today?'#F0492E':'#A7A29A')+'">'+d.lab+'</text>';});
- return '<svg viewBox="0 0 '+W+' '+H+'"><defs><linearGradient id="stpg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0492E" stop-opacity=".8"/><stop offset="1" stop-color="#F0492E" stop-opacity=".38"/></linearGradient></defs>'+g+bars+'</svg>';
-}
-function renderSteps(){
+function stepsHeroHTML(){
  var k=tk(),steps=flStepsOf(k),goal=stpGoal(),pct=Math.round(steps/goal*100);
- var dist=steps*0.00076,kcal=Math.round(steps*0.0415),act=Math.round(steps/121);
- var host=document.getElementById('stepsImg');
- if(host){var pc=pct>=100?'#2FA86A':'#F0492E',h='';
-  h+='<button class="ovtap" onclick="goBack(\'today\')" style="left:0;top:0;width:18%;height:6.5%" aria-label="Retour"></button>';
-  h+='<div class="stp-ov stp-num" style="left:50%;top:45%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
-  h+='<div class="stp-ov" style="left:50%;top:53.5%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
-  h+='<div class="stp-ov" style="left:50%;top:58.5%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
-  h+='<div class="stp-ov" style="left:50%;top:63.6%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
-  function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:80%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:88%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
-  h+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
-  h+=stat(50,fmtN(kcal),'kcal','Dépensées');
-  h+=stat(79.5,stpHM(act),'','Activité');
-  host.innerHTML=h;
- }
- window._stpSel=null;renderStpTrend();
- var wk=0;for(var i=0;i<7;i++)wk+=flStepsOf(tk2off(k,-i));var avg7=Math.round(wk/7),good=steps>=avg7;
- set('stpBadge','<span class="stp-medal">'+(good?'🏅':'👟')+'</span><div><b>'+(good?'Très bien !':'Continue !')+'</b><span>'+(good?'Tu dépasses ta moyenne habituelle cette semaine.':'Encore quelques pas pour dépasser ta moyenne habituelle.')+'</span></div>');
+ var dist=steps*0.00076,kcal=Math.round(steps*0.0415),act=Math.round(steps/121),pc=pct>=100?'#2FA86A':'#F0492E';
+ var h='<button class="ovtap" onclick="goBack(\'today\')" style="left:0;top:0;width:18%;height:6.5%" aria-label="Retour"></button>';
+ h+='<div class="stp-ov stp-num" style="left:50%;top:45%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
+ h+='<div class="stp-ov" style="left:50%;top:53.5%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
+ h+='<div class="stp-ov" style="left:50%;top:58.5%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
+ h+='<div class="stp-ov" style="left:50%;top:63.6%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
+ function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:80%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:88%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
+ h+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
+ h+=stat(50,fmtN(kcal),'kcal','Dépensées');
+ h+=stat(79.5,stpHM(act),'','Activité');
+ return '<div class="steps-img">'+h+'</div>';
 }
-function stpTrendSVG(pts,avg,range){var W=330,H=215,padL=36,padR=12,padT=20,padB=26,col='#F0492E';
- var data=pts,agg=false;
- if(range==='6M'){data=[];for(var i=0;i<pts.length;i+=7){var sg=pts.slice(i,i+7),vs=sg.filter(function(p){return p.v!=null}).map(function(p){return p.v});data.push({date:sg[0].date,v:vs.length?vs.reduce(function(a,b){return a+b},0)/vs.length:null})}agg=true}
- var n=data.length,vals=data.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
- var hi=niceMax(Math.max.apply(null,vals));
- function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
- var bw=Math.max(2,(W-padL-padR)/n*0.6),sel=window._stpSel;
- var ticks=[0,hi/2,hi],grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+fmtN(Math.round(tv))+'</text>'});
- var bars='';data.forEach(function(p,i){if(p.v==null)return;var x=X(i),y=Y(p.v),hh=Math.max(1,Y(0)-y),seld=(!agg&&sel===i);bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+hh.toFixed(1)+'" rx="'+Math.min(4,bw/2).toFixed(1)+'" fill="'+col+'" opacity="'+(seld?1:(sel!=null&&!agg?.38:.9))+'"/>'});
- var moy='';if(avg!=null){var my=Y(avg);moy='<line x1="'+padL+'" y1="'+my.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+my.toFixed(1)+'" stroke="#161512" stroke-width="1.4" stroke-dasharray="4 4"/><rect x="'+(padL-2)+'" y="'+(my-9).toFixed(1)+'" width="34" height="18" rx="5" fill="#fff" stroke="#E6DFD5"/><text x="'+(padL+15)+'" y="'+(my+3.5).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="#161512">MOY.</text>'}
- var xlab='',step=range==='S'?1:Math.ceil(n/5);for(var j=0;j<n;j+=step){var d=data[j].date;xlab+='<text x="'+X(j).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+T_MONL[d.getMonth()]+'</text><text x="'+X(j).toFixed(1)+'" y="'+(H-2)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+d.getDate()+'</text>'}
- return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+grid+ylab+bars+moy+xlab+'</svg>';
-}
-function renderStpTrend(){
- var M=TREND.steps,range=window._stpRange||'S',pts=trendPts(M,range,0);
- var vals=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v}),avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):null;
- var seg=document.getElementById('stpSeg');if(seg)Array.prototype.forEach.call(seg.children,function(b){b.classList.toggle('on',b.dataset.r===range)});
- var hd='Moyenne '+(avg!=null?fmtN(avg):'—')+' pas';
- if(window._stpSel!=null&&range!=='6M'&&pts[window._stpSel]&&pts[window._stpSel].v!=null){var p=pts[window._stpSel],d=p.date;hd=fmtN(Math.round(p.v))+' pas · '+d.getDate()+' '+T_MONL[d.getMonth()];}
- set('stpTrendHd',hd);
- var host=document.getElementById('stpChart');if(!host)return;host.innerHTML=stpTrendSVG(pts,avg,range);
- if(range!=='6M'){host.style.cursor='pointer';host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}stpScrub(e.clientX);host.onpointermove=function(ev){stpScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null};};}
- else{host.onpointerdown=null;host.style.cursor='default';}
-}
-function stpRange(r){window._stpRange=r;window._stpSel=null;renderStpTrend();}
-function stpScrub(cx){var host=document.getElementById('stpChart');if(!host)return;var range=window._stpRange||'S',n=range==='S'?7:30;var r=host.getBoundingClientRect();var padL=36/330*r.width,padR=12/330*r.width;var ratio=(cx-r.left-padL)/(r.width-padL-padR);var i=Math.max(0,Math.min(n-1,Math.floor(ratio*n)));if(i!==window._stpSel){window._stpSel=i;if(typeof haptic==='function')haptic(4);renderStpTrend();}}
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
  if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',dir:0,c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',dir:-1,c:'Un peu sous ton objectif.'}:{s:'Insuffisant',t:'bad',dir:-1,c:'Nettement sous ton objectif.'};}
@@ -6402,7 +6354,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v265';
+const APP_VERSION='flint-v266';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
