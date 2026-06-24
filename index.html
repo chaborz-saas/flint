@@ -5563,10 +5563,10 @@ function stepsHeroHTML(){
  h+='<button class="s2back" type="button" onclick="goBack(\'today\')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>';
  h+='<div class="s2ttl">Pas</div>';
  h+='<div class="s2nav"><button class="s2nav-a" type="button" onclick="stepDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button><button class="s2nav-d" type="button" onclick="stepCalOpen()"><span>'+recDateFmt(off)+'</span> <i class="ti ti-calendar"></i></button><button class="s2nav-a" type="button" onclick="stepDay(1)"'+(off>=0?' disabled':'')+' aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button></div>';
- h+='<div class="s2ov s2num" style="left:50%;top:51%">'+fmtN(steps)+'</div>';
- h+='<div class="s2ov" style="left:50%;top:57.5%;font-size:4.2cqw;color:#6E6A62">pas</div>';
- h+='<div class="s2ov" style="left:50%;top:61.3%;font-size:4.2cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
- h+='<div class="s2ov" style="left:50%;top:65.4%;font-size:4.8cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
+ h+='<div class="s2ov s2num" style="left:50%;top:58%">'+fmtN(steps)+'</div>';
+ h+='<div class="s2ov" style="left:50%;top:64.5%;font-size:4.2cqw;color:#6E6A62">pas</div>';
+ h+='<div class="s2ov" style="left:50%;top:68.3%;font-size:4.2cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
+ h+='<div class="s2ov" style="left:50%;top:72.4%;font-size:4.8cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
  function stat(cx,val,unit,lbl){return '<div class="s2ov s2stat" style="left:'+cx+'%;top:83%">'+val+(unit?'<small>'+unit+'</small>':'')+'</div><div class="s2ov" style="left:'+cx+'%;top:90.6%;font-size:3.4cqw;color:#6E6A62">'+lbl+'</div>';}
  h+=stat(23,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
  h+=stat(50,fmtN(kcal),'kcal','Dépensées');
@@ -6509,7 +6509,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v283';
+const APP_VERSION='flint-v284';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
