@@ -6117,6 +6117,12 @@ function actBanner(name){var n=String(name||'').toLowerCase();
   [/renfo/,'act-renfo'],
   [/muscu|halter|haltèr|hyrox|cross|force/,'act-muscu'],
   [/foot|soccer/,'act-football'],
+  [/natation|nage|swim|crawl|brasse|piscine/,'act-natation'],
+  [/randonn|rando|hike|hiking|trek/,'act-randonnee'],
+  [/rameur|aviron|row|rame/,'act-rameur'],
+  [/corde|skipping/,'act-corde'],
+  [/triathlon|triath/,'act-triathlon'],
+  [/[eé]l+ipt|cross.?train/,'act-elliptique'],
   [/course|run|jog|trail|marche|walk/,'act-run']
  ];
  for(var i=0;i<map.length;i++){if(map[i][0].test(n))return './'+map[i][1]+'.png?v=2'}
@@ -6577,7 +6583,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v303';
+const APP_VERSION='flint-v305';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
