@@ -3760,6 +3760,18 @@ body.stepsview header{display:none}
 .fc2 .fc2nav-a[disabled]{background:#F1EEE8;color:#C8C2B8}
 .fc2 .fc2nav-d{display:inline-flex;align-items:center;gap:7px;background:#FCE9E4;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#F0492E;cursor:pointer;white-space:nowrap}
 .fc2 .fc2nav-d i{font-size:18px}
+/* ===== Navigateurs de date — style unifié noir & blanc, compact (tout le site) ===== */
+.rec2 .recnav-a,.stp .recnav-a,.fc2 .fc2nav-a{width:36px;height:36px;font-size:16px;background:#fff;color:#15140F;border:1px solid #E8E2D8;box-shadow:0 2px 7px rgba(20,18,12,.07)}
+.rec2 .recnav-a[disabled],.stp .recnav-a[disabled],.fc2 .fc2nav-a[disabled]{background:#F4F1EC;color:#CBC5BB;border-color:#EDE8E0;box-shadow:none}
+.rec2 .recnav-d,.stp .recnav-d,.fc2 .fc2nav-d{background:#fff;color:#15140F;border:1px solid #E8E2D8;box-shadow:0 2px 7px rgba(20,18,12,.07);font-size:13.5px;font-weight:700;padding:7px 14px;gap:7px}
+.rec2 .recnav-d i,.stp .recnav-d i,.fc2 .fc2nav-d i{color:#15140F;font-size:15px}
+.rec2 .recnav,.stp .recnav,.fc2 .fc2nav{gap:7px}
+.slp-da{background:#fff;color:#15140F;border:1px solid #E8E2D8;box-shadow:0 2px 7px rgba(20,18,12,.07)}
+.slp-da:disabled{background:#F4F1EC;color:#CBC5BB;border-color:#EDE8E0;box-shadow:none;opacity:1}
+.slp-dlbl2{color:#15140F;background:#fff;border:1px solid #E8E2D8;border-radius:30px;padding:1.6cqw 3.4cqw;box-shadow:0 2px 7px rgba(20,18,12,.07)}
+.slp-dlbl2 i{color:#15140F}
+.rec2 .recov-img .ovnav-a,.rec2 .recov-img .ovnav-d{background:#fff;color:#15140F;border:1px solid #E8E2D8;box-shadow:0 2px 7px rgba(20,18,12,.07)}
+.rec2 .recov-img .ovnav-d i{color:#15140F}
 .fc2 .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:0 0 13px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);width:100%;text-align:left;font-family:inherit;display:block}
 .fc2 button.card{cursor:pointer;transition:transform .14s ease}
 .fc2 button.card:active{transform:scale(.99)}
@@ -5016,12 +5028,21 @@ function getNutGoals(){const p=getProfile();return {kcal:p.kcalGoal||2400,prot:p
 function mealsOf(k){return DB.get('meals_'+(k||tk()),[])}
 function nutTotals(k){return mealsOf(k).reduce((a,x)=>({kcal:a.kcal+(+x.kcal||0),prot:a.prot+(+x.prot||0),carb:a.carb+(+x.carb||0),fat:a.fat+(+x.fat||0)}),{kcal:0,prot:0,carb:0,fat:0})}
 function macroStat(lbl,val,goal,col){const pct=Math.min(100,goal?val/goal*100:0);return '<div class="stat"><div class="sl">'+lbl+'</div><div class="sv" style="font-size:23px">'+Math.round(val)+'<small style="font-size:11px;color:var(--ink2);font-family:var(--sans);font-weight:700"> /'+Math.round(goal)+'g</small></div><div class="progbar" style="margin-top:7px;height:8px"><i style="width:'+pct+'%;background:'+col+'"></i></div></div>'}
-function renderNutrition(){const tt=nutTotals(),g=getNutGoals(),reste=g.kcal-tt.kcal;
- document.getElementById('nutRing').innerHTML=ringHTML(Math.min(100,tt.kcal/g.kcal*100),168,'Calories','/ '+fmtN(g.kcal)+' kcal',(reste>=0?'var(--accent)':'var(--amber)'),fmtN(tt.kcal));
- set('nutLine',reste>=0?'Il te reste '+fmtN(reste)+' kcal aujourd\'hui':'Objectif dépassé de '+fmtN(-reste)+' kcal');
- set('nutMacros',macroStat('Protéines',tt.prot,g.prot,'#6C7BD6')+macroStat('Glucides',tt.carb,g.kcal*0.45/4,'#F2A93B')+macroStat('Lipides',tt.fat,g.kcal*0.25/9,'#F0492E'));
- const meals=mealsOf();set('mealList',meals.length?meals.map((m,i)=>'<div class="mealrow"><div style="min-width:0;flex:1"><div class="an">'+esc(m.name)+'</div><div class="at">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip</div></div><span class="mkcal">'+m.kcal+'</span><span class="ax" onclick="delMeal('+i+')">✕</span></div>').join(''):'<p class="sci">Aucun repas. Ajoute ton premier repas.</p>');
- document.getElementById('nutBars').innerHTML=barsSVG(seriesBack(null,14,k=>nutTotals(k).kcal),{h:66,ref:g.kcal,refLabel:'objectif',refColor:'var(--ink2)',lab:['−14j','auj.'],colorFn:function(v,i,last){return v?(v>g.kcal?'var(--amber)':(last?'var(--accent)':'rgba(240,73,46,.55)')):'var(--track)'}})}
+function renderNutrition(){var k=tk(),meals=mealsOf(k),tt=nutTotals(k);
+ set('nutSumK',fmtN(tt.kcal));
+ set('nutSumM',Math.round(tt.prot)+'g P · '+Math.round(tt.carb)+'g G · '+Math.round(tt.fat)+'g L');
+ var cnt=document.getElementById('nutCount');if(cnt)cnt.textContent=meals.length?meals.length+' repas':'';
+ var host=document.getElementById('nutRecent');if(!host)return;
+ if(!meals.length){host.innerHTML='<div class="nutx-empty"><i class="ti ti-camera"></i><div>Aucun repas scanné aujourd\'hui.<br>Appuie sur l\'appareil photo pour commencer.</div></div>';return}
+ host.innerHTML=meals.map(function(m,i){
+  var th=m.photo?' style="background-image:url('+m.photo+')"':'';
+  var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
+  return '<div class="nutx-meal"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
+   +'<span class="nutx-mmid"><span class="nutx-mn">'+esc(m.name)+(m.ai?' <i class="ti ti-sparkles nutx-aiic" aria-hidden="true"></i>':'')+'</span>'
+   +'<span class="nutx-mt">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span>'
+   +'<span class="nutx-mk">'+(m.kcal||0)+'<small>kcal</small></span>'
+   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="delMeal('+i+')">✕</button></div>';
+ }).join('')}
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 /* ============ BALANCE ÉNERGÉTIQUE (conso photo IA ↔ dépense bracelet) ============ */
@@ -6455,7 +6476,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v272';
+const APP_VERSION='flint-v273';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
