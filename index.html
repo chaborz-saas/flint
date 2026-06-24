@@ -1892,19 +1892,19 @@ body.sleepview{background:#FAF7F5}
 .slpcal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .slpcal-hd b{font-size:16.5px;font-weight:800;color:#161512;text-transform:capitalize}
 .slpcal-nav{display:flex;gap:8px}
-.slpcal-nav button{width:36px;height:36px;border:0;border-radius:50%;background:#F1ECF8;color:#6D63F6;font-size:18px;display:grid;place-items:center;cursor:pointer;line-height:0;transition:transform .12s}
+.slpcal-nav button{width:36px;height:36px;border:0;border-radius:50%;background:#F2EEE7;color:#15140F;font-size:18px;display:grid;place-items:center;cursor:pointer;line-height:0;transition:transform .12s}
 .slpcal-nav button:active{transform:scale(.88)}
 .slpcal-nav button:disabled{opacity:.3}
 .slpcal-wd{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
 .slpcal-wd span{text-align:center;font-size:11px;font-weight:800;color:#B0ABA2;text-transform:uppercase}
 .slpcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .slpcal-grid button{aspect-ratio:1;border:0;background:none;border-radius:50%;font-family:inherit;font-size:14.5px;font-weight:600;color:#262626;cursor:pointer;display:grid;place-items:center;transition:background .12s}
-.slpcal-grid button:active{background:#F1ECF8}
+.slpcal-grid button:active{background:#EFEAE2}
 .slpcal-grid button:disabled{color:#D7D1C8;cursor:default;background:none}
-.slpcal-grid button.today{color:#6D63F6;font-weight:800}
-.slpcal-grid button.sel{background:#6D63F6;color:#fff;font-weight:800}
+.slpcal-grid button.today{color:#15140F;font-weight:800;box-shadow:inset 0 0 0 1.6px #CFC9BE}
+.slpcal-grid button.sel{background:#15140F;color:#fff;font-weight:800;box-shadow:none}
 .slpcal-grid .blank{visibility:hidden}
-.slpcal-today{width:100%;margin-top:14px;border:0;background:#F1ECF8;color:#6D63F6;font-family:inherit;font-weight:800;font-size:14.5px;padding:12px;border-radius:15px;cursor:pointer;transition:transform .12s}
+.slpcal-today{width:100%;margin-top:14px;border:0;background:#15140F;color:#fff;font-family:inherit;font-weight:800;font-size:14.5px;padding:12px;border-radius:15px;cursor:pointer;transition:transform .12s}
 .slpcal-today:active{transform:scale(.98)}
 .slp-hit-m{position:absolute;background:none;border:0;z-index:6;cursor:pointer;border-radius:22px;-webkit-tap-highlight-color:transparent;transition:background .12s}
 .slp-hit-m:active{background:rgba(110,99,246,.07)}
@@ -6455,7 +6455,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v271';
+const APP_VERSION='flint-v272';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
