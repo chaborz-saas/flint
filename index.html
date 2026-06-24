@@ -6040,7 +6040,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v243';
+const APP_VERSION='flint-v244';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6102,6 +6102,8 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
 (function(){
   /* >>> À REMPLACER par l'URL de ta fonction Vercel après déploiement <<< */
   window.FLINT_SCAN_API = window.FLINT_SCAN_API || 'https://flint-proxy.vercel.app/api/scan-meal';
+  /* doit correspondre à la variable d'env FLINT_APP_SECRET côté Vercel */
+  window.FLINT_APP_KEY = window.FLINT_APP_KEY || 'fl1nt-scan-9x4q2';
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function fallback(){ window._flintScanItems=null; return {name:'Mon repas',kcal:600,prot:35,carb:60,fat:22}; }
   window.analyzeMealPhoto=function(file){
@@ -6111,7 +6113,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
         rd.onload=function(e){
           _downscaleImg(e.target.result,1024,function(dataUrl){
             if(!dataUrl){resolve(fallback());return;}
-            fetch(window.FLINT_SCAN_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:dataUrl})})
+            fetch(window.FLINT_SCAN_API,{method:'POST',headers:{'Content-Type':'application/json','x-flint-key':window.FLINT_APP_KEY},body:JSON.stringify({image:dataUrl})})
               .then(function(r){return r.json();})
               .then(function(d){
                 if(!d||!d.items||!d.items.length){resolve(fallback());return;}
@@ -6163,6 +6165,18 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
   }
   var _close=window.balSheetClose;
   if(typeof _close==='function'){window.balSheetClose=function(){var h=document.getElementById('scanItems');if(h)h.remove();window._flintScanItems=null;return _close.apply(this,arguments);};}
+  /* Bouton caméra flottant : scanner son plat en 1 tap depuis N'IMPORTE QUEL écran */
+  function addFab(){
+    if(document.getElementById('flintScanFab'))return;
+    var b=document.createElement('button');
+    b.id='flintScanFab';b.type='button';b.setAttribute('aria-label','Scanner mon repas');
+    b.onclick=function(){haptic&&haptic(10); if(typeof balPhotoStart==='function')balPhotoStart();};
+    b.innerHTML='<i class="ti ti-camera"></i>';
+    b.style.cssText='position:fixed;right:16px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:45;width:60px;height:60px;border:none;border-radius:50%;background:#F0492E;color:#fff;font-size:27px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(240,73,46,.45);cursor:pointer;transition:transform .12s ease';
+    b.onpointerdown=function(){b.style.transform='scale(.9)'};b.onpointerup=b.onpointerleave=function(){b.style.transform=''};
+    document.body.appendChild(b);
+  }
+  if(document.readyState!=='loading')addFab();else document.addEventListener('DOMContentLoaded',addFab);
 })();
 </script>
 </body>

@@ -44,15 +44,36 @@ Donne un mealName court résumant le plat. Réponds UNIQUEMENT en JSON conforme 
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-flint-key');
+}
+
+// Rate-limit best-effort en mémoire (par IP, fenêtre glissante). Se réinitialise au cold start.
+// Pour du costaud en prod : passer sur Vercel KV / Upstash Redis.
+const RL = new Map();
+const RL_WINDOW = 60000, RL_MAX = 20;
+function rateLimited(ip) {
+  const now = Date.now();
+  const arr = (RL.get(ip) || []).filter(t => now - t < RL_WINDOW);
+  arr.push(now);
+  RL.set(ip, arr);
+  if (RL.size > 5000) { for (const k of RL.keys()) { if (!(RL.get(k) || []).some(t => now - t < RL_WINDOW)) RL.delete(k); } }
+  return arr.length > RL_MAX;
 }
 
 function round(n) { return Math.max(0, Math.round(Number(n) || 0)); }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+
+  // 1) Rate-limit par IP (cap les abus / le coût)
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  if (rateLimited(ip)) return res.status(429).json({ error: 'Trop de requêtes, réessaie dans une minute.' });
+
+  // 2) Secret d'app (si FLINT_APP_SECRET est défini en env, on l'exige). Soft-secret : dissuade l'abus passant.
+  const secret = process.env.FLINT_APP_SECRET;
+  if (secret && req.headers['x-flint-key'] !== secret) return res.status(401).json({ error: 'unauthorized' });
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(500).json({ error: 'GEMINI_API_KEY manquante (variable d\'env Vercel)' });
