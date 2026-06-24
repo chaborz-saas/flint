@@ -3761,23 +3761,55 @@ body.stepsview header{display:none}
 
 <!-- ===================== EFFORT · DÉTAIL D'ACTIVITÉ ===================== -->
 <section class="view" id="v-activitydetail">
-<div class="flact">
-  <div class="ahd">
-    <button class="abk" onclick="goBack('load')" aria-label="Retour">‹</button>
-    <span class="aico" id="actIcon"></span>
-    <div class="atit"><b id="actTitle">—</b><span id="actTime">—</span></div>
-    <span class="amore">●●●</span>
+<style>
+.act2{padding:0 0 96px;font-family:'Inter',sans-serif;color:#15140F}
+.act2-banner{position:relative;width:100%;aspect-ratio:941/488;background:url('./act-run.png?v=1') top center/100% 100% no-repeat;container-type:inline-size}
+.act2-back{position:absolute;top:32%;left:3.5%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.14);color:#15140F;font-size:20px;display:grid;place-items:center;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.7,.5,1);z-index:2}
+.act2-back:active{transform:scale(.84)}
+.act2-h1{position:absolute;top:33%;left:16.5%;margin:0;font-family:'Anton';font-style:oblique 8deg;font-size:13.5cqw;line-height:.9;color:#15140F}
+.act2-sub{position:absolute;top:52%;left:17%;margin:0;font-size:3.3cqw;font-weight:700;letter-spacing:.6px;color:#8A857D;text-transform:uppercase}
+.act2-hero{display:flex;align-items:center;background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(20,18,12,.04),0 12px 30px rgba(20,18,12,.07);margin:-32px 14px 0;padding:16px 18px;position:relative;z-index:3}
+.act2-hleft{flex:1;display:flex;align-items:center;gap:14px;min-width:0}
+.act2-hic{width:58px;height:58px;border-radius:50%;background:#FCE7E1;color:var(--accent);display:grid;place-items:center;font-size:27px;flex:none;box-shadow:0 2px 8px rgba(240,73,46,.10)}
+.act2-hbpm{font-family:'Anton';font-style:oblique 8deg;color:var(--accent);font-size:44px;line-height:1;display:flex;align-items:baseline;gap:4px}
+.act2-hbpm small{font-size:.42em;font-weight:400}
+.act2-hsep{width:1px;align-self:stretch;background:#ECE6DD;margin:6px 14px}
+.act2-hdur{flex:1;text-align:right}
+.act2-hdur .lbl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.4px;color:#9A948A;text-transform:uppercase;margin-bottom:5px}
+.act2-hdur b{font-family:'Anton';font-style:oblique 8deg;font-size:38px;color:#15140F}
+.act2-card{background:#fff;border-radius:22px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);margin:13px 14px;padding:16px 14px}
+.act2-bpmlbl{font-family:'Anton';font-style:oblique 8deg;font-size:13px;letter-spacing:.5px;color:#56514B;margin-bottom:4px}
+.act2-zhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.act2-zhd>span:first-child{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:14px;letter-spacing:.3px;color:#161512}
+.act2-zhd .dt{font-size:12px;color:#7C766B}.act2-zhd .dt b{color:#15140F;font-weight:800}
+.act2-rest{padding:0 14px}
+</style>
+<div class="act2 flact">
+  <div class="act2-banner" id="actBanner">
+    <button class="act2-back" type="button" onclick="goBack('load')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
+    <h1 class="act2-h1">EFFORT</h1>
+    <p class="act2-sub">Intensité de séance</p>
   </div>
-  <div class="inner">
-    <div class="acthr"><div class="hv"><span id="actHrV">—</span><small>bpm</small></div><div class="ht" id="actHrT">—</div></div>
+  <div class="act2-hero">
+    <div class="act2-hleft"><span class="act2-hic"><i class="ti ti-heart"></i></span><div class="act2-hbpm"><span id="actHrV">—</span><small>bpm</small></div></div>
+    <div class="act2-hsep"></div>
+    <div class="act2-hdur"><span class="lbl">Durée de séance</span><b id="actHrT">—</b></div>
+  </div>
+  <div class="act2-card">
+    <div class="act2-bpmlbl">BPM</div>
     <div class="chartbox" id="actChartBox">
       <div class="graphwrap" id="actGraph"></div>
       <div class="sp" id="actSp"></div>
       <div class="vl" id="actVl"></div>
       <div class="cz" id="actCz"></div>
     </div>
-    <div class="graphsub"><span class="ph"><span class="phi"></span>Plage habituelle</span><span>Durée <b id="actDur">—</b></span></div>
+    <div class="graphsub"><span class="ph"><span class="phi"></span>Plage habituelle</span></div>
+  </div>
+  <div class="act2-card">
+    <div class="act2-zhd"><span>Résumé des zones</span><span class="dt">Durée totale <b id="actDur">—</b></span></div>
     <div id="actZones"></div>
+  </div>
+  <div class="act2-rest">
     <div class="zupd">Les plages de zones ont été mises à jour automatiquement le <span id="actUpd">—</span>. <u>Voir les paramètres de FC</u></div>
     <div class="miles">
       <div class="mbadge" id="actMileIco"></div>
@@ -6064,8 +6096,14 @@ function actBind(){var box=document.getElementById('actChartBox');if(!box||box._
  function move(e){if(!window._actInsp)return;upd(e.clientX);e.preventDefault()}
  function end(e){if(!window._actInsp)return;window._actInsp=false;box.classList.remove('insp')}
  box.addEventListener('pointerdown',start);box.addEventListener('pointermove',move);box.addEventListener('pointerup',end);box.addEventListener('pointercancel',end);box.addEventListener('pointerleave',function(e){if(window._actInsp)end(e)})}
+function actBanner(name){var n=String(name||'').toLowerCase();
+ // mappe le sport -> bandeau (ajouter les images au fur et à mesure ; fallback = course)
+ var map=[[/course|run|jog|trail|marche|walk/,'act-run']];
+ for(var i=0;i<map.length;i++){if(map[i][0].test(n))return './'+map[i][1]+'.png?v=1'}
+ return './act-run.png?v=1';
+}
 function renderActivityDetail(){const m=actBuild(window._actSess);window._actModel=m;window._actHR=m.hr;
- set('actIcon',actSportSVG(m.name,26));set('actTitle',esc((m.name||'Activité').toUpperCase()));set('actTime',m.start+' à '+m.end);
+ var _bn=document.getElementById('actBanner');if(_bn)_bn.style.backgroundImage="url('"+actBanner(m.name)+"')";
  window._actGeo=actGeo(m);window._actInsp=false;var dmi=0,dmx=-1;m.hr.forEach(function(v,i){if(v>dmx){dmx=v;dmi=i}});window._actSel=dmi;
  set('actHrV',m.hr[dmi]);set('actHrT',window._actGeo.times[dmi]);
  set('actGraph',actGraph(m.hr,null));set('actDur',m.dur);set('actZones',actZonesHTML());set('actUpd',m.updated||'—');actBind();
@@ -6518,7 +6556,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v296';
+const APP_VERSION='flint-v298';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
