@@ -3091,7 +3091,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal3-cv{font-family:'Anton';font-style:oblique 6deg;font-size:9cqw}
 .bal3-cu{font-size:3.4cqw;color:#7C766B}
 .bal3-nv{font-family:'Anton';font-style:oblique 6deg;font-size:12.5cqw}
-.bal3-stat{font-size:3.5cqw;font-weight:800;display:flex;align-items:center;gap:1.2cqw}
+.bal3-stat{font-size:2.9cqw;font-weight:800;display:flex;align-items:center;justify-content:center;gap:1cqw;max-width:34%;text-align:center}
 .bal3-cic{position:absolute;transform:translate(-50%,-50%);width:11cqw;height:11cqw;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:5.4cqw;color:var(--green);box-shadow:0 2px 8px rgba(20,18,12,.08);z-index:2}
 .bal3-bar{position:absolute;transform:translateY(-50%);height:1.7cqw;border-radius:3cqw;background:rgba(20,18,12,.09);overflow:hidden;z-index:2}
 .bal3-bar i{display:block;height:100%;border-radius:3cqw}
@@ -6506,7 +6506,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v293';
+const APP_VERSION='flint-v294';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
