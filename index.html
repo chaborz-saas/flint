@@ -2871,7 +2871,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="nutx-modes">
     <button class="nutx-mode on" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
     <button class="nutx-mode" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
-    <button class="nutx-mode" type="button" onclick="toast('Code-barres — bientôt')"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
+    <button class="nutx-mode" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
     <button class="nutx-mode" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
   </div>
 
@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v250';
+const APP_VERSION='flint-v251';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6272,7 +6272,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
       return '<span class="bsh-pill" style="left:'+Math.round(px)+'px;top:'+Math.round(py)+'px;transform:translate(-50%,-50%)"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';
     }).join('');
   }
-  window._flintSyncResultUI=syncUI;window.syncUI=syncUI;
+  window._flintSyncResultUI=syncUI;window.syncUI=syncUI;window._flintRenderItems=renderItems;
   window.nutFix=function(){if(window.toast)toast('Ajuste les aliments ou les grammes ci-dessous');var h=document.getElementById('scanItems');if(h&&h.scrollIntoView)h.scrollIntoView({behavior:'smooth',block:'center'});};
   window.nutGallery=function(){var f=document.getElementById('nutGalleryFile');if(f){f.value='';f.click();}};
   window.nutDescribe=function(){if(window.toast)toast('Décrire ton plat — bientôt');};
@@ -6404,6 +6404,124 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
   // 3) reveal initial de la vue active au chargement
   function boot(){ try{ revealView(document.querySelector('.view.on')); }catch(e){} }
   if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
+})();
+</script>
+<style id="flx-modes">
+/* ===== FLINT — modes Décrire + Code-barres (overlays isolés) ===== */
+.flx-desc{position:fixed;inset:0;z-index:200}
+.flx-desc-ov{position:absolute;inset:0;background:rgba(20,18,12,.45)}
+.flx-desc-pan{position:absolute;left:0;right:0;bottom:0;max-width:465px;margin:0 auto;background:var(--card);border-radius:24px 24px 0 0;padding:16px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.2);animation:flxViewIn .3s var(--flx-ease,ease) both}
+.flx-desc-grip{width:40px;height:4px;border-radius:2px;background:var(--track);margin:0 auto 14px}
+.flx-desc-h{font-family:var(--sans);font-size:18px;font-weight:800;color:var(--ink)}
+.flx-desc-s{font-family:var(--sans);font-size:12.5px;color:var(--ink2);margin:4px 0 12px;line-height:1.4}
+.flx-desc-ta{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--bg2);resize:none;-webkit-user-select:text;user-select:text;box-sizing:border-box}
+.flx-desc-ta:focus{outline:none;box-shadow:0 0 0 3px var(--flx-glow,rgba(240,73,46,.16))}
+.flx-desc-go{width:100%;margin-top:12px;border:0;border-radius:999px;padding:14px;background:var(--accent);color:#fff;font-family:var(--sans);font-weight:800;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 24px rgba(240,73,46,.28)}
+.flx-scan{position:fixed;inset:0;z-index:200;background:#0c0a08;overflow:hidden}
+.flx-scan video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.flx-scan-top{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;color:#fff;font-family:var(--sans);font-weight:700;font-size:15px}
+.flx-scan-frame{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:76%;max-width:320px;height:150px;border:3px solid rgba(255,255,255,.92);border-radius:18px;box-shadow:0 0 0 100vmax rgba(12,10,8,.5);z-index:1}
+.flx-scan-hint{position:absolute;left:0;right:0;bottom:calc(46px + env(safe-area-inset-bottom));z-index:3;text-align:center;color:#fff;font-family:var(--sans);font-size:13px;padding:0 24px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.flx-scan-x,.flx-scan-man{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:9px 14px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.flx-scan-man{background:var(--accent);box-shadow:0 6px 16px rgba(240,73,46,.4)}
+</style>
+<script>
+/* ===== FLINT — Décrire (Gemini texte) + Code-barres (OpenFoodFacts) via le proxy. Isolé. ===== */
+(function(){
+  function g(id){return document.getElementById(id);}
+  function tt(m){ if(typeof toast==='function') toast(m); }
+  function hap(n){ if(typeof haptic==='function'){try{haptic(n||9)}catch(_){}}}
+  function api(){ return window.FLINT_SCAN_API||''; }
+  function key(){ return window.FLINT_APP_KEY||''; }
+  function callProxy(payload){
+    return fetch(api(),{method:'POST',headers:{'Content-Type':'application/json','x-flint-key':key()},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,status:r.status,data:j};},function(){return {ok:false,status:r.status,data:{}};});});
+  }
+  function openLoading(title){
+    window._flintScanItems=null;
+    var img=g('balShImg'); if(img){img.style.backgroundImage='';img.innerHTML='<i class="ti ti-photo"></i>';}
+    if(g('balFName'))g('balFName').value='';
+    ['bshKcal','bshProt','bshCarb','bshFat','bshHealth'].forEach(function(id){var e=g(id);if(e)e.textContent='—';});
+    var p=g('bshPills'); if(p)p.innerHTML='';
+    if(g('balShSub'))g('balShSub').innerHTML='<span class="bal-spin"></span>'+(title||'Analyse…');
+    if(g('balShForm'))g('balShForm').style.display='none';
+    if(typeof balSheetOpen==='function') balSheetOpen();
+  }
+  function showResult(mealName,items){
+    window._flintScanItems=(items||[]).map(function(it){return Object.assign({},it);});
+    try{_balPhoto=null;}catch(e){ try{window._balPhoto=null;}catch(_){}}
+    var img=g('balShImg'); if(img){img.style.backgroundImage='';img.innerHTML='<i class="ti ti-tools-kitchen-2"></i>';}
+    if(g('balFName'))g('balFName').value=mealName||'Mon repas';
+    var t=(items||[]).reduce(function(a,it){return {k:a.k+(+it.kcal||0),p:a.p+(+it.prot||0),c:a.c+(+it.carb||0),f:a.f+(+it.fat||0)};},{k:0,p:0,c:0,f:0});
+    if(g('balFKcal'))g('balFKcal').value=Math.round(t.k);
+    if(g('balFProt'))g('balFProt').value=Math.round(t.p);
+    if(g('balFCarb'))g('balFCarb').value=Math.round(t.c);
+    if(g('balFFat'))g('balFFat').value=Math.round(t.f);
+    if(g('balShSub'))g('balShSub').innerHTML='<span class="bal-aibadge"><i class="ti ti-sparkles"></i>Estimé</span> Vérifie et ajuste';
+    if(g('balShForm'))g('balShForm').style.display='';
+    if(typeof balSheetOpen==='function') balSheetOpen();
+    if(typeof window._flintRenderItems==='function') window._flintRenderItems();
+    if(typeof window.syncUI==='function') window.syncUI();
+    hap(10);
+  }
+  function handle(res,fallbackMsg){
+    if(res&&res.ok&&res.data&&res.data.items&&res.data.items.length){ showResult(res.data.mealName,res.data.items); }
+    else { tt(res&&res.data&&res.data.error?res.data.error:fallbackMsg); if(typeof balSheetClose==='function')balSheetClose(); }
+  }
+  /* ---------- DÉCRIRE ---------- */
+  function openDescribe(){
+    if(g('flxDesc')){g('flxDescTa').focus();return;}
+    var ov=document.createElement('div'); ov.id='flxDesc'; ov.className='flx-desc';
+    ov.innerHTML='<div class="flx-desc-ov"></div><div class="flx-desc-pan"><div class="flx-desc-grip"></div>'
+      +'<div class="flx-desc-h">Décris ton repas</div><div class="flx-desc-s">Ex : 2 œufs, 60g de pain complet, 1/2 avocat</div>'
+      +'<textarea id="flxDescTa" class="flx-desc-ta" rows="3" placeholder="Tape ce que tu as mangé…"></textarea>'
+      +'<button class="flx-desc-go" id="flxDescGo"><i class="ti ti-sparkles"></i> Analyser</button></div>';
+    document.body.appendChild(ov);
+    function close(){ ov.remove(); }
+    ov.querySelector('.flx-desc-ov').onclick=close;
+    setTimeout(function(){var t=g('flxDescTa');if(t)t.focus();},80);
+    g('flxDescGo').onclick=function(){
+      var txt=g('flxDescTa').value.trim(); if(!txt){g('flxDescTa').focus();return;}
+      hap(8); close(); openLoading('Analyse de ta description…');
+      callProxy({text:txt}).then(function(r){handle(r,'Estimation impossible');}).catch(function(){tt('Erreur réseau');if(typeof balSheetClose==='function')balSheetClose();});
+    };
+  }
+  /* ---------- CODE-BARRES ---------- */
+  function barcodeLookup(code){
+    code=String(code||'').replace(/\D/g,''); if(code.length<6){tt('Code-barres invalide');return;}
+    openLoading('Recherche du produit…');
+    callProxy({barcode:code}).then(function(r){handle(r,'Produit introuvable');}).catch(function(){tt('Erreur réseau');if(typeof balSheetClose==='function')balSheetClose();});
+  }
+  var _zx=null;
+  function loadZXing(cb){
+    if(window.ZXing){cb(window.ZXing);return;}
+    var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+    s.onload=function(){cb(window.ZXing);}; s.onerror=function(){cb(null);}; document.head.appendChild(s);
+  }
+  function openScanner(){
+    if(g('flxBar'))return;
+    var ov=document.createElement('div'); ov.id='flxBar'; ov.className='flx-scan';
+    ov.innerHTML='<video id="flxBarVid" playsinline muted></video><div class="flx-scan-frame"></div>'
+      +'<div class="flx-scan-top"><button class="flx-scan-x" aria-label="Fermer"><i class="ti ti-x"></i></button><span>Code-barres</span><button class="flx-scan-man"><i class="ti ti-keyboard"></i> Saisir</button></div>'
+      +'<div class="flx-scan-hint" id="flxBarHint">Vise le code-barres du produit</div>';
+    document.body.appendChild(ov);
+    var vid=g('flxBarVid');
+    function close(){ try{if(_zx)_zx.reset();}catch(e){} try{var st=vid&&vid.srcObject;if(st)st.getTracks().forEach(function(t){t.stop();});}catch(e){} ov.remove(); }
+    ov.querySelector('.flx-scan-x').onclick=close;
+    ov.querySelector('.flx-scan-man').onclick=function(){ close(); var c=window.prompt('Saisis les chiffres sous le code-barres :'); if(c) barcodeLookup(c); };
+    loadZXing(function(ZX){
+      if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+      try{
+        _zx=new ZX.BrowserMultiFormatReader();
+        _zx.decodeFromVideoDevice(undefined,vid,function(result){
+          if(result&&result.getText){ var code=result.getText(); hap(12); close(); barcodeLookup(code); }
+        });
+      }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
+    });
+  }
+  /* expose (remplace les stubs du script scan) */
+  window.nutDescribe=function(){ openDescribe(); };
+  window.nutBarcode=function(){ openScanner(); };
 })();
 </script>
 </body>
