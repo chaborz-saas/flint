@@ -3767,7 +3767,7 @@ body.stepsview header{display:none}
 .act2-back{position:absolute;top:32%;left:3.5%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.14);color:#15140F;font-size:20px;display:grid;place-items:center;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.7,.5,1);z-index:2}
 .act2-back:active{transform:scale(.84)}
 .act2-h1{position:absolute;top:33%;left:16.5%;margin:0;font-family:'Anton';font-style:oblique 8deg;font-size:13.5cqw;line-height:.9;color:#15140F}
-.act2-sub{position:absolute;top:52%;left:17%;margin:0;font-size:3.3cqw;font-weight:700;letter-spacing:.6px;color:#8A857D;text-transform:uppercase}
+.act2-sub{position:absolute;top:77%;left:6%;margin:0;font-size:3.3cqw;font-weight:700;letter-spacing:.6px;color:#8A857D;text-transform:uppercase}
 .act2-hero{display:flex;align-items:center;background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(20,18,12,.04),0 12px 30px rgba(20,18,12,.07);margin:-32px 14px 0;padding:16px 18px;position:relative;z-index:3}
 .act2-hleft{flex:1;display:flex;align-items:center;gap:14px;min-width:0}
 .act2-hic{width:58px;height:58px;border-radius:50%;background:#FCE7E1;color:var(--accent);display:grid;place-items:center;font-size:27px;flex:none;box-shadow:0 2px 8px rgba(240,73,46,.10)}
@@ -6556,7 +6556,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v298';
+const APP_VERSION='flint-v299';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
