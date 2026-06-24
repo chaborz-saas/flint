@@ -2587,8 +2587,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
 
     <!-- PAS (valeur dans l'œuf) -->
-    <button class="fhd-steps" type="button" onclick="openTrend('steps')"><span id="flSteps">—</span></button>
-    <button class="fhd-hit fhd-hit-pas" type="button" onclick="openTrend('steps')" aria-label="Pas"></button>
+    <button class="fhd-steps" type="button" onclick="go('steps')"><span id="flSteps">—</span></button>
+    <button class="fhd-hit fhd-hit-pas" type="button" onclick="go('steps')" aria-label="Pas"></button>
 
     <!-- œuf FC (codé, miroir du PAS) -->
     <button class="fhd-fc" type="button" onclick="go('fcdetail')"><i class="ti ti-heart"></i><span class="l">FC</span><span class="v" id="flFcEgg">—</span><span class="u">bpm</span></button>
@@ -3347,6 +3347,38 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <div id="recWhyBody"></div>
   </div>
 </div>
+
+<!-- ===================== PAS ===================== -->
+<style>
+body.stepsview header{display:none}
+.stp{font-family:'Inter',sans-serif;color:#15140F;padding:0 2px 26px}
+.stp .steps-img{position:relative;width:100%;aspect-ratio:941/1396;background:url('./steps-empty.png?v=1') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 13px}
+.stp .ovtap{position:absolute;background:transparent;border:0;cursor:pointer;padding:0;z-index:6}
+.stp .stp-ov{position:absolute;line-height:1;font-family:'Inter',sans-serif;color:#15140F;white-space:nowrap;text-align:center}
+.stp .stp-num{font-family:'Anton';font-style:oblique 8deg;font-size:15cqw;color:#15140F}
+.stp .stp-stat .sv{font-family:'Anton';font-style:oblique 8deg;font-size:7cqw;color:#15140F}
+.stp .stp-stat .sv small{font-family:'Inter';font-style:normal;font-size:.34em;font-weight:700;color:#9A948A;margin-left:.16em}
+.stp .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:0 0 13px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);width:100%;text-align:left;font-family:inherit;display:block}
+.stp button.card{cursor:pointer;transition:transform .14s ease}.stp button.card:active{transform:scale(.99)}
+.stp .stp-wh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.stp .stp-wh b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
+.stp .stp-wh span{font-size:12.5px;color:#7C766B;font-weight:600;white-space:nowrap}
+.stp .stp-chart svg{width:100%;display:block;height:auto}
+.stp .stp-badge{display:flex;align-items:center;gap:14px}
+.stp .stp-medal{font-size:30px;flex:none;line-height:1}
+.stp .stp-badge b{display:block;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;margin-bottom:3px}
+.stp .stp-badge span{font-size:13px;color:#6E6A62;line-height:1.4}
+</style>
+<section class="view" id="v-steps">
+<div class="stp">
+  <div class="steps-img" id="stepsImg"></div>
+  <button class="card stp-week" type="button" onclick="openMetricTrend('steps')">
+    <div class="stp-wh"><b>Tes pas cette semaine</b><span id="stpAvg">—</span></div>
+    <div id="stpChart" class="stp-chart"></div>
+  </button>
+  <div class="card stp-badge" id="stpBadge"></div>
+</div>
+</section>
 
 <!-- ===================== TRANSPARENCE · COMMENT TON SCORE EST CALCULÉ ===================== -->
 <style>
@@ -4134,8 +4166,8 @@ function barsSVG(arr,opts){opts=opts||{};const W=320,H=opts.h||66,n=arr.length,p
 function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;haptic(7);window._scrollMem=window._scrollMem||{};window._navStack=window._navStack||[];
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
- document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');document.body.classList.toggle('stepsview',v==='steps');
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,steps:renderSteps,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -5378,6 +5410,39 @@ var REC_IMPACT={
  sleepperf:[{id:'alcool',dir:-1},{id:'cafeine',dir:-1},{id:'ecrans',dir:-1},{id:'repastard',dir:-1},{id:'magnesium',dir:1},{id:'meditation',dir:1}]
 };
 function recFmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'h'+String(mm).padStart(2,'0'):h+'h';}
+/* ---------- PAS ---------- */
+function stpGoal(){var st=DB.get('stepGoal',null);if(st!=null)return st;var a=trend30(TREND.steps)||10000;return Math.max(6000,Math.round(a*1.05/100)*100);}
+function stpHM(min){min=Math.round(min);var h=Math.floor(min/60),m=min%60;return h>0?(h+'h'+String(m).padStart(2,'0')):(m+' min');}
+function stpChartSVG(days){
+ var W=328,H=180,L=30,R=10,T=14,B=24,vals=days.map(function(d){return d.v});
+ var ymax=Math.max(18000,Math.ceil(Math.max.apply(null,vals)/6000)*6000),n=days.length,slot=(W-L-R)/n,bw=Math.min(22,slot*0.52);
+ var g='';[0,6000,12000,18000].forEach(function(t){if(t>ymax)return;var y=(T+(1-t/ymax)*(H-T-B)).toFixed(1);g+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="#EFEAE1" stroke-width="1" stroke-dasharray="3 4"/><text x="'+(L-6)+'" y="'+(+y+3.5)+'" text-anchor="end" font-size="9.5" font-weight="700" fill="#B6B0A6">'+(t/1000)+'k</text>';});
+ var bars='';days.forEach(function(d,i){var x=L+i*slot+slot/2,bh=Math.max(2,(d.v/ymax)*(H-T-B)),y=H-B-bh;bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="5" fill="'+(d.today?'#F0492E':'url(#stpg)')+'"/><text x="'+x.toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" font-weight="700" fill="'+(d.today?'#F0492E':'#A7A29A')+'">'+d.lab+'</text>';});
+ return '<svg viewBox="0 0 '+W+' '+H+'"><defs><linearGradient id="stpg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0492E" stop-opacity=".8"/><stop offset="1" stop-color="#F0492E" stop-opacity=".38"/></linearGradient></defs>'+g+bars+'</svg>';
+}
+function renderSteps(){
+ var k=tk(),steps=flStepsOf(k),goal=stpGoal(),pct=Math.round(steps/goal*100);
+ var dist=steps*0.00076,kcal=Math.round(steps*0.0415),act=Math.round(steps/121);
+ var host=document.getElementById('stepsImg');
+ if(host){var pc=pct>=100?'#2FA86A':'#F0492E',h='';
+  h+='<button class="ovtap" onclick="goBack(\'today\')" style="left:0;top:0;width:18%;height:6.5%" aria-label="Retour"></button>';
+  h+='<div class="stp-ov stp-num" style="left:50%;top:45%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
+  h+='<div class="stp-ov" style="left:50%;top:53.5%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
+  h+='<div class="stp-ov" style="left:50%;top:58.5%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
+  h+='<div class="stp-ov" style="left:50%;top:63.6%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
+  function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:80%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:88%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
+  h+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
+  h+=stat(50,fmtN(kcal),'kcal','Dépensées');
+  h+=stat(79.5,stpHM(act),'','Activité');
+  host.innerHTML=h;
+ }
+ var DOW=['D','L','M','M','J','V','S'],days=[];
+ for(var i=6;i>=0;i--){var kk=tk2off(k,-i),p=kk.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);days.push({v:flStepsOf(kk),lab:DOW[dt.getDay()],today:i===0});}
+ var avg=Math.round(days.reduce(function(a,b){return a+b.v},0)/days.length);
+ set('stpAvg','Moyenne '+fmtN(avg)+' pas');set('stpChart',stpChartSVG(days));
+ var good=steps>=avg;
+ set('stpBadge','<span class="stp-medal">'+(good?'🏅':'👟')+'</span><div><b>'+(good?'Très bien !':'Continue !')+'</b><span>'+(good?'Tu dépasses ta moyenne habituelle cette semaine.':'Encore quelques pas pour dépasser ta moyenne habituelle.')+'</span></div>');
+}
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
  if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',dir:0,c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',dir:-1,c:'Un peu sous ton objectif.'}:{s:'Insuffisant',t:'bad',dir:-1,c:'Nettement sous ton objectif.'};}
@@ -6310,7 +6375,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v263';
+const APP_VERSION='flint-v264';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
