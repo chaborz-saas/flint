@@ -6494,7 +6494,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v274';
+const APP_VERSION='flint-v275';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6511,7 +6511,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
 /* ===== Scan repas façon Cal AI — branche le vrai cerveau (proxy Gemini) sur le hook de Dino + liste éditable aliment-par-aliment. Script isolé. ===== */
 (function(){
   /* >>> À REMPLACER par l'URL de ta fonction Vercel après déploiement <<< */
-  window.FLINT_SCAN_API = window.FLINT_SCAN_API || 'https://flint-proxy.vercel.app/api/scan-meal';
+  window.FLINT_SCAN_API = window.FLINT_SCAN_API || '/api/scan-meal';
   /* doit correspondre à la variable d'env FLINT_APP_SECRET côté Vercel */
   window.FLINT_APP_KEY = window.FLINT_APP_KEY || 'fl1nt-scan-9x4q2';
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
