@@ -1,5 +1,5 @@
-const CACHE = 'flint-v301';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './logo.png', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-32.png', './bg-home.png', './recup-body.png', './recup-empty.png?v=3', './steps-empty.png?v=2', './steps-hero.png?v=1', './balance-hero.png?v=7', './act-run.png?v=1', './fc-art.png?v=1'];
+const CACHE = 'flint-v302';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './logo.png', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-32.png', './bg-home.png', './recup-body.png', './recup-empty.png?v=3', './steps-empty.png?v=2', './steps-hero.png?v=1', './balance-hero.png?v=7', './act-run.png?v=1', './act-padel.png?v=1', './act-squash.png?v=1', './act-badminton.png?v=1', './act-pingpong.png?v=1', './act-boxe.png?v=1', './act-mma.png?v=1', './act-yoga.png?v=1', './act-pilates.png?v=1', './act-mobilite.png?v=1', './act-escalade.png?v=1', './fc-art.png?v=1'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => Promise.all(ASSETS.map(a => c.add(a).catch(()=>{})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {

@@ -6097,8 +6097,20 @@ function actBind(){var box=document.getElementById('actChartBox');if(!box||box._
  function end(e){if(!window._actInsp)return;window._actInsp=false;box.classList.remove('insp')}
  box.addEventListener('pointerdown',start);box.addEventListener('pointermove',move);box.addEventListener('pointerup',end);box.addEventListener('pointercancel',end);box.addEventListener('pointerleave',function(e){if(window._actInsp)end(e)})}
 function actBanner(name){var n=String(name||'').toLowerCase();
- // mappe le sport -> bandeau (ajouter les images au fur et à mesure ; fallback = course)
- var map=[[/course|run|jog|trail|marche|walk/,'act-run']];
+ // mappe le sport -> bandeau (fallback = course). Spécifiques avant génériques.
+ var map=[
+  [/padel/,'act-padel'],
+  [/squash/,'act-squash'],
+  [/badmin/,'act-badminton'],
+  [/ping|pong|tennis de table|tennis-table/,'act-pingpong'],
+  [/box(e|ing)/,'act-boxe'],
+  [/mma|combat|grappl|jjb|judo|krav/,'act-mma'],
+  [/yoga/,'act-yoga'],
+  [/pilates/,'act-pilates'],
+  [/mobilit|stretch|étirement|etirement|souplesse/,'act-mobilite'],
+  [/escalade|grimpe|climb|bloc/,'act-escalade'],
+  [/course|run|jog|trail|marche|walk/,'act-run']
+ ];
  for(var i=0;i<map.length;i++){if(map[i][0].test(n))return './'+map[i][1]+'.png?v=1'}
  return './act-run.png?v=1';
 }
@@ -6557,7 +6569,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v301';
+const APP_VERSION='flint-v302';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
