@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v246';
+const APP_VERSION='flint-v247';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6251,12 +6251,31 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     if(g('bshHealthBar'))g('bshHealthBar').style.width=(hs*10)+'%';
     if(g('bshTime')&&!g('bshTime').textContent)g('bshTime').textContent=nowHM();
     if(g('bshTag'))g('bshTag').innerHTML='<i class="ti ti-bookmark"></i> '+mealTag();
-    var pills=g('bshPills');
-    if(pills){
-      var items=(window._flintScanItems||[]).slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3);
+    placePills();
+  }
+  function _nrm(v){v=Number(v)||0;return v>1.5?v/1000:v;}
+  function placePills(){
+    var host=document.getElementById('bshPills'),banner=document.getElementById('balShImg');
+    if(!host||!banner)return;
+    var items=(window._flintScanItems||[]).filter(function(it){return it&&it.name;});
+    var W=banner.clientWidth||banner.offsetWidth||0,H=banner.clientHeight||152;
+    var boxed=items.filter(function(it){return it.box&&it.box.length===4;}).sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,4);
+    if(!boxed.length||!W){
+      var top3=items.slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3);
       var pos=[{top:'16%',left:'7%'},{top:'42%',right:'7%'},{top:'66%',left:'15%'}];
-      pills.innerHTML=items.map(function(it,i){var p=pos[i]||pos[0];var css=Object.keys(p).map(function(key){return key+':'+p[key];}).join(';');return '<span class="bsh-pill" style="'+css+'"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';}).join('');
+      host.innerHTML=top3.map(function(it,i){var p=pos[i]||pos[0];var css=Object.keys(p).map(function(k){return k+':'+p[k];}).join(';');return '<span class="bsh-pill" style="'+css+'"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';}).join('');
+      return;
     }
+    var dims=window._flintPhotoDims;
+    if(!dims&&typeof _balPhoto!=='undefined'&&_balPhoto){var im=new Image();im.onload=function(){window._flintPhotoDims={w:im.naturalWidth,h:im.naturalHeight};placePills();};im.src=_balPhoto;}
+    var iAsp=dims?dims.w/dims.h:(W/H),bAsp=W/H,dispW,dispH,offX=0,offY=0;
+    if(iAsp>bAsp){dispH=H;dispW=H*iAsp;offX=(dispW-W)/2;}else{dispW=W;dispH=W/iAsp;offY=(dispH-H)/2;}
+    host.innerHTML=boxed.map(function(it){
+      var bb=it.box,nx=(_nrm(bb[1])+_nrm(bb[3]))/2,ny=(_nrm(bb[0])+_nrm(bb[2]))/2;
+      var px=nx*dispW-offX,py=ny*dispH-offY;
+      px=Math.max(54,Math.min(W-54,px));py=Math.max(16,Math.min(H-16,py));
+      return '<span class="bsh-pill" style="left:'+Math.round(px)+'px;top:'+Math.round(py)+'px;transform:translate(-50%,-50%)"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';
+    }).join('');
   }
   window._flintSyncResultUI=syncUI;window.syncUI=syncUI;
   window.nutFix=function(){if(window.toast)toast('Ajuste les aliments ou les grammes ci-dessous');var h=document.getElementById('scanItems');if(h&&h.scrollIntoView)h.scrollIntoView({behavior:'smooth',block:'center'});};
@@ -6299,7 +6318,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
   var _close=window.balSheetClose;
   if(typeof _close==='function'){window.balSheetClose=function(){var h=document.getElementById('scanItems');if(h)h.remove();window._flintScanItems=null;var pl=document.getElementById('bshPills');if(pl)pl.innerHTML='';['bshKcal','bshProt','bshCarb','bshFat','bshHealth'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='\u2014';});var hb=document.getElementById('bshHealthBar');if(hb)hb.style.width='0';return _close.apply(this,arguments);};}
   var _pick=window.balPhotoPick;
-  if(typeof _pick==='function'){window.balPhotoPick=function(){var r=_pick.apply(this,arguments);var n=0;var iv=setInterval(function(){n++;syncUI();var form=document.getElementById('balShForm');if((form&&form.style.display!=='none')||n>40)clearInterval(iv);},150);return r;};}
+  if(typeof _pick==='function'){window.balPhotoPick=function(){window._flintPhotoDims=null;var r=_pick.apply(this,arguments);var n=0;var iv=setInterval(function(){n++;syncUI();var form=document.getElementById('balShForm');if((form&&form.style.display!=='none')||n>40)clearInterval(iv);},150);return r;};}
   /* Bouton caméra flottant : scanner son plat en 1 tap depuis N'IMPORTE QUEL écran */
   function addFab(){
     if(document.getElementById('flintScanFab'))return;

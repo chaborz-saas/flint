@@ -22,9 +22,10 @@ const SCHEMA = {
           prot: { type: 'number' },
           carb: { type: 'number' },
           fat: { type: 'number' },
-          confidence: { type: 'number' }
+          confidence: { type: 'number' },
+          box: { type: 'array', items: { type: 'number' } }
         },
-        required: ['name', 'grams', 'kcal', 'prot', 'carb', 'fat', 'confidence']
+        required: ['name', 'grams', 'kcal', 'prot', 'carb', 'fat', 'confidence', 'box']
       }
     }
   },
@@ -38,6 +39,7 @@ Pour chaque aliment, estime de façon réaliste :
 - grams : portion en grammes
 - kcal, prot (protéines g), carb (glucides g), fat (lipides g)
 - confidence : 0 à 1 (ta certitude)
+- box : boîte englobante [ymin, xmin, ymax, xmax] en entiers normalisés 0-1000 (où se trouve l'aliment dans l'image)
 Tiens compte des matières grasses de cuisson et sauces PROBABLES même si peu visibles (huile, beurre, vinaigrette) — ajoute-les comme items distincts si pertinent.
 Donne un mealName court résumant le plat. Réponds UNIQUEMENT en JSON conforme au schéma.`;
 
@@ -114,7 +116,8 @@ module.exports = async function handler(req, res) {
       prot: round(it.prot),
       carb: round(it.carb),
       fat: round(it.fat),
-      confidence: Math.max(0, Math.min(1, Number(it.confidence) || 0.5))
+      confidence: Math.max(0, Math.min(1, Number(it.confidence) || 0.5)),
+      box: (Array.isArray(it.box) && it.box.length === 4) ? it.box.map(Number) : null
     }));
     const total = items.reduce((a, it) => ({ kcal: a.kcal + it.kcal, prot: a.prot + it.prot, carb: a.carb + it.carb, fat: a.fat + it.fat }), { kcal: 0, prot: 0, carb: 0, fat: 0 });
 
