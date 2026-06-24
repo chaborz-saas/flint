@@ -1,4 +1,4 @@
-const CACHE = 'flint-v280';
+const CACHE = 'flint-v281';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './logo.png', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-32.png', './bg-home.png', './recup-body.png', './recup-empty.png?v=3', './steps-empty.png?v=2', './steps-path.png?v=4', './fc-art.png?v=1'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => Promise.all(ASSETS.map(a => c.add(a).catch(()=>{})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
