@@ -3242,7 +3242,23 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .rec2 .recnav-d{flex:none;display:inline-flex;align-items:center;gap:7px;background:#EAF4EC;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#3E9E6E;cursor:pointer;white-space:nowrap}
 .rec2 .recnav-d i{font-size:18px}
 /* Récup : maquette en fond + overlays */
-.rec2 .recov-img{position:relative;width:100%;aspect-ratio:700/1243;background:url('./recup-empty.png?v=2') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 10px}
+.rec2 .recov-img{position:relative;width:100%;aspect-ratio:700/623;background:url('./recup-empty.png?v=3') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 13px}
+.rec2 .fc-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:0 0 13px}
+.rec2 .fc-card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px 15px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);text-align:left;font-family:inherit;cursor:pointer;transition:transform .14s ease;display:flex;flex-direction:column;animation:recRise .5s cubic-bezier(.2,.8,.2,1) both}
+.rec2 .fc-card:nth-child(2){animation-delay:.06s}.rec2 .fc-card:nth-child(3){animation-delay:.12s}.rec2 .fc-card:nth-child(4){animation-delay:.18s}
+.rec2 .fc-card:active{transform:scale(.98)}
+.rec2 .fc-top{display:flex;align-items:center;gap:8px;margin-bottom:13px}
+.rec2 .fc-ic{font-size:19px;color:#3E9E6E;flex:none;display:grid;place-items:center}
+.rec2 .fc-name{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:13px;letter-spacing:.04em;color:#37372F}
+.rec2 .fc-mid{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rec2 .fc-val{font-family:'Anton';font-style:oblique 8deg;font-size:34px;line-height:1;color:#15140F;white-space:nowrap}
+.rec2 .fc-val small{font-family:'Inter';font-style:normal;font-size:13px;font-weight:700;color:#9A948A;margin-left:4px}
+.rec2 .fc-pill{font-size:12.5px;font-weight:800;padding:5px 13px;border-radius:30px;white-space:nowrap;flex:none}
+.rec2 .fc-sentence{font-size:13px;line-height:1.4;color:#6E6A62;margin:12px 0 0}
+.rec2 .fc-gauge{position:relative;height:8px;border-radius:6px;background:#ECE7DD;margin-top:14px}
+.rec2 .fc-gauge .z{position:absolute;top:0;bottom:0;border-radius:6px;background:#BFE3CC}
+.rec2 .fc-gauge .d{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#15140F;border:2.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:translate(-50%,-50%)}
+.rec2 .fc-norme{font-size:12px;font-weight:600;color:#9A948A;text-align:center;margin-top:11px}
 @keyframes recFade{from{opacity:0}to{opacity:1}}
 @keyframes recRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes recPop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
@@ -3305,6 +3321,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <div class="flrecovery rec2">
   <button class="rec-back" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
   <div class="recov-img" id="recImg"></div>
+  <div class="fc-grid" id="recCards"></div>
 
   <div class="card r2corr" id="recCorrCard"></div>
 
@@ -5306,39 +5323,49 @@ function renderRecovery(){renderRecCorr();var rv=recovery(window._recDay||0);
  var sel=document.getElementById('recTrendSel');if(sel)sel.value=window._recTrendMetric;
  var ch=document.getElementById('recTrendChart');if(ch)ch.innerHTML=recTrendChartSVG(window._recTrendMetric);
  var host=document.getElementById('recImg');if(host)host.innerHTML=recBuildOverlay(rv);
+ renderFactorCards(rv);
+}
+function recFactorSentence(d){
+ var n={hrv:'variabilité cardiaque',rhr:'fréquence cardiaque au repos',resp:'fréquence respiratoire',sleepperf:'durée de sommeil'}[d.key]||'';
+ var dir=d.state.dir,pos=dir>0?'au-dessus de ta norme':dir<0?'en dessous de ta norme':'dans la norme';
+ return 'Ta '+n+' est '+pos+'.';
+}
+function renderFactorCards(rv){
+ var host=document.getElementById('recCards');if(!host)return;
+ if(!rv){host.innerHTML='';return;}
+ host.innerHTML=recFactorDefs(rv).map(function(d){
+  var st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
+  var w=d.high-d.low,tmin=d.tmin!=null?d.tmin:d.low-w*0.7,tmax=d.tmax!=null?d.tmax:d.high+w*0.7;
+  var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
+  var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur);
+  return '<button class="fc-card" type="button" onclick="recWhyOpen(\''+d.key+'\')">'
+   +'<div class="fc-top"><span class="fc-ic"><i class="ti '+d.ic+'"></i></span><span class="fc-name">'+d.title+'</span></div>'
+   +'<div class="fc-mid"><span class="fc-val">'+d.fmt(d.cur)+(d.unit?'<small>'+d.unit+'</small>':'')+'</span><span class="fc-pill" style="color:'+tone[0]+';background:'+tone[1]+'">'+st.s+'</span></div>'
+   +'<div class="fc-sentence">'+recFactorSentence(d)+'</div>'
+   +'<div class="fc-gauge"><span class="z" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%"></span><span class="d" style="left:'+dp.toFixed(1)+'%;background:'+dotc+'"></span></div>'
+   +'<div class="fc-norme">Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>'
+   +'</button>';
+ }).join('');
 }
 function recBuildOverlay(rv){
  var off=window._recDay||0;
- var nav='<div class="ovnav" style="left:3.5%;top:20%">'
+ var nav='<div class="ovnav" style="left:3.5%;top:40%">'
   +'<button class="ovnav-a" onclick="recDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>'
   +'<button class="ovnav-d" onclick="recCalOpen()"><span>'+recDateFmt(off)+'</span> <i class="ti ti-calendar"></i></button>'
   +'<button class="ovnav-a" onclick="recDay(1)"'+(off>=0?' disabled':'')+' aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button></div>';
- if(!rv)return nav+'<div class="ov" style="left:6%;top:34%;font-size:4cqw;color:#6E6A62">'+(off?'Aucune nuit ce jour-là.':'Pas de donnée — recharge la démo dans Profil.')+'</div>';
+ if(!rv)return nav+'<div class="ov" style="left:6%;top:70%;font-size:4cqw;color:#6E6A62">'+(off?'Aucune nuit ce jour-là.':'Pas de donnée — recharge la démo.')+'</div>';
  var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631';
  var C=2*Math.PI*43,o=C*(1-Math.max(0,Math.min(100,rv.s))/100),h=nav;
- h+='<div class="ovring" style="left:6%;top:28%;width:30%;aspect-ratio:1;animation-delay:.05s">'
+ h+='<div class="ovring" style="left:6%;top:55.5%;width:30%;aspect-ratio:1;animation-delay:.05s">'
   +'<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="43" fill="none" stroke="#EAE4DA" stroke-width="7"/><circle class="arc" cx="50" cy="50" r="43" fill="none" stroke="'+rc+'" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+o.toFixed(1)+'" transform="rotate(-90 50 50)" style="--c:'+C.toFixed(1)+';animation-delay:.12s"/></svg>'
   +'<div class="ovv" style="position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);font-size:9.5cqw;color:'+rc+'">'+rv.s+'<small style="font-family:inherit;color:'+rc+';font-size:.45em">%</small></div>'
   +'<div style="position:absolute;left:50%;top:65%;transform:translateX(-50%);font-family:\'Anton\';font-style:oblique 8deg;font-size:2.6cqw;letter-spacing:.05em;color:'+rc+'">RÉCUPÉRATION</div></div>';
  var title=rv.s>=67?'Prêt aujourd\'hui':rv.s>=34?'À doser':'Repos conseillé';
  var sub=rv.s>=67?'Ton corps est bien récupéré':rv.s>=34?'Récupération correcte':'Ton corps réclame du repos';
  var tg=rv.s>=67?[14,18]:rv.s>=34?[10,14]:[6,10],vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied';
- h+='<div class="ov ovv" style="left:46%;top:33%;font-size:6.6cqw;color:#15140F;animation-delay:.14s">'+title+'</div>';
- h+='<div class="ov ovnw" style="left:46%;top:38.8%;font-size:3cqw;color:#6E6A62;animation-delay:.19s">'+sub+'</div>';
- h+='<div class="ov" style="left:46%;top:42.4%;display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF4EC;border-radius:30px;padding:1.5cqw 2.6cqw;max-width:46cqw;animation-delay:.24s"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:3.2cqw"></i><span style="font-size:2.5cqw;font-weight:700;color:'+rc+';line-height:1.18">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</span></div>';
- var defs=recFactorDefs(rv),BOX=[{x:3.5,y:50.8,w:45.4},{x:50.5,y:50.8,w:45.7},{x:3.5,y:71.6,w:45.4},{x:50.5,y:71.6,w:45.7}];
- defs.forEach(function(d,i){
-  var b=BOX[i],st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
-  var w=d.high-d.low,tmin=d.tmin!=null?d.tmin:d.low-w*0.7,tmax=d.tmax!=null?d.tmax:d.high+w*0.7;
-  var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
-  var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur),gx=b.x+3.2,gw=b.w-6.4,dl=(0.3+i*0.08).toFixed(2);
-  h+='<div class="ovpill" style="left:'+(b.x+b.w-3.2)+'%;top:'+(b.y+3.4)+'%;transform:translate(-100%,-50%);font-size:2.7cqw;color:'+tone[0]+';background:'+tone[1]+';padding:1.1cqw 2.6cqw;animation-delay:'+dl+'s">'+st.s+'</div>';
-  h+='<div class="ov ovv" style="left:'+gx+'%;top:'+(b.y+9.1)+'%;transform:translateY(-50%);font-size:7cqw;display:inline-flex;align-items:baseline;animation-delay:'+dl+'s">'+d.fmt(d.cur)+(d.unit?'<small style="font-size:.36em;margin-left:.5em">'+d.unit+'</small>':'')+'</div>';
-  h+='<div class="ov ovnw" style="left:'+gx+'%;top:'+(b.y+12.4)+'%;font-size:2.9cqw;font-weight:600;color:#7C766B;animation-delay:'+dl+'s">Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>';
-  h+='<div class="ovg" style="left:'+gx+'%;top:'+(b.y+14.7)+'%;width:'+gw+'%"><span class="z" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%;animation-delay:'+(+dl+0.08).toFixed(2)+'s"></span><span class="d" style="left:'+dp.toFixed(1)+'%;background:'+dotc+';animation-delay:'+(+dl+0.22).toFixed(2)+'s"></span></div>';
-  h+='<div class="ovsc" style="left:'+gx+'%;top:'+(b.y+16.1)+'%;width:'+gw+'%;animation-delay:'+(+dl+0.06).toFixed(2)+'s"><span style="left:0">'+d.fmt(tmin)+'</span><span style="left:'+zl.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.low)+'</span><span style="left:'+zh.toFixed(1)+'%;transform:translateX(-50%)">'+d.fmt(d.high)+'</span><span style="left:100%;transform:translateX(-100%)">'+d.fmt(tmax)+'</span></div>';
-  h+='<button class="ovtap" onclick="recWhyOpen(\''+d.key+'\')" style="left:'+b.x+'%;top:'+b.y+'%;width:'+b.w+'%;height:19%" aria-label="'+d.title+'"></button>';
- });
+ h+='<div class="ov ovv" style="left:46%;top:65.5%;font-size:6.6cqw;color:#15140F;animation-delay:.14s">'+title+'</div>';
+ h+='<div class="ov ovnw" style="left:46%;top:77%;font-size:3cqw;color:#6E6A62;animation-delay:.19s">'+sub+'</div>';
+ h+='<div class="ov" style="left:46%;top:84.2%;display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF4EC;border-radius:30px;padding:1.5cqw 2.6cqw;max-width:46cqw;animation-delay:.24s"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:3.2cqw"></i><span style="font-size:2.5cqw;font-weight:700;color:'+rc+';line-height:1.18">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</span></div>';
  return h;
 }
 var REC_TONE={good:['#2E7D4F','#EAF4EE','#3FB57A'],warn:['#9A6500','#FBF1DD','#E0922A'],bad:['#B23A22','#FBEAE6','#CF4631']};
@@ -6283,7 +6310,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v262';
+const APP_VERSION='flint-v263';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
