@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v249';
+const APP_VERSION='flint-v250';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6326,6 +6326,84 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     document.body.appendChild(b);
   }
   if(document.readyState!=='loading')addFab();else document.addEventListener('DOMContentLoaded',addFab);
+})();
+</script>
+<style id="flx-anim">
+/* ===== FLINT — couche d'animations premium (centralisée, scopée .flx) ===== */
+:root{--flx-ease:cubic-bezier(.22,.61,.36,1);--flx-ease-out:cubic-bezier(.16,1,.3,1);--flx-fast:150ms;--flx-base:300ms;--flx-glow:rgba(240,73,46,.16)}
+@keyframes flxViewIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes flxPop{0%{transform:scale(.9)}55%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes flxFade{from{opacity:0}to{opacity:1}}
+@keyframes flxRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.flx-viewin{animation:flxViewIn var(--flx-base) var(--flx-ease) both}
+.flx-rise{animation:flxRise 520ms var(--flx-ease) both}
+[data-flx-hide]{opacity:0;transform:translateY(16px)}
+.flx-pop{animation:flxPop 360ms var(--flx-ease-out)}
+/* boutons & éléments interactifs : transitions douces + feedback au clic */
+button,.fbtn,.addbtn,.bal-cta,.bal-save,.bsh-save,.bsh-fix,.go-confirm,.go-opt,.nutx-mode,.nutx-cam,.nutx-sum,.balobj,.balgoal button,.bal2-cd,.bal2-card,.mealrow,a{transition:transform var(--flx-fast) var(--flx-ease),box-shadow var(--flx-fast) var(--flx-ease),background-color var(--flx-fast) var(--flx-ease),color var(--flx-fast) var(--flx-ease),border-color var(--flx-fast) var(--flx-ease),filter var(--flx-fast) var(--flx-ease)}
+button:active,.fbtn:active,a:active{transform:scale(.97)}
+.bal-cta:active,.bal-save:active,.bsh-save:active,.go-confirm:active,.addbtn:active{transform:scale(.975)}
+.bal-save:active,.bsh-save:active,.go-confirm:active,.bal-cta:active{filter:brightness(.97)}
+/* hover (desktop uniquement — n'affecte pas le mobile) */
+@media(hover:hover){
+  .card,.bal2-card,.bal2-cd,.btr-sc,.bcs,.rgc,.nutx-meal,.nutx-sum,.balobj,.go-opt{transition:transform var(--flx-fast) var(--flx-ease),box-shadow var(--flx-fast) var(--flx-ease),filter var(--flx-fast) var(--flx-ease)}
+  .card:hover,.bal2-card:hover,.bal2-cd:hover,.btr-sc:hover,.bcs:hover,.rgc:hover,.nutx-meal:hover,.nutx-sum:hover,.balobj:hover,.go-opt:hover{transform:translateY(-2px)}
+  .bal-cta:hover,.bal-save:hover,.bsh-save:hover,.go-confirm:hover,.addbtn:hover,.nutx-cam:hover{filter:brightness(1.05)}
+  .nutx-mode:hover{transform:translateY(-1px)}
+}
+/* inputs : focus ring corail discret */
+input,textarea,select,.fin,.ging,.bsh-name{transition:border-color var(--flx-fast) var(--flx-ease),box-shadow var(--flx-fast) var(--flx-ease),background-color var(--flx-fast) var(--flx-ease)}
+input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{box-shadow:0 0 0 3px var(--flx-glow);outline:none}
+/* overlays / modales : fondu doux */
+.bal-sheet.on .ov,.slpcal-back .ov{animation:flxFade var(--flx-base) ease both}
+/* toast : petit pop à l'apparition */
+.toast.show,.toast.on{animation:flxPop 320ms var(--flx-ease-out)}
+@media (prefers-reduced-motion: reduce){
+  .flx-viewin,.flx-pop,.bal-sheet.on .ov,.slpcal-back .ov,.toast.show,.toast.on{animation:none!important}
+  .flx-rise{animation:none!important}
+  [data-flx-hide]{opacity:1!important;transform:none!important}
+}
+</style>
+<script>
+/* ===== FLINT — moteur d'animations (transitions de page, cascade, reveal au scroll, haptique). Isolé. ===== */
+(function(){
+  var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CARD_SEL='.card,.bal2-card,.bal2-cd,.bal2-duo,.bal-card,.bal-hero,.bal2-hero,.btr-sc,.bcs,.rgc,.nutx-cam,.nutx-modes,.nutx-sum,.nutx-meal,.mealrow,.stat,.balobj,.bal-tie,.acrow,.seclab,.macrogrid,.chartbox';
+  var io=(!RM&&'IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(en){ if(en.isIntersecting){ rise(en.target); io.unobserve(en.target); } });
+  },{threshold:0.06,rootMargin:'0px 0px -5% 0px'}):null;
+  function rise(el){el.removeAttribute('data-flx-hide');el.classList.add('flx-rise');setTimeout(function(){el.classList.remove('flx-rise');},760);}
+  function revealView(view){
+    if(RM||!view) return;
+    view.classList.remove('flx-viewin'); void view.offsetWidth; view.classList.add('flx-viewin'); setTimeout(function(){view.classList.remove('flx-viewin');},560);
+    if(!io) return;
+    var cards=[].slice.call(view.querySelectorAll(CARD_SEL)).filter(function(el){return !el.getAttribute('data-flx-done')&&el.offsetParent!==null;});
+    var vh=window.innerHeight||800,stagger=0;
+    cards.forEach(function(el){
+      el.setAttribute('data-flx-done','1');
+      el.setAttribute('data-flx-hide','1');
+      var top=el.getBoundingClientRect().top;
+      if(top<vh*0.96){
+        var d=50+Math.min(stagger,10)*42; stagger++;
+        setTimeout(function(){rise(el);},d);
+      } else { io.observe(el); }
+    });
+    // filet de sécurité : rien ne reste invisible
+    setTimeout(function(){ var h=view.querySelectorAll('[data-flx-hide]'); for(var i=0;i<h.length;i++)h[i].removeAttribute('data-flx-hide'); },3000);
+  }
+  // 1) transition + cascade à chaque changement de vue (couvre go ET goBack)
+  var _go=window.go;
+  if(typeof _go==='function'){
+    window.go=function(){ var r=_go.apply(this,arguments); try{ revealView(document.querySelector('.view.on')); }catch(e){} return r; };
+  }
+  // 2) haptique sur les actions importantes (mobile)
+  document.addEventListener('click',function(e){
+    var t=e.target&&e.target.closest&&e.target.closest('.bal-save,.bsh-save,.bsh-fix,.go-confirm,.addbtn,.bal-cta,.nutx-cam,.balgoal button,.fbtn.primary,#flintScanFab');
+    if(t&&typeof haptic==='function'){ try{haptic(9)}catch(_){} }
+  },true);
+  // 3) reveal initial de la vue active au chargement
+  function boot(){ try{ revealView(document.querySelector('.view.on')); }catch(e){} }
+  if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
 })();
 </script>
 </body>
