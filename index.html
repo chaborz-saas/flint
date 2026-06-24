@@ -3081,7 +3081,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <section class="view" id="v-balance">
 <style>
 .bal3{padding:6px 14px 96px;font-family:'Inter',sans-serif}
-.bal3-hero{position:relative;width:100%;aspect-ratio:941/996;background:url('./balance-hero.png?v=6') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 4px}
+.bal3-hero{position:relative;width:100%;aspect-ratio:941/996;background:url('./balance-hero.png?v=7') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 4px}
 .bal3-hero .bal3-ov{position:absolute;transform:translate(-50%,-50%);text-align:center;white-space:nowrap;line-height:1;color:#15140F}
 .bal3-goic{position:absolute;left:13.5%;top:14%;transform:translate(-50%,-50%);width:13cqw;height:13cqw;border-radius:50%;display:grid;place-items:center;font-size:6cqw;z-index:2}
 .bal3-gok{position:absolute;left:25%;top:7.4%;font-size:3.1cqw;font-weight:800;letter-spacing:.6px;color:#9A948A}
@@ -3092,6 +3092,11 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal3-cu{font-size:3.4cqw;color:#7C766B}
 .bal3-nv{font-family:'Anton';font-style:oblique 6deg;font-size:12.5cqw}
 .bal3-stat{font-size:2.9cqw;font-weight:800;display:flex;align-items:center;justify-content:center;gap:1cqw;max-width:34%;text-align:center}
+.bal3-scale{position:absolute;left:49.73%;top:49.4%;transform:translate(-50%,-50%);width:14cqw;height:14cqw;z-index:2;display:grid;place-items:center}
+.bal3-scale svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.bal3-scaletrk{fill:none;stroke:#E7E1D7;stroke-width:5.5}
+.bal3-scalearc{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dasharray .5s ease,stroke .3s ease}
+.bal3-scalei{position:relative;width:10.2cqw;height:10.2cqw;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:5.2cqw;color:#8A857D;box-shadow:0 1px 4px rgba(20,18,12,.05)}
 .bal3-cic{position:absolute;transform:translate(-50%,-50%);width:11cqw;height:11cqw;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:5.4cqw;color:var(--green);box-shadow:0 2px 8px rgba(20,18,12,.08);z-index:2}
 .bal3-bar{position:absolute;transform:translateY(-50%);height:1.7cqw;border-radius:3cqw;background:rgba(20,18,12,.09);overflow:hidden;z-index:2}
 .bal3-bar i{display:block;height:100%;border-radius:3cqw}
@@ -3124,6 +3129,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <div class="bal3-ov bal3-cv" style="left:83%;top:70%" id="bal3Out">—</div>
     <div class="bal3-ov bal3-cu" style="left:83%;top:77.5%">kcal</div>
     <div class="bal3-bar out" style="left:72.5%;top:86%;width:21%"><i id="bal3OutBar"></i></div>
+    <span class="bal3-scale"><svg viewBox="0 0 100 100"><circle class="bal3-scaletrk" cx="50" cy="50" r="45"/><circle class="bal3-scalearc" id="bal3ScaleArc" cx="50" cy="50" r="45"/></svg><span class="bal3-scalei"><i class="ti ti-scale"></i></span></span>
     <div class="bal3-ov bal3-nv" style="left:50%;top:62.5%" id="bal3Net">—</div>
     <div class="bal3-ov bal3-cu" style="left:50%;top:72.5%">kcal</div>
     <div class="bal3-ov bal3-stat" style="left:50%;top:84%" id="bal3Stat">—</div>
@@ -5342,6 +5348,9 @@ function renderBalance(){
  var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal3InBar'),ob=document.getElementById('bal3OutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
  var se=document.getElementById('bal3Stat');if(se){se.innerHTML='<i class="ti '+(b.hasFood?(inT?'ti-circle-check-filled':st[3]):'ti-photo')+'"></i> '+(b.hasFood?st[0]:'En attente');se.style.color=st[1]}
+ (function(){var sa=document.getElementById('bal3ScaleArc');if(!sa)return;var Cs=2*Math.PI*45,mid=(G.lo+G.hi)/2,half=(G.hi-G.lo)/2||1,frac;
+  if(!b.hasFood)frac=0;else if(inT)frac=1;else{var ex=(Math.abs(b.net-mid)-half)/(half*3);frac=Math.max(0.5,Math.min(1,0.5+ex))}
+  sa.setAttribute('stroke-dasharray',(frac*Cs).toFixed(1)+' '+(Cs*2).toFixed(1));sa.setAttribute('stroke',b.hasFood?st[1]:'#E7E1D7');})();
  document.getElementById('bal3Chart').innerHTML=balCurveNative(k);
  var ct;
  if(!b.hasFood)ct='Logue tes repas pour suivre ta balance énergétique.';
@@ -6506,7 +6515,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v294';
+const APP_VERSION='flint-v295';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
