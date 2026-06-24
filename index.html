@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v247';
+const APP_VERSION='flint-v248';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6260,12 +6260,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     var items=(window._flintScanItems||[]).filter(function(it){return it&&it.name;});
     var W=banner.clientWidth||banner.offsetWidth||0,H=banner.clientHeight||152;
     var boxed=items.filter(function(it){return it.box&&it.box.length===4;}).sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,4);
-    if(!boxed.length||!W){
-      var top3=items.slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3);
-      var pos=[{top:'16%',left:'7%'},{top:'42%',right:'7%'},{top:'66%',left:'15%'}];
-      host.innerHTML=top3.map(function(it,i){var p=pos[i]||pos[0];var css=Object.keys(p).map(function(k){return k+':'+p[k];}).join(';');return '<span class="bsh-pill" style="'+css+'"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';}).join('');
-      return;
-    }
+    if(!boxed.length||!W){host.innerHTML='';return;}
     var dims=window._flintPhotoDims;
     if(!dims&&typeof _balPhoto!=='undefined'&&_balPhoto){var im=new Image();im.onload=function(){window._flintPhotoDims={w:im.naturalWidth,h:im.naturalHeight};placePills();};im.src=_balPhoto;}
     var iAsp=dims?dims.w/dims.h:(W/H),bAsp=W/H,dispW,dispH,offX=0,offY=0;
