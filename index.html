@@ -385,7 +385,7 @@
   .flhome .flact .tl .e{font-size:13px;font-weight:800;color:#8F8982;font-variant-numeric:tabular-nums;line-height:1}
   .flhome .flact .tl .b{width:3px;height:13px;border-radius:3px;background:var(--accent)}
   .flhome .flact .tl .b.sleep{background:#6C7BD6}
-  .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,38);animation:flRingFill .55s cubic-bezier(.25,.8,.3,1) both;filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
+  .flhome .ring-fill{stroke-dasharray:289;stroke-dashoffset:var(--off,289);transition:stroke-dashoffset .75s cubic-bezier(.25,.8,.3,1);filter:drop-shadow(0 2px 5px rgba(232,103,74,.32))}
   .fllogo{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#E8674A;letter-spacing:1.5px;cursor:pointer;line-height:1}
   .fllogo-img{height:30px;width:auto;display:block;cursor:pointer}
   .flhome .ecg{animation:none}
@@ -3671,14 +3671,19 @@ body.stepsview header{display:none}
 <!-- ===================== FC · DÉTAIL FRÉQUENCE CARDIAQUE ===================== -->
 <style>
 /* ===== FC v2 (maquette validée) — scopé .fc2 ===== */
-.fc2{font-family:'Inter',sans-serif;color:#15140F;padding:2px 2px 26px}
-.fc2top{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 2px}
-.fc2bk{width:38px;height:38px;border-radius:50%;border:0;background:#fff;box-shadow:0 2px 8px rgba(20,18,12,.08);font-size:22px;color:#15140F;cursor:pointer;line-height:1}
-.fc2live{display:inline-flex;align-items:center;gap:7px;background:#EAF4EE;color:#2E7D4F;font-size:12px;font-weight:800;letter-spacing:.04em;padding:7px 13px;border-radius:30px}
-.fc2live .d{width:8px;height:8px;border-radius:50%;background:#3FB57A}
-.fc2hd{margin:10px 2px 14px}
-.fc2hd h1{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:30px;line-height:1;margin:0;color:#15140F}
-.fc2hd p{font-size:13.5px;color:#7C766B;margin:5px 0 0}
+.fc2{font-family:'Inter',sans-serif;color:#15140F;padding:2px 2px 26px;position:relative}
+.fc2 .fc2-back{position:absolute;top:4px;left:2px;z-index:20;width:46px;height:46px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.14);color:#15140F;font-size:21px;display:grid;place-items:center;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
+.fc2 .fc2-back:active{transform:scale(.84)}
+.fc2 .fc2-art{position:absolute;top:2px;right:-14px;width:60%;max-width:280px;aspect-ratio:620/545;background:url('./fc-art.png?v=1') no-repeat top right;background-size:contain;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(to bottom,#000 78%,transparent 100%);mask-image:linear-gradient(to bottom,#000 78%,transparent 100%)}
+.fc2hd{margin:58px 2px 0;position:relative;z-index:1}
+.fc2hd h1{font-family:'Anton';font-style:oblique 8deg;text-transform:none;font-size:44px;line-height:.98;margin:0;color:#15140F}
+.fc2hd p{font-size:13.5px;color:#7C766B;margin:6px 0 0}
+.fc2 .fc2nav{display:inline-flex;align-items:center;gap:9px;margin:14px 2px 14px;position:relative;z-index:1}
+.fc2 .fc2nav-a{width:42px;height:42px;border-radius:50%;border:0;background:#FCE9E4;color:#F0492E;font-size:19px;cursor:pointer;display:grid;place-items:center;flex:none;transition:transform .12s ease}
+.fc2 .fc2nav-a:active{transform:scale(.92)}
+.fc2 .fc2nav-a[disabled]{background:#F1EEE8;color:#C8C2B8}
+.fc2 .fc2nav-d{display:inline-flex;align-items:center;gap:7px;background:#FCE9E4;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#F0492E;cursor:pointer;white-space:nowrap}
+.fc2 .fc2nav-d i{font-size:18px}
 .fc2 .card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px;margin:0 0 13px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);width:100%;text-align:left;font-family:inherit;display:block}
 .fc2 button.card{cursor:pointer;transition:transform .14s ease}
 .fc2 button.card:active{transform:scale(.99)}
@@ -3734,11 +3739,14 @@ body.stepsview header{display:none}
 </style>
 <section class="view" id="v-fcdetail">
 <div class="fc2">
-  <div class="fc2top">
-    <button class="fc2bk" onclick="goBack('today')" aria-label="Retour">‹</button>
-    <span class="fc2live"><span class="d"></span>EN DIRECT</span>
-  </div>
+  <div class="fc2-art" aria-hidden="true"></div>
+  <button class="fc2-back" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
   <div class="fc2hd"><h1>Fréquence cardiaque</h1><p>Aujourd'hui · mesure continue</p></div>
+  <div class="fc2nav">
+    <button class="fc2nav-a" type="button" onclick="fcDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+    <button class="fc2nav-d" type="button" onclick="fcCalOpen()"><span id="fcDateLbl">Aujourd'hui</span> <i class="ti ti-calendar"></i></button>
+    <button class="fc2nav-a" id="fcNavNext" type="button" onclick="fcDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+  </div>
 
   <div class="card fc2hero">
     <div class="fc2hicon"><i class="ti ti-heartbeat"></i></div>
@@ -4684,7 +4692,7 @@ function assess(n){let rec=0,rn=0,sl=0,sn=0,str=0,ses=0;for(let i=0;i<n;i++){con
 function renderWeekly(){const host=document.getElementById('weeklyCard');if(!host)return;const w=assess(7),pw=(()=>{let rec=0,rn=0;for(let i=7;i<14;i++){const r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;rn++}}return rn?Math.round(rec/rn):null})();const d=(w.rec!=null&&pw!=null)?w.rec-pw:null;host.innerHTML='<div class="ct">Bilan de la semaine</div><div class="grid2" style="gap:10px"><div class="stat"><div class="sl">Récup moy</div><div class="sv">'+(w.rec!=null?w.rec+'%':'—')+'</div><div class="ss">'+(d!=null?(d>=0?'+':'')+d+' vs sem. dernière':'')+'</div></div><div class="stat"><div class="sl">Sommeil moy</div><div class="sv">'+(w.sl!=null?Math.floor(w.sl)+'h'+String(Math.round(w.sl%1*60)).padStart(2,'0'):'—')+'</div></div><div class="stat"><div class="sl">Effort cumulé</div><div class="sv">'+w.str+'</div></div><div class="stat"><div class="sl">Séances</div><div class="sv">'+w.ses+'</div></div></div>'}
 
 /* ---------- AUJOURD'HUI ---------- */
-function countUpEl(el,target,suffix,useFmt){suffix=suffix||'';const F=v=>(useFmt?fmtN(v):v)+suffix;if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=F(target);return}let s=null;function tick(t){if(s==null)s=t;const p=Math.min(1,(t-s)/550),e=1-Math.pow(1-p,3);el.textContent=F(Math.round(target*e));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+function countUpEl(el,target,suffix,useFmt,dec){if(!el)return;suffix=suffix||'';var F=function(v){return (dec?String(v.toFixed(1)).replace('.',','):(useFmt?fmtN(Math.round(v)):Math.round(v)))+suffix};if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=F(target);return}var cur=parseFloat(String(el.textContent).replace(/\s/g,'').replace(',','.').replace(/[^0-9.\-]/g,''));if(isNaN(cur))cur=0;if(Math.abs(cur-target)<(dec?0.05:0.5)){el.textContent=F(target);return}if(el._cuRaf)cancelAnimationFrame(el._cuRaf);var s=null,dur=Math.min(850,Math.max(420,Math.abs(target-cur)*9+340));function tick(t){if(s==null)s=t;var p=Math.min(1,(t-s)/dur),e=1-Math.pow(1-p,3);el.textContent=F(cur+(target-cur)*e);if(p<1){el._cuRaf=requestAnimationFrame(tick)}else{el._cuRaf=null}}el._cuRaf=requestAnimationFrame(tick)}
 function flActIcon(name,nap){if(nap)return 'zzz';const n=String(name||'').toLowerCase();if(/padel|tennis|squash|badmin/.test(n))return 'ball-tennis';if(/foot|soccer/.test(n))return 'ball-football';if(/course|run|jog|trail/.test(n))return 'run';if(/marche|walk/.test(n))return 'walk';if(/muscu|renfo|force|gym|hyrox|cross|halt/.test(n))return 'barbell';if(/velo|vélo|bike|cycl/.test(n))return 'bike';if(/nage|natation|swim/.test(n))return 'swimming';if(/yoga|mobilit|stretch|pilates/.test(n))return 'yoga';return 'activity'}
 function flHM(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
 function flDurHM(min){min=Math.max(0,Math.round(min||0));return Math.floor(min/60)+':'+String(min%60).padStart(2,'0')}
@@ -4831,12 +4839,12 @@ function renderToday(){
  set('flSleep',t&&t.sleepMin?Math.floor(t.sleepMin/60)+'h'+String(Math.round(t.sleepMin%60)).padStart(2,'0'):'—');
  set('flSleepS',!t||!t.sleepMin?'':perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant');
  const str=loadStrain(K),obj=Math.round((tg[0]+tg[1])/2);
- set('flLoad',str.toFixed(1).replace('.',','));set('flLoadT','Objectif : '+obj);
+ (function(){var _le=document.getElementById('flLoad');if(_le)countUpEl(_le,str,'',false,true);else set('flLoad',str.toFixed(1).replace('.',','))})();set('flLoadT','Objectif : '+obj);
  var objPct=obj>0?Math.min(100,Math.round(str/obj*100)):0;var _or=document.getElementById('flObjRing');if(_or)_or.innerHTML=flObjRingSVG(objPct);
  set('flObjVal',str.toFixed(1).replace('.',','));set('flObjGoal',obj);
  var _rem=Math.max(0,Math.round((obj-str)*10)/10);set('flObjRem',_rem>0?'Encore <b>'+String(_rem).replace('.',',')+'</b> pour l\'atteindre':'Objectif atteint 🎉');
  const kcalB=caloriesBurned(K);
- set('flSteps',fmtN(flStepsOf(K)));
+ (function(){var _se=document.getElementById('flSteps');if(_se)countUpEl(_se,flStepsOf(K),'',true);else set('flSteps',fmtN(flStepsOf(K)))})();
  renderMjWeek();renderDash();
  var _sp=Math.max(0,Math.min(1,flStepsOf(K)/10000)),_sa=document.getElementById('flStepArc');if(_sa){_sa.style.strokeDasharray='49';_sa.style.strokeDashoffset=(49*(1-_sp)).toFixed(1)}
  flRenderWkStrip();
@@ -4862,8 +4870,8 @@ function renderToday(){
   else{at='Priorise une charge modérée aujourd\'hui.';ap='Ton corps a bien récupéré, mais évite de trop pousser. L\'équilibre est la clé de la progression.';}
   set('flAdT',at);set('flAdP',ap)})();
  var _first=!window._todayShown;
- const rn=document.getElementById('flRecup');if(rn){if(has){if(_first)countUpEl(rn,rv.s,'');else rn.textContent=rv.s}else rn.textContent=calib?cal+'/4':'—'}
- const kn=document.getElementById('flKcal');if(kn){if(_first)countUpEl(kn,kcalB,'',true);else kn.textContent=fmtN(kcalB)}
+ const rn=document.getElementById('flRecup');if(rn){if(has){countUpEl(rn,rv.s,'')}else rn.textContent=calib?cal+'/4':'—'}
+ const kn=document.getElementById('flKcal');if(kn){countUpEl(kn,kcalB,'',true)}
  window._todayShown=true;
 }
 /* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
@@ -5660,13 +5668,13 @@ function slpJump(which){if(typeof haptic==='function')haptic();openSleepNight()}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
 function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):window._calMode==='steps'?(window._stepDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):window._calMode==='steps'?(window._stepDay||0):window._calMode==='fc'?(window._fcDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
 function slpOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='sleep';slpCalOpen()}
-function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else if(window._calMode==='steps'){var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML()}else{renderSleep()}window.scrollTo(0,0)}
+function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else if(window._calMode==='steps'){var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML()}else if(window._calMode==='fc'){renderHeartDetail()}else{renderSleep()}window.scrollTo(0,0)}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
 function slpCalToday(){gDay=0;slpCalClose();_calRerender()}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else if(window._calMode==='steps'){window._stepDay=off}else{gDay=off}slpCalClose();_calRerender()}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else if(window._calMode==='steps'){window._stepDay=off}else if(window._calMode==='fc'){window._fcDay=off}else{gDay=off}slpCalClose();_calRerender()}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -6018,10 +6026,14 @@ function fc2ZonesHTML(curve,b){
  function fmt(m){m=Math.round(m);return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');}
  return FC2_ZONES.map(function(z,i){return '<div class="fc2zrow"><span class="fc2zdot" style="background:'+z[1]+'"></span><span class="fc2zname">'+z[0]+'</span><span class="fc2zbpm">'+b[i]+'–'+b[i+1]+' bpm</span><span class="fc2zbar"><i style="width:'+(mins[i]/mx*100).toFixed(0)+'%;background:'+z[1]+'"></i></span><span class="fc2ztime">'+fmt(mins[i])+'</span></div>';}).join('');
 }
+function fcDay(d){if(typeof haptic==='function')haptic();window._fcDay=Math.min(0,(window._fcDay||0)+d);renderHeartDetail();}
+function fcCalOpen(){if(typeof haptic==='function')haptic();window._calMode='fc';slpCalOpen();}
 function renderHeartDetail(){
- var t=sensorOf(tk())||{},p=getProfile(),age=p.age||28,fcmax=220-age,rhr=t.rhr!=null?t.rhr:47;
- var now=new Date(),nowH=Math.max(8,Math.min(23.5,now.getHours()+now.getMinutes()/60));
- var strain=loadStrain(tk());
+ var off=window._fcDay||0;
+ set('fcDateLbl',recDateFmt(off));var _nx=document.getElementById('fcNavNext');if(_nx){_nx.disabled=off>=0;_nx.style.opacity=off>=0?'.4':'1';}
+ var t=sensorOf(tk(off))||{},p=getProfile(),age=p.age||28,fcmax=220-age,rhr=t.rhr!=null?t.rhr:47;
+ var now=new Date(),nowH=off<0?22:Math.max(8,Math.min(23.5,now.getHours()+now.getMinutes()/60));
+ var strain=loadStrain(tk(off));
  var curve=fc2DayCurve(rhr,fcmax,strain,nowH),vals=curve.map(function(p){return p.v});
  var cur=vals[vals.length-1],mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),avg=Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length),peak=mx;
  var b=fc2Bounds(rhr,fcmax),zi=fc2ZoneIdx(cur,b),zc=FC2_ZONES[zi];
@@ -6367,7 +6379,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v267';
+const APP_VERSION='flint-v268';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
