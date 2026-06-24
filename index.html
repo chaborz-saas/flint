@@ -2721,11 +2721,11 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="mt2ico" type="button" onclick="metrendInfo()"><i class="ti ti-info-small"></i></button>
   </div>
   <p class="mt2sub" id="mt2Sub">—</p>
-  <div class="mt2card mt2avgc" id="mtAvgCard">
+  <div class="mt2card mt2avgc">
     <div class="mt2avgw"><div class="mt2avgl" id="tAvgL">Moyenne 30 jours</div><div class="mt2avgv"><span id="tAvgV">—</span><small id="tAvgU">ms</small></div></div>
     <div class="mt2delta" id="tDelta"></div>
   </div>
-  <div class="mt2divh" id="mtExplHd"><i class="ti ti-layout-grid"></i><span>Explorer les jours</span></div>
+  <div class="mt2divh"><i class="ti ti-layout-grid"></i><span>Explorer les jours</span></div>
   <div class="mt2cards" id="tCards"></div>
   <div class="mt2dots" id="tDots"></div>
   <div class="mt2card mt2chartc tchartc">
@@ -3363,27 +3363,6 @@ body.stepsview header{display:none}
 .stp .recnav-d{display:inline-flex;align-items:center;gap:7px;background:#FCE9E4;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#F0492E;cursor:pointer;white-space:nowrap}
 .stp .recnav-d i{font-size:18px}
 .stp .steps-img{position:relative;width:100%;aspect-ratio:941/1264;background:url('./steps-empty.png?v=2') top center/100% 100% no-repeat;container-type:inline-size;margin:6px 0 13px}
-.stp .stp-art{position:absolute;top:-8px;right:-12px;width:50%;max-width:215px;aspect-ratio:442/511;background:url('./steps-art.png?v=1') no-repeat top right;background-size:contain;pointer-events:none;z-index:1}
-.stp .s2img{position:relative;width:100%;aspect-ratio:941/985;background:url('./steps-cards.png?v=1') top center/100% 100% no-repeat;container-type:inline-size;margin:20px 0 14px;z-index:2}
-.stp .s2o{position:absolute;line-height:1;font-family:'Inter',sans-serif;color:#15140F;white-space:nowrap}
-.stp .s2-verdict{display:flex;align-items:center;gap:1.6cqw;font-size:4.2cqw;font-weight:800;letter-spacing:.4px}
-.stp .s2-num{font-family:'Anton';font-style:oblique 8deg;font-size:16cqw;letter-spacing:.5px}
-.stp .s2-pill{display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF6EF;color:#2C8F5B;font-size:3.7cqw;font-weight:700;padding:1.9cqw 3.8cqw;border-radius:30px}
-.stp .s2-col{display:flex;align-items:center;gap:2.6cqw}
-.stp .s2ic{width:9cqw;height:9cqw;border-radius:50%;background:#FCE7E1;color:#F0492E;display:grid;place-items:center;font-size:4.4cqw;flex:none}
-.stp .s2sl{font-size:3.4cqw;color:#6E6A62;margin-bottom:1.2cqw}
-.stp .s2sv{font-family:'Anton';font-style:oblique 8deg;font-size:6.6cqw}
-.stp .s2-ban{display:flex;align-items:center;gap:3.4cqw;left:6%;right:6%;white-space:normal}
-.stp .s2-bic{width:11cqw;height:11cqw;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:5.4cqw;flex:none}
-.stp .s2-bt{flex:1;min-width:0}
-.stp .s2-bt b{display:block;font-size:4.6cqw;font-weight:800;color:#15140F;margin-bottom:.8cqw}
-.stp .s2-bt span{font-size:3.7cqw;color:#6E6A62}
-.stp .s2-bch{color:#C8C2B8;font-size:5cqw;flex:none}
-.stp .s2-clab{display:flex;align-items:center;gap:1.8cqw;font-size:3.5cqw;font-weight:700}
-.stp .s2-cic{width:7cqw;height:7cqw;border-radius:50%;display:grid;place-items:center;font-size:3.6cqw;flex:none}
-.stp .s2-cv{font-family:'Anton';font-style:oblique 8deg;font-size:7.4cqw}
-.stp .s2-cv small{font-family:'Inter';font-style:normal;font-size:.32em;font-weight:700;color:#9A948A;margin-left:.18em}
-.stp .s2-cd{display:flex;align-items:center;gap:1.2cqw;font-size:3.1cqw;font-weight:600}
 .stp .ovtap{position:absolute;background:transparent;border:0;cursor:pointer;padding:0;z-index:6}
 .stp .stp-ov{position:absolute;line-height:1;font-family:'Inter',sans-serif;color:#15140F;white-space:nowrap;text-align:center}
 .stp .stp-num{font-family:'Anton';font-style:oblique 8deg;font-size:15cqw;color:#15140F}
@@ -4504,7 +4483,7 @@ function bkCardHTML(title,items,tot){tot=tot||items.reduce(function(a,b){return 
 function trendBreakdownHTML(pts,bd){var c=bd.bands.map(function(){return 0}),tot=0;pts.forEach(function(p){if(p.v==null)return;for(var i=0;i<bd.bands.length;i++){if(bd.bands[i].f(p.v)){c[i]++;tot++;break}}});
  return bkCardHTML(bd.title,bd.bands.map(function(b,i){return {c:c[i],l:b.l,col:b.c}}),tot)}
 var _tMetric='hrv',_tRange='M',_tOff=0,_tSel=null,_tDaySel=null;
-function openMetricTrend(k){_tMetric=k;_tRange=(k==='steps'?'S':'M');_tOff=0;_tSel=null;_tDaySel=null;go('metrend')}
+function openMetricTrend(k){_tMetric=k;_tRange='M';_tOff=0;_tSel=null;_tDaySel=null;go('metrend')}
 var TREND_PICK=[{g:'Sommeil',keys:['sleepperf','sleepresto','sleeprestoh','sleepeff','sleepreg','sleepdebt','timeinbed']},{g:'Cœur & souffle',keys:['hrv','rhr','fcavg','resp','vo2']},{g:'Activité & récup',keys:['recovery','effort','steps','calories','strengthtime']},{g:'Corps',keys:['weight','leanmass']}];
 function openMetricPicker(){haptic();var ex=document.getElementById('mpick');if(ex)ex.remove();var d=document.createElement('div');d.id='mpick';d.className='mpick';
  var rows=TREND_PICK.map(function(grp){var items=grp.keys.filter(function(k){return TREND[k]}).map(function(k){var M=TREND[k],on=k===_tMetric;return '<button type="button" class="mpr'+(on?' on':'')+'" onclick="pickMetric(\''+k+'\')"><span class="mpic"><i class="ti '+M.icon+'"></i></span><span class="mpl">'+M.label+'</span>'+(on?'<i class="ti ti-check mpck"></i>':'')+'</button>'}).join('');return '<div class="mpg">'+grp.g+'</div>'+items}).join('');
@@ -4554,10 +4533,7 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
  (function(){var cc=document.getElementById('tChart');if(!cc||cc._scrubInit)return;cc._scrubInit=1;cc.style.touchAction='none';
   cc.addEventListener('pointerdown',function(e){var MM=TREND[_tMetric];if((MM.chart==='bar'||MM.chart==='stack')&&_tRange==='6M')return;if(MM.chart!=='bar'&&MM.chart!=='stack'&&!trendAvg(trendPts(MM,_tRange,_tOff)))return;e.preventDefault();try{cc.setPointerCapture(e.pointerId)}catch(_){}tScrubFromX(e.clientX);cc._sm=function(ev){tScrubFromX(ev.clientX)};cc.addEventListener('pointermove',cc._sm)});
   var endf=function(e){if(cc._sm){cc.removeEventListener('pointermove',cc._sm);cc._sm=null}try{cc.releasePointerCapture(e.pointerId)}catch(_){}tDeselect()};
-  cc.addEventListener('pointerup',endf);cc.addEventListener('pointercancel',endf)})();
- (function(){var isS=(_tMetric==='steps');function sd(id,hide){var e=document.getElementById(id);if(e)e.style.display=hide?'none':'';}
-  sd('mt2Sub',isS);sd('mtAvgCard',isS);sd('mtExplHd',isS);sd('tCards',isS);sd('tDots',isS);sd('tExplCard',isS);
-  if(isS){['tBreak','tFoot','tGoal','tAdd'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});}})();}
+  cc.addEventListener('pointerup',endf);cc.addEventListener('pointercancel',endf)})();}
 function metrendInfo(){var e=document.getElementById('tExplCard');if(e)e.scrollIntoView({behavior:'smooth',block:'center'})}
 function metKeyDate(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
 function vIcon(c){return (c==='#2FAE67'||c==='#2FA86A'||c==='#5A52B5')?'ti-circle-filled':(c==='#E8674A'||c==='#C0492C')?'ti-sparkles':(c==='#3FA0E0'||c==='#2E78B5')?'ti-arrow-down':'ti-minus'}
@@ -5452,44 +5428,20 @@ function stpHM(min){min=Math.round(min);var h=Math.floor(min/60),m=min%60;return
 function stepDay(d){window._stepDay=Math.min(0,(window._stepDay||0)+d);if(typeof haptic==='function')haptic();var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML();}
 function stepCalOpen(){if(typeof haptic==='function')haptic();window._calMode='steps';slpCalOpen();}
 function stepsHeroHTML(){
- var off=window._stepDay||0,k=tk(off),i;
- function stepVal(o){return (TREND.steps&&TREND.steps.val)?Math.round(TREND.steps.val(o)):(flStepsOf(tk(o))||0)}
- var steps=stepVal(off),goal=stpGoal();
- var pct=goal?Math.round(steps/goal*100):0;
- var dist=steps*0.00075,kcal=Math.round(steps*0.0387),actMin=Math.round(steps/130);
- var ys=stepVal(off-1),dd=(steps-ys)*0.00075,dk=Math.round((steps-ys)*0.0387),dmn=Math.round((steps-ys)/130);
- var sum=0,n=0;for(i=0;i<7;i++){var v=stepVal(off-i);if(v){sum+=v;n++}}var avg7=n?Math.round(sum/n):goal;
- var reg=Math.max(0,Math.min(100,Math.round((avg7/goal)*100)));
- var vt=pct>=110?'Très bon rythme':pct>=100?'Objectif atteint':pct>=70?'Bon rythme':pct>=45?'Journée calme':'Peu actif';
- var vc=pct>=70?'#2FA86A':'#F0492E',above=steps>=avg7;
- var seed=0;for(i=0;i<k.length;i++)seed=(seed*31+k.charCodeAt(i))>>>0;
- function hm(h,m){return (h<10?'0':'')+h+':'+(m<10?'0':'')+m}
- var startT=hm(6+seed%4,(seed>>2)%60),peakT=hm(17+(seed>>4)%3,(seed>>6)%60);
- function r1(x){return (Math.round(Math.abs(x)*10)/10).toString().replace('.',',')}
- function sg(x){return x>=0?'+':'−'}function ar(x){return x>=0?'ti-arrow-up-right':'ti-arrow-down-right'}function dc(x){return x>=0?'#2FA86A':'#F0492E'}
+ var off=window._stepDay||0,k=tk(off),steps=flStepsOf(k),goal=stpGoal(),pct=Math.round(steps/goal*100);
+ var dist=steps*0.00076,kcal=Math.round(steps*0.0415),act=Math.round(steps/121),pc=pct>=100?'#2FA86A':'#F0492E';
  var h='<button class="stp-back" type="button" onclick="goBack(\'today\')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>';
- h+='<div class="stp-art"></div>';
  h+='<div class="stp-title">Pas</div>';
  h+='<div class="recnav"><button class="recnav-a" type="button" onclick="stepDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button><button class="recnav-d" type="button" onclick="stepCalOpen()"><span>'+recDateFmt(off)+'</span> <i class="ti ti-calendar"></i></button><button class="recnav-a" type="button" onclick="stepDay(1)"'+(off>=0?' disabled':'')+' aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button></div>';
- var o='';
- o+='<div class="s2o s2-verdict" style="left:50%;top:8%;transform:translateX(-50%);color:'+vc+'"><i class="ti ti-walk"></i>'+vt.toUpperCase()+'</div>';
- o+='<div class="s2o s2-num" style="left:50%;top:13%;transform:translateX(-50%)">'+fmtN(steps)+'</div>';
- o+='<div class="s2o" style="left:50%;top:27%;transform:translateX(-50%);font-size:4cqw;color:#6E6A62">Pas '+(off?'ce jour-là':'aujourd\'hui')+'</div>';
- o+='<div class="s2o s2-pill" style="left:50%;top:33.2%;transform:translateX(-50%)"><i class="ti ti-target"></i>Objectif '+fmtN(goal)+' · Régularité '+reg+' %</div>';
- o+='<div class="s2o s2-col" style="left:11%;top:46%"><span class="s2ic"><i class="ti ti-sun"></i></span><div><div class="s2sl">Début actif</div><div class="s2sv">'+startT+'</div></div></div>';
- o+='<div class="s2o s2-col" style="left:56%;top:46%"><span class="s2ic"><i class="ti ti-mountain"></i></span><div><div class="s2sl">Pic</div><div class="s2sv">'+peakT+'</div></div></div>';
- var bic=above?'ti-check':'ti-walk',bbg=above?'#2FA86A':'#F0492E';
- var bt=above?'Excellente journée.':'Journée plus calme.',bs=above?'Tu es au-dessus de ta moyenne.':'Sous ta moyenne récente.';
- o+='<div class="s2o s2-ban" style="top:64.7%;transform:translateY(-50%)"><span class="s2-bic" style="background:'+bbg+'"><i class="ti '+bic+'"></i></span><span class="s2-bt"><b>'+bt+'</b><span>'+bs+'</span></span></div>';
- function card(cl,ic,icbg,iccol,lab,labcol,val,unit,dv,dunit,dval){
-  return '<div class="s2o s2-clab" style="left:'+cl+'%;top:79%;color:'+labcol+'"><span class="s2-cic" style="background:'+icbg+';color:'+iccol+'"><i class="ti '+ic+'"></i></span>'+lab+'</div>'
-   +'<div class="s2o s2-cv" style="left:'+cl+'%;top:86.5%">'+val+(unit?'<small>'+unit+'</small>':'')+'</div>'
-   +'<div class="s2o s2-cd" style="left:'+cl+'%;top:93.4%;color:'+dc(dv)+'"><i class="ti '+ar(dv)+'"></i>'+sg(dv)+dval+' '+dunit+' vs hier</div>';
- }
- o+=card(9,'ti-map-pin','#EAF6EF','#2FA86A','Distance','#2FA86A',r1(dist),'km',dd,'km',r1(dd));
- o+=card(39,'ti-clock','#FCE7E1','#F0492E','Temps actif','#F0492E',stpHM(actMin),'',dmn,'min',Math.abs(dmn));
- o+=card(69,'ti-flame','#FCE7E1','#F0492E','Calories','#F0492E',fmtN(kcal),'kcal',dk,'kcal',Math.abs(dk));
- return h+'<div class="s2img">'+o+'</div>';
+ var ov='<div class="stp-ov stp-num" style="left:50%;top:39.3%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:48.6%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:54.2%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:59.8%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
+ function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:77.9%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:86.8%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
+ ov+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
+ ov+=stat(50,fmtN(kcal),'kcal','Dépensées');
+ ov+=stat(79.5,stpHM(act),'','Activité');
+ return h+'<div class="steps-img">'+ov+'</div>';
 }
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
@@ -6427,7 +6379,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v269';
+const APP_VERSION='flint-v270';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
