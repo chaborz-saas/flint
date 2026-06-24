@@ -3085,7 +3085,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal3-hero .bal3-ov{position:absolute;transform:translate(-50%,-50%);text-align:center;white-space:nowrap;line-height:1;color:#15140F}
 .bal3-goic{position:absolute;left:13.5%;top:14%;transform:translate(-50%,-50%);width:13cqw;height:13cqw;border-radius:50%;display:grid;place-items:center;font-size:6cqw;z-index:2}
 .bal3-gok{position:absolute;left:25%;top:7.4%;font-size:3.1cqw;font-weight:800;letter-spacing:.6px;color:#9A948A}
-.bal3-gon{position:absolute;left:25%;top:13.6%;transform:translateY(-50%);font-family:'Anton';font-style:oblique 6deg;font-size:8.4cqw;color:#15140F}
+.bal3-gon{position:absolute;left:25%;top:13.6%;transform:translateY(-50%);font-family:'Anton';font-style:oblique 6deg;font-size:8.4cqw;color:#15140F;max-width:46%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bal3-gos{position:absolute;left:25%;top:20.2%;font-size:3.4cqw;color:#7C766B}
 .bal3-goedit{position:absolute;right:4.5%;top:14%;transform:translateY(-50%);background:none;border:0;font-family:inherit;font-size:3.4cqw;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:.4cqw;cursor:pointer;z-index:2}
 .bal3-cv{font-family:'Anton';font-style:oblique 6deg;font-size:9cqw}
@@ -5335,7 +5335,7 @@ function renderBalance(){
  var inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo;
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
  var gi=document.getElementById('bal3GoIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
- set('bal3GoName',G.name);
+ set('bal3GoName',G.lbl);
  set('bal3GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  set('bal3In',fmtN(b.in));set('bal3Out',fmtN(b.out));
  set('bal3Net',(b.net>0?'+':'')+fmtN(b.net));
@@ -6506,7 +6506,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v292';
+const APP_VERSION='flint-v293';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
