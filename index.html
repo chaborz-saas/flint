@@ -3363,7 +3363,10 @@ body.stepsview header{display:none}
 .stp .stp-wh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
 .stp .stp-wh b{font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512}
 .stp .stp-wh span{font-size:12.5px;color:#7C766B;font-weight:600;white-space:nowrap}
-.stp .stp-chart svg{width:100%;display:block;height:auto}
+.stp .stp-chart svg{width:100%;display:block;height:auto;touch-action:none}
+.stp .stp-seg{display:inline-flex;background:#F1ECE4;border-radius:12px;padding:3px;gap:2px;margin:2px 0 12px}
+.stp .stp-seg button{border:0;background:none;font-family:'Inter';font-size:12.5px;font-weight:700;color:#7C766B;padding:6px 15px;border-radius:9px;cursor:pointer;transition:background .15s ease}
+.stp .stp-seg button.on{background:#fff;color:#15140F;box-shadow:0 1px 3px rgba(0,0,0,.09)}
 .stp .stp-badge{display:flex;align-items:center;gap:14px}
 .stp .stp-medal{font-size:30px;flex:none;line-height:1}
 .stp .stp-badge b{display:block;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:15px;letter-spacing:.3px;color:#161512;margin-bottom:3px}
@@ -3372,10 +3375,11 @@ body.stepsview header{display:none}
 <section class="view" id="v-steps">
 <div class="stp">
   <div class="steps-img" id="stepsImg"></div>
-  <button class="card stp-week" type="button" onclick="openMetricTrend('steps')">
-    <div class="stp-wh"><b>Tes pas cette semaine</b><span id="stpAvg">—</span></div>
+  <div class="card stp-week">
+    <div class="stp-wh"><b>Tes pas</b><span id="stpTrendHd">—</span></div>
+    <div class="stp-seg" id="stpSeg"><button type="button" data-r="S" onclick="stpRange('S')">7J</button><button type="button" data-r="M" onclick="stpRange('M')">30J</button><button type="button" data-r="6M" onclick="stpRange('6M')">6M</button></div>
     <div id="stpChart" class="stp-chart"></div>
-  </button>
+  </div>
   <div class="card stp-badge" id="stpBadge"></div>
 </div>
 </section>
@@ -5436,13 +5440,36 @@ function renderSteps(){
   h+=stat(79.5,stpHM(act),'','Activité');
   host.innerHTML=h;
  }
- var DOW=['D','L','M','M','J','V','S'],days=[];
- for(var i=6;i>=0;i--){var kk=tk2off(k,-i),p=kk.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);days.push({v:flStepsOf(kk),lab:DOW[dt.getDay()],today:i===0});}
- var avg=Math.round(days.reduce(function(a,b){return a+b.v},0)/days.length);
- set('stpAvg','Moyenne '+fmtN(avg)+' pas');set('stpChart',stpChartSVG(days));
- var good=steps>=avg;
+ window._stpSel=null;renderStpTrend();
+ var wk=0;for(var i=0;i<7;i++)wk+=flStepsOf(tk2off(k,-i));var avg7=Math.round(wk/7),good=steps>=avg7;
  set('stpBadge','<span class="stp-medal">'+(good?'🏅':'👟')+'</span><div><b>'+(good?'Très bien !':'Continue !')+'</b><span>'+(good?'Tu dépasses ta moyenne habituelle cette semaine.':'Encore quelques pas pour dépasser ta moyenne habituelle.')+'</span></div>');
 }
+function stpTrendSVG(pts,avg,range){var W=330,H=215,padL=36,padR=12,padT=20,padB=26,col='#F0492E';
+ var data=pts,agg=false;
+ if(range==='6M'){data=[];for(var i=0;i<pts.length;i+=7){var sg=pts.slice(i,i+7),vs=sg.filter(function(p){return p.v!=null}).map(function(p){return p.v});data.push({date:sg[0].date,v:vs.length?vs.reduce(function(a,b){return a+b},0)/vs.length:null})}agg=true}
+ var n=data.length,vals=data.filter(function(p){return p.v!=null}).map(function(p){return p.v});if(!vals.length)return '<svg viewBox="0 0 '+W+' '+H+'"></svg>';
+ var hi=niceMax(Math.max.apply(null,vals));
+ function X(i){return padL+(i+0.5)*(W-padL-padR)/n}function Y(v){return padT+(1-v/hi)*(H-padT-padB)}
+ var bw=Math.max(2,(W-padL-padR)/n*0.6),sel=window._stpSel;
+ var ticks=[0,hi/2,hi],grid='',ylab='';ticks.forEach(function(tv){var y=Y(tv);grid+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="#ECE6DD" stroke-width="1"/>';ylab+='<text x="'+(padL-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#9A988F">'+fmtN(Math.round(tv))+'</text>'});
+ var bars='';data.forEach(function(p,i){if(p.v==null)return;var x=X(i),y=Y(p.v),hh=Math.max(1,Y(0)-y),seld=(!agg&&sel===i);bars+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+hh.toFixed(1)+'" rx="'+Math.min(4,bw/2).toFixed(1)+'" fill="'+col+'" opacity="'+(seld?1:(sel!=null&&!agg?.38:.9))+'"/>'});
+ var moy='';if(avg!=null){var my=Y(avg);moy='<line x1="'+padL+'" y1="'+my.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+my.toFixed(1)+'" stroke="#161512" stroke-width="1.4" stroke-dasharray="4 4"/><rect x="'+(padL-2)+'" y="'+(my-9).toFixed(1)+'" width="34" height="18" rx="5" fill="#fff" stroke="#E6DFD5"/><text x="'+(padL+15)+'" y="'+(my+3.5).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="#161512">MOY.</text>'}
+ var xlab='',step=range==='S'?1:Math.ceil(n/5);for(var j=0;j<n;j+=step){var d=data[j].date;xlab+='<text x="'+X(j).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+T_MONL[d.getMonth()]+'</text><text x="'+X(j).toFixed(1)+'" y="'+(H-2)+'" text-anchor="middle" font-size="9" fill="#9A988F">'+d.getDate()+'</text>'}
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block">'+grid+ylab+bars+moy+xlab+'</svg>';
+}
+function renderStpTrend(){
+ var M=TREND.steps,range=window._stpRange||'S',pts=trendPts(M,range,0);
+ var vals=pts.filter(function(p){return p.v!=null}).map(function(p){return p.v}),avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):null;
+ var seg=document.getElementById('stpSeg');if(seg)Array.prototype.forEach.call(seg.children,function(b){b.classList.toggle('on',b.dataset.r===range)});
+ var hd='Moyenne '+(avg!=null?fmtN(avg):'—')+' pas';
+ if(window._stpSel!=null&&range!=='6M'&&pts[window._stpSel]&&pts[window._stpSel].v!=null){var p=pts[window._stpSel],d=p.date;hd=fmtN(Math.round(p.v))+' pas · '+d.getDate()+' '+T_MONL[d.getMonth()];}
+ set('stpTrendHd',hd);
+ var host=document.getElementById('stpChart');if(!host)return;host.innerHTML=stpTrendSVG(pts,avg,range);
+ if(range!=='6M'){host.style.cursor='pointer';host.onpointerdown=function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}stpScrub(e.clientX);host.onpointermove=function(ev){stpScrub(ev.clientX)};host.onpointerup=host.onpointercancel=function(ev){try{host.releasePointerCapture(ev.pointerId)}catch(_){}host.onpointermove=null};};}
+ else{host.onpointerdown=null;host.style.cursor='default';}
+}
+function stpRange(r){window._stpRange=r;window._stpSel=null;renderStpTrend();}
+function stpScrub(cx){var host=document.getElementById('stpChart');if(!host)return;var range=window._stpRange||'S',n=range==='S'?7:30;var r=host.getBoundingClientRect();var padL=36/330*r.width,padR=12/330*r.width;var ratio=(cx-r.left-padL)/(r.width-padL-padR);var i=Math.max(0,Math.min(n-1,Math.floor(ratio*n)));if(i!==window._stpSel){window._stpSel=i;if(typeof haptic==='function')haptic(4);renderStpTrend();}}
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
  if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',dir:0,c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',dir:-1,c:'Un peu sous ton objectif.'}:{s:'Insuffisant',t:'bad',dir:-1,c:'Nettement sous ton objectif.'};}
@@ -6375,7 +6402,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v264';
+const APP_VERSION='flint-v265';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
