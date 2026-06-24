@@ -2773,45 +2773,121 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 
 <!-- ===================== NUTRITION ===================== -->
 <section class="view" id="v-nutrition">
-<div class="flnutrition">
+<style>
+/* ===== Nutrition façon Cal AI — page dédiée prise de photo (scopé .nutx / .bsh) ===== */
+.nutx{padding-bottom:96px}
+.nutx-cam{position:relative;width:100%;aspect-ratio:5/3;border:0;border-radius:24px;background:#16120f;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;overflow:hidden;margin:4px 0 14px;font-family:inherit;box-shadow:var(--shadow);transition:transform .12s ease}
+.nutx-cam:active{transform:scale(.99)}
+.nutx-corner{position:absolute;width:30px;height:30px;border:3px solid var(--accent)}
+.nutx-corner.tl{top:16px;left:16px;border-right:0;border-bottom:0;border-radius:9px 0 0 0}
+.nutx-corner.tr{top:16px;right:16px;border-left:0;border-bottom:0;border-radius:0 9px 0 0}
+.nutx-corner.bl{bottom:16px;left:16px;border-right:0;border-top:0;border-radius:0 0 0 9px}
+.nutx-corner.br{bottom:16px;right:16px;border-left:0;border-top:0;border-radius:0 0 9px 0}
+.nutx-camic{width:62px;height:62px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-size:30px;box-shadow:0 8px 22px rgba(240,73,46,.5)}
+.nutx-camt{font-family:var(--sans);font-size:16px;font-weight:800}
+.nutx-cams{font-family:var(--sans);font-size:12px;font-weight:600;color:rgba(255,255,255,.62)}
+.nutx-modes{display:flex;gap:8px;margin-bottom:14px}
+.nutx-mode{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;border:1px solid var(--line);background:var(--card);border-radius:15px;padding:11px 4px;font-family:var(--sans);font-size:10.5px;font-weight:700;color:var(--ink2);cursor:pointer;transition:transform .12s ease}
+.nutx-mode:active{transform:scale(.96)}
+.nutx-mode i{font-size:20px;color:var(--ink2)}
+.nutx-mode.on{border-color:var(--accent);color:var(--accent)}
+.nutx-mode.on i{color:var(--accent)}
+.nutx-sum{width:100%;display:flex;align-items:center;gap:12px;border:0;background:var(--card);border-radius:18px;padding:13px 15px;box-shadow:var(--shadow);cursor:pointer;text-align:left;margin-bottom:18px;font-family:inherit;transition:transform .12s ease}
+.nutx-sum:active{transform:scale(.99)}
+.nutx-sumic{width:42px;height:42px;border-radius:13px;background:var(--peach);color:var(--accent);display:grid;place-items:center;font-size:21px;flex:none}
+.nutx-summid{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.nutx-sumk{font-family:var(--sans);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.nutx-sumv{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink)}
+.nutx-sumv b{font-family:var(--disp);font-style:oblique 6deg;font-size:17px;font-weight:400}
+.nutx-sumgo{font-family:var(--sans);font-size:12px;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:1px;flex:none}
+.nutx-rh{display:flex;align-items:center;justify-content:space-between;margin:0 2px 10px;font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+.nutx-rh i{color:var(--accent)}
+.nutx-rhc{color:var(--faint);font-weight:700;text-transform:none;letter-spacing:0}
+.nutx-meal{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:16px;padding:11px 12px;box-shadow:var(--shadow);margin-bottom:9px}
+.nutx-mthumb{width:48px;height:48px;border-radius:13px;background:var(--bg2) center/cover;flex:none;display:grid;place-items:center;color:var(--faint);font-size:21px}
+.nutx-mmid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.nutx-mn{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nutx-aiic{color:var(--indigo);font-size:13px}
+.nutx-mt{font-family:var(--sans);font-size:11.5px;color:var(--ink2)}
+.nutx-mk{font-family:var(--disp);font-style:oblique 6deg;font-size:21px;color:var(--ink);flex:none}
+.nutx-mk small{font-family:var(--sans);font-style:normal;font-size:10px;font-weight:700;color:var(--faint);margin-left:2px}
+.nutx-mx{border:0;background:none;color:var(--faint);font-size:15px;cursor:pointer;padding:4px;flex:none}
+.nutx-empty{text-align:center;color:var(--faint);font-family:var(--sans);font-size:13px;padding:34px 20px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.nutx-empty i{font-size:34px;color:var(--track)}
+.nutx-empty div{line-height:1.5}
+/* ----- Carte résultat (sheet) façon Cal AI ----- */
+.balsh2{padding:0 0 calc(20px + env(safe-area-inset-bottom)) !important;overflow-y:auto}
+.balsh2 .bal-sh-grip{margin:10px auto 8px}
+.bsh-photowrap{position:relative;width:100%;height:152px;border-radius:24px 24px 0 0;overflow:hidden}
+.bsh-photo{position:absolute;inset:0;background:var(--accent) center/cover;display:grid;place-items:center;color:rgba(255,255,255,.75);font-size:30px}
+.bsh-pills{position:absolute;inset:0;pointer-events:none}
+.bsh-pill{position:absolute;background:#fff;border-radius:999px;padding:5px 10px;font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink);box-shadow:0 6px 16px rgba(20,18,12,.18);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bsh-pill i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:block}
+.bsh-pill b{font-family:var(--disp);font-style:oblique 4deg;font-weight:400;color:var(--accent)}
+.bsh-body{padding:15px 18px 0}
+.bsh-tagrow{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.bsh-tag{background:var(--peach);color:var(--accentD);font-family:var(--sans);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
+.bsh-tag i{font-size:12px}
+.bsh-time{font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--faint)}
+.bsh-name{width:100%;border:0;background:none;font-family:var(--sans);font-size:21px;font-weight:800;color:var(--ink);padding:0;line-height:1.2;-webkit-user-select:text;user-select:text}
+.bsh-name:focus{outline:none}
+.bsh-status{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);margin:8px 0 0}
+.bsh-cal{display:flex;align-items:center;gap:13px;background:var(--peach);border-radius:18px;padding:14px 16px;margin-top:14px}
+.bsh-calic{width:42px;height:42px;border-radius:13px;background:#fff;color:var(--accent);display:grid;place-items:center;font-size:21px;flex:none}
+.bsh-callab{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink2)}
+.bsh-calv{font-family:var(--disp);font-style:oblique 6deg;font-size:34px;color:var(--ink);line-height:1}
+.bsh-calv small{font-family:var(--sans);font-style:normal;font-size:13px;font-weight:700;color:var(--ink2)}
+.bsh-macros{display:flex;gap:9px;margin-top:11px}
+.bsh-mac{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 11px}
+.bsh-macic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;margin-bottom:8px}
+.bsh-macic.p{background:#FBEAF0;color:#D4537E}.bsh-macic.c{background:#FAEEDA;color:#BA7517}.bsh-macic.f{background:#EEEDFE;color:#6C7BD6}
+.bsh-macl{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink2)}
+.bsh-macv{font-family:var(--disp);font-style:oblique 6deg;font-size:21px;color:var(--ink);line-height:1;margin-top:2px}
+.bsh-macv small{font-family:var(--sans);font-style:normal;font-size:11px;font-weight:700;color:var(--ink2)}
+.bsh-health{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-top:11px}
+.bsh-hic{width:32px;height:32px;border-radius:10px;background:#EAF3DE;color:#639922;display:grid;place-items:center;font-size:17px;flex:none}
+.bsh-hl{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);flex:none}
+.bsh-htrack{flex:1;height:7px;border-radius:5px;background:var(--track);overflow:hidden}
+.bsh-htrack i{display:block;height:100%;border-radius:5px;background:#639922;width:0;transition:width .5s ease}
+.bsh-hv{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);flex:none}
+.bsh-hv b{font-family:var(--disp);font-style:oblique 6deg;font-weight:400;font-size:18px;color:#639922}
+.bsh-actions{display:flex;gap:10px;margin-top:16px}
+.bsh-fix{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:14px 18px;font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px}
+.bsh-save{flex:1;border:0;background:var(--accent);border-radius:999px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
+</style>
+<div class="flnutrition nutx">
   <div class="pghd">
     <div class="pgt">Nutrition.</div>
-    <div class="pgs">Tes apports du jour, sans abonnement.</div>
+    <div class="pgs">Prends ton plat en photo, l'IA compte les calories.</div>
   </div>
 
-  <button class="bal-cta" type="button" onclick="go('balance')" style="margin:2px 0 14px"><i class="ti ti-scale"></i>Ma balance énergétique<i class="ti ti-arrow-right" style="font-size:18px"></i></button>
+  <button class="nutx-cam" type="button" onclick="balPhotoStart()" aria-label="Scanner mon repas">
+    <span class="nutx-corner tl"></span><span class="nutx-corner tr"></span><span class="nutx-corner bl"></span><span class="nutx-corner br"></span>
+    <span class="nutx-camic"><i class="ti ti-camera"></i></span>
+    <span class="nutx-camt">Scanner mon repas</span>
+    <span class="nutx-cams">1 photo → calories + macros</span>
+  </button>
 
-  <div class="card calcard">
-    <div class="ring" id="nutRing" style="margin:0 auto"></div>
-    <div class="sci calline" id="nutLine"></div>
+  <div class="nutx-modes">
+    <button class="nutx-mode on" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
+    <button class="nutx-mode" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
+    <button class="nutx-mode" type="button" onclick="toast('Code-barres — bientôt')"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
+    <button class="nutx-mode" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
   </div>
 
-  <div class="seclab" style="margin:18px 2px 0"><i class="ti ti-chart-pie"></i>Macronutriments</div>
-  <div class="macrogrid">
-    <div class="grid3" id="nutMacros"></div>
-  </div>
+  <button class="nutx-sum" type="button" onclick="go('balance')">
+    <span class="nutx-sumic"><i class="ti ti-flame"></i></span>
+    <span class="nutx-summid">
+      <span class="nutx-sumk">Aujourd'hui</span>
+      <span class="nutx-sumv"><b id="nutSumK">0</b> kcal · <span id="nutSumM">0g P · 0g G · 0g L</span></span>
+    </span>
+    <span class="nutx-sumgo">Balance<i class="ti ti-chevron-right"></i></span>
+  </button>
 
-  <div class="card">
-    <div class="seclab"><i class="ti ti-tools-kitchen-2"></i>Repas du jour</div>
-    <div id="mealList"></div>
+  <div class="nutx-rh"><span><i class="ti ti-history"></i> Récemment scannés</span><span class="nutx-rhc" id="nutCount"></span></div>
+  <div id="nutRecent"></div>
 
-    <div class="addzone">
-      <div class="field"><input id="nmName" class="fin" placeholder="Repas (ex : Poulet riz)" aria-label="Nom du repas"></div>
-      <div class="formgrid">
-        <div><div class="lab">Kcal</div><input aria-label="Kcal" id="nmKcal" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
-        <div><div class="lab">Prot. (g)</div><input aria-label="Prot. (g)" id="nmProt" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
-        <div><div class="lab">Gluc. (g)</div><input aria-label="Gluc. (g)" id="nmCarb" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
-      </div>
-      <div style="margin-top:9px"><div class="lab">Lipides (g)</div><input aria-label="Lipides (g)" id="nmFat" class="fin" type="number" inputmode="numeric" placeholder="0"></div>
-      <button class="addbtn" onclick="addMeal()"><i class="ti ti-plus"></i>Ajouter le repas</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="seclab"><i class="ti ti-flame"></i>Calories · 14 jours</div>
-    <div class="chartbox" id="nutBars"></div>
-    <div class="chartfoot"><span class="dot" style="background:var(--accent)"></span>aujourd'hui<span class="dot" style="background:var(--amber);margin-left:12px"></span>au-dessus de l'objectif</div>
-  </div>
+  <input type="file" id="nutGalleryFile" accept="image/*" style="display:none" onchange="balPhotoPick(this)">
 </div>
 </section>
 
@@ -3032,7 +3108,6 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
       <div class="bal2-wksum" id="bal7sum"></div>
     </button>
   </div>
-  <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
   <input type="file" id="balFile" accept="image/*" capture="environment" style="display:none" onchange="balPhotoPick(this)">
   <div class="bal2-card">
     <div class="bal2-ct2"><i class="ti ti-tools-kitchen-2"></i>Repas du jour</div>
@@ -3131,21 +3206,39 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 
 <div class="bal-sheet" id="balSheet">
   <div class="ov" onclick="balSheetClose()"></div>
-  <div class="pan">
+  <div class="pan balsh2">
     <div class="bal-sh-grip"></div>
-    <div class="bal-sh-top">
-      <div class="bal-sh-img" id="balShImg"><i class="ti ti-photo"></i></div>
-      <div style="min-width:0"><div class="bal-sh-h" id="balShH">Analyse de ton repas…</div><div class="bal-sh-sub" id="balShSub"><span class="bal-spin"></span>L'IA estime les calories</div></div>
+    <div class="bsh-photowrap">
+      <div class="bsh-photo" id="balShImg"><i class="ti ti-photo"></i></div>
+      <div class="bsh-pills" id="bshPills"></div>
     </div>
-    <div id="balShForm" style="display:none">
-      <div class="bal-fgrid">
-        <div class="bal-f full"><span>Repas</span><input id="balFName" type="text"></div>
-        <div class="bal-f"><span>Calories</span><input id="balFKcal" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Protéines (g)</span><input id="balFProt" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Glucides (g)</span><input id="balFCarb" type="number" inputmode="numeric"></div>
-        <div class="bal-f"><span>Lipides (g)</span><input id="balFFat" type="number" inputmode="numeric"></div>
+    <div class="bsh-body">
+      <div class="bsh-tagrow"><span class="bsh-tag" id="bshTag"><i class="ti ti-bookmark"></i> Repas</span><span class="bsh-time" id="bshTime"></span></div>
+      <input id="balFName" class="bsh-name" type="text" placeholder="Nom du plat" aria-label="Nom du plat">
+      <div class="bsh-status" id="balShSub"><span class="bal-spin"></span>L'IA estime les calories</div>
+      <div class="bsh-cal">
+        <span class="bsh-calic"><i class="ti ti-flame"></i></span>
+        <div><div class="bsh-callab">Calories</div><div class="bsh-calv"><span id="bshKcal">—</span> <small>kcal</small></div></div>
       </div>
-      <button class="bal-save" onclick="balConfirm()">Ajouter à ma journée</button>
+      <div class="bsh-macros">
+        <div class="bsh-mac"><span class="bsh-macic p"><i class="ti ti-meat"></i></span><div class="bsh-macl">Protéines</div><div class="bsh-macv"><span id="bshProt">—</span><small>g</small></div></div>
+        <div class="bsh-mac"><span class="bsh-macic c"><i class="ti ti-bread"></i></span><div class="bsh-macl">Glucides</div><div class="bsh-macv"><span id="bshCarb">—</span><small>g</small></div></div>
+        <div class="bsh-mac"><span class="bsh-macic f"><i class="ti ti-droplet"></i></span><div class="bsh-macl">Lipides</div><div class="bsh-macv"><span id="bshFat">—</span><small>g</small></div></div>
+      </div>
+      <div class="bsh-health">
+        <span class="bsh-hic"><i class="ti ti-heart"></i></span>
+        <span class="bsh-hl">Score santé</span>
+        <span class="bsh-htrack"><i id="bshHealthBar"></i></span>
+        <span class="bsh-hv"><b id="bshHealth">—</b>/10</span>
+      </div>
+      <div id="balShForm" style="display:none">
+        <input id="balFKcal" type="hidden"><input id="balFProt" type="hidden"><input id="balFCarb" type="hidden"><input id="balFFat" type="hidden">
+        <div class="bsh-actions">
+          <button class="bsh-fix" type="button" onclick="nutFix()"><i class="ti ti-sparkles"></i> Corriger</button>
+          <button class="bsh-save" type="button" onclick="balConfirm()">Valider</button>
+        </div>
+      </div>
+      <div id="balShH" style="display:none"></div>
     </div>
   </div>
 </div>
@@ -4737,12 +4830,21 @@ function getNutGoals(){const p=getProfile();return {kcal:p.kcalGoal||2400,prot:p
 function mealsOf(k){return DB.get('meals_'+(k||tk()),[])}
 function nutTotals(k){return mealsOf(k).reduce((a,x)=>({kcal:a.kcal+(+x.kcal||0),prot:a.prot+(+x.prot||0),carb:a.carb+(+x.carb||0),fat:a.fat+(+x.fat||0)}),{kcal:0,prot:0,carb:0,fat:0})}
 function macroStat(lbl,val,goal,col){const pct=Math.min(100,goal?val/goal*100:0);return '<div class="stat"><div class="sl">'+lbl+'</div><div class="sv" style="font-size:23px">'+Math.round(val)+'<small style="font-size:11px;color:var(--ink2);font-family:var(--sans);font-weight:700"> /'+Math.round(goal)+'g</small></div><div class="progbar" style="margin-top:7px;height:8px"><i style="width:'+pct+'%;background:'+col+'"></i></div></div>'}
-function renderNutrition(){const tt=nutTotals(),g=getNutGoals(),reste=g.kcal-tt.kcal;
- document.getElementById('nutRing').innerHTML=ringHTML(Math.min(100,tt.kcal/g.kcal*100),168,'Calories','/ '+fmtN(g.kcal)+' kcal',(reste>=0?'var(--accent)':'var(--amber)'),fmtN(tt.kcal));
- set('nutLine',reste>=0?'Il te reste '+fmtN(reste)+' kcal aujourd\'hui':'Objectif dépassé de '+fmtN(-reste)+' kcal');
- set('nutMacros',macroStat('Protéines',tt.prot,g.prot,'#6C7BD6')+macroStat('Glucides',tt.carb,g.kcal*0.45/4,'#F2A93B')+macroStat('Lipides',tt.fat,g.kcal*0.25/9,'#F0492E'));
- const meals=mealsOf();set('mealList',meals.length?meals.map((m,i)=>'<div class="mealrow"><div style="min-width:0;flex:1"><div class="an">'+esc(m.name)+'</div><div class="at">'+(m.prot||0)+'g prot · '+(m.carb||0)+'g gluc · '+(m.fat||0)+'g lip</div></div><span class="mkcal">'+m.kcal+'</span><span class="ax" onclick="delMeal('+i+')">✕</span></div>').join(''):'<p class="sci">Aucun repas. Ajoute ton premier repas.</p>');
- document.getElementById('nutBars').innerHTML=barsSVG(seriesBack(null,14,k=>nutTotals(k).kcal),{h:66,ref:g.kcal,refLabel:'objectif',refColor:'var(--ink2)',lab:['−14j','auj.'],colorFn:function(v,i,last){return v?(v>g.kcal?'var(--amber)':(last?'var(--accent)':'rgba(240,73,46,.55)')):'var(--track)'}})}
+function renderNutrition(){var k=tk(),meals=mealsOf(k),tt=nutTotals(k);
+ set('nutSumK',fmtN(tt.kcal));
+ set('nutSumM',Math.round(tt.prot)+'g P · '+Math.round(tt.carb)+'g G · '+Math.round(tt.fat)+'g L');
+ var cnt=document.getElementById('nutCount');if(cnt)cnt.textContent=meals.length?meals.length+' repas':'';
+ var host=document.getElementById('nutRecent');if(!host)return;
+ if(!meals.length){host.innerHTML='<div class="nutx-empty"><i class="ti ti-camera"></i><div>Aucun repas scanné aujourd\'hui.<br>Appuie sur l\'appareil photo pour commencer.</div></div>';return}
+ host.innerHTML=meals.map(function(m,i){
+  var th=m.photo?' style="background-image:url('+m.photo+')"':'';
+  var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
+  return '<div class="nutx-meal"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
+   +'<span class="nutx-mmid"><span class="nutx-mn">'+esc(m.name)+(m.ai?' <i class="ti ti-sparkles nutx-aiic" aria-hidden="true"></i>':'')+'</span>'
+   +'<span class="nutx-mt">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span>'
+   +'<span class="nutx-mk">'+(m.kcal||0)+'<small>kcal</small></span>'
+   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="delMeal('+i+')">✕</button></div>';
+ }).join('')}
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 /* ============ BALANCE ÉNERGÉTIQUE (conso photo IA ↔ dépense bracelet) ============ */
@@ -6040,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v244';
+const APP_VERSION='flint-v245';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6118,7 +6220,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
               .then(function(d){
                 if(!d||!d.items||!d.items.length){resolve(fallback());return;}
                 window._flintScanItems=d.items.map(function(it){return Object.assign({},it);});
-                setTimeout(renderItems,30);
+                setTimeout(function(){renderItems();syncUI();},30);
                 var t=d.total||{};
                 resolve({name:d.mealName||'Mon repas',kcal:Math.round(t.kcal||0),prot:Math.round(t.prot||0),carb:Math.round(t.carb||0),fat:Math.round(t.fat||0)});
               })
@@ -6130,6 +6232,36 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
       }catch(e){resolve(fallback());}
     });
   };
+  function _two(n){return (n<10?'0':'')+n;}
+  function nowHM(){var d=new Date();return _two(d.getHours())+':'+_two(d.getMinutes());}
+  function mealTag(){var h=new Date().getHours();return h<10.5?'Petit-déj':(h<15?'Déjeuner':(h<18.5?'Collation':'Dîner'));}
+  function healthScore(k,p,c,f){if(!k)return 7;var protPct=(p*4)/k,fatPct=(f*9)/k;var s=5.2+protPct*9-Math.max(0,fatPct-0.4)*7;return Math.max(1,Math.min(10,Math.round(s)));}
+  function syncUI(){
+    var g=function(id){return document.getElementById(id);};
+    var kc=parseInt(g('balFKcal')&&g('balFKcal').value)||0;
+    var pp=parseInt(g('balFProt')&&g('balFProt').value)||0;
+    var cc=parseInt(g('balFCarb')&&g('balFCarb').value)||0;
+    var ff=parseInt(g('balFFat')&&g('balFFat').value)||0;
+    if(g('bshKcal'))g('bshKcal').textContent=kc||'—';
+    if(g('bshProt'))g('bshProt').textContent=pp;
+    if(g('bshCarb'))g('bshCarb').textContent=cc;
+    if(g('bshFat'))g('bshFat').textContent=ff;
+    var hs=healthScore(kc,pp,cc,ff);
+    if(g('bshHealth'))g('bshHealth').textContent=hs;
+    if(g('bshHealthBar'))g('bshHealthBar').style.width=(hs*10)+'%';
+    if(g('bshTime')&&!g('bshTime').textContent)g('bshTime').textContent=nowHM();
+    if(g('bshTag'))g('bshTag').innerHTML='<i class="ti ti-bookmark"></i> '+mealTag();
+    var pills=g('bshPills');
+    if(pills){
+      var items=(window._flintScanItems||[]).slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3);
+      var pos=[{top:'16%',left:'7%'},{top:'42%',right:'7%'},{top:'66%',left:'15%'}];
+      pills.innerHTML=items.map(function(it,i){var p=pos[i]||pos[0];var css=Object.keys(p).map(function(key){return key+':'+p[key];}).join(';');return '<span class="bsh-pill" style="'+css+'"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';}).join('');
+    }
+  }
+  window._flintSyncResultUI=syncUI;window.syncUI=syncUI;
+  window.nutFix=function(){if(window.toast)toast('Ajuste les aliments ou les grammes ci-dessous');var h=document.getElementById('scanItems');if(h&&h.scrollIntoView)h.scrollIntoView({behavior:'smooth',block:'center'});};
+  window.nutGallery=function(){var f=document.getElementById('nutGalleryFile');if(f){f.value='';f.click();}};
+  window.nutDescribe=function(){if(window.toast)toast('Décrire ton plat — bientôt');};
   function recalc(){
     var items=window._flintScanItems||[];
     var t=items.reduce(function(a,it){return {k:a.k+(+it.kcal||0),p:a.p+(+it.prot||0),c:a.c+(+it.carb||0),f:a.f+(+it.fat||0)};},{k:0,p:0,c:0,f:0});
@@ -6138,6 +6270,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     if(g('balFProt'))g('balFProt').value=Math.round(t.p);
     if(g('balFCarb'))g('balFCarb').value=Math.round(t.c);
     if(g('balFFat'))g('balFFat').value=Math.round(t.f);
+    syncUI();
   }
   window._flintEditGrams=function(i,val){
     var it=(window._flintScanItems||[])[i];if(!it)return;
@@ -6164,7 +6297,9 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0 2px;border-top:1px solid rgba(20,18,12,.12);margin-top:4px;font-weight:800"><span>Total estimé</span><span style="font-family:var(--disp,inherit);font-size:20px">'+tot+' kcal</span></div>';
   }
   var _close=window.balSheetClose;
-  if(typeof _close==='function'){window.balSheetClose=function(){var h=document.getElementById('scanItems');if(h)h.remove();window._flintScanItems=null;return _close.apply(this,arguments);};}
+  if(typeof _close==='function'){window.balSheetClose=function(){var h=document.getElementById('scanItems');if(h)h.remove();window._flintScanItems=null;var pl=document.getElementById('bshPills');if(pl)pl.innerHTML='';['bshKcal','bshProt','bshCarb','bshFat','bshHealth'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='\u2014';});var hb=document.getElementById('bshHealthBar');if(hb)hb.style.width='0';return _close.apply(this,arguments);};}
+  var _pick=window.balPhotoPick;
+  if(typeof _pick==='function'){window.balPhotoPick=function(){var r=_pick.apply(this,arguments);var n=0;var iv=setInterval(function(){n++;syncUI();var form=document.getElementById('balShForm');if((form&&form.style.display!=='none')||n>40)clearInterval(iv);},150);return r;};}
   /* Bouton caméra flottant : scanner son plat en 1 tap depuis N'IMPORTE QUEL écran */
   function addFab(){
     if(document.getElementById('flintScanFab'))return;
