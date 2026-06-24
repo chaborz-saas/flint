@@ -3352,8 +3352,17 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <!-- ===================== PAS ===================== -->
 <style>
 body.stepsview header{display:none}
-.stp{font-family:'Inter',sans-serif;color:#15140F;padding:0 2px 26px}
-.stp .steps-img{position:relative;width:100%;aspect-ratio:941/1396;background:url('./steps-empty.png?v=1') top center/100% 100% no-repeat;container-type:inline-size;margin:0 0 13px}
+.stp{font-family:'Inter',sans-serif;color:#15140F;padding:2px 2px 12px;position:relative}
+.stp .stp-back{position:absolute;top:4px;left:2px;z-index:20;width:46px;height:46px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.14);color:#15140F;font-size:21px;display:grid;place-items:center;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
+.stp .stp-back:active{transform:scale(.84)}
+.stp .stp-title{font-family:'Anton';font-style:oblique 8deg;font-size:46px;line-height:.96;color:#15140F;margin:58px 4px 0}
+.stp .recnav{display:inline-flex;align-items:center;gap:9px;margin:14px 4px 4px}
+.stp .recnav-a{width:42px;height:42px;border-radius:50%;border:0;background:#FCE9E4;color:#F0492E;font-size:19px;cursor:pointer;display:grid;place-items:center;flex:none;transition:transform .12s ease}
+.stp .recnav-a:active{transform:scale(.92)}
+.stp .recnav-a[disabled]{background:#F1EEE8;color:#C8C2B8}
+.stp .recnav-d{display:inline-flex;align-items:center;gap:7px;background:#FCE9E4;border:0;border-radius:30px;padding:9px 15px;font-family:'Inter';font-size:16px;font-weight:800;color:#F0492E;cursor:pointer;white-space:nowrap}
+.stp .recnav-d i{font-size:18px}
+.stp .steps-img{position:relative;width:100%;aspect-ratio:941/1264;background:url('./steps-empty.png?v=2') top center/100% 100% no-repeat;container-type:inline-size;margin:6px 0 13px}
 .stp .ovtap{position:absolute;background:transparent;border:0;cursor:pointer;padding:0;z-index:6}
 .stp .stp-ov{position:absolute;line-height:1;font-family:'Inter',sans-serif;color:#15140F;white-space:nowrap;text-align:center}
 .stp .stp-num{font-family:'Anton';font-style:oblique 8deg;font-size:15cqw;color:#15140F}
@@ -5408,19 +5417,23 @@ function recFmtH(m){m=Math.round(m);var h=Math.floor(m/60),mm=m%60;return mm?h+'
 /* ---------- PAS ---------- */
 function stpGoal(){var st=DB.get('stepGoal',null);if(st!=null)return st;var a=trend30(TREND.steps)||10000;return Math.max(6000,Math.round(a*1.05/100)*100);}
 function stpHM(min){min=Math.round(min);var h=Math.floor(min/60),m=min%60;return h>0?(h+'h'+String(m).padStart(2,'0')):(m+' min');}
+function stepDay(d){window._stepDay=Math.min(0,(window._stepDay||0)+d);if(typeof haptic==='function')haptic();var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML();}
+function stepCalOpen(){if(typeof haptic==='function')haptic();window._calMode='steps';slpCalOpen();}
 function stepsHeroHTML(){
- var k=tk(),steps=flStepsOf(k),goal=stpGoal(),pct=Math.round(steps/goal*100);
+ var off=window._stepDay||0,k=tk(off),steps=flStepsOf(k),goal=stpGoal(),pct=Math.round(steps/goal*100);
  var dist=steps*0.00076,kcal=Math.round(steps*0.0415),act=Math.round(steps/121),pc=pct>=100?'#2FA86A':'#F0492E';
- var h='<button class="ovtap" onclick="goBack(\'today\')" style="left:0;top:0;width:18%;height:6.5%" aria-label="Retour"></button>';
- h+='<div class="stp-ov stp-num" style="left:50%;top:45%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
- h+='<div class="stp-ov" style="left:50%;top:53.5%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
- h+='<div class="stp-ov" style="left:50%;top:58.5%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
- h+='<div class="stp-ov" style="left:50%;top:63.6%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
- function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:80%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:88%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
- h+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
- h+=stat(50,fmtN(kcal),'kcal','Dépensées');
- h+=stat(79.5,stpHM(act),'','Activité');
- return '<div class="steps-img">'+h+'</div>';
+ var h='<button class="stp-back" type="button" onclick="goBack(\'today\')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>';
+ h+='<div class="stp-title">Pas</div>';
+ h+='<div class="recnav"><button class="recnav-a" type="button" onclick="stepDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button><button class="recnav-d" type="button" onclick="stepCalOpen()"><span>'+recDateFmt(off)+'</span> <i class="ti ti-calendar"></i></button><button class="recnav-a" type="button" onclick="stepDay(1)"'+(off>=0?' disabled':'')+' aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button></div>';
+ var ov='<div class="stp-ov stp-num" style="left:50%;top:39.3%;transform:translate(-50%,-50%)">'+fmtN(steps)+'</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:48.6%;transform:translateX(-50%);font-size:4cqw;font-weight:600;color:#6E6A62">pas</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:54.2%;transform:translateX(-50%);font-size:3.7cqw;color:#6E6A62">Objectif '+fmtN(goal)+'</div>';
+ ov+='<div class="stp-ov" style="left:50%;top:59.8%;transform:translateX(-50%);font-size:4.3cqw;font-weight:800;color:'+pc+'">'+pct+' %</div>';
+ function stat(cx,val,unit,lbl){return '<div class="stp-ov stp-stat" style="left:'+cx+'%;top:77.9%;transform:translate(-50%,-50%)"><span class="sv">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div><div class="stp-ov" style="left:'+cx+'%;top:86.8%;transform:translate(-50%,-50%);font-size:3.2cqw;color:#6E6A62">'+lbl+'</div>';}
+ ov+=stat(20.5,(Math.round(dist*10)/10).toString().replace('.',','),'km','Distance');
+ ov+=stat(50,fmtN(kcal),'kcal','Dépensées');
+ ov+=stat(79.5,stpHM(act),'','Activité');
+ return h+'<div class="steps-img">'+ov+'</div>';
 }
 function recGrade(d){
  var sd=d.sd||((d.high-d.low)/2)||1;
@@ -5647,13 +5660,13 @@ function slpJump(which){if(typeof haptic==='function')haptic();openSleepNight()}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
 function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):window._calMode==='steps'?(window._stepDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
 function slpOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='sleep';slpCalOpen()}
-function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else{renderSleep()}window.scrollTo(0,0)}
+function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else if(window._calMode==='steps'){var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML()}else{renderSleep()}window.scrollTo(0,0)}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
 function slpCalToday(){gDay=0;slpCalClose();_calRerender()}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else{gDay=off}slpCalClose();_calRerender()}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else if(window._calMode==='steps'){window._stepDay=off}else{gDay=off}slpCalClose();_calRerender()}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -6354,7 +6367,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v266';
+const APP_VERSION='flint-v267';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
