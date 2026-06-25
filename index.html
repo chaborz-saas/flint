@@ -2830,6 +2830,29 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nutx-mk{font-family:var(--disp);font-style:oblique 6deg;font-size:21px;color:var(--ink);flex:none}
 .nutx-mk small{font-family:var(--sans);font-style:normal;font-size:10px;font-weight:700;color:var(--faint);margin-left:2px}
 .nutx-mx{border:0;background:none;color:var(--faint);font-size:15px;cursor:pointer;padding:4px;flex:none}
+/* ===== Nutrition v2 (maquette DA chaude) — scopé .nut2 ===== */
+.nut2{padding:0 4px 96px;font-family:'Inter',sans-serif}
+.nut2-hero{display:block;width:100%;aspect-ratio:941/852;background:url('./nutri-hero.png?v=1') top center/100% 100% no-repeat;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nut2-acts{display:flex;gap:10px;margin:6px 0 14px;padding:0 8px}
+.nut2-act{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:20px;padding:14px 4px;box-shadow:0 4px 16px rgba(20,18,12,.05);font-family:inherit;font-size:11px;font-weight:700;color:#56514B;cursor:pointer;transition:transform .12s ease}
+.nut2-act:active{transform:scale(.95)}
+.nut2-act i{font-size:23px;color:#F0653E}
+.nut2-card{display:flex;align-items:center;margin:0 8px;background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.75);border-radius:26px;padding:22px 16px;box-shadow:0 6px 22px rgba(20,18,12,.06)}
+.nut2-left{flex:1;text-align:center;min-width:0}
+.nut2-day{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9A948A}
+.nut2-kcal{margin-top:6px;display:flex;align-items:baseline;justify-content:center;gap:5px}
+.nut2-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:46px;line-height:1;color:#15140F}
+.nut2-kcal span{font-size:14px;font-weight:700;color:#7C766B}
+.nut2-sep{width:1px;align-self:stretch;background:rgba(20,18,12,.10);margin:2px 14px}
+.nut2-right{flex:1;display:flex;flex-direction:column;gap:13px;min-width:0}
+.nut2-mrow{display:flex;align-items:center;gap:10px}
+.nut2-ring{width:30px;height:30px;flex:none;transform:rotate(-90deg)}
+.nut2-ring .nrt{fill:none;stroke:rgba(20,18,12,.09);stroke-width:3.5}
+.nut2-ring .nra{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:0 94.2}
+.nut2-mv{display:flex;align-items:baseline;gap:2px;flex:none}
+.nut2-mv b{font-family:'Anton';font-style:oblique 6deg;font-size:20px;color:#15140F}
+.nut2-mv i{font-style:normal;font-size:11px;font-weight:700;color:#9A948A}
+.nut2-ml{font-size:12.5px;font-weight:600;color:#56514B;white-space:nowrap}
 .nutx-empty{text-align:center;color:var(--faint);font-family:var(--sans);font-size:13px;padding:34px 20px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .nutx-empty i{font-size:34px;color:var(--track)}
 .nutx-empty div{line-height:1.5}
@@ -2873,38 +2896,26 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bsh-fix{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:14px 18px;font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px}
 .bsh-save{flex:1;border:0;background:var(--accent);border-radius:999px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
 </style>
-<div class="flnutrition nutx">
-  <div class="pghd">
-    <div class="pgt">Nutrition.</div>
-    <div class="pgs">Prends ton plat en photo, l'IA compte les calories.</div>
+<div class="nut2">
+  <button class="nut2-hero" type="button" onclick="balPhotoStart()" aria-label="Scanner mon repas"></button>
+  <div class="nut2-acts">
+    <button class="nut2-act" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
+    <button class="nut2-act" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
+    <button class="nut2-act" type="button" onclick="toast('Code-barres — bientôt')"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
+    <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
   </div>
-
-  <button class="nutx-cam" type="button" onclick="balPhotoStart()" aria-label="Scanner mon repas">
-    <span class="nutx-corner tl"></span><span class="nutx-corner tr"></span><span class="nutx-corner bl"></span><span class="nutx-corner br"></span>
-    <span class="nutx-camic"><i class="ti ti-camera"></i></span>
-    <span class="nutx-camt">Scanner mon repas</span>
-    <span class="nutx-cams">1 photo → calories + macros</span>
-  </button>
-
-  <div class="nutx-modes">
-    <button class="nutx-mode on" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
-    <button class="nutx-mode" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
-    <button class="nutx-mode" type="button" onclick="toast('Code-barres — bientôt')"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
-    <button class="nutx-mode" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
+  <div class="nut2-card">
+    <div class="nut2-left">
+      <div class="nut2-day">Aujourd'hui</div>
+      <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
+    </div>
+    <div class="nut2-sep"></div>
+    <div class="nut2-right">
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingP" cx="18" cy="18" r="15" stroke="#5A8DEE"/></svg><div class="nut2-mv"><b id="nut2Prot">0</b><i>g</i></div><span class="nut2-ml">Protéines</span></div>
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingC" cx="18" cy="18" r="15" stroke="#E0922A"/></svg><div class="nut2-mv"><b id="nut2Carb">0</b><i>g</i></div><span class="nut2-ml">Glucides</span></div>
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
+    </div>
   </div>
-
-  <button class="nutx-sum" type="button" onclick="go('balance')">
-    <span class="nutx-sumic"><i class="ti ti-flame"></i></span>
-    <span class="nutx-summid">
-      <span class="nutx-sumk">Aujourd'hui</span>
-      <span class="nutx-sumv"><b id="nutSumK">0</b> kcal · <span id="nutSumM">0g P · 0g G · 0g L</span></span>
-    </span>
-    <span class="nutx-sumgo">Balance<i class="ti ti-chevron-right"></i></span>
-  </button>
-
-  <div class="nutx-rh"><span><i class="ti ti-history"></i> Récemment scannés</span><span class="nutx-rhc" id="nutCount"></span></div>
-  <div id="nutRecent"></div>
-
   <input type="file" id="nutGalleryFile" accept="image/*" style="display:none" onchange="balPhotoPick(this)">
 </div>
 </section>
@@ -5106,21 +5117,13 @@ function getNutGoals(){const p=getProfile();return {kcal:p.kcalGoal||2400,prot:p
 function mealsOf(k){return DB.get('meals_'+(k||tk()),[])}
 function nutTotals(k){return mealsOf(k).reduce((a,x)=>({kcal:a.kcal+(+x.kcal||0),prot:a.prot+(+x.prot||0),carb:a.carb+(+x.carb||0),fat:a.fat+(+x.fat||0)}),{kcal:0,prot:0,carb:0,fat:0})}
 function macroStat(lbl,val,goal,col){const pct=Math.min(100,goal?val/goal*100:0);return '<div class="stat"><div class="sl">'+lbl+'</div><div class="sv" style="font-size:23px">'+Math.round(val)+'<small style="font-size:11px;color:var(--ink2);font-family:var(--sans);font-weight:700"> /'+Math.round(goal)+'g</small></div><div class="progbar" style="margin-top:7px;height:8px"><i style="width:'+pct+'%;background:'+col+'"></i></div></div>'}
-function renderNutrition(){var k=tk(),meals=mealsOf(k),tt=nutTotals(k);
+function renderNutrition(){var k=tk(),tt=nutTotals(k),g=getNutGoals();
  set('nutSumK',fmtN(tt.kcal));
- set('nutSumM',Math.round(tt.prot)+'g P · '+Math.round(tt.carb)+'g G · '+Math.round(tt.fat)+'g L');
- var cnt=document.getElementById('nutCount');if(cnt)cnt.textContent=meals.length?meals.length+' repas':'';
- var host=document.getElementById('nutRecent');if(!host)return;
- if(!meals.length){host.innerHTML='<div class="nutx-empty"><i class="ti ti-camera"></i><div>Aucun repas scanné aujourd\'hui.<br>Appuie sur l\'appareil photo pour commencer.</div></div>';return}
- host.innerHTML=meals.map(function(m,i){
-  var th=m.photo?' style="background-image:url('+m.photo+')"':'';
-  var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
-  return '<div class="nutx-meal"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
-   +'<span class="nutx-mmid"><span class="nutx-mn">'+esc(m.name)+(m.ai?' <i class="ti ti-sparkles nutx-aiic" aria-hidden="true"></i>':'')+'</span>'
-   +'<span class="nutx-mt">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span>'
-   +'<span class="nutx-mk">'+(m.kcal||0)+'<small>kcal</small></span>'
-   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="delMeal('+i+')">✕</button></div>';
- }).join('')}
+ set('nut2Prot',Math.round(tt.prot));set('nut2Carb',Math.round(tt.carb));set('nut2Fat',Math.round(tt.fat));
+ var gP=g.prot||150,gC=Math.round((g.kcal||2400)*0.45/4),gF=Math.round((g.kcal||2400)*0.30/9),C=94.25;
+ function ring(id,frac){var e=document.getElementById(id);if(e)e.setAttribute('stroke-dasharray',(Math.max(0,Math.min(1,frac||0))*C).toFixed(1)+' '+C)}
+ ring('nut2RingP',tt.prot/gP);ring('nut2RingC',tt.carb/gC);ring('nut2RingF',tt.fat/gF);
+}
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 /* ============ BALANCE ÉNERGÉTIQUE (conso photo IA ↔ dépense bracelet) ============ */
@@ -6593,7 +6596,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v310';
+const APP_VERSION='flint-v311';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
