@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v252';
+const APP_VERSION='flint-v253';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6443,6 +6443,9 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-prod-sec{font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin:18px 2px 8px}
 .flx-prod-row{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:7px}
 .flx-prod-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.flx-prod-bar{width:4px;height:36px;border-radius:3px;flex:none}
+.flx-prod-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.flx-prod-rq{font-family:var(--sans);font-size:11.5px;color:var(--ink2)}
 .flx-prod-rk{flex:1;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink)}
 .flx-prod-rv{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink2)}
 .flx-prod-macros{display:flex;gap:8px;margin-top:8px}
@@ -6534,7 +6537,12 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
   }
   function fillProduct(data){
     var ov=g('flxProd')||openProduct(); var pan=ov.querySelector('.flx-prod-pan'); var p=data.product||{};
-    var rows=(p.analysis||[]).map(function(a){return '<div class="flx-prod-row"><span class="flx-prod-dot" style="background:'+sentColor(a.s)+'"></span><span class="flx-prod-rk">'+esc(a.k)+'</span><span class="flx-prod-rv">'+esc(a.v)+'</span></div>';}).join('');
+    function rowH(a){return '<div class="flx-prod-row"><span class="flx-prod-bar" style="background:'+sentColor(a.s)+'"></span><span class="flx-prod-mid"><span class="flx-prod-rk">'+esc(a.k)+'</span>'+(a.q?'<span class="flx-prod-rq">'+esc(a.q)+'</span>':'')+'</span>'+(a.v?'<span class="flx-prod-rv">'+esc(a.v)+'</span>':'')+'</div>';}
+    var an=p.analysis||[];
+    var negH=an.filter(function(a){return a.s==='bad'||a.s==='warn';}).map(rowH).join('');
+    var posH=an.filter(function(a){return a.s==='good';}).map(rowH).join('');
+    negH=negH?'<div class="flx-prod-sec">Négatifs</div>'+negH:'';
+    posH=posH?'<div class="flx-prod-sec">Positifs</div>'+posH:'';
     var ns=p.nutriscore?'<span class="flx-prod-ns">Nutri-Score <b style="background:'+nsColor(p.nutriscore)+'">'+esc(p.nutriscore)+'</b></span>':'';
     var nova=p.nova?'<span class="flx-prod-ns">NOVA <b style="background:'+(p.nova>=4?'#E24B4A':(p.nova===3?'#F2A93B':'#3FB57A'))+'">'+p.nova+'</b></span>':'';
     var per=p.per100||{};
@@ -6544,13 +6552,7 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       +'<div class="flx-prod-body">'
       +'<div class="flx-prod-name">'+esc(p.name||'Produit')+'</div>'+(p.brand?'<div class="flx-prod-brand">'+esc(p.brand)+'</div>':'')
       +'<div class="flx-prod-sc">'+ring(p.score||0)+'<div class="flx-prod-sc-t"><div class="flx-prod-sc-l" style="color:'+scoreColor(p.score||0)+'">'+esc(p.label||'')+'</div><div class="flx-prod-sc-s">Score santé indicatif</div><div class="flx-prod-badges">'+ns+nova+'</div></div></div>'
-      +'<div class="flx-prod-sec">Analyse</div>'+rows
-      +'<div class="flx-prod-sec">Pour 100 g</div><div class="flx-prod-macros">'
-      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.kcal||0)+'</div><div class="flx-prod-ml">kcal</div></div>'
-      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.prot||0)+'</div><div class="flx-prod-ml">prot</div></div>'
-      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.carb||0)+'</div><div class="flx-prod-ml">gluc</div></div>'
-      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.fat||0)+'</div><div class="flx-prod-ml">lip</div></div>'
-      +'</div></div>'
+      +negH+posH+'</div>'
       +'<button class="flx-prod-add"><i class="ti ti-plus"></i> Ajouter à ma journée</button>';
     pan.querySelector('.flx-prod-x').onclick=function(){ov.remove();};
     pan.querySelector('.flx-prod-add').onclick=function(){ ov.remove(); showResult(data.mealName,data.items); };

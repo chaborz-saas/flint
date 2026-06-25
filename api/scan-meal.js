@@ -110,23 +110,25 @@ function num(x) { const v = Number(x); return isFinite(v) ? v : 0; }
 function buildAnalysis(p, n, per100) {
   const nl = p.nutrient_levels || {};
   const sent = l => l === 'low' ? 'good' : (l === 'high' ? 'bad' : (l === 'moderate' ? 'warn' : 'neutral'));
+  const QQ = { good: 'Faible quantité', warn: 'Quantité modérée', bad: 'Quantité élevée' };
   const rows = [];
   const kcal = per100.kcal;
-  rows.push({ k: 'Énergie', v: round(kcal) + ' kcal', s: kcal <= 150 ? 'good' : (kcal <= 350 ? 'warn' : 'bad') });
-  const sug = num(n.sugars_100g);
-  rows.push({ k: 'Sucres', v: round(sug) + ' g', s: nl.sugars ? sent(nl.sugars) : (sug <= 5 ? 'good' : (sug <= 15 ? 'warn' : 'bad')) });
-  const sat = num(n['saturated-fat_100g']);
-  rows.push({ k: 'Graisses saturées', v: round(sat) + ' g', s: nl['saturated-fat'] ? sent(nl['saturated-fat']) : (sat <= 1.5 ? 'good' : (sat <= 5 ? 'warn' : 'bad')) });
-  const salt = num(n.salt_100g);
-  rows.push({ k: 'Sel', v: (Math.round(salt * 10) / 10) + ' g', s: nl.salt ? sent(nl.salt) : (salt <= 0.3 ? 'good' : (salt <= 1.5 ? 'warn' : 'bad')) });
+  const es = kcal <= 150 ? 'good' : (kcal <= 350 ? 'warn' : 'bad');
+  rows.push({ k: 'Calories', v: round(kcal) + ' kcal', s: es, q: es === 'good' ? 'Peu calorique' : (es === 'warn' ? 'Modérément calorique' : 'Calorique') });
+  const sug = num(n.sugars_100g), ss = nl.sugars ? sent(nl.sugars) : (sug <= 5 ? 'good' : (sug <= 15 ? 'warn' : 'bad'));
+  rows.push({ k: 'Sucres', v: round(sug) + ' g', s: ss, q: QQ[ss] });
+  const sat = num(n['saturated-fat_100g']), fs = nl['saturated-fat'] ? sent(nl['saturated-fat']) : (sat <= 1.5 ? 'good' : (sat <= 5 ? 'warn' : 'bad'));
+  rows.push({ k: 'Graisses saturées', v: round(sat) + ' g', s: fs, q: QQ[fs] });
+  const salt = num(n.salt_100g), ls = nl.salt ? sent(nl.salt) : (salt <= 0.3 ? 'good' : (salt <= 1.5 ? 'warn' : 'bad'));
+  rows.push({ k: 'Sel', v: (Math.round(salt * 10) / 10) + ' g', s: ls, q: QQ[ls] });
   const prot = num(n.proteins_100g);
-  rows.push({ k: 'Protéines', v: round(prot) + ' g', s: prot >= 8 ? 'good' : 'neutral' });
+  if (prot >= 8) rows.push({ k: 'Protéines', v: round(prot) + ' g', s: 'good', q: 'Bonne source' });
   const fib = num(n.fiber_100g);
-  rows.push({ k: 'Fibres', v: round(fib) + ' g', s: fib >= 3 ? 'good' : 'neutral' });
+  if (fib >= 3) rows.push({ k: 'Fibres', v: round(fib) + ' g', s: 'good', q: 'Source de fibres' });
   const add = p.additives_n != null ? num(p.additives_n) : ((p.additives_tags || []).length);
-  rows.push({ k: 'Additifs', v: add === 0 ? 'aucun' : (add + (add > 1 ? ' additifs' : ' additif')), s: add === 0 ? 'good' : (add <= 3 ? 'warn' : 'bad') });
+  rows.push({ k: 'Additifs', v: add === 0 ? '0' : String(add), s: add === 0 ? 'good' : (add <= 3 ? 'warn' : 'bad'), q: add === 0 ? 'Aucun additif' : (add <= 3 ? 'Quelques additifs' : 'Beaucoup d\'additifs') });
   const nova = num(p.nova_group);
-  if (nova) rows.push({ k: 'Transformation', v: nova >= 4 ? 'ultra-transformé' : (nova === 3 ? 'transformé' : 'peu transformé'), s: nova >= 4 ? 'bad' : (nova === 3 ? 'warn' : 'good') });
+  if (nova) rows.push({ k: 'Transformation', v: '', s: nova >= 4 ? 'bad' : (nova === 3 ? 'warn' : 'good'), q: nova >= 4 ? 'Ultra-transformé' : (nova === 3 ? 'Transformé' : 'Peu transformé') });
   return rows;
 }
 
