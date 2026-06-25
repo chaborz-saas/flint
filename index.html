@@ -2901,7 +2901,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="nut2-acts">
     <button class="nut2-act" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
     <button class="nut2-act" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
-    <button class="nut2-act" type="button" onclick="toast('Code-barres — bientôt')"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
+    <button class="nut2-act" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
     <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
   </div>
   <div class="nut2-card">
@@ -6610,7 +6610,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v313';
+const APP_VERSION='flint-v315';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6736,6 +6736,79 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     document.body.appendChild(b);
   }
   if(document.readyState!=='loading')addFab();else document.addEventListener('DOMContentLoaded',addFab);
+})();
+</script>
+<style>
+.flx-scan{position:fixed;inset:0;z-index:300;background:#000}
+.flx-scan video{width:100%;height:100%;object-fit:cover}
+.flx-scan-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:74%;height:158px;border:3px solid rgba(255,255,255,.92);border-radius:18px;box-shadow:0 0 0 9999px rgba(0,0,0,.4)}
+.flx-scan-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 16px 12px;color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:16px}
+.flx-scan-x,.flx-scan-man{background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:0;color:#fff;border-radius:22px;padding:9px 13px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.flx-scan-x{width:40px;height:40px;justify-content:center;border-radius:50%;padding:0;font-size:19px}
+.flx-scan-hint{position:absolute;bottom:calc(44px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+</style>
+<script>
+(function(){
+ function g(id){return document.getElementById(id)}
+ function sheet(name,kcal,prot,carb,fat,header,sub,icon){
+  var im=g('balShImg');if(im){im.style.backgroundImage='';im.innerHTML='<i class="ti '+(icon||'ti-barcode')+'"></i>'}
+  if(g('balShH'))g('balShH').textContent=header||'Produit';
+  if(g('balShSub'))g('balShSub').innerHTML=sub||'Vérifie et ajuste si besoin';
+  if(g('balFName'))g('balFName').value=name||'';
+  if(g('balFKcal'))g('balFKcal').value=(kcal||kcal===0)?kcal:'';
+  if(g('balFProt'))g('balFProt').value=(prot||prot===0)?prot:'';
+  if(g('balFCarb'))g('balFCarb').value=(carb||carb===0)?carb:'';
+  if(g('balFFat'))g('balFFat').value=(fat||fat===0)?fat:'';
+  var f=g('balShForm');if(f)f.style.display='';
+  window._flintScanItems=(name&&(kcal||kcal===0))?[{name:String(name).replace(/ \(100 g\)$/,''),kcal:+kcal||0,prot:+prot||0,carb:+carb||0,fat:+fat||0,grams:100}]:[];
+  if(window.balSheetOpen)balSheetOpen();
+  if(window.syncUI)window.syncUI();
+ }
+ function fillProduct(p,header,icon){
+  var n=p.nutriments||{};
+  var nm=(p.product_name_fr||p.product_name||'Produit');if(p.brands)nm=nm+' · '+String(p.brands).split(',')[0];
+  sheet(nm+' (100 g)',Math.round(n['energy-kcal_100g']||n['energy-kcal']||0),Math.round(n['proteins_100g']||0),Math.round(n['carbohydrates_100g']||0),Math.round(n['fat_100g']||0),header,'<span class="bal-aibadge"><i class="ti '+icon+'"></i>Open Food Facts</span>Valeurs pour 100 g — ajuste si besoin',icon);
+ }
+ function barcodeLookup(code){
+  code=String(code||'').replace(/\D/g,'');if(!code){if(window.toast)toast('Code invalide');return;}
+  if(window.toast)toast('Recherche du produit…');
+  fetch('https://world.openfoodfacts.org/api/v2/product/'+code+'.json?fields=product_name,product_name_fr,brands,nutriments')
+   .then(function(r){return r.json()})
+   .then(function(d){
+    if(!d||d.status!==1||!d.product){if(window.toast)toast('Produit introuvable');return;}
+    fillProduct(d.product,'Produit scanné','ti-barcode');
+   }).catch(function(){if(window.toast)toast('Erreur réseau')});
+ }
+ function searchFood(q){
+  q=String(q||'').trim();if(!q)return;
+  if(window.toast)toast('Recherche « '+q+' »…');
+  fetch('https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(q)+'&search_simple=1&action=process&json=1&page_size=1&fields=product_name,product_name_fr,brands,nutriments')
+   .then(function(r){return r.json()})
+   .then(function(d){
+    var p=d&&d.products&&d.products[0];
+    if(!p){if(window.toast)toast('Aliment introuvable');return;}
+    fillProduct(p,'Aliment trouvé','ti-pencil');
+   }).catch(function(){if(window.toast)toast('Erreur réseau')});
+ }
+ var _zx=null;
+ function loadZX(cb){if(window.ZXing){cb(window.ZXing);return;}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';s.onload=function(){cb(window.ZXing)};s.onerror=function(){cb(null)};document.head.appendChild(s);}
+ function openScanner(){
+  if(g('flxBar'))return;
+  var ov=document.createElement('div');ov.id='flxBar';ov.className='flx-scan';
+  ov.innerHTML='<video id="flxBarVid" playsinline muted></video><div class="flx-scan-frame"></div><div class="flx-scan-top"><button class="flx-scan-x" aria-label="Fermer"><i class="ti ti-x"></i></button><span>Code-barres</span><button class="flx-scan-man"><i class="ti ti-keyboard"></i> Saisir</button></div><div class="flx-scan-hint" id="flxBarHint">Vise le code-barres du produit</div>';
+  document.body.appendChild(ov);
+  var vid=g('flxBarVid');
+  function close(){try{if(_zx)_zx.reset()}catch(e){}try{var st=vid&&vid.srcObject;if(st)st.getTracks().forEach(function(t){t.stop()})}catch(e){}ov.remove();}
+  ov.querySelector('.flx-scan-x').onclick=close;
+  ov.querySelector('.flx-scan-man').onclick=function(){close();var c=window.prompt('Saisis les chiffres sous le code-barres :');if(c)barcodeLookup(c);};
+  loadZX(function(ZX){
+   if(!ZX){var h=g('flxBarHint');if(h)h.textContent='Scanner indisponible — utilise « Saisir »';return;}
+   try{_zx=new ZX.BrowserMultiFormatReader();_zx.decodeFromVideoDevice(undefined,vid,function(res){if(res&&res.getText){if(window.haptic)haptic(12);close();barcodeLookup(res.getText());}});}
+   catch(e){var h2=g('flxBarHint');if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »';}
+  });
+ }
+ window.nutBarcode=function(code){if(code&&typeof code==='string'){barcodeLookup(code);return;}openScanner();};
+ window.nutDescribe=function(){var q=window.prompt('Décris ton plat / l\'aliment (ex : « yaourt grec », « pâtes bolognaise ») :');if(q)searchFood(q);};
 })();
 </script>
 </body>
