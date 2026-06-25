@@ -2916,6 +2916,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
     </div>
   </div>
+  <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><span class="nutx-rhc" id="nutCount"></span></div>
+  <div id="nutRecent" style="padding:0 8px"></div>
   <input type="file" id="nutGalleryFile" accept="image/*" style="display:none" onchange="balPhotoPick(this)">
 </div>
 </section>
@@ -5123,6 +5125,18 @@ function renderNutrition(){var k=tk(),tt=nutTotals(k),g=getNutGoals();
  var gP=g.prot||150,gC=Math.round((g.kcal||2400)*0.45/4),gF=Math.round((g.kcal||2400)*0.30/9),C=94.25;
  function ring(id,frac){var e=document.getElementById(id);if(e)e.setAttribute('stroke-dasharray',(Math.max(0,Math.min(1,frac||0))*C).toFixed(1)+' '+C)}
  ring('nut2RingP',tt.prot/gP);ring('nut2RingC',tt.carb/gC);ring('nut2RingF',tt.fat/gF);
+ var meals=mealsOf(k),cnt=document.getElementById('nutCount');if(cnt)cnt.textContent=meals.length?meals.length+' repas':'';
+ var host=document.getElementById('nutRecent');if(!host)return;
+ if(!meals.length){host.innerHTML='<div class="nutx-empty"><i class="ti ti-camera"></i><div>Aucun repas aujourd\'hui.<br>Appuie sur l\'appareil photo pour commencer.</div></div>';return}
+ host.innerHTML=meals.map(function(m,i){
+  var th=m.photo?' style="background-image:url('+m.photo+')"':'';
+  var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
+  return '<div class="nutx-meal"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
+   +'<span class="nutx-mmid"><span class="nutx-mn">'+esc(m.name)+(m.ai?' <i class="ti ti-sparkles nutx-aiic" aria-hidden="true"></i>':'')+'</span>'
+   +'<span class="nutx-mt">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span>'
+   +'<span class="nutx-mk">'+(m.kcal||0)+'<small>kcal</small></span>'
+   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="delMeal('+i+')">✕</button></div>';
+ }).join('');
 }
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
@@ -6596,7 +6610,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v312';
+const APP_VERSION='flint-v313';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
