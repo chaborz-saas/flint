@@ -73,6 +73,27 @@ function rateLimited(ip) {
 
 function round(n) { return Math.max(0, Math.round(Number(n) || 0)); }
 
+// --- Cache produit OPTIONNEL (Upstash Redis / Vercel KV via REST). No-op si non configuré -> comportement identique. ---
+async function kvCmd(cmd) {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const tok = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !tok) return null;
+  try {
+    const r = await fetch(url.replace(/\/$/, ''), { method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify(cmd) });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j && j.result;
+  } catch (e) { return null; }
+}
+async function cacheGet(bc) {
+  const v = await kvCmd(['GET', 'flint:prod:v2:' + bc]);
+  if (!v) return null;
+  try { return JSON.parse(v); } catch (e) { return null; }
+}
+async function cacheSet(bc, obj) {
+  try { await kvCmd(['SET', 'flint:prod:v2:' + bc, JSON.stringify(obj), 'EX', 2592000]); } catch (e) {}
+}
+
 function mapItems(data) {
   const items = (data.items || []).map(it => ({
     name: String(it.name || 'Aliment'),
@@ -265,8 +286,12 @@ module.exports = async function handler(req, res) {
 
     // --- Mode code-barres : OpenFoodFacts (pas besoin de Gemini) ---
     if (mode === 'barcode') {
+      const bc = String(body.barcode).replace(/\D/g, '');
+      const hit = await cacheGet(bc);
+      if (hit) return res.status(200).json(hit);
       const out = await offLookup(body.barcode);
       if (out.error) return res.status(404).json(out);
+      cacheSet(bc, out).catch(() => {});
       return res.status(200).json(out);
     }
 
