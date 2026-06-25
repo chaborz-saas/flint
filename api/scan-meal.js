@@ -93,6 +93,13 @@ async function cacheGet(bc) {
 async function cacheSet(bc, obj) {
   try { await kvCmd(['SET', 'flint:prod:v2:' + bc, JSON.stringify(obj), 'EX', 2592000]); } catch (e) {}
 }
+async function photoGet(bc) {
+  const v = await kvCmd(['GET', 'flint:img:v1:' + bc]);
+  return (typeof v === 'string' && v.indexOf('data:image') === 0) ? v : null;
+}
+async function photoSet(bc, durl) {
+  try { await kvCmd(['SET', 'flint:img:v1:' + bc, durl]); await kvCmd(['DEL', 'flint:prod:v2:' + bc]); } catch (e) {}
+}
 
 function mapItems(data) {
   const items = (data.items || []).map(it => ({
@@ -251,6 +258,10 @@ async function offLookup(code) {
   const score = healthScore(p, n, per100);
   const label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais'));
   const img = resolveProductImage(p, c);
+  if (img.status === 'placeholder') {
+    const comm = await photoGet(c);
+    if (comm) { img.imageUrl = comm; img.imageUrls = { thumb: comm, medium: comm, full: comm }; img.imageSource = 'user-community'; img.confidenceScore = 0.9; img.status = 'resolved'; img.fallbackUsed = true; }
+  }
   const product = {
     name: String(name).slice(0, 80),
     brand: String(p.brands || '').split(',')[0].trim().slice(0, 40),
@@ -281,8 +292,18 @@ module.exports = async function handler(req, res) {
     if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
     body = body || {};
 
-    const mode = body.barcode ? 'barcode' : (body.text ? 'text' : (body.image ? 'image' : null));
-    if (!mode) return res.status(400).json({ error: 'Fournis "image", "text" ou "barcode".' });
+    const mode = (body.photo && body.barcode) ? 'photo' : (body.barcode ? 'barcode' : (body.text ? 'text' : (body.image ? 'image' : null)));
+    if (!mode) return res.status(400).json({ error: 'Fournis "image", "text", "barcode" ou "photo".' });
+
+    // --- Upload d'une photo produit communautaire (stockée dans le cache partagé si configuré) ---
+    if (mode === 'photo') {
+      const pbc = String(body.barcode).replace(/\D/g, '');
+      const durl = String(body.photo || '');
+      if (pbc.length < 6 || durl.indexOf('data:image') !== 0 || durl.length > 700000) return res.status(400).json({ status: 'rejected' });
+      if (!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL)) return res.status(200).json({ status: 'unavailable' });
+      await photoSet(pbc, durl);
+      return res.status(200).json({ status: 'saved' });
+    }
 
     // --- Mode code-barres : OpenFoodFacts (pas besoin de Gemini) ---
     if (mode === 'barcode') {

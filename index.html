@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v255';
+const APP_VERSION='flint-v256';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6587,9 +6587,12 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     var ir=p.imageResolved||{imageUrl:(p.image||null),status:(p.image?'resolved':'placeholder')};
     var bc=(data.items&&data.items[0]&&data.items[0].barcode)||p.barcode||'';
     var userImg=null; try{ if(bc) userImg=localStorage.getItem('flx_img_'+bc); }catch(e){}
-    var fromOff=(ir.status==='resolved'&&ir.imageUrl);
-    var shownUrl=fromOff?ir.imageUrl:(userImg||null);
-    var imgH=shownUrl?('<div class="flx-prod-img" style="background-image:url('+shownUrl+')">'+(fromOff?'<span class="flx-prod-credit">Open Food Facts</span>':'')+'</div>'):('<div class="flx-prod-img flx-prod-img--ph"><i class="ti ti-shopping-bag"></i><div class="flx-prod-phn">'+esc(p.name||'Produit')+'</div><div class="flx-prod-phs">Pas encore de photo</div></div><button class="flx-prod-addphoto" type="button"><i class="ti ti-camera"></i> Ajouter une photo du produit</button><input type="file" accept="image/*" capture="environment" class="flx-prod-file" hidden>');
+    var resolvedImg=(ir.status==='resolved'&&ir.imageUrl);
+    var shownUrl=resolvedImg?ir.imageUrl:(userImg||null);
+    var _src=ir.imageSource||'';
+    var _creditTxt=_src.indexOf('off')===0?'Open Food Facts':(_src==='user-community'?'Photo communauté':'');
+    var creditH=(resolvedImg&&_creditTxt)?'<span class="flx-prod-credit">'+_creditTxt+'</span>':'';
+    var imgH=shownUrl?('<div class="flx-prod-img" style="background-image:url('+shownUrl+')">'+creditH+'</div>'):('<div class="flx-prod-img flx-prod-img--ph"><i class="ti ti-shopping-bag"></i><div class="flx-prod-phn">'+esc(p.name||'Produit')+'</div><div class="flx-prod-phs">Pas encore de photo</div></div><button class="flx-prod-addphoto" type="button"><i class="ti ti-camera"></i> Ajouter une photo du produit</button><input type="file" accept="image/*" capture="environment" class="flx-prod-file" hidden>');
     pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
       +imgH
       +'<div class="flx-prod-body">'
@@ -6611,6 +6614,7 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
           ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S);ctx.drawImage(im,sx,sy,side,side,0,0,S,S);
           var durl=cv.toDataURL('image/jpeg',0.82);
           try{ if(bc) localStorage.setItem('flx_img_'+bc,durl); }catch(e){}
+          try{ if(bc) callProxy({barcode:bc,photo:durl}); }catch(e){}
           var box=pan.querySelector('.flx-prod-img'); if(box){box.className='flx-prod-img';box.style.backgroundImage='url('+durl+')';box.innerHTML='';}
           addPhoto.style.display='none'; hap(10);
         };
