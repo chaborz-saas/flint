@@ -74,10 +74,22 @@ function rateLimited(ip) {
 function round(n) { return Math.max(0, Math.round(Number(n) || 0)); }
 
 // --- Cache produit OPTIONNEL (Upstash Redis / Vercel KV via REST). No-op si non configuré -> comportement identique. ---
+function kvCreds() {
+  let url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  let tok = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (url && tok) return { url: url, tok: tok };
+  for (const k in process.env) {
+    if (/REST_API_URL$/.test(k) && process.env[k]) {
+      const t = process.env[k.replace(/URL$/, 'TOKEN')];
+      if (t) return { url: process.env[k], tok: t };
+    }
+  }
+  return null;
+}
 async function kvCmd(cmd) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const tok = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !tok) return null;
+  const cr = kvCreds();
+  if (!cr) return null;
+  const url = cr.url, tok = cr.tok;
   try {
     const r = await fetch(url.replace(/\/$/, ''), { method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify(cmd) });
     if (!r.ok) return null;
@@ -300,7 +312,7 @@ module.exports = async function handler(req, res) {
       const pbc = String(body.barcode).replace(/\D/g, '');
       const durl = String(body.photo || '');
       if (pbc.length < 6 || durl.indexOf('data:image') !== 0 || durl.length > 700000) return res.status(400).json({ status: 'rejected' });
-      if (!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL)) return res.status(200).json({ status: 'unavailable' });
+      if (!kvCreds()) return res.status(200).json({ status: 'unavailable' });
       await photoSet(pbc, durl);
       return res.status(200).json({ status: 'saved' });
     }
