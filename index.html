@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v257';
+const APP_VERSION='flint-v258';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6424,6 +6424,15 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-scan-hint{position:absolute;left:0;right:0;bottom:calc(46px + env(safe-area-inset-bottom));z-index:3;text-align:center;color:#fff;font-family:var(--sans);font-size:13px;padding:0 24px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
 .flx-scan-x,.flx-scan-man{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:9px 14px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .flx-scan-man{background:var(--accent);box-shadow:0 6px 16px rgba(240,73,46,.4)}
+.flx-scan-frame{transition:border-color .14s ease, box-shadow .14s ease}
+.flx-scan-frame.ok{border-color:#3FB57A;box-shadow:0 0 0 100vmax rgba(12,10,8,.5),0 0 26px rgba(63,181,122,.65)}
+.flx-scan-line{position:absolute;left:8%;right:8%;top:10px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#ff6a4d,transparent);box-shadow:0 0 10px rgba(255,106,77,.8);animation:flxScanLine 1.6s ease-in-out infinite}
+.flx-scan-frame.ok .flx-scan-line{display:none}
+@keyframes flxScanLine{0%{top:10px}50%{top:calc(100% - 12px)}100%{top:10px}}
+.flx-scan-hint.ok{color:#7CE0A6;font-weight:700}
+.flx-scan-torch{position:absolute;right:18px;bottom:calc(96px + env(safe-area-inset-bottom));z-index:3;width:50px;height:50px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;place-items:center;font-size:22px;cursor:pointer;backdrop-filter:blur(6px)}
+.flx-scan-torch.on{background:#fff;color:#15140F}
+@media (prefers-reduced-motion:reduce){.flx-scan-line{animation:none;top:50%}}
 /* écran produit façon Yuka */
 .flx-prod{position:fixed;inset:0;z-index:210}
 .flx-prod-ov{position:absolute;inset:0;background:rgba(20,18,12,.5)}
@@ -6491,8 +6500,10 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
   function tt(m){ if(typeof toast==='function') toast(m); }
   function hap(n){ if(typeof haptic==='function'){try{haptic(n||9)}catch(_){}}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function callProxy(payload){
-    return fetch(window.FLINT_SCAN_API||'',{method:'POST',headers:{'Content-Type':'application/json','x-flint-key':window.FLINT_APP_KEY||''},body:JSON.stringify(payload)})
+  function callProxy(payload, ctrl){
+    var opt={method:'POST',headers:{'Content-Type':'application/json','x-flint-key':window.FLINT_APP_KEY||''},body:JSON.stringify(payload)};
+    if(ctrl&&ctrl.signal)opt.signal=ctrl.signal;
+    return fetch(window.FLINT_SCAN_API||'',opt)
       .then(function(r){return r.json().then(function(j){return {ok:r.ok,status:r.status,data:j};},function(){return {ok:false,status:r.status,data:{}};});});
   }
   function openLoading(title){
@@ -6727,14 +6738,31 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     };
   }
   function barcodeLookup(code){
-
     code=String(code||'').replace(/\D/g,''); if(code.length<6){tt('Code-barres invalide');return;}
     var ov=openProduct();
-    callProxy({barcode:code}).then(function(r){
-      if(r&&r.ok&&r.data&&r.data.product){ fillProduct(r.data); }
-      else if(r&&r.ok&&r.data&&r.data.items&&r.data.items.length){ ov.remove(); showResult(r.data.mealName,r.data.items); }
+    // cache client : produits récemment scannés -> affichage instantané
+    try{ var raw=localStorage.getItem('flx_pc_'+code); if(raw){ var cd=JSON.parse(raw); if(cd&&cd.product){ fillProduct(cd); return; } } }catch(e){}
+    var done=false, ctrl=('AbortController' in window)?new AbortController():null;
+    var to=setTimeout(function(){ if(!done&&ctrl){ try{ctrl.abort();}catch(e){} } },9000);
+    callProxy({barcode:code}, ctrl).then(function(r){ done=true; clearTimeout(to);
+      if(r&&r.ok&&r.data&&r.data.product){
+        fillProduct(r.data);
+        try{ var c=JSON.stringify({product:r.data.product,items:r.data.items,total:r.data.total,mealName:r.data.mealName}); if(c.length<60000) localStorage.setItem('flx_pc_'+code,c); }catch(e){}
+      }
+      else if(r&&r.ok&&r.data&&r.data.items&&r.data.items.length){ if(g('flxProd'))g('flxProd').remove(); showResult(r.data.mealName,r.data.items); }
       else { fillNotFound(code); }
-    }).catch(function(){ if(g('flxProd'))g('flxProd').remove(); tt('Erreur réseau'); });
+    }).catch(function(){ done=true; clearTimeout(to);
+      var ovp=g('flxProd'), pan=ovp&&ovp.querySelector('.flx-prod-pan');
+      if(pan){
+        pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
+          +'<div class="flx-prod-load"><i class="ti ti-clock-exclamation" style="font-size:30px;opacity:.8"></i>La recherche prend trop de temps.'
+          +'<button class="flx-nf-b primary" style="max-width:240px;margin-top:10px" id="flxRetry"><i class="ti ti-refresh"></i> Réessayer</button>'
+          +'<button class="flx-nf-b" style="max-width:240px" id="flxMan"><i class="ti ti-pencil"></i> Ajouter à la main</button></div>';
+        pan.querySelector('.flx-prod-x').onclick=function(){ovp.remove();};
+        var rt=g('flxRetry'); if(rt)rt.onclick=function(){ barcodeLookup(code); };
+        var mn=g('flxMan'); if(mn)mn.onclick=function(){ fillNotFound(code); };
+      } else { tt('Recherche trop longue'); }
+    });
   }
   var _zx=null;
   function loadZXing(cb){
@@ -6742,31 +6770,71 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
     s.onload=function(){cb(window.ZXing);}; s.onerror=function(){cb(null);}; document.head.appendChild(s);
   }
+  var _scanStream=null,_scanRAF=null,_scanDone=false,_scanHelpTO=null;
+  function _scanStop(){
+    _scanDone=true;
+    try{ if(_scanRAF)cancelAnimationFrame(_scanRAF); }catch(e){}
+    try{ if(_zx)_zx.reset(); }catch(e){}
+    try{ if(_scanStream)_scanStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
+    _scanStream=null;
+    if(_scanHelpTO){ clearTimeout(_scanHelpTO); _scanHelpTO=null; }
+  }
   function openScanner(){
     if(g('flxBar'))return;
+    _scanDone=false; _scanStream=null; _scanRAF=null;
     var ov=document.createElement('div'); ov.id='flxBar'; ov.className='flx-scan';
-    ov.innerHTML='<video id="flxBarVid" playsinline muted></video><div class="flx-scan-frame"></div>'
+    ov.innerHTML='<video id="flxBarVid" playsinline muted autoplay></video>'
+      +'<div class="flx-scan-frame" id="flxBarFrame"><span class="flx-scan-line"></span></div>'
       +'<div class="flx-scan-top"><button class="flx-scan-x" aria-label="Fermer"><i class="ti ti-x"></i></button><span>Code-barres</span><button class="flx-scan-man"><i class="ti ti-keyboard"></i> Saisir</button></div>'
-      +'<div class="flx-scan-hint" id="flxBarHint">Vise le code-barres du produit</div>';
+      +'<button class="flx-scan-torch" id="flxBarTorch" style="display:none" aria-label="Flash"><i class="ti ti-bulb"></i></button>'
+      +'<div class="flx-scan-hint" id="flxBarHint">Place le code dans le cadre</div>';
     document.body.appendChild(ov);
     var vid=g('flxBarVid');
-    function close(){ try{if(_zx)_zx.reset();}catch(e){} try{var st=vid&&vid.srcObject;if(st)st.getTracks().forEach(function(t){t.stop();});}catch(e){} ov.remove(); }
+    function close(){ _scanStop(); if(ov.parentNode)ov.remove(); }
     ov.querySelector('.flx-scan-x').onclick=close;
     ov.querySelector('.flx-scan-man').onclick=function(){ close(); var c=window.prompt('Saisis les chiffres sous le code-barres :'); if(c) barcodeLookup(c); };
-    loadZXing(function(ZX){
-      if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
-      try{
-        _zx=new ZX.BrowserMultiFormatReader();
-        _zx.decodeFromVideoDevice(undefined,vid,function(result){
-          if(result&&result.getText){ var code=result.getText(); hap(12); close(); barcodeLookup(code); }
-        });
-      }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
-    });
+    function onDetect(raw){
+      if(_scanDone)return; var code=String(raw||'').replace(/\D/g,''); if(code.length<6)return;
+      _scanDone=true; hap(14);
+      var fr=g('flxBarFrame'); if(fr)fr.classList.add('ok');
+      var h=g('flxBarHint'); if(h){ h.textContent='Code détecté'; h.classList.add('ok'); }
+      setTimeout(function(){ _scanStop(); if(ov.parentNode)ov.remove(); barcodeLookup(code); }, 240);
+    }
+    function armHelp(){ _scanHelpTO=setTimeout(function(){ if(_scanDone)return; var h=g('flxBarHint'); if(h)h.innerHTML='Difficile à lire ? Rapproche un peu, ajoute de la lumière, ou « Saisir » le code.'; }, 6000); }
+    function startZXing(){
+      loadZXing(function(ZX){
+        if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+        try{
+          var hints=null; try{ hints=new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS,[ZX.BarcodeFormat.EAN_13,ZX.BarcodeFormat.EAN_8,ZX.BarcodeFormat.UPC_A,ZX.BarcodeFormat.UPC_E,ZX.BarcodeFormat.QR_CODE,ZX.BarcodeFormat.CODE_128]); }catch(e){ hints=null; }
+          _zx=new ZX.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:100});
+          _zx.decodeFromVideoDevice(undefined,vid,function(result){ if(result&&result.getText)onDetect(result.getText()); });
+          armHelp();
+        }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
+      });
+    }
+    var hasBD=('BarcodeDetector' in window) && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    if(!hasBD){ startZXing(); return; }
+    navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}}).then(function(stream){
+      if(_scanDone){ stream.getTracks().forEach(function(t){t.stop();}); return; }
+      _scanStream=stream; vid.srcObject=stream; var pl=vid.play(); if(pl&&pl.catch)pl.catch(function(){});
+      var track=stream.getVideoTracks()[0];
+      try{ if(track.getCapabilities){ var caps=track.getCapabilities();
+        if(caps.focusMode&&caps.focusMode.indexOf&&caps.focusMode.indexOf('continuous')>-1) track.applyConstraints({advanced:[{focusMode:'continuous'}]}).catch(function(){});
+        if(caps.torch){ var tb=g('flxBarTorch'); if(tb){ tb.style.display='grid'; var on=false; tb.onclick=function(){ on=!on; track.applyConstraints({advanced:[{torch:on}]}).catch(function(){}); tb.classList.toggle('on',on); }; } }
+      } }catch(e){}
+      var det=null; try{ det=new window.BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','qr_code']}); }catch(e){ det=null; }
+      if(!det){ try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){} _scanStream=null; _scanDone=false; startZXing(); return; }
+      var loop=function(){ if(_scanDone)return; det.detect(vid).then(function(cs){ if(cs&&cs.length){ onDetect(cs[0].rawValue); } else if(!_scanDone){ _scanRAF=requestAnimationFrame(loop); } }).catch(function(){ if(!_scanDone)_scanRAF=requestAnimationFrame(loop); }); };
+      if(vid.readyState>=2)loop(); else vid.addEventListener('loadeddata',loop,{once:true});
+      armHelp();
+    }).catch(function(){ var h=g('flxBarHint'); if(h)h.textContent='Caméra refusée — utilise « Saisir »'; });
   }
   var _bcModes=window.balSheetClose;
   if(typeof _bcModes==='function'){ window.balSheetClose=function(){ removePortion(); return _bcModes.apply(this,arguments); }; }
   window.nutDescribe=function(){ openDescribe(); };
   window.nutBarcode=function(code){ if(code&&typeof code==='string'){barcodeLookup(code);return;} openScanner(); };
+  if(!('BarcodeDetector' in window)){ setTimeout(function(){ try{ loadZXing(function(){}); }catch(e){} }, 2200); }
+
 })();
 </script>
 </body>
