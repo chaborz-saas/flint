@@ -105,10 +105,53 @@ function parseGrams(s) {
   return m ? Math.round(parseFloat(m[1].replace(',', '.'))) : 0;
 }
 
+function num(x) { const v = Number(x); return isFinite(v) ? v : 0; }
+
+function buildAnalysis(p, n, per100) {
+  const nl = p.nutrient_levels || {};
+  const sent = l => l === 'low' ? 'good' : (l === 'high' ? 'bad' : (l === 'moderate' ? 'warn' : 'neutral'));
+  const rows = [];
+  const kcal = per100.kcal;
+  rows.push({ k: 'Énergie', v: round(kcal) + ' kcal', s: kcal <= 150 ? 'good' : (kcal <= 350 ? 'warn' : 'bad') });
+  const sug = num(n.sugars_100g);
+  rows.push({ k: 'Sucres', v: round(sug) + ' g', s: nl.sugars ? sent(nl.sugars) : (sug <= 5 ? 'good' : (sug <= 15 ? 'warn' : 'bad')) });
+  const sat = num(n['saturated-fat_100g']);
+  rows.push({ k: 'Graisses saturées', v: round(sat) + ' g', s: nl['saturated-fat'] ? sent(nl['saturated-fat']) : (sat <= 1.5 ? 'good' : (sat <= 5 ? 'warn' : 'bad')) });
+  const salt = num(n.salt_100g);
+  rows.push({ k: 'Sel', v: (Math.round(salt * 10) / 10) + ' g', s: nl.salt ? sent(nl.salt) : (salt <= 0.3 ? 'good' : (salt <= 1.5 ? 'warn' : 'bad')) });
+  const prot = num(n.proteins_100g);
+  rows.push({ k: 'Protéines', v: round(prot) + ' g', s: prot >= 8 ? 'good' : 'neutral' });
+  const fib = num(n.fiber_100g);
+  rows.push({ k: 'Fibres', v: round(fib) + ' g', s: fib >= 3 ? 'good' : 'neutral' });
+  const add = p.additives_n != null ? num(p.additives_n) : ((p.additives_tags || []).length);
+  rows.push({ k: 'Additifs', v: add === 0 ? 'aucun' : (add + (add > 1 ? ' additifs' : ' additif')), s: add === 0 ? 'good' : (add <= 3 ? 'warn' : 'bad') });
+  const nova = num(p.nova_group);
+  if (nova) rows.push({ k: 'Transformation', v: nova >= 4 ? 'ultra-transformé' : (nova === 3 ? 'transformé' : 'peu transformé'), s: nova >= 4 ? 'bad' : (nova === 3 ? 'warn' : 'good') });
+  return rows;
+}
+
+function healthScore(p, n, per100) {
+  const gradeMap = { a: 90, b: 72, c: 52, d: 32, e: 14 };
+  const grade = (p.nutriscore_grade || '').toLowerCase();
+  let base;
+  if (gradeMap[grade] != null) base = gradeMap[grade];
+  else {
+    const kcal = per100.kcal, sug = num(n.sugars_100g), sat = num(n['saturated-fat_100g']), salt = num(n.salt_100g), prot = num(n.proteins_100g), fib = num(n.fiber_100g);
+    base = 72;
+    base -= Math.min(28, sug * 0.7); base -= Math.min(22, sat * 1.6); base -= Math.min(16, salt * 9);
+    base -= Math.min(14, Math.max(0, kcal - 200) * 0.03); base += Math.min(12, prot * 0.5); base += Math.min(10, fib * 1.5);
+  }
+  const nova = num(p.nova_group); if (nova === 4) base -= 12; else if (nova === 3) base -= 5;
+  const add = p.additives_n != null ? num(p.additives_n) : ((p.additives_tags || []).length); base -= Math.min(25, add * 3);
+  if (/organic/.test((p.labels_tags || []).join(','))) base += 5;
+  return Math.max(0, Math.min(100, Math.round(base)));
+}
+
 async function offLookup(code) {
   const c = String(code).replace(/\D/g, '');
   if (c.length < 6) return { error: 'Code-barres invalide' };
-  const u = `https://world.openfoodfacts.org/api/v2/product/${c}.json?fields=product_name,product_name_fr,brands,nutriments,serving_size,quantity`;
+  const fields = 'product_name,product_name_fr,brands,nutriments,serving_size,quantity,image_front_url,image_url,nutriscore_grade,nova_group,additives_tags,additives_n,nutrient_levels,labels_tags';
+  const u = `https://world.openfoodfacts.org/api/v2/product/${c}.json?fields=${fields}`;
   const r = await fetch(u, { headers: { 'User-Agent': 'FLINT/1.0 (nutrition app)' } });
   if (!r.ok) return { error: 'OpenFoodFacts ' + r.status };
   const j = await r.json();
@@ -116,13 +159,25 @@ async function offLookup(code) {
   const p = j.product, n = p.nutriments || {};
   let kcal100 = n['energy-kcal_100g'];
   if (kcal100 == null && n['energy_100g'] != null) kcal100 = Number(n['energy_100g']) / 4.184; // kJ -> kcal
-  const per = { kcal: Number(kcal100) || 0, prot: Number(n.proteins_100g) || 0, carb: Number(n.carbohydrates_100g) || 0, fat: Number(n.fat_100g) || 0 };
+  const per100 = { kcal: num(kcal100), prot: num(n.proteins_100g), carb: num(n.carbohydrates_100g), fat: num(n.fat_100g) };
   const grams = parseGrams(p.serving_size) || 100;
   const f = grams / 100;
-  let name = p.product_name_fr || p.product_name || p.brands || 'Produit';
-  const item = { name: String(name).slice(0, 60), grams: round(grams), kcal: round(per.kcal * f), prot: round(per.prot * f), carb: round(per.carb * f), fat: round(per.fat * f), confidence: 0.92, box: null };
+  const name = p.product_name_fr || p.product_name || p.brands || 'Produit';
+  const item = { name: String(name).slice(0, 60), grams: round(grams), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null };
   if (!item.kcal && !item.prot && !item.carb && !item.fat) return { error: 'Pas d\'infos nutritionnelles pour ce produit' };
-  return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat } };
+  const score = healthScore(p, n, per100);
+  const label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais'));
+  const product = {
+    name: String(name).slice(0, 80),
+    brand: String(p.brands || '').split(',')[0].trim().slice(0, 40),
+    image: p.image_front_url || p.image_url || null,
+    score: score, label: label,
+    nutriscore: (p.nutriscore_grade || '').toUpperCase() || null,
+    nova: num(p.nova_group) || null,
+    analysis: buildAnalysis(p, n, per100),
+    per100: { kcal: round(per100.kcal), prot: round(per100.prot), carb: round(per100.carb), fat: round(per100.fat) }
+  };
+  return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product };
 }
 
 module.exports = async function handler(req, res) {

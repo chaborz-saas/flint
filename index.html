@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v251';
+const APP_VERSION='flint-v252';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6424,17 +6424,43 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-scan-hint{position:absolute;left:0;right:0;bottom:calc(46px + env(safe-area-inset-bottom));z-index:3;text-align:center;color:#fff;font-family:var(--sans);font-size:13px;padding:0 24px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
 .flx-scan-x,.flx-scan-man{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:9px 14px;font-family:var(--sans);font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .flx-scan-man{background:var(--accent);box-shadow:0 6px 16px rgba(240,73,46,.4)}
+/* écran produit façon Yuka */
+.flx-prod{position:fixed;inset:0;z-index:210}
+.flx-prod-ov{position:absolute;inset:0;background:rgba(20,18,12,.5)}
+.flx-prod-pan{position:absolute;left:0;right:0;bottom:0;top:7%;max-width:465px;margin:0 auto;background:var(--bg);border-radius:24px 24px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:flxViewIn .32s var(--flx-ease,ease) both}
+.flx-prod-x{position:absolute;top:14px;right:14px;z-index:5;width:34px;height:34px;border:0;border-radius:50%;background:rgba(20,18,12,.45);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center}
+.flx-prod-img{height:168px;background:#fff center/contain no-repeat;border-bottom:1px solid var(--line);display:grid;place-items:center;color:var(--faint);font-size:34px}
+.flx-prod-body{padding:16px 18px calc(94px + env(safe-area-inset-bottom))}
+.flx-prod-name{font-family:var(--sans);font-size:19px;font-weight:800;color:var(--ink);line-height:1.22}
+.flx-prod-brand{font-family:var(--sans);font-size:13px;color:var(--ink2);margin-top:2px}
+.flx-prod-sc{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.flx-prod-sc-t{flex:1;min-width:0}
+.flx-prod-sc-l{font-family:var(--sans);font-size:19px;font-weight:800}
+.flx-prod-sc-s{font-family:var(--sans);font-size:11.5px;color:var(--ink2);margin-top:2px}
+.flx-prod-badges{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.flx-prod-ns{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:10.5px;font-weight:800;color:var(--ink2)}
+.flx-prod-ns b{width:23px;height:23px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:12px}
+.flx-prod-sec{font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin:18px 2px 8px}
+.flx-prod-row{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:7px}
+.flx-prod-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.flx-prod-rk{flex:1;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink)}
+.flx-prod-rv{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink2)}
+.flx-prod-macros{display:flex;gap:8px;margin-top:8px}
+.flx-prod-m{flex:1;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:10px 6px;text-align:center}
+.flx-prod-mv{font-family:var(--disp,inherit);font-style:oblique 6deg;font-size:19px;font-weight:800;color:var(--ink)}
+.flx-prod-ml{font-family:var(--sans);font-size:10px;font-weight:700;color:var(--faint);margin-top:2px}
+.flx-prod-add{position:fixed;left:0;right:0;bottom:0;max-width:465px;margin:0 auto;border:0;background:var(--accent);color:#fff;font-family:var(--sans);font-weight:800;font-size:15px;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;z-index:6;box-shadow:0 -6px 20px rgba(20,18,12,.08)}
+.flx-prod-load{display:flex;flex-direction:column;align-items:center;justify-content:center;height:62vh;gap:12px;color:var(--ink2);font-family:var(--sans);font-size:14px;text-align:center;padding:0 24px}
 </style>
 <script>
-/* ===== FLINT — Décrire (Gemini texte) + Code-barres (OpenFoodFacts) via le proxy. Isolé. ===== */
+/* ===== FLINT — Décrire (Gemini texte) + Code-barres (OpenFoodFacts + écran produit). Isolé. ===== */
 (function(){
   function g(id){return document.getElementById(id);}
   function tt(m){ if(typeof toast==='function') toast(m); }
   function hap(n){ if(typeof haptic==='function'){try{haptic(n||9)}catch(_){}}}
-  function api(){ return window.FLINT_SCAN_API||''; }
-  function key(){ return window.FLINT_APP_KEY||''; }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function callProxy(payload){
-    return fetch(api(),{method:'POST',headers:{'Content-Type':'application/json','x-flint-key':key()},body:JSON.stringify(payload)})
+    return fetch(window.FLINT_SCAN_API||'',{method:'POST',headers:{'Content-Type':'application/json','x-flint-key':window.FLINT_APP_KEY||''},body:JSON.stringify(payload)})
       .then(function(r){return r.json().then(function(j){return {ok:r.ok,status:r.status,data:j};},function(){return {ok:false,status:r.status,data:{}};});});
   }
   function openLoading(title){
@@ -6464,7 +6490,7 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     if(typeof window.syncUI==='function') window.syncUI();
     hap(10);
   }
-  function handle(res,fallbackMsg){
+  function handleMeal(res,fallbackMsg){
     if(res&&res.ok&&res.data&&res.data.items&&res.data.items.length){ showResult(res.data.mealName,res.data.items); }
     else { tt(res&&res.data&&res.data.error?res.data.error:fallbackMsg); if(typeof balSheetClose==='function')balSheetClose(); }
   }
@@ -6483,14 +6509,61 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     g('flxDescGo').onclick=function(){
       var txt=g('flxDescTa').value.trim(); if(!txt){g('flxDescTa').focus();return;}
       hap(8); close(); openLoading('Analyse de ta description…');
-      callProxy({text:txt}).then(function(r){handle(r,'Estimation impossible');}).catch(function(){tt('Erreur réseau');if(typeof balSheetClose==='function')balSheetClose();});
+      callProxy({text:txt}).then(function(r){handleMeal(r,'Estimation impossible');}).catch(function(){tt('Erreur réseau');if(typeof balSheetClose==='function')balSheetClose();});
     };
   }
-  /* ---------- CODE-BARRES ---------- */
+  /* ---------- CODE-BARRES + ÉCRAN PRODUIT ---------- */
+  function scoreColor(s){ return s>=75?'#3FB57A':(s>=50?'#7AB648':(s>=25?'#F2A93B':'#E24B4A')); }
+  function sentColor(s){ return s==='good'?'#3FB57A':(s==='warn'?'#F2A93B':(s==='bad'?'#E24B4A':'#B4B2A9')); }
+  function nsColor(grd){ return {A:'#1E8F4E',B:'#6CB52D',C:'#F2A93B',D:'#EE7D1B',E:'#E24B4A'}[grd]||'#B4B2A9'; }
+  function ring(score){
+    var R=52,C=2*Math.PI*R,off=C*(1-Math.max(0,Math.min(100,score))/100),col=scoreColor(score);
+    return '<svg width="112" height="112" viewBox="0 0 120 120" style="flex:none"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(20,18,12,.08)" stroke-width="10"/>'
+      +'<circle cx="60" cy="60" r="52" fill="none" stroke="'+col+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/>'
+      +'<text x="60" y="62" text-anchor="middle" font-family="Anton,sans-serif" font-size="36" fill="#15140F">'+Math.round(score)+'</text>'
+      +'<text x="60" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#A7A29A">/ 100</text></svg>';
+  }
+  function openProduct(){
+    if(g('flxProd'))g('flxProd').remove();
+    var ov=document.createElement('div'); ov.id='flxProd'; ov.className='flx-prod';
+    ov.innerHTML='<div class="flx-prod-ov"></div><div class="flx-prod-pan"><button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button><div class="flx-prod-load"><span class="bal-spin"></span>Recherche du produit…</div></div>';
+    document.body.appendChild(ov);
+    ov.querySelector('.flx-prod-ov').onclick=function(){ov.remove();};
+    ov.querySelector('.flx-prod-x').onclick=function(){ov.remove();};
+    return ov;
+  }
+  function fillProduct(data){
+    var ov=g('flxProd')||openProduct(); var pan=ov.querySelector('.flx-prod-pan'); var p=data.product||{};
+    var rows=(p.analysis||[]).map(function(a){return '<div class="flx-prod-row"><span class="flx-prod-dot" style="background:'+sentColor(a.s)+'"></span><span class="flx-prod-rk">'+esc(a.k)+'</span><span class="flx-prod-rv">'+esc(a.v)+'</span></div>';}).join('');
+    var ns=p.nutriscore?'<span class="flx-prod-ns">Nutri-Score <b style="background:'+nsColor(p.nutriscore)+'">'+esc(p.nutriscore)+'</b></span>':'';
+    var nova=p.nova?'<span class="flx-prod-ns">NOVA <b style="background:'+(p.nova>=4?'#E24B4A':(p.nova===3?'#F2A93B':'#3FB57A'))+'">'+p.nova+'</b></span>':'';
+    var per=p.per100||{};
+    var imgStyle=p.image?' style="background-image:url('+p.image+')"':'';
+    pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
+      +'<div class="flx-prod-img"'+imgStyle+'>'+(p.image?'':'<i class="ti ti-shopping-bag"></i>')+'</div>'
+      +'<div class="flx-prod-body">'
+      +'<div class="flx-prod-name">'+esc(p.name||'Produit')+'</div>'+(p.brand?'<div class="flx-prod-brand">'+esc(p.brand)+'</div>':'')
+      +'<div class="flx-prod-sc">'+ring(p.score||0)+'<div class="flx-prod-sc-t"><div class="flx-prod-sc-l" style="color:'+scoreColor(p.score||0)+'">'+esc(p.label||'')+'</div><div class="flx-prod-sc-s">Score santé indicatif</div><div class="flx-prod-badges">'+ns+nova+'</div></div></div>'
+      +'<div class="flx-prod-sec">Analyse</div>'+rows
+      +'<div class="flx-prod-sec">Pour 100 g</div><div class="flx-prod-macros">'
+      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.kcal||0)+'</div><div class="flx-prod-ml">kcal</div></div>'
+      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.prot||0)+'</div><div class="flx-prod-ml">prot</div></div>'
+      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.carb||0)+'</div><div class="flx-prod-ml">gluc</div></div>'
+      +'<div class="flx-prod-m"><div class="flx-prod-mv">'+(per.fat||0)+'</div><div class="flx-prod-ml">lip</div></div>'
+      +'</div></div>'
+      +'<button class="flx-prod-add"><i class="ti ti-plus"></i> Ajouter à ma journée</button>';
+    pan.querySelector('.flx-prod-x').onclick=function(){ov.remove();};
+    pan.querySelector('.flx-prod-add').onclick=function(){ ov.remove(); showResult(data.mealName,data.items); };
+    pan.scrollTop=0; hap(10);
+  }
   function barcodeLookup(code){
     code=String(code||'').replace(/\D/g,''); if(code.length<6){tt('Code-barres invalide');return;}
-    openLoading('Recherche du produit…');
-    callProxy({barcode:code}).then(function(r){handle(r,'Produit introuvable');}).catch(function(){tt('Erreur réseau');if(typeof balSheetClose==='function')balSheetClose();});
+    var ov=openProduct();
+    callProxy({barcode:code}).then(function(r){
+      if(r&&r.ok&&r.data&&r.data.product){ fillProduct(r.data); }
+      else if(r&&r.ok&&r.data&&r.data.items&&r.data.items.length){ ov.remove(); showResult(r.data.mealName,r.data.items); }
+      else { var l=ov.querySelector('.flx-prod-load'); if(l)l.innerHTML='<i class="ti ti-mood-empty" style="font-size:30px"></i>'+esc(r&&r.data&&r.data.error?r.data.error:'Produit introuvable'); }
+    }).catch(function(){ if(g('flxProd'))g('flxProd').remove(); tt('Erreur réseau'); });
   }
   var _zx=null;
   function loadZXing(cb){
@@ -6519,9 +6592,8 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
     });
   }
-  /* expose (remplace les stubs du script scan) */
   window.nutDescribe=function(){ openDescribe(); };
-  window.nutBarcode=function(){ openScanner(); };
+  window.nutBarcode=function(code){ if(code&&typeof code==='string'){barcodeLookup(code);return;} openScanner(); };
 })();
 </script>
 </body>
