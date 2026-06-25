@@ -128,9 +128,9 @@ function mapItems(data) {
   return { mealName: String(data.mealName || 'Mon repas'), items, total };
 }
 
-async function callGemini(key, parts) {
+async function callGemini(key, parts, schema) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${key}`;
-  const gReq = { contents: [{ parts: parts }], generationConfig: { responseMimeType: 'application/json', responseSchema: SCHEMA, temperature: 0.2 } };
+  const gReq = { contents: [{ parts: parts }], generationConfig: { responseMimeType: 'application/json', responseSchema: schema || SCHEMA, temperature: 0.2 } };
   const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gReq) });
   if (!r.ok) { const t = await r.text(); throw new Error('Gemini ' + r.status + ' ' + t.slice(0, 200)); }
   const j = await r.json();
@@ -288,6 +288,88 @@ async function offLookup(code) {
   return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product };
 }
 
+// --- Extraction d'étiquette nutritionnelle (photo -> champs) via Gemini ---
+const LABEL_SCHEMA = {
+  type: 'object',
+  properties: {
+    name: { type: 'string' },
+    brand: { type: 'string' },
+    serving: { type: 'number' },
+    per100: {
+      type: 'object',
+      properties: { kcal: { type: 'number' }, prot: { type: 'number' }, carb: { type: 'number' }, fat: { type: 'number' }, fiber: { type: 'number' }, salt: { type: 'number' }, sugars: { type: 'number' }, satfat: { type: 'number' } },
+      required: ['kcal', 'prot', 'carb', 'fat']
+    }
+  },
+  required: ['name', 'per100']
+};
+const PROMPT_LABEL = `Tu es un expert nutrition. Lis l'étiquette / l'emballage de ce produit alimentaire sur la photo.
+Extrait FIDÈLEMENT (ne devine pas, lis ce qui est écrit) :
+- name : nom du produit
+- brand : marque si visible (sinon "")
+- serving : taille d'UNE portion en grammes si indiquée (sinon 0)
+- per100 : valeurs nutritionnelles POUR 100 g telles qu'écrites : kcal, prot (protéines g), carb (glucides g), fat (lipides g), fiber (fibres g), salt (sel g), sugars (sucres g), satfat (graisses saturées g). Mets 0 si une valeur est absente.
+Réponds UNIQUEMENT en JSON conforme au schéma.`;
+
+// --- Base interne (produits communautaires JSON) ---
+async function kvGetJSON(k) {
+  const v = await kvCmd(['GET', k]);
+  if (!v) return null;
+  try { return JSON.parse(v); } catch (e) { return null; }
+}
+async function kvSetJSON(k, obj) {
+  try { await kvCmd(['SET', k, JSON.stringify(obj)]); } catch (e) {}
+}
+
+// Analyse allégée (sans additifs/NOVA, qu'on ne connaît pas pour une fiche estimée)
+function buildAnalysisLite(n, per100) {
+  const QQ = { good: 'Faible quantité', warn: 'Quantité modérée', bad: 'Quantité élevée' };
+  const rows = [];
+  const kcal = per100.kcal, es = kcal <= 150 ? 'good' : (kcal <= 350 ? 'warn' : 'bad');
+  rows.push({ k: 'Calories', v: round(kcal) + ' kcal', s: es, q: es === 'good' ? 'Peu calorique' : (es === 'warn' ? 'Modérément calorique' : 'Calorique') });
+  const sug = num(n.sugars_100g); if (sug) { const ss = sug <= 5 ? 'good' : (sug <= 15 ? 'warn' : 'bad'); rows.push({ k: 'Sucres', v: round(sug) + ' g', s: ss, q: QQ[ss] }); }
+  const sat = num(n['saturated-fat_100g']); if (sat) { const fs = sat <= 1.5 ? 'good' : (sat <= 5 ? 'warn' : 'bad'); rows.push({ k: 'Graisses saturées', v: round(sat) + ' g', s: fs, q: QQ[fs] }); }
+  const salt = num(n.salt_100g); if (salt) { const ls = salt <= 0.3 ? 'good' : (salt <= 1.5 ? 'warn' : 'bad'); rows.push({ k: 'Sel', v: (Math.round(salt * 10) / 10) + ' g', s: ls, q: QQ[ls] }); }
+  const prot = num(n.proteins_100g); if (prot >= 8) rows.push({ k: 'Protéines', v: round(prot) + ' g', s: 'good', q: 'Bonne source' });
+  const fib = num(n.fiber_100g); if (fib >= 3) rows.push({ k: 'Fibres', v: round(fib) + ' g', s: 'good', q: 'Source de fibres' });
+  return rows;
+}
+
+// Construit une fiche produit "estimée" (IA étiquette ou ajout manuel) au même format que la réponse OFF.
+function buildEstimatedProduct(ex, reliability) {
+  const per = ex.per100 || {};
+  const per100 = { kcal: num(per.kcal), prot: num(per.prot), carb: num(per.carb), fat: num(per.fat) };
+  const n = { 'energy-kcal_100g': per100.kcal, proteins_100g: per100.prot, carbohydrates_100g: per100.carb, fat_100g: per100.fat, sugars_100g: num(per.sugars), 'saturated-fat_100g': num(per.satfat), salt_100g: num(per.salt), fiber_100g: num(per.fiber) };
+  const serving = num(ex.serving) || 30, f = serving / 100;
+  const nm = String(ex.name || 'Produit').slice(0, 60);
+  const bc = ex.barcode ? String(ex.barcode).replace(/\D/g, '') : '';
+  const item = { name: nm, grams: round(serving), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.7, box: null, serving: round(serving), servingLabel: 'portion', barcode: bc };
+  const hasMicro = (num(per.sugars) || num(per.satfat) || num(per.salt) || num(per.fiber)) > 0;
+  let score = 0, label = null, analysis = [];
+  if (hasMicro) { score = healthScore({ nutriscore_grade: '' }, n, per100); label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais')); analysis = buildAnalysisLite(n, per100); }
+  const product = {
+    name: nm, brand: String(ex.brand || '').slice(0, 40), image: ex.image || null,
+    score: score, label: label, nutriscore: null, nova: null, analysis: analysis,
+    per100: { kcal: round(per100.kcal), prot: round(per100.prot), carb: round(per100.carb), fat: round(per100.fat) },
+    reliability: reliability
+  };
+  return { mealName: nm, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product, status: 'estimated' };
+}
+
+// Recherche par nom dans OpenFoodFacts
+async function offSearch(q) {
+  const u = 'https://world.openfoodfacts.org/api/v2/search?search_terms=' + encodeURIComponent(q) + '&fields=code,product_name,product_name_fr,brands,nutriments,image_front_small_url,nutriscore_grade&page_size=20&sort_by=unique_scans_n';
+  try {
+    const r = await fetch(u, { headers: { 'User-Agent': 'FLINT/1.0 (nutrition app)' } });
+    if (!r.ok) return [];
+    const j = await r.json();
+    return (j.products || [])
+      .filter(p => p.nutriments && p.nutriments['energy-kcal_100g'] != null && (p.product_name_fr || p.product_name) && p.code)
+      .slice(0, 12)
+      .map(p => ({ barcode: String(p.code), name: (p.product_name_fr || p.product_name || 'Produit').slice(0, 70), brand: String(p.brands || '').split(',')[0].trim().slice(0, 40), kcal100: round(num(p.nutriments['energy-kcal_100g'])), thumb: p.image_front_small_url || null, nutriscore: (p.nutriscore_grade || '').toUpperCase() || null }));
+  } catch (e) { return []; }
+}
+
 module.exports = async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -304,8 +386,8 @@ module.exports = async function handler(req, res) {
     if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
     body = body || {};
 
-    const mode = (body.photo && body.barcode) ? 'photo' : (body.barcode ? 'barcode' : (body.text ? 'text' : (body.image ? 'image' : null)));
-    if (!mode) return res.status(400).json({ error: 'Fournis "image", "text", "barcode" ou "photo".' });
+    const mode = body.saveProduct ? 'save' : (body.search ? 'search' : (body.manual ? 'manual' : (body.label ? 'label' : ((body.photo && body.barcode) ? 'photo' : (body.barcode ? 'barcode' : (body.text ? 'text' : (body.image ? 'image' : null)))))));
+    if (!mode) return res.status(400).json({ error: 'Fournis image, text, barcode, photo, label, search, manual ou saveProduct.' });
 
     // --- Upload d'une photo produit communautaire (stockée dans le cache partagé si configuré) ---
     if (mode === 'photo') {
@@ -317,13 +399,36 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ status: 'saved' });
     }
 
+    // --- Recherche par nom (OpenFoodFacts) ---
+    if (mode === 'search') {
+      const q = String(body.search || '').trim().slice(0, 80);
+      if (q.length < 2) return res.status(200).json({ results: [] });
+      return res.status(200).json({ results: await offSearch(q) });
+    }
+
+    // --- Sauvegarde d'un produit dans la base interne (communautaire) ---
+    if (mode === 'save') {
+      const sbc = String(body.barcode || '').replace(/\D/g, '');
+      if (sbc.length < 6 || !body.saveProduct) return res.status(400).json({ status: 'rejected' });
+      if (!kvCreds()) return res.status(200).json({ status: 'unavailable' });
+      await kvSetJSON('flint:uprod:' + sbc, body.saveProduct);
+      return res.status(200).json({ status: 'saved' });
+    }
+
+    // --- Fiche manuelle (sans Gemini) ---
+    if (mode === 'manual') {
+      return res.status(200).json(buildEstimatedProduct(body.manual || {}, 'user'));
+    }
+
     // --- Mode code-barres : OpenFoodFacts (pas besoin de Gemini) ---
     if (mode === 'barcode') {
       const bc = String(body.barcode).replace(/\D/g, '');
+      const up = await kvGetJSON('flint:uprod:' + bc);   // base interne / communautaire d'abord
+      if (up) return res.status(200).json(up);
       const hit = await cacheGet(bc);
       if (hit) return res.status(200).json(hit);
       const out = await offLookup(body.barcode);
-      if (out.error) return res.status(404).json(out);
+      if (out.error) return res.status(200).json({ status: 'not_found', barcode: bc });   // jamais de cul-de-sac
       cacheSet(bc, out).catch(() => {});
       return res.status(200).json(out);
     }
@@ -331,6 +436,18 @@ module.exports = async function handler(req, res) {
     // --- Modes IA (photo / texte) : nécessitent la clé Gemini ---
     const key = process.env.GEMINI_API_KEY;
     if (!key) return res.status(500).json({ error: 'GEMINI_API_KEY manquante (variable d\'env Vercel)' });
+
+    // --- Étiquette nutritionnelle (photo -> fiche estimée) ---
+    if (mode === 'label') {
+      let limg = body.label, lmime = body.mime || 'image/jpeg';
+      const lm = /^data:([^;]+);base64,(.*)$/s.exec(limg);
+      if (lm) { lmime = lm[1]; limg = lm[2]; }
+      let ex;
+      try { ex = await callGemini(key, [{ text: PROMPT_LABEL }, { inline_data: { mime_type: lmime, data: limg } }], LABEL_SCHEMA); }
+      catch (e) { return res.status(502).json({ error: String((e && e.message) || e).slice(0, 220) }); }
+      if (body.barcode) ex.barcode = body.barcode;
+      return res.status(200).json(buildEstimatedProduct(ex, 'ai'));
+    }
 
     let parts;
     if (mode === 'image') {
