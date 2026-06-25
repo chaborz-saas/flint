@@ -161,10 +161,58 @@ function healthScore(p, n, per100) {
   return Math.max(0, Math.min(100, Math.round(base)));
 }
 
+function offBarcodePath(code) {
+  var c = String(code).replace(/\D/g, '');
+  if (c.length < 9) return c;
+  return c.slice(0, 3) + '/' + c.slice(3, 6) + '/' + c.slice(6, 9) + '/' + c.slice(9);
+}
+
+// ProductImageResolver : meilleure image OpenFoodFacts (jamais d'IA). FR -> EN -> autre langue -> image_front_url -> image brute -> placeholder.
+function resolveProductImage(p, code) {
+  var out = { imageUrl: null, imageUrls: { thumb: null, medium: null, full: null }, imageSource: 'none', confidenceScore: 0, matchType: 'barcode-exact', status: 'placeholder', fallbackUsed: true };
+  var sel = p.selected_images && p.selected_images.front;
+  var imgs = p.images || {};
+  if (sel && sel.display) {
+    var order = ['fr', 'en'];
+    for (var k in sel.display) { if (order.indexOf(k) === -1) order.push(k); }
+    for (var i = 0; i < order.length; i++) {
+      var lang = order[i];
+      if (!sel.display[lang]) continue;
+      out.imageUrl = sel.display[lang];
+      out.imageUrls.medium = sel.display[lang];
+      out.imageUrls.thumb = (sel.small && sel.small[lang]) || (sel.thumb && sel.thumb[lang]) || sel.display[lang];
+      out.imageUrls.full = sel.display[lang];
+      out.imageSource = lang === 'fr' ? 'off-selected-fr' : (lang === 'en' ? 'off-selected-en' : 'off-selected-other');
+      out.confidenceScore = lang === 'fr' ? 1.0 : (lang === 'en' ? 0.92 : 0.85);
+      out.status = 'resolved';
+      out.fallbackUsed = (lang !== 'fr');
+      return out;
+    }
+  }
+  if (p.image_front_url || p.image_url) {
+    var u = p.image_front_url || p.image_url;
+    out.imageUrl = u; out.imageUrls.medium = u;
+    out.imageUrls.thumb = p.image_front_small_url || u;
+    out.imageUrls.full = u;
+    out.imageSource = 'off-front-url'; out.confidenceScore = 0.80; out.status = 'resolved'; out.fallbackUsed = true;
+    return out;
+  }
+  for (var key in imgs) {
+    if (/^\d+$/.test(key)) {
+      var base = 'https://images.openfoodfacts.org/images/products/' + offBarcodePath(code) + '/' + key;
+      out.imageUrl = base + '.400.jpg';
+      out.imageUrls = { thumb: base + '.100.jpg', medium: base + '.400.jpg', full: base + '.jpg' };
+      out.imageSource = 'off-raw'; out.confidenceScore = 0.65; out.status = 'resolved'; out.fallbackUsed = true;
+      return out;
+    }
+  }
+  return out;
+}
+
 async function offLookup(code) {
   const c = String(code).replace(/\D/g, '');
   if (c.length < 6) return { error: 'Code-barres invalide' };
-  const fields = 'product_name,product_name_fr,brands,nutriments,serving_size,quantity,image_front_url,image_url,nutriscore_grade,nova_group,additives_tags,additives_n,nutrient_levels,labels_tags';
+  const fields = 'product_name,product_name_fr,brands,nutriments,serving_size,quantity,image_front_url,image_url,image_front_small_url,images,selected_images,categories_tags,nutriscore_grade,nova_group,additives_tags,additives_n,nutrient_levels,labels_tags';
   const u = `https://world.openfoodfacts.org/api/v2/product/${c}.json?fields=${fields}`;
   const r = await fetch(u, { headers: { 'User-Agent': 'FLINT/1.0 (nutrition app)' } });
   if (!r.ok) return { error: 'OpenFoodFacts ' + r.status };
@@ -177,14 +225,16 @@ async function offLookup(code) {
   const serving = parseGrams(p.serving_size) || 30;
   const f = serving / 100;
   const name = p.product_name_fr || p.product_name || p.brands || 'Produit';
-  const item = { name: String(name).slice(0, 60), grams: round(serving), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null, serving: round(serving), servingLabel: servingLabel(p.serving_size) };
+  const item = { name: String(name).slice(0, 60), grams: round(serving), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null, serving: round(serving), servingLabel: servingLabel(p.serving_size), barcode: c };
   if (!item.kcal && !item.prot && !item.carb && !item.fat) return { error: 'Pas d\'infos nutritionnelles pour ce produit' };
   const score = healthScore(p, n, per100);
   const label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais'));
+  const img = resolveProductImage(p, c);
   const product = {
     name: String(name).slice(0, 80),
     brand: String(p.brands || '').split(',')[0].trim().slice(0, 40),
-    image: p.image_front_url || p.image_url || null,
+    image: img.imageUrl || p.image_front_url || p.image_url || null,
+    imageResolved: img,
     score: score, label: label,
     nutriscore: (p.nutriscore_grade || '').toUpperCase() || null,
     nova: num(p.nova_group) || null,

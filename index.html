@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v254';
+const APP_VERSION='flint-v255';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6430,6 +6430,13 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-prod-pan{position:absolute;left:0;right:0;bottom:0;top:7%;max-width:465px;margin:0 auto;background:var(--bg);border-radius:24px 24px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:flxViewIn .32s var(--flx-ease,ease) both}
 .flx-prod-x{position:absolute;top:14px;right:14px;z-index:5;width:34px;height:34px;border:0;border-radius:50%;background:rgba(20,18,12,.45);color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center}
 .flx-prod-img{height:168px;background:#fff center/contain no-repeat;border-bottom:1px solid var(--line);display:grid;place-items:center;color:var(--faint);font-size:34px}
+.flx-prod-img{position:relative}
+.flx-prod-img--ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#FBF8F1;color:var(--faint)}
+.flx-prod-img--ph i{font-size:38px;opacity:.5}
+.flx-prod-phn{font-family:var(--disp,inherit);font-style:oblique 6deg;font-size:20px;color:var(--ink);text-align:center;padding:0 18px}
+.flx-prod-phs{font-family:var(--sans);font-size:12px;color:var(--faint)}
+.flx-prod-credit{position:absolute;bottom:6px;right:8px;font-family:var(--sans);font-size:9px;color:var(--faint);opacity:.7}
+.flx-prod-addphoto{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 36px);margin:12px 18px 0;padding:11px;border:1px dashed var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer}
 .flx-prod-body{padding:16px 18px calc(94px + env(safe-area-inset-bottom))}
 .flx-prod-name{font-family:var(--sans);font-size:19px;font-weight:800;color:var(--ink);line-height:1.22}
 .flx-prod-brand{font-family:var(--sans);font-size:13px;color:var(--ink2);margin-top:2px}
@@ -6577,9 +6584,14 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     var ns=p.nutriscore?'<span class="flx-prod-ns">Nutri-Score <b style="background:'+nsColor(p.nutriscore)+'">'+esc(p.nutriscore)+'</b></span>':'';
     var nova=p.nova?'<span class="flx-prod-ns">NOVA <b style="background:'+(p.nova>=4?'#E24B4A':(p.nova===3?'#F2A93B':'#3FB57A'))+'">'+p.nova+'</b></span>':'';
     var per=p.per100||{};
-    var imgStyle=p.image?' style="background-image:url('+p.image+')"':'';
+    var ir=p.imageResolved||{imageUrl:(p.image||null),status:(p.image?'resolved':'placeholder')};
+    var bc=(data.items&&data.items[0]&&data.items[0].barcode)||p.barcode||'';
+    var userImg=null; try{ if(bc) userImg=localStorage.getItem('flx_img_'+bc); }catch(e){}
+    var fromOff=(ir.status==='resolved'&&ir.imageUrl);
+    var shownUrl=fromOff?ir.imageUrl:(userImg||null);
+    var imgH=shownUrl?('<div class="flx-prod-img" style="background-image:url('+shownUrl+')">'+(fromOff?'<span class="flx-prod-credit">Open Food Facts</span>':'')+'</div>'):('<div class="flx-prod-img flx-prod-img--ph"><i class="ti ti-shopping-bag"></i><div class="flx-prod-phn">'+esc(p.name||'Produit')+'</div><div class="flx-prod-phs">Pas encore de photo</div></div><button class="flx-prod-addphoto" type="button"><i class="ti ti-camera"></i> Ajouter une photo du produit</button><input type="file" accept="image/*" capture="environment" class="flx-prod-file" hidden>');
     pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
-      +'<div class="flx-prod-img"'+imgStyle+'>'+(p.image?'':'<i class="ti ti-shopping-bag"></i>')+'</div>'
+      +imgH
       +'<div class="flx-prod-body">'
       +'<div class="flx-prod-name">'+esc(p.name||'Produit')+'</div>'+(p.brand?'<div class="flx-prod-brand">'+esc(p.brand)+'</div>':'')
       +'<div class="flx-prod-sc">'+ring(p.score||0)+'<div class="flx-prod-sc-t"><div class="flx-prod-sc-l" style="color:'+scoreColor(p.score||0)+'">'+esc(p.label||'')+'</div><div class="flx-prod-sc-s">Score santé indicatif</div><div class="flx-prod-badges">'+ns+nova+'</div></div></div>'
@@ -6587,6 +6599,24 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       +'<button class="flx-prod-add"><i class="ti ti-plus"></i> Ajouter à ma journée</button>';
     pan.querySelector('.flx-prod-x').onclick=function(){ov.remove();};
     pan.querySelector('.flx-prod-add').onclick=function(){ ov.remove(); showResult(data.mealName,data.items); };
+    var fileEl=pan.querySelector('.flx-prod-file'),addPhoto=pan.querySelector('.flx-prod-addphoto');
+    if(addPhoto&&fileEl){
+      addPhoto.onclick=function(){fileEl.click();};
+      fileEl.onchange=function(){
+        var f=fileEl.files&&fileEl.files[0]; if(!f)return;
+        var im=new Image();
+        im.onload=function(){
+          var S=600,cv=document.createElement('canvas');cv.width=cv.height=S;var ctx=cv.getContext('2d');
+          var side=Math.min(im.width,im.height),sx=(im.width-side)/2,sy=(im.height-side)/2;
+          ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S);ctx.drawImage(im,sx,sy,side,side,0,0,S,S);
+          var durl=cv.toDataURL('image/jpeg',0.82);
+          try{ if(bc) localStorage.setItem('flx_img_'+bc,durl); }catch(e){}
+          var box=pan.querySelector('.flx-prod-img'); if(box){box.className='flx-prod-img';box.style.backgroundImage='url('+durl+')';box.innerHTML='';}
+          addPhoto.style.display='none'; hap(10);
+        };
+        im.src=URL.createObjectURL(f);
+      };
+    }
     pan.scrollTop=0; hap(10);
   }
   function barcodeLookup(code){
