@@ -105,6 +105,18 @@ function parseGrams(s) {
   return m ? Math.round(parseFloat(m[1].replace(',', '.'))) : 0;
 }
 
+// nom de l'unité d'une portion (ex: "1 biscuit (12.5 g)" -> "biscuit", "15 g" -> "portion")
+function servingLabel(s) {
+  if (!s) return 'portion';
+  const stop = { g: 1, ml: 1, gr: 1, kg: 1, cl: 1, l: 1, kj: 1, kcal: 1, cal: 1 };
+  const m = /[0-9.,]+\s*([a-zàâäçéèêëîïôöûùü]{2,})/i.exec(String(s));
+  if (m && !stop[m[1].toLowerCase()]) return m[1].toLowerCase().replace(/s$/, '');
+  const cleaned = String(s).replace(/[0-9.,]+\s*(g|ml|gr|kg|cl|l|kj|kcal|cal)\b/gi, ' ').replace(/[()]/g, ' ');
+  const m2 = /([a-zàâäçéèêëîïôöûùü]{3,})/i.exec(cleaned);
+  if (m2 && !stop[m2[1].toLowerCase()]) return m2[1].toLowerCase().replace(/s$/, '');
+  return 'portion';
+}
+
 function num(x) { const v = Number(x); return isFinite(v) ? v : 0; }
 
 function buildAnalysis(p, n, per100) {
@@ -162,10 +174,10 @@ async function offLookup(code) {
   let kcal100 = n['energy-kcal_100g'];
   if (kcal100 == null && n['energy_100g'] != null) kcal100 = Number(n['energy_100g']) / 4.184; // kJ -> kcal
   const per100 = { kcal: num(kcal100), prot: num(n.proteins_100g), carb: num(n.carbohydrates_100g), fat: num(n.fat_100g) };
-  const grams = parseGrams(p.serving_size) || 100;
-  const f = grams / 100;
+  const serving = parseGrams(p.serving_size) || 30;
+  const f = serving / 100;
   const name = p.product_name_fr || p.product_name || p.brands || 'Produit';
-  const item = { name: String(name).slice(0, 60), grams: round(grams), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null };
+  const item = { name: String(name).slice(0, 60), grams: round(serving), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null, serving: round(serving), servingLabel: servingLabel(p.serving_size) };
   if (!item.kcal && !item.prot && !item.carb && !item.fat) return { error: 'Pas d\'infos nutritionnelles pour ce produit' };
   const score = healthScore(p, n, per100);
   const label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais'));

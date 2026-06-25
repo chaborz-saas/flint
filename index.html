@@ -6142,7 +6142,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v253';
+const APP_VERSION='flint-v254';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6454,6 +6454,12 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-prod-ml{font-family:var(--sans);font-size:10px;font-weight:700;color:var(--faint);margin-top:2px}
 .flx-prod-add{position:fixed;left:0;right:0;bottom:0;max-width:465px;margin:0 auto;border:0;background:var(--accent);color:#fff;font-family:var(--sans);font-weight:800;font-size:15px;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;z-index:6;box-shadow:0 -6px 20px rgba(20,18,12,.08)}
 .flx-prod-load{display:flex;flex-direction:column;align-items:center;justify-content:center;height:62vh;gap:12px;color:var(--ink2);font-family:var(--sans);font-size:14px;text-align:center;padding:0 24px}
+.flx-portion{display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:14px;padding:10px 13px;margin:2px 0 12px}
+.flx-portion-l{font-family:var(--sans);font-size:13px;font-weight:800;color:var(--ink)}
+.flx-portion-step{display:flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:2px}
+.flx-portion-b{width:30px;height:30px;border:0;background:none;font-size:19px;color:var(--accent);cursor:pointer;line-height:1;font-family:inherit}
+.flx-portion-n{min-width:22px;text-align:center;font-family:var(--disp,inherit);font-style:oblique 6deg;font-weight:800;font-size:16px;color:var(--ink)}
+.flx-portion-s{margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);text-align:right}
 </style>
 <script>
 /* ===== FLINT — Décrire (Gemini texte) + Code-barres (OpenFoodFacts + écran produit). Isolé. ===== */
@@ -6489,7 +6495,9 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     if(g('balShSub'))g('balShSub').innerHTML='<span class="bal-aibadge"><i class="ti ti-sparkles"></i>Estimé</span> Vérifie et ajuste';
     if(g('balShForm'))g('balShForm').style.display='';
     if(typeof balSheetOpen==='function') balSheetOpen();
-    if(typeof window._flintRenderItems==='function') window._flintRenderItems();
+    var arr=window._flintScanItems||[];
+    if(arr.length===1&&arr[0].serving){ var si=g('scanItems'); if(si)si.remove(); mountPortion(arr[0]); }
+    else { removePortion(); if(typeof window._flintRenderItems==='function') window._flintRenderItems(); }
     if(typeof window.syncUI==='function') window.syncUI();
     hap(10);
   }
@@ -6498,6 +6506,29 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
     else { tt(res&&res.data&&res.data.error?res.data.error:fallbackMsg); if(typeof balSheetClose==='function')balSheetClose(); }
   }
   /* ---------- DÉCRIRE ---------- */
+  function removePortion(){ var e=g('flxPortion'); if(e)e.remove(); }
+  function mountPortion(it){
+    removePortion();
+    var form=g('balShForm'); if(!form||!it||!it.serving) return;
+    if(!it._base) it._base={kcal:it.kcal,prot:it.prot,carb:it.carb,fat:it.fat,grams:it.grams||it.serving};
+    var n=Math.max(1,Math.round((it.grams||it.serving)/it.serving));
+    var label=it.servingLabel||'portion';
+    var box=document.createElement('div'); box.id='flxPortion'; box.className='flx-portion';
+    function apply(){
+      var f=it._base.grams>0?(n*it.serving)/it._base.grams:n;
+      it.grams=n*it.serving;
+      it.kcal=Math.round(it._base.kcal*f); it.prot=Math.round(it._base.prot*f); it.carb=Math.round(it._base.carb*f); it.fat=Math.round(it._base.fat*f);
+      if(g('balFKcal'))g('balFKcal').value=it.kcal;
+      if(g('balFProt'))g('balFProt').value=it.prot;
+      if(g('balFCarb'))g('balFCarb').value=it.carb;
+      if(g('balFFat'))g('balFFat').value=it.fat;
+      if(window.syncUI)window.syncUI();
+    }
+    function draw(){ box.innerHTML='<span class="flx-portion-l">Quantité</span><div class="flx-portion-step"><button type="button" class="flx-portion-b" data-d="-1">\u2212</button><span class="flx-portion-n">'+n+'</span><button type="button" class="flx-portion-b" data-d="1">+</button></div><span class="flx-portion-s">'+n+' '+esc(label)+(n>1?'s':'')+' \u00b7 '+(n*it.serving)+' g</span>'; }
+    draw(); form.parentNode.insertBefore(box,form);
+    box.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.flx-portion-b'); if(!b)return; n=Math.max(1,n+(parseInt(b.getAttribute('data-d'),10)||0)); apply(); draw(); hap(6); });
+    apply();
+  }
   function openDescribe(){
     if(g('flxDesc')){g('flxDescTa').focus();return;}
     var ov=document.createElement('div'); ov.id='flxDesc'; ov.className='flx-desc';
@@ -6594,6 +6625,8 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
     });
   }
+  var _bcModes=window.balSheetClose;
+  if(typeof _bcModes==='function'){ window.balSheetClose=function(){ removePortion(); return _bcModes.apply(this,arguments); }; }
   window.nutDescribe=function(){ openDescribe(); };
   window.nutBarcode=function(code){ if(code&&typeof code==='string'){barcodeLookup(code);return;} openScanner(); };
 })();
