@@ -3774,7 +3774,7 @@ body.stepsview header{display:none}
 .act2-hbpm{font-family:'Anton';font-style:oblique 8deg;color:var(--accent);font-size:44px;line-height:1;display:flex;align-items:baseline;gap:4px}
 .act2-hbpm small{font-size:.42em;font-weight:400}
 .act2-hsep{width:1px;align-self:stretch;background:#ECE6DD;margin:6px 14px}
-.act2-hdur{flex:1;text-align:right}
+.act2-hdur{flex:1;text-align:center}
 .act2-hdur .lbl{display:block;font-size:10.5px;font-weight:800;letter-spacing:.4px;color:#9A948A;text-transform:uppercase;margin-bottom:5px}
 .act2-hdur b{font-family:'Anton';font-style:oblique 8deg;font-size:38px;color:#15140F}
 .act2-card{background:#fff;border-radius:22px;box-shadow:0 1px 2px rgba(20,18,12,.03),0 8px 22px rgba(20,18,12,.04);margin:13px 14px;padding:16px 14px}
@@ -6593,7 +6593,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v309';
+const APP_VERSION='flint-v310';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
