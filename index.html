@@ -2836,19 +2836,26 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2-scan{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 16px 20px;margin:6px 8px 0}
 .nut2-scan-t{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#151515;line-height:1.02}
 .nut2-scan-s{font-size:13.5px;color:#8A8580;margin:7px 0 22px;max-width:240px}
-.nut2-bigcam{width:128px;height:128px;border-radius:50%;border:6px solid #fff;background:var(--accent);color:#fff;font-size:48px;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 30px rgba(240,73,46,.4),0 0 0 1px rgba(240,73,46,.15);transition:transform .14s ease;-webkit-tap-highlight-color:transparent}
+.nut2-bigcam{position:relative;width:128px;height:128px;border-radius:50%;border:6px solid #fff;background:var(--accent);color:#fff;font-size:48px;display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 34px rgba(240,73,46,.42),0 0 0 1px rgba(240,73,46,.12);transition:transform .14s ease;-webkit-tap-highlight-color:transparent}
+.nut2-bigcam>i{position:relative;z-index:2}
+.nut2-bigcam::before{content:'';position:absolute;inset:-15px;border-radius:50%;border:2px dashed rgba(240,73,46,.4);animation:nutSpin 16s linear infinite}
+.nut2-bigcam::after{content:'';position:absolute;inset:-34px;border-radius:50%;background:radial-gradient(circle,rgba(240,73,46,.20),rgba(240,73,46,0) 70%);animation:nutPulse 2.6s ease-in-out infinite;z-index:-1}
+@keyframes nutSpin{to{transform:rotate(360deg)}}
+@keyframes nutPulse{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.18);opacity:.25}}
+@media(prefers-reduced-motion:reduce){.nut2-bigcam::before,.nut2-bigcam::after{animation:none}}
 .nut2-bigcam:active{transform:scale(.93)}
-.nut2-scan-hint{margin-top:16px;background:#fff;border:1px solid #F1EBE3;border-radius:30px;padding:9px 18px;font-size:13.5px;font-weight:700;color:#151515;box-shadow:0 3px 12px rgba(20,18,12,.05)}
+.nut2-scan-hint{margin-top:16px;background:#fff;border:1px solid #FBDDD3;border-radius:30px;padding:9px 18px;font-size:13.5px;font-weight:800;color:var(--accent);box-shadow:0 3px 12px rgba(240,73,46,.08)}
 .nut2-acts{display:flex;gap:10px;margin:6px 0 14px;padding:0 8px}
 .nut2-act{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:20px;padding:14px 4px;box-shadow:0 4px 16px rgba(20,18,12,.05);font-family:inherit;font-size:11px;font-weight:700;color:#56514B;cursor:pointer;transition:transform .12s ease}
 .nut2-act:active{transform:scale(.95)}
 .nut2-act i{font-size:23px;color:#F0653E}
-.nut2-card{display:flex;align-items:center;margin:0 8px;background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.75);border-radius:26px;padding:22px 16px;box-shadow:0 6px 22px rgba(20,18,12,.06)}
-.nut2-left{flex:1;text-align:center;min-width:0}
-.nut2-day{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9A948A}
+.nut2-card{display:flex;align-items:center;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:20px 16px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
+.nut2-left{flex:1;text-align:center;min-width:0;position:relative;padding-bottom:6px}
+.nut2-wave{position:absolute;left:0;right:0;bottom:-6px;height:26px;width:100%;opacity:.9}
+.nut2-day{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .nut2-kcal{margin-top:6px;display:flex;align-items:baseline;justify-content:center;gap:5px}
 .nut2-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:46px;line-height:1;color:#15140F}
-.nut2-kcal span{font-size:14px;font-weight:700;color:#7C766B}
+.nut2-kcal span{font-size:14px;font-weight:800;color:var(--accent)}
 .nut2-sep{width:1px;align-self:stretch;background:rgba(20,18,12,.10);margin:2px 14px}
 .nut2-right{flex:1;display:flex;flex-direction:column;gap:13px;min-width:0}
 .nut2-mrow{display:flex;align-items:center;gap:10px}
@@ -2919,6 +2926,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="nut2-left">
       <div class="nut2-day">Aujourd'hui</div>
       <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
+      <svg class="nut2-wave" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 17 C13 9 21 22 33 16 C45 10 53 21 65 15 C79 8 89 19 103 14 C110 11 115 13 117 13" fill="none" stroke="#F0492E" stroke-width="2" stroke-linecap="round"/><circle cx="117" cy="13" r="3" fill="#fff" stroke="#F0492E" stroke-width="2"/></svg>
     </div>
     <div class="nut2-sep"></div>
     <div class="nut2-right">
@@ -6736,7 +6744,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v320';
+const APP_VERSION='flint-v321';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
