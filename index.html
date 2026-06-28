@@ -2872,42 +2872,53 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 /* ----- Carte résultat (sheet) façon Cal AI ----- */
 .balsh2{padding:0 0 calc(20px + env(safe-area-inset-bottom)) !important;overflow-y:auto}
 .balsh2 .bal-sh-grip{margin:10px auto 8px}
-.bsh-photowrap{position:relative;width:100%;height:152px;border-radius:24px 24px 0 0;overflow:hidden}
-.bsh-photo{position:absolute;inset:0;background:var(--accent) center/cover;display:grid;place-items:center;color:rgba(255,255,255,.75);font-size:30px}
+.bsh-photowrap{position:relative;margin:2px 14px 0;height:226px;border-radius:24px;overflow:hidden;box-shadow:0 14px 32px rgba(20,18,12,.16)}
+.bsh-photo{position:absolute;inset:0;background:#2a2622 center/cover;display:grid;place-items:center;color:rgba(255,255,255,.55);font-size:34px}
 .bsh-pills{position:absolute;inset:0;pointer-events:none}
 .bsh-pill{position:absolute;background:#fff;border-radius:999px;padding:5px 10px;font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--ink);box-shadow:0 6px 16px rgba(20,18,12,.18);display:flex;align-items:center;gap:6px;white-space:nowrap}
 .bsh-pill i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:block}
 .bsh-pill b{font-family:var(--disp);font-style:oblique 4deg;font-weight:400;color:var(--accent)}
-.bsh-body{padding:15px 18px 0}
-.bsh-tagrow{display:flex;align-items:center;gap:9px;margin-bottom:8px}
-.bsh-tag{background:var(--peach);color:var(--accentD);font-family:var(--sans);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
-.bsh-tag i{font-size:12px}
-.bsh-time{font-family:var(--sans);font-size:11.5px;font-weight:700;color:var(--faint)}
-.bsh-name{width:100%;border:0;background:none;font-family:var(--sans);font-size:21px;font-weight:800;color:var(--ink);padding:0;line-height:1.2;-webkit-user-select:text;user-select:text}
+.bsh-pshade{position:absolute;left:0;right:0;bottom:0;height:66%;background:linear-gradient(180deg,transparent,rgba(15,12,10,.16) 36%,rgba(15,12,10,.84));pointer-events:none}
+.bsh-pinfo{position:absolute;left:18px;right:18px;bottom:15px}
+.bsh-name{width:100%;border:0;background:none;font-family:var(--sans);font-size:25px;font-weight:800;color:#fff;padding:0;line-height:1.14;text-shadow:0 2px 14px rgba(0,0,0,.5);-webkit-user-select:text;user-select:text}
+.bsh-name::placeholder{color:rgba(255,255,255,.72)}
 .bsh-name:focus{outline:none}
-.bsh-status{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);margin:8px 0 0}
-.bsh-cal{display:flex;align-items:center;gap:13px;background:var(--peach);border-radius:18px;padding:14px 16px;margin-top:14px}
-.bsh-calic{width:42px;height:42px;border-radius:13px;background:#fff;color:var(--accent);display:grid;place-items:center;font-size:21px;flex:none}
-.bsh-callab{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink2)}
-.bsh-calv{font-family:var(--disp);font-style:oblique 6deg;font-size:34px;color:var(--ink);line-height:1}
-.bsh-calv small{font-family:var(--sans);font-style:normal;font-size:13px;font-weight:700;color:var(--ink2)}
-.bsh-macros{display:flex;gap:9px;margin-top:11px}
-.bsh-mac{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 11px}
-.bsh-macic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;margin-bottom:8px}
+.bsh-meta{display:flex;align-items:center;gap:6px;margin-top:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:rgba(255,255,255,.86);text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.bsh-meta i{font-size:15px;opacity:.92}
+.bsh-body{padding:16px 16px 0}
+.bsh-status{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);margin:0 2px 12px}
+.bsh-cal{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px 18px;box-shadow:0 6px 16px rgba(20,18,12,.05)}
+.bsh-calmid{flex:1;min-width:0}
+.bsh-callab{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink2)}
+.bsh-calv{font-family:var(--disp);font-style:oblique 6deg;font-size:44px;color:var(--accent);line-height:1;margin-top:3px}
+.bsh-calv small{font-family:var(--sans);font-style:normal;font-size:15px;font-weight:700;color:var(--ink2);margin-left:3px}
+.bsh-calic{width:52px;height:52px;border-radius:50%;background:var(--peach);color:var(--accent);display:grid;place-items:center;font-size:25px;flex:none}
+.bsh-macros{display:flex;gap:10px;margin-top:11px}
+.bsh-mac{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 12px}
+.bsh-macic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:18px;margin-bottom:9px}
 .bsh-macic.p{background:#FBEAF0;color:#D4537E}.bsh-macic.c{background:#FAEEDA;color:#BA7517}.bsh-macic.f{background:#EEEDFE;color:#6C7BD6}
-.bsh-macl{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink2)}
-.bsh-macv{font-family:var(--disp);font-style:oblique 6deg;font-size:21px;color:var(--ink);line-height:1;margin-top:2px}
-.bsh-macv small{font-family:var(--sans);font-style:normal;font-size:11px;font-weight:700;color:var(--ink2)}
-.bsh-health{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-top:11px}
-.bsh-hic{width:32px;height:32px;border-radius:10px;background:#EAF3DE;color:#639922;display:grid;place-items:center;font-size:17px;flex:none}
-.bsh-hl{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);flex:none}
-.bsh-htrack{flex:1;height:7px;border-radius:5px;background:var(--track);overflow:hidden}
-.bsh-htrack i{display:block;height:100%;border-radius:5px;background:#639922;width:0;transition:width .5s ease}
-.bsh-hv{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--ink2);flex:none}
-.bsh-hv b{font-family:var(--disp);font-style:oblique 6deg;font-weight:400;font-size:18px;color:#639922}
-.bsh-actions{display:flex;gap:10px;margin-top:16px}
-.bsh-fix{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:14px 18px;font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px}
-.bsh-save{flex:1;border:0;background:var(--accent);border-radius:999px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
+.bsh-macl{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink2)}
+.bsh-macv{font-family:var(--disp);font-style:oblique 6deg;font-size:24px;color:var(--ink);line-height:1;margin-top:3px}
+.bsh-macv small{font-family:var(--sans);font-style:normal;font-size:12px;font-weight:700;color:var(--ink2);margin-left:1px}
+.bsh-health{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:11px}
+.bsh-hic{width:46px;height:46px;border-radius:14px;background:#EAF3DE;color:#639922;display:grid;place-items:center;font-size:23px;flex:none}
+.bsh-hmid{flex:1;min-width:0}
+.bsh-hl{font-family:var(--sans);font-size:14.5px;font-weight:800;color:var(--ink)}
+.bsh-hsub{font-family:var(--sans);font-size:12.5px;font-weight:700;color:#639922;margin:1px 0 9px}
+.bsh-htrack{display:block;height:9px;border-radius:3px;background:var(--track);overflow:hidden;-webkit-mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%);mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%)}
+.bsh-htrack i{display:block;height:100%;background:#7ab52b;width:0;transition:width .5s ease}
+.bsh-hv{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink2);flex:none;align-self:flex-start}
+.bsh-hv b{font-family:var(--disp);font-style:oblique 6deg;font-weight:400;font-size:27px;color:#639922}
+.bsh-qty{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:11px 14px 11px 18px;margin-top:11px}
+.bsh-qtl{font-family:var(--sans);font-size:14.5px;font-weight:700;color:var(--ink)}
+.bsh-qstep{display:flex;align-items:center;gap:12px}
+.bsh-qstep button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:21px;font-weight:600;line-height:1;cursor:pointer;display:grid;place-items:center}
+.bsh-qstep button:active{background:var(--track)}
+.bsh-qtv{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--ink2);min-width:62px;text-align:center}
+.bsh-qtv b{font-family:var(--disp);font-style:oblique 4deg;font-weight:400;font-size:23px;color:var(--ink);margin-right:2px}
+.bsh-actions{display:flex;gap:11px;margin-top:14px;padding-bottom:4px}
+.bsh-fix{flex:1;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:16px;font-family:var(--sans);font-size:15px;font-weight:800;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.bsh-save{flex:1.45;border:0;background:var(--accent);border-radius:999px;padding:16px;font-family:var(--sans);font-size:16px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
 </style>
 <div class="nut2">
   <div class="nut2-scan">
@@ -3348,14 +3359,17 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <div class="bsh-photowrap">
       <div class="bsh-photo" id="balShImg"><i class="ti ti-photo"></i></div>
       <div class="bsh-pills" id="bshPills"></div>
+      <div class="bsh-pshade"></div>
+      <div class="bsh-pinfo">
+        <input id="balFName" class="bsh-name" type="text" placeholder="Nom du plat" aria-label="Nom du plat">
+        <div class="bsh-meta"><i class="ti ti-clock"></i> <span id="bshTag">Repas</span> · <span id="bshTime"></span></div>
+      </div>
     </div>
     <div class="bsh-body">
-      <div class="bsh-tagrow"><span class="bsh-tag" id="bshTag"><i class="ti ti-bookmark"></i> Repas</span><span class="bsh-time" id="bshTime"></span></div>
-      <input id="balFName" class="bsh-name" type="text" placeholder="Nom du plat" aria-label="Nom du plat">
       <div class="bsh-status" id="balShSub"><span class="bal-spin"></span>L'IA estime les calories</div>
       <div class="bsh-cal">
+        <div class="bsh-calmid"><div class="bsh-callab">Calories</div><div class="bsh-calv"><span id="bshKcal">—</span> <small>kcal</small></div></div>
         <span class="bsh-calic"><i class="ti ti-flame"></i></span>
-        <div><div class="bsh-callab">Calories</div><div class="bsh-calv"><span id="bshKcal">—</span> <small>kcal</small></div></div>
       </div>
       <div class="bsh-macros">
         <div class="bsh-mac"><span class="bsh-macic p"><i class="ti ti-meat"></i></span><div class="bsh-macl">Protéines</div><div class="bsh-macv"><span id="bshProt">—</span><small>g</small></div></div>
@@ -3364,14 +3378,14 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
       </div>
       <div class="bsh-health">
         <span class="bsh-hic"><i class="ti ti-heart"></i></span>
-        <span class="bsh-hl">Score santé</span>
-        <span class="bsh-htrack"><i id="bshHealthBar"></i></span>
+        <div class="bsh-hmid"><div class="bsh-hl">Score santé</div><div class="bsh-hsub" id="bshHealthLbl">—</div><span class="bsh-htrack"><i id="bshHealthBar"></i></span></div>
         <span class="bsh-hv"><b id="bshHealth">—</b>/10</span>
       </div>
       <div id="balShForm" style="display:none">
         <input id="balFKcal" type="hidden"><input id="balFProt" type="hidden"><input id="balFCarb" type="hidden"><input id="balFFat" type="hidden">
+        <div class="bsh-qty"><span class="bsh-qtl">Quantité estimée</span><div class="bsh-qstep"><button type="button" onclick="bshQty(-10)" aria-label="Moins">−</button><span class="bsh-qtv"><b id="bshQtyV">100</b>g</span><button type="button" onclick="bshQty(10)" aria-label="Plus">+</button></div></div>
         <div class="bsh-actions">
-          <button class="bsh-fix" type="button" onclick="nutFix()"><i class="ti ti-sparkles"></i> Corriger</button>
+          <button class="bsh-fix" type="button" onclick="nutFix()">Corriger</button>
           <button class="bsh-save" type="button" onclick="balConfirm()">Valider</button>
         </div>
       </div>
@@ -6744,7 +6758,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v321';
+const APP_VERSION='flint-v322';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6807,11 +6821,18 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     var hs=healthScore(kc,pp,cc,ff);
     if(g('bshHealth'))g('bshHealth').textContent=hs;
     if(g('bshHealthBar'))g('bshHealthBar').style.width=(hs*10)+'%';
+    var hcol=hs>=6?'#639922':(hs>=4?'#BA7517':'#D4537E');
+    if(g('bshHealthLbl')){g('bshHealthLbl').textContent=hs>=8?'Excellent':(hs>=6?'Plutôt bon':(hs>=4?'Moyen':'À surveiller'));g('bshHealthLbl').style.color=hcol;}
+    if(g('bshHealthBar'))g('bshHealthBar').style.background=hcol;
+    if(g('bshHealth'))g('bshHealth').style.color=hcol;
+    var it0=(window._flintScanItems||[])[0];
+    if(g('bshQtyV')&&it0&&it0.grams)g('bshQtyV').textContent=it0.grams;
     if(g('bshTime')&&!g('bshTime').textContent)g('bshTime').textContent=nowHM();
-    if(g('bshTag'))g('bshTag').innerHTML='<i class="ti ti-bookmark"></i> '+mealTag();
+    if(g('bshTag'))g('bshTag').textContent=mealTag();
     var pills=g('bshPills');
     if(pills){
-      var items=(window._flintScanItems||[]).slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3);
+      var allit=(window._flintScanItems||[]);
+      var items=allit.length>1?allit.slice().sort(function(a,b){return (b.kcal||0)-(a.kcal||0);}).slice(0,3):[];
       var pos=[{top:'16%',left:'7%'},{top:'42%',right:'7%'},{top:'66%',left:'15%'}];
       pills.innerHTML=items.map(function(it,i){var p=pos[i]||pos[0];var css=Object.keys(p).map(function(key){return key+':'+p[key];}).join(';');return '<span class="bsh-pill" style="'+css+'"><i></i>'+esc(it.name)+' <b>'+(it.kcal||0)+'</b></span>';}).join('');
     }
@@ -6838,6 +6859,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
     recalc();renderItems();
   };
   window._flintDelItem=function(i){var a=window._flintScanItems||[];a.splice(i,1);recalc();renderItems();};
+  window.bshQty=function(d){var a=window._flintScanItems||[];if(!a.length)return;var it=a[0];var cur=(it.grams!=null?+it.grams:100);window._flintEditGrams(0,Math.max(0,cur+d));if(typeof haptic==='function')haptic();};
   function renderItems(){
     var items=window._flintScanItems,form=document.getElementById('balShForm');if(!form||!items)return;
     var host=document.getElementById('scanItems');
