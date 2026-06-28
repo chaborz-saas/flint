@@ -2916,9 +2916,76 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
     </div>
   </div>
-  <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><span class="nutx-rhc" id="nutCount"></span></div>
+  <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><button type="button" onclick="openNutHistory()" style="border:0;background:none;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:2px;cursor:pointer;text-transform:none;letter-spacing:0">Tout voir <i class="ti ti-chevron-right"></i></button></div>
   <div id="nutRecent" style="padding:0 8px"></div>
   <input type="file" id="nutGalleryFile" accept="image/*" style="display:none" onchange="balPhotoPick(this)">
+</div>
+</section>
+
+<!-- ===================== NUTRITION · HISTORIQUE + DÉTAIL REPAS ===================== -->
+<section class="view" id="v-nuthistory">
+<style>
+.nh{padding:0 14px 96px;font-family:'Inter',sans-serif;color:#151515}
+.nh-back{width:42px;height:42px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.12);color:#151515;font-size:20px;display:grid;place-items:center;cursor:pointer;margin:6px 0 8px;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
+.nh-back:active{transform:scale(.84)}
+.nh-title{font-family:'Anton';font-style:oblique 8deg;font-size:34px;margin:2px 2px 14px;color:#151515}
+.nh-day{display:flex;align-items:baseline;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8A8580;margin:16px 4px 8px}
+.nh-dk{color:var(--accent);font-weight:800}
+.nh-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:0;border-radius:18px;padding:11px 12px;box-shadow:0 2px 10px rgba(20,18,12,.05);margin-bottom:9px;font-family:inherit;cursor:pointer;transition:transform .12s ease}
+.nh-row:active{transform:scale(.99)}
+.nh-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.nh-n{font-size:14.5px;font-weight:700;color:#151515;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nh-t{font-size:11.5px;color:#8A8580}
+.nh-k{font-family:'Anton';font-style:oblique 6deg;font-size:21px;color:#151515;flex:none}
+.nh-k small{font-family:'Inter';font-style:normal;font-size:10px;font-weight:700;color:#9A948A;margin-left:2px}
+.nh-c{color:#C8C2B8;font-size:18px;flex:none}
+/* détail repas */
+.md{padding:0 14px 96px;font-family:'Inter',sans-serif;color:#151515}
+.md-hd{margin:6px 2px 0}
+.md-name{font-family:'Anton';font-style:oblique 8deg;font-size:30px;line-height:1.02;margin:8px 0 4px;color:#151515}
+.md-date{font-size:13px;color:#8A8580;margin-bottom:2px}
+.md-kc{font-family:'Anton';font-style:oblique 8deg;font-size:40px;color:var(--accent);margin:6px 0 14px}
+.md-kc small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#8A8580;margin-left:3px}
+.md-tabs{display:flex;gap:8px;background:#F1ECE4;border-radius:14px;padding:4px;margin-bottom:16px}
+.md-tab{flex:1;border:0;background:none;padding:9px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:800;color:#8A8580;cursor:pointer;transition:background .15s ease}
+.md-tab.on{background:#fff;color:#151515;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.md-donutwrap{display:flex;align-items:center;gap:18px;background:#fff;border-radius:22px;padding:18px;box-shadow:0 2px 12px rgba(20,18,12,.05);margin-bottom:13px}
+.md-donut{position:relative;width:118px;height:118px;flex:none}
+.md-dctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.md-dctr b{font-family:'Anton';font-style:oblique 6deg;font-size:24px;color:#151515;line-height:1}
+.md-dctr span{font-size:11px;color:#8A8580}
+.md-leg{flex:1;display:flex;flex-direction:column;gap:11px}
+.md-leg>div{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#56514B}
+.md-leg b{margin-left:auto;font-weight:800;color:#151515}
+.md-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.md-bars{background:#fff;border-radius:22px;padding:18px;box-shadow:0 2px 12px rgba(20,18,12,.05);margin-bottom:13px;display:flex;flex-direction:column;gap:15px}
+.md-mh{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#56514B;margin-bottom:7px}
+.md-mv{margin-left:auto;font-family:'Anton';font-style:oblique 6deg;font-size:17px;color:#151515}
+.md-mbar{height:8px;border-radius:6px;background:#F1ECE4;overflow:hidden}
+.md-mbar i{display:block;height:100%;border-radius:6px}
+.md-list{background:#fff;border-radius:22px;padding:6px 18px;box-shadow:0 2px 12px rgba(20,18,12,.05);margin-bottom:14px}
+.md-li{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #F4EFE7;font-size:14px;color:#56514B}
+.md-li:last-child{border-bottom:0}
+.md-li b{color:#151515;font-weight:800}
+.md-del{width:100%;border:0;background:#FBEAE5;color:var(--accent);border-radius:16px;padding:13px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+</style>
+<div class="nh">
+  <button class="nh-back" type="button" onclick="goBack('nutrition')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
+  <div class="nh-title">Historique</div>
+  <div id="nuthistList"></div>
+</div>
+</section>
+
+<section class="view" id="v-mealdetail">
+<div class="md">
+  <button class="nh-back" type="button" onclick="goBack('nuthistory')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
+  <div class="md-hd">
+    <div class="md-name" id="mdName">—</div>
+    <div class="md-date" id="mdDate">—</div>
+    <div class="md-kc"><span id="mdKcal">0</span><small>kcal</small></div>
+  </div>
+  <div class="md-tabs"><button class="md-tab on" id="mdTabM" type="button" onclick="mealTab('macros')">Macros</button><button class="md-tab" id="mdTabN" type="button" onclick="mealTab('micro')">Micronutriments</button></div>
+  <div id="mdBody"></div>
 </div>
 </section>
 
@@ -4357,7 +4424,7 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,nuthistory:renderNutHistory,mealdetail:renderMealDetail}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -5131,15 +5198,53 @@ function renderNutrition(){var k=tk(),tt=nutTotals(k),g=getNutGoals();
  host.innerHTML=meals.map(function(m,i){
   var th=m.photo?' style="background-image:url('+m.photo+')"':'';
   var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
-  return '<div class="nutx-meal"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
+  return '<div class="nutx-meal" style="cursor:pointer" onclick="openMealDetail(tk(),'+i+')"><span class="nutx-mthumb"'+th+'>'+ic+'</span>'
    +'<span class="nutx-mmid"><span class="nutx-mn">'+esc(m.name)+(m.ai?' <i class="ti ti-sparkles nutx-aiic" aria-hidden="true"></i>':'')+'</span>'
    +'<span class="nutx-mt">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span>'
    +'<span class="nutx-mk">'+(m.kcal||0)+'<small>kcal</small></span>'
-   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="delMeal('+i+')">✕</button></div>';
+   +'<button class="nutx-mx" type="button" aria-label="Supprimer" onclick="event.stopPropagation();delMeal('+i+')">✕</button></div>';
  }).join('');
 }
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
+/* ---------- Nutrition : historique multi-jours + détail repas ---------- */
+function macroDonut(prot,carb,fat){
+ var p=(prot||0)*4,c=(carb||0)*4,f=(fat||0)*9,tot=p+c+f||1,R=52,C=2*Math.PI*R,off=0;
+ var segs=[[p,'#45C486'],[c,'#F4B63F'],[f,'#FF715B']];
+ var s='<svg viewBox="0 0 140 140" style="width:100%;height:100%;transform:rotate(-90deg)"><circle cx="70" cy="70" r="52" fill="none" stroke="#EFEAE2" stroke-width="15"/>';
+ segs.forEach(function(g){var len=g[0]/tot*C;s+='<circle cx="70" cy="70" r="52" fill="none" stroke="'+g[1]+'" stroke-width="15" stroke-dasharray="'+len.toFixed(1)+' '+(C-len).toFixed(1)+'" stroke-dashoffset="'+(-off).toFixed(1)+'"/>';off+=len;});
+ return s+'</svg>';
+}
+function nutDayLabel(k){var today=tk();if(k===today)return 'Aujourd\'hui';if(k===tk(-1))return 'Hier';var p=k.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);var l=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});return l.charAt(0).toUpperCase()+l.slice(1);}
+function nutHistoryDays(){var out=[];for(var i=0;i<60;i++){var k=tk(-i),m=mealsOf(k);if(m.length)out.push({k:k,label:nutDayLabel(k),meals:m});}return out;}
+function openNutHistory(){go('nuthistory');}
+function renderNutHistory(){var days=nutHistoryDays(),host=document.getElementById('nuthistList');if(!host)return;
+ if(!days.length){host.innerHTML='<div class="nutx-empty"><i class="ti ti-history"></i><div>Aucun repas enregistré.<br>Scanne ton premier plat 📸</div></div>';return}
+ host.innerHTML=days.map(function(D){var tot=nutTotals(D.k);
+  return '<div class="nh-day"><span>'+D.label+'</span><span class="nh-dk">'+fmtN(tot.kcal)+' kcal</span></div>'+
+   D.meals.map(function(m,i){var th=m.photo?' style="background-image:url('+m.photo+')"':'';var ic=m.photo?'':'<i class="ti ti-tools-kitchen-2"></i>';
+    return '<button class="nh-row" type="button" onclick="openMealDetail(\''+D.k+'\','+i+')"><span class="nutx-mthumb"'+th+'>'+ic+'</span><span class="nh-mid"><span class="nh-n">'+esc(m.name)+'</span><span class="nh-t">'+(m.prot||0)+'g P · '+(m.carb||0)+'g G · '+(m.fat||0)+'g L</span></span><span class="nh-k">'+(m.kcal||0)+'<small>kcal</small></span><i class="ti ti-chevron-right nh-c"></i></button>';
+   }).join('');
+ }).join('');
+}
+var _mealTab='macros';
+function openMealDetail(k,i){window._mealCtx={k:k,i:+i};_mealTab='macros';go('mealdetail');}
+function mealTab(t){_mealTab=t;renderMealDetail();}
+function renderMealDetail(){var ctx=window._mealCtx;if(!ctx)return;var m=(mealsOf(ctx.k)||[])[ctx.i];if(!m){goBack('nuthistory');return}
+ set('mdName',esc(m.name));set('mdDate',nutDayLabel(ctx.k));set('mdKcal',fmtN(m.kcal||0));
+ var ta=document.getElementById('mdTabM'),tb=document.getElementById('mdTabN');if(ta)ta.className='md-tab'+(_mealTab==='macros'?' on':'');if(tb)tb.className='md-tab'+(_mealTab==='micro'?' on':'');
+ var body=document.getElementById('mdBody');if(!body)return;
+ if(_mealTab==='micro'){body.innerHTML='<div class="nutx-empty"><i class="ti ti-flask"></i><div>Micronutriments bientôt disponibles.</div></div>';return}
+ var p=m.prot||0,c=m.carb||0,f=m.fat||0,pk=p*4,ck=c*4,fk=f*9,tk2=pk+ck+fk||1;
+ var pct=function(x){return Math.round(x/tk2*100)};
+ function bar(lbl,val,col,p100){return '<div class="md-mrow"><div class="md-mh"><span class="md-dot" style="background:'+col+'"></span><span class="md-ml">'+lbl+'</span><span class="md-mv">'+val+' g</span></div><div class="md-mbar"><i style="width:'+Math.min(100,p100)+'%;background:'+col+'"></i></div></div>';}
+ body.innerHTML='<div class="md-donutwrap"><div class="md-donut">'+macroDonut(p,c,f)+'<div class="md-dctr"><b>'+fmtN(m.kcal||0)+'</b><span>kcal</span></div></div>'+
+  '<div class="md-leg"><div><span class="md-dot" style="background:#45C486"></span>Protéines<b>'+pct(pk)+'%</b></div><div><span class="md-dot" style="background:#F4B63F"></span>Glucides<b>'+pct(ck)+'%</b></div><div><span class="md-dot" style="background:#FF715B"></span>Lipides<b>'+pct(fk)+'%</b></div></div></div>'+
+  '<div class="md-bars">'+bar('Protéines',p,'#45C486',p/150*100)+bar('Glucides',c,'#F4B63F',c/300*100)+bar('Lipides',f,'#FF715B',f/80*100)+'</div>'+
+  '<div class="md-list"><div class="md-li"><span>Calories</span><b>'+fmtN(m.kcal||0)+' kcal</b></div><div class="md-li"><span>Protéines</span><b>'+p+' g</b></div><div class="md-li"><span>Glucides</span><b>'+c+' g</b></div><div class="md-li"><span>Lipides</span><b>'+f+' g</b></div></div>'+
+  '<button class="md-del" type="button" onclick="mealDetailDelete()"><i class="ti ti-trash"></i> Supprimer ce repas</button>';
+}
+function mealDetailDelete(){var ctx=window._mealCtx;if(!ctx)return;var a=mealsOf(ctx.k);a.splice(ctx.i,1);DB.set('meals_'+ctx.k,a);if(typeof haptic==='function')haptic();toast('Repas supprimé');goBack('nuthistory');}
 /* ============ BALANCE ÉNERGÉTIQUE (conso photo IA ↔ dépense bracelet) ============ */
 var _balDay=0,_balPhoto=null;
 /* >>> POINT DE BRANCHEMENT IA VISION <<<
@@ -6610,7 +6715,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v315';
+const APP_VERSION='flint-v316';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
