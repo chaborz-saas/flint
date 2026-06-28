@@ -2897,9 +2897,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bsh-save{flex:1;border:0;background:var(--accent);border-radius:999px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
 </style>
 <div class="nut2">
-  <button class="nut2-hero" type="button" onclick="balPhotoStart()" aria-label="Scanner mon repas"></button>
+  <button class="nut2-hero" type="button" onclick="nutCamera()" aria-label="Scanner mon repas"></button>
   <div class="nut2-acts">
-    <button class="nut2-act" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i><span>Scanner</span></button>
+    <button class="nut2-act" type="button" onclick="nutCamera()"><i class="ti ti-camera"></i><span>Scanner</span></button>
     <button class="nut2-act" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
     <button class="nut2-act" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
     <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Décrire</span></button>
@@ -5517,11 +5517,12 @@ function renderBalance(){
 }
 function balPhotoStart(){var f=document.getElementById('balFile');if(f){f.value='';f.click()}}
 function _downscaleImg(dataUrl,maxw,cb){var img=new Image();img.onload=function(){var s=Math.min(1,maxw/img.width),w=Math.round(img.width*s),h=Math.round(img.height*s);var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);try{cb(c.toDataURL('image/jpeg',0.7))}catch(e){cb(null)}};img.onerror=function(){cb(null)};img.src=dataUrl}
-function balPhotoPick(input){var file=input.files&&input.files[0];if(!file)return;haptic();
+function balPhotoPick(input){var file=input.files&&input.files[0];if(file)processMealPhoto(file);}
+window.processMealPhoto=function(file){if(!file)return;if(typeof haptic==='function')haptic();
  var reader=new FileReader();
  reader.onload=function(e){_downscaleImg(e.target.result,200,function(thumb){
   _balPhoto=thumb;
-  var img=document.getElementById('balShImg');if(thumb){img.style.backgroundImage='url('+thumb+')';img.innerHTML=''}else{img.style.backgroundImage='';img.innerHTML='<i class="ti ti-photo"></i>'}
+  var img=document.getElementById('balShImg');if(img){if(thumb){img.style.backgroundImage='url('+thumb+')';img.innerHTML=''}else{img.style.backgroundImage='';img.innerHTML='<i class="ti ti-photo"></i>'}}
   document.getElementById('balShForm').style.display='none';
   document.getElementById('balShH').textContent='Analyse de ton repas…';
   document.getElementById('balShSub').innerHTML='<span class="bal-spin"></span>L\'IA estime les calories';
@@ -5529,8 +5530,10 @@ function balPhotoPick(input){var file=input.files&&input.files[0];if(!file)retur
   analyzeMealPhoto(file).then(function(r){
    document.getElementById('balShH').textContent='Repas identifié';
    document.getElementById('balShSub').innerHTML='<span class="bal-aibadge"><i class="ti ti-sparkles"></i>IA · estimé</span>Vérifie et ajuste si besoin';
-   document.getElementById('balFName').value=r.name;document.getElementById('balFKcal').value=r.kcal;document.getElementById('balFProt').value=r.prot;document.getElementById('balFCarb').value=r.carb;document.getElementById('balFFat').value=r.fat;
-   document.getElementById('balShForm').style.display='';haptic();
+   var gg=function(id){return document.getElementById(id)};
+   gg('balFName').value=r.name;gg('balFKcal').value=r.kcal;gg('balFProt').value=r.prot;gg('balFCarb').value=r.carb;gg('balFFat').value=r.fat;
+   window._flintScanItems=[{name:r.name,kcal:r.kcal,prot:r.prot,carb:r.carb,fat:r.fat,grams:100}];
+   gg('balShForm').style.display='';if(window.syncUI)window.syncUI();if(typeof haptic==='function')haptic();
   });
  })};
  reader.readAsDataURL(file);
@@ -6715,7 +6718,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v317';
+const APP_VERSION='flint-v318';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6851,6 +6854,20 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
 .flx-scan-x,.flx-scan-man{background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:0;color:#fff;border-radius:22px;padding:9px 13px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .flx-scan-x{width:40px;height:40px;justify-content:center;border-radius:50%;padding:0;font-size:19px}
 .flx-scan-hint{position:absolute;bottom:calc(44px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+.flx-cam{position:fixed;inset:0;z-index:300;background:#000;overflow:hidden}
+.flx-cam video{width:100%;height:100%;object-fit:cover}
+.flx-cam-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;aspect-ratio:1;max-height:62%;border-radius:28px;box-shadow:0 0 0 9999px rgba(0,0,0,.28);pointer-events:none}
+.flx-cam-frame::before,.flx-cam-frame::after,.flx-cam-frame>i{content:'';position:absolute;width:34px;height:34px;border:3px solid #fff;border-radius:10px}
+.flx-cam-frame::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.flx-cam-frame::after{top:-2px;right:-2px;border-left:0;border-bottom:0}
+.flx-cam-c3{position:absolute;bottom:-2px;left:-2px;width:34px;height:34px;border:3px solid #fff;border-radius:10px;border-right:0;border-top:0}
+.flx-cam-c4{position:absolute;bottom:-2px;right:-2px;width:34px;height:34px;border:3px solid #fff;border-radius:10px;border-left:0;border-top:0}
+.flx-cam-top{position:absolute;top:calc(14px + env(safe-area-inset-top));left:0;right:0;display:flex;justify-content:space-between;padding:0 18px}
+.flx-cam-bot{position:absolute;bottom:calc(34px + env(safe-area-inset-bottom));left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.flx-cam-btn{width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font-size:21px;display:grid;place-items:center;cursor:pointer}
+.flx-cam-btn:active{transform:scale(.9)}
+.flx-cam-shutter{width:74px;height:74px;border-radius:50%;background:#fff;border:5px solid var(--accent);cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .12s ease}
+.flx-cam-shutter:active{transform:scale(.92)}
 </style>
 <script>
 (function(){
@@ -6912,6 +6929,32 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
    catch(e){var h2=g('flxBarHint');if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »';}
   });
  }
+ function openCamera(){
+  if(g('flxCam'))return;
+  var ov=document.createElement('div');ov.id='flxCam';ov.className='flx-cam';
+  ov.innerHTML='<video id="flxCamVid" playsinline muted autoplay></video><div class="flx-cam-frame"><span class="flx-cam-c3"></span><span class="flx-cam-c4"></span></div><div class="flx-cam-top"><button class="flx-cam-btn" id="flxCamX" aria-label="Fermer"><i class="ti ti-x"></i></button><button class="flx-cam-btn" id="flxCamFlash" aria-label="Flash"><i class="ti ti-bolt"></i></button></div><div class="flx-cam-bot"><button class="flx-cam-btn" id="flxCamGal" aria-label="Galerie"><i class="ti ti-photo"></i></button><button class="flx-cam-shutter" id="flxCamShot" aria-label="Prendre la photo"></button><button class="flx-cam-btn" id="flxCamHelp" aria-label="Aide"><i class="ti ti-help"></i></button></div>';
+  document.body.appendChild(ov);
+  var vid=g('flxCamVid'),stream=null;
+  function close(){try{if(stream)stream.getTracks().forEach(function(t){t.stop()})}catch(e){}ov.remove();}
+  g('flxCamX').onclick=close;
+  g('flxCamGal').onclick=function(){close();if(window.nutGallery)nutGallery();};
+  g('flxCamHelp').onclick=function(){if(window.toast)toast('Cadre ton plat dans le carré puis appuie sur le bouton');};
+  g('flxCamShot').onclick=function(){
+   var w=vid.videoWidth,h=vid.videoHeight;if(!w){if(window.toast)toast('Caméra pas prête…');return;}
+   var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(vid,0,0,w,h);
+   if(window.haptic)haptic(12);
+   c.toBlob(function(blob){close();if(blob&&window.processMealPhoto)processMealPhoto(new File([blob],'repas.jpg',{type:'image/jpeg'}));},'image/jpeg',0.85);
+  };
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){close();if(window.balPhotoStart)balPhotoStart();return;}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false}).then(function(s){
+   stream=s;vid.srcObject=s;var pr=vid.play&&vid.play();if(pr&&pr.catch)pr.catch(function(){});
+   try{var track=s.getVideoTracks()[0],caps=track.getCapabilities?track.getCapabilities():{};
+    if(!caps||!caps.torch){var fb=g('flxCamFlash');if(fb)fb.style.display='none';}
+    else{var on=false;g('flxCamFlash').onclick=function(){on=!on;track.applyConstraints({advanced:[{torch:on}]}).catch(function(){});this.style.background=on?'rgba(255,200,40,.85)':'rgba(255,255,255,.18)';};}
+   }catch(e){}
+  }).catch(function(){close();if(window.toast)toast('Accès caméra refusé');if(window.balPhotoStart)balPhotoStart();});
+ }
+ window.nutCamera=function(){openCamera();};
  window.nutBarcode=function(code){if(code&&typeof code==='string'){barcodeLookup(code);return;}openScanner();};
  window.nutDescribe=function(){var q=window.prompt('Décris ton plat / l\'aliment (ex : « yaourt grec », « pâtes bolognaise ») :');if(q)searchFood(q);};
 })();
