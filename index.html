@@ -81,6 +81,7 @@
   .wrap{max-width:560px;margin:0 auto;padding:2px 17px 0}
   .view{display:none}.view.on{display:block;animation:vin .26s cubic-bezier(.22,.61,.36,1)}
   @keyframes vin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes flCardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   /* ===== UX : feedback clic + transitions (n'altère pas le design) ===== */
   a,button,[onclick],[role="button"],.card,.gcard,.tlrow,.stgcard,.rtr,.slp-mc,.fhd-fc,.fhd-steps{cursor:pointer}
   .card,.gcard,.tlrow,.stgcard,.rtr,.hero2,.banner,.fhd-fc,.fhd-steps{transition:transform .14s cubic-bezier(.2,.7,.3,1),box-shadow .18s ease}
@@ -4904,6 +4905,7 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
  flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,nuthistory:renderNutHistory,mealdetail:renderMealDetail,nutbilan:renderNutBilan,nutgraph:renderNutGraph}[v]||(()=>{}))();
+ if(!matchMedia('(prefers-reduced-motion:reduce)').matches){var _cs=_el.querySelectorAll('.h2block,.h2list,.mjwrap,.bal4-goal,.bal4-solde,.bal4-chart,.bal4-foot,.elx-hero,.elx-card,.elx-tgt,.fc2 .card,.nut2-card,.nut2-scan,.nut2-acts,.rec2 .card');for(var _i=0;_i<_cs.length&&_i<10;_i++){var _c=_cs[_i];_c.style.animation='none';void _c.offsetWidth;_c.style.animation='flCardIn .5s cubic-bezier(.2,.8,.2,1) both';_c.style.animationDelay=(_i*0.05).toFixed(2)+'s';}}
  var _fab=document.getElementById('flintScanFab');if(_fab)_fab.style.display=(v==='coach'||v==='nutrition')?'none':'flex';
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
@@ -6185,7 +6187,7 @@ function renderBalance(){
  set('bal4GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  set('bal4In',fmtN(b.in));set('bal4Out',fmtN(b.out));
  var sign=b.net<0?'-':(b.net>0?'+':'');
- var bn=document.getElementById('bal4Net');if(bn)bn.innerHTML='<span class="bal4-nin">'+(sign?'<span class="bal4-sgn">'+sign+'</span>':'')+fmtN(Math.abs(b.net))+'</span>';
+ var bn=document.getElementById('bal4Net');if(bn){bn.innerHTML='<span class="bal4-nin">'+(sign?'<span class="bal4-sgn">'+sign+'</span>':'')+'<span id="bal4NetN"></span></span>';countUpEl(document.getElementById('bal4NetN'),Math.abs(b.net),'',true);}
  var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal4InBar'),ob=document.getElementById('bal4OutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
  window._bcK=k;var host=document.getElementById('bal3Chart');host.innerHTML=balCurveNative(k,null);
@@ -7475,7 +7477,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v370';
+const APP_VERSION='flint-v371';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
