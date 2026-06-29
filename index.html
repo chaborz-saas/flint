@@ -2849,23 +2849,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2-act{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:20px;padding:14px 4px;box-shadow:0 4px 16px rgba(20,18,12,.05);font-family:inherit;font-size:11px;font-weight:700;color:#56514B;cursor:pointer;transition:transform .12s ease}
 .nut2-act:active{transform:scale(.95)}
 .nut2-act i{font-size:23px;color:#F0653E}
-/* ===== Stage image-overlay : maquette en fond + incrustations (cqw) ===== */
-.nut2stage{position:relative;width:100%;aspect-ratio:941/1542;background:url('./nutri-shell.png?v=1') top center/100% 100% no-repeat;container-type:inline-size;margin:0 2px 2px}
-.nut2stage .nov{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;z-index:6;border-radius:6cqw;-webkit-tap-highlight-color:transparent}
-.nut2stage .nov:active{background:rgba(240,73,46,.07)}
-.nut2stage .nov-sub{position:absolute;left:8%;right:8%;top:11.2%;text-align:center;font-family:'Inter',sans-serif;font-size:3.7cqw;font-weight:500;color:#8A8580;line-height:1.32;z-index:4}
-.nut2stage .nov-kcal{position:absolute;left:5%;width:44.8%;top:66%;text-align:center;display:flex;align-items:baseline;justify-content:center;gap:1.2cqw;z-index:4}
-.nut2stage .nov-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:10.5cqw;line-height:1;color:#15140F}
+/* ===== Stage image-overlay : maquette vide en fond + valeurs/arcs incrustés (cqw) ===== */
+.nut2stage{position:relative;width:100%;aspect-ratio:982/1181;background:url('./nutri-shell.png?v=3') top center/100% 100% no-repeat;container-type:inline-size;margin:0 2px 2px}
+.nut2stage .nov{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;z-index:6;border-radius:5cqw;-webkit-tap-highlight-color:transparent}
+.nut2stage .nov:active{background:rgba(240,73,46,.06)}
+.nut2stage .nov-kcal{position:absolute;left:6%;width:44%;top:87.2%;transform:translateY(-50%);text-align:center;display:flex;align-items:baseline;justify-content:center;gap:1cqw;z-index:4}
+.nut2stage .nov-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:11cqw;line-height:1;color:#15140F}
 .nut2stage .nov-kcal span{font-family:'Inter',sans-serif;font-size:3.4cqw;font-weight:800;color:var(--accent)}
-.nut2stage .nov-macros{position:absolute;left:54%;width:40%;top:61.5%;display:flex;flex-direction:column;gap:5cqw;z-index:4}
-.nut2stage .nov-mrow{display:flex;align-items:center;gap:2.4cqw}
-.nut2stage .nov-ring{width:7cqw;height:7cqw;flex:none;transform:rotate(-90deg)}
-.nut2stage .nov-ring .nrt{fill:none;stroke:rgba(20,18,12,.10);stroke-width:4}
-.nut2stage .nov-ring .nra{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:0 94.2}
-.nut2stage .nov-mv{font-family:'Anton';font-style:oblique 6deg;font-size:5.6cqw;color:#15140F;line-height:1;white-space:nowrap}
-.nut2stage .nov-mv b{font-weight:400}
-.nut2stage .nov-mv i{font-family:'Inter',sans-serif;font-style:normal;font-size:.42em;font-weight:700;color:#9A948A;margin-left:.18em}
-.nut2stage .nov-ml{font-family:'Inter',sans-serif;font-size:3.6cqw;font-weight:500;color:#6E6A62;white-space:nowrap;margin-left:.6cqw}
+.nut2stage .nov-ring{position:absolute;width:6.6cqw;height:6.6cqw;transform:translate(-50%,-50%) rotate(-90deg);z-index:5}
+.nut2stage .nov-ring .nrt{fill:none;stroke:#E7E0D6;stroke-width:4.2}
+.nut2stage .nov-ring .nra{fill:none;stroke-width:4.2;stroke-linecap:round;stroke-dasharray:0 94.2}
+.nut2stage .nov-val{position:absolute;transform:translate(-50%,-50%);font-family:'Anton';font-style:oblique 6deg;font-size:5.2cqw;line-height:1;color:#15140F;white-space:nowrap;z-index:4}
+.nut2stage .nov-val i{font-family:'Inter',sans-serif;font-style:normal;font-size:.42em;font-weight:700;color:#9A948A;margin-left:.16em}
 .nut2-card{display:flex;align-items:stretch;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:22px 18px;min-height:162px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
 /* Modificateur coquille vide (non utilisé en version peuplée) : masque les valeurs.
    Ajouter .is-empty sur .nut2-card pour repasser en coquille. */
@@ -2943,30 +2938,20 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bsh-save{flex:1.45;border:0;background:var(--accent);border-radius:999px;padding:16px;font-family:var(--sans);font-size:16px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
 </style>
 <div class="nut2">
-  <div class="nut2-scan">
-    <div class="nut2-scan-t">Scanner un plat</div>
-    <div class="nut2-scan-s">Ton plat en photo — l'IA compte calories &amp; macros</div>
-    <button class="nut2-bigcam" type="button" onclick="nutCamera()" aria-label="Scanner mon repas"><i class="ti ti-camera"></i></button>
-    <div class="nut2-scan-hint">Appuyer pour scanner</div>
-  </div>
-  <div class="nut2-acts">
-    <button class="nut2-act" type="button" onclick="nutCamera()"><i class="ti ti-camera"></i><span>Scanner</span></button>
-    <button class="nut2-act" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
-    <button class="nut2-act" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
-    <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Écrire</span></button>
-  </div>
-  <div class="nut2-card">
-    <div class="nut2-left">
-      <div class="nut2-day">Aujourd'hui</div>
-      <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
-      <svg class="nut2-wave" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 17 C13 9 21 22 33 16 C45 10 53 21 65 15 C79 8 89 19 103 14 C112 11 117 13 119 13" fill="none" stroke="#F0492E" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="nut2-sep"></div>
-    <div class="nut2-right">
-      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingP" cx="18" cy="18" r="15" stroke="#5A8DEE"/></svg><div class="nut2-mv"><b id="nut2Prot">0</b><i>g</i></div><span class="nut2-ml">Protéines</span></div>
-      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingC" cx="18" cy="18" r="15" stroke="#E0922A"/></svg><div class="nut2-mv"><b id="nut2Carb">0</b><i>g</i></div><span class="nut2-ml">Glucides</span></div>
-      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
-    </div>
+  <!-- Image-overlay : maquette vide (nutri-shell.png) en fond + valeurs/arcs incrustés -->
+  <div class="nut2stage">
+    <button class="nov" type="button" style="left:28%;top:23%;width:44%;height:37%" onclick="nutCamera()" aria-label="Scanner mon repas"></button>
+    <button class="nov" type="button" style="left:5%;top:60%;width:21%;height:13%" onclick="nutCamera()" aria-label="Scanner"></button>
+    <button class="nov" type="button" style="left:27.5%;top:60%;width:21%;height:13%" onclick="nutGallery()" aria-label="Galerie"></button>
+    <button class="nov" type="button" style="left:50%;top:60%;width:21%;height:13%" onclick="nutBarcode()" aria-label="Code-barres"></button>
+    <button class="nov" type="button" style="left:72.5%;top:60%;width:21%;height:13%" onclick="nutDescribe()" aria-label="Écrire"></button>
+    <div class="nov-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
+    <svg class="nov-ring" style="left:58.8%;top:82.4%" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingP" cx="18" cy="18" r="15" stroke="#5A8DEE"/></svg>
+    <svg class="nov-ring" style="left:58.8%;top:88.5%" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingC" cx="18" cy="18" r="15" stroke="#E0922A"/></svg>
+    <svg class="nov-ring" style="left:58.8%;top:94.6%" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg>
+    <div class="nov-val" style="left:68%;top:82.4%"><b id="nut2Prot">0</b><i>g</i></div>
+    <div class="nov-val" style="left:68%;top:88.5%"><b id="nut2Carb">0</b><i>g</i></div>
+    <div class="nov-val" style="left:68%;top:94.6%"><b id="nut2Fat">0</b><i>g</i></div>
   </div>
   <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><button type="button" onclick="openNutHistory()" style="border:0;background:none;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:2px;cursor:pointer;text-transform:none;letter-spacing:0">Tout voir <i class="ti ti-chevron-right"></i></button></div>
   <div id="nutRecent" style="padding:0 8px"></div>
@@ -6780,7 +6765,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v332';
+const APP_VERSION='flint-v333';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
