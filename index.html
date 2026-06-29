@@ -3555,6 +3555,25 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal4-leg .d.in{background:#3E63E0}.bal4-leg .d.out{background:var(--accent)}
 .bal4-foot{text-align:center;font-size:14px;color:#9A948A;margin:20px 0 4px}
 .bal4-foot b{color:var(--accent);font-weight:800}
+/* mini-semaine */
+.bal4-week{display:flex;justify-content:space-between;gap:4px;background:#FCFAF6;border:1px solid #F1EBE3;border-radius:22px;padding:13px 10px;box-shadow:var(--sh-card);margin-bottom:16px}
+.bal4-wk{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;cursor:pointer;font-family:inherit;padding:2px 0;transition:transform .12s ease}
+.bal4-wk:active{transform:scale(.88)}
+.bal4-wk .d{font-size:10px;font-weight:800;letter-spacing:.3px;color:#9A948A;text-transform:uppercase}
+.bal4-wk .dot{width:14px;height:14px;border-radius:50%;box-shadow:0 1px 3px rgba(20,18,12,.14)}
+.bal4-wk .num{font-size:11px;font-weight:700;color:#56514B}
+.bal4-wk.sel .d{color:#15140F}
+.bal4-wk.sel .num{color:#15140F;font-weight:800}
+.bal4-wk.sel .dot{outline:2px solid #15140F;outline-offset:2px}
+/* lien Balance ↔ Récup */
+.bal4-link{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:#FCFAF6;border:1px solid #F1EBE3;border-radius:22px;padding:15px 16px;box-shadow:var(--sh-card);cursor:pointer;font-family:inherit;margin-bottom:14px;transition:transform .12s ease}
+.bal4-link:active{transform:scale(.99)}
+.bal4-link .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;flex:none;background:#EAF6EF;color:#2FA86A}
+.bal4-link .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.bal4-link .eyb{font-size:11px;font-weight:800;letter-spacing:.8px;color:#9A948A}
+.bal4-link .p{font-size:13.5px;font-weight:600;color:#37372F;line-height:1.4;margin-top:4px}
+.bal4-link .p b{font-weight:800;color:#15140F}
+.bal4-link .chev{color:#C8C2B8;font-size:20px;flex:none}
 </style>
 <div class="bal4">
   <div class="bal4-dn">
@@ -3600,10 +3619,18 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     </div>
   </div>
 
+  <div class="bal4-week" id="bal4Week"></div>
+
   <div class="bal4-chart">
     <div class="bal4-ch"><span class="bal4-ctt">Aujourd'hui</span><div class="bal4-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
     <div id="bal3Chart"></div>
   </div>
+
+  <button class="bal4-link" type="button" onclick="go('recovery')" id="bal4Link">
+    <span class="ic" id="bal4LinkIc"><i class="ti ti-battery-charging"></i></span>
+    <span class="tx"><span class="eyb">ALIMENTATION & RÉCUP</span><span class="p" id="bal4LinkTxt">—</span></span>
+    <i class="ti ti-chevron-right chev"></i>
+  </button>
   <div class="bal4-foot">Chaque choix compte. <b>Reste aligné.</b></div>
   <input type="file" id="balFile" accept="image/*" capture="environment" style="display:none" onchange="balPhotoPick(this)">
 </div>
@@ -6225,6 +6252,25 @@ function renderBalance(){
      'Au-dessus de l\'équilibre — retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b> pour rester stable.';
  }
  var bt=document.getElementById('bal4Txt');if(bt)bt.innerHTML=ct;
+ var ww=document.getElementById('bal4Week');if(ww)ww.innerHTML=bal4WeekHTML();
+ (function(){var lk=balRecupLink();var lc=document.getElementById('bal4Link');if(!lc)return;if(!lk.show){lc.style.display='none';return;}lc.style.display='';var ic=document.getElementById('bal4LinkIc');if(ic){ic.innerHTML='<i class="ti '+lk.ic+'"></i>';ic.style.color=lk.col;ic.style.background=lk.tint}var lt=document.getElementById('bal4LinkTxt');if(lt)lt.innerHTML=lk.txt;})();
+}
+function bal4WeekHTML(){
+ var DI=['D','L','M','M','J','V','S'],h='';
+ for(var i=6;i>=0;i--){var off=-i,kk=tk(off),has=mealsOf(kk).length>0,d=new Date();d.setDate(d.getDate()+off);
+  var col=has?balStatus(balanceOf(kk).net,true)[1]:'#E2DCD2';
+  h+='<button class="bal4-wk'+(off===_balDay?' sel':'')+'" type="button" onclick="balGoto('+off+')"><span class="d">'+DI[d.getDay()]+'</span><span class="dot" style="background:'+col+'"></span><span class="num">'+d.getDate()+'</span></button>';
+ }
+ return h;
+}
+function balRecupLink(){
+ var rv=(typeof recovery==='function')?recovery():null,rs=rv?rv.s:null;
+ var under=0,surplusHi=0,logged=0;
+ for(var i=0;i<3;i++){var kk=tk(-i);if(mealsOf(kk).length){logged++;var n=balanceOf(kk).net;if(n<-450)under++;if(n>700)surplusHi++;}}
+ if(!logged)return {show:false};
+ if(under>=2)return {show:true,col:'var(--accent)',tint:'#FBE9E4',ic:'ti-battery-1',txt:'<b>'+under+' jours de gros déficit</b> d\'affilée — sous-manger entame ta récup'+(rs!=null?' (déjà à '+rs+'%)':'')+'. Remonte un peu tes apports.'};
+ if(surplusHi>=2)return {show:true,col:'#E0922A',tint:'#FBF1DD',ic:'ti-flame',txt:'<b>Surplus répété</b> — bon pour construire, mais surveille sommeil et digestion pour ne pas plomber ta récup.'};
+ return {show:true,col:'#2FA86A',tint:'#EAF6EF',ic:'ti-battery-charging',txt:'Tes apports <b>soutiennent bien ta récup</b>'+(rs!=null?' (récup '+rs+'%)':'')+' ces derniers jours. Continue comme ça.'};
 }
 function balPhotoStart(){var f=document.getElementById('balFile');if(f){f.value='';f.click()}}
 function _downscaleImg(dataUrl,maxw,cb){var img=new Image();img.onload=function(){var s=Math.min(1,maxw/img.width),w=Math.round(img.width*s),h=Math.round(img.height*s);var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);try{cb(c.toDataURL('image/jpeg',0.7))}catch(e){cb(null)}};img.onerror=function(){cb(null)};img.src=dataUrl}
@@ -7491,7 +7537,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v374';
+const APP_VERSION='flint-v375';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
