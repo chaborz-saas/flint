@@ -2834,7 +2834,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2{padding:0 4px 96px;font-family:'Inter',sans-serif}
 .nut2-hero{display:block;width:100%;aspect-ratio:941/852;background:url('./nutri-hero.png?v=2') top center/100% 100% no-repeat;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .nut2-scan{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 16px 20px;margin:6px 8px 0}
-.nut2-scan-t{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#151515;line-height:1.02}
+.nut2-scan-t{font-family:'Anton';font-style:oblique 8deg;font-size:30px;color:#151515;line-height:1.02;margin-bottom:30px}
 .nut2-scan-s{font-size:13.5px;color:#8A8580;margin:7px 0 22px;max-width:240px}
 .nut2-bigcam{position:relative;width:128px;height:128px;border-radius:50%;border:6px solid #fff;background:var(--accent);color:#fff;font-size:48px;display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 34px rgba(240,73,46,.42),0 0 0 1px rgba(240,73,46,.12);transition:transform .14s ease;-webkit-tap-highlight-color:transparent}
 .nut2-bigcam>i{position:relative;z-index:2}
@@ -2849,8 +2849,13 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2-act{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:20px;padding:14px 4px;box-shadow:0 4px 16px rgba(20,18,12,.05);font-family:inherit;font-size:11px;font-weight:700;color:#56514B;cursor:pointer;transition:transform .12s ease}
 .nut2-act:active{transform:scale(.95)}
 .nut2-act i{font-size:23px;color:#F0653E}
-.nut2-card{display:flex;align-items:center;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:20px 16px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
-.nut2-left{flex:1;text-align:center;min-width:0;position:relative;padding-bottom:6px}
+.nut2-card{display:flex;align-items:center;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:20px 18px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
+/* Coquille vide : carte rectangulaire propre, label + vague + séparateur seulement.
+   Les valeurs restent dans le DOM mais masquées — retirer .is-empty pour les réafficher. */
+.nut2-card.is-empty{align-items:stretch;min-height:168px}
+.nut2-card.is-empty .nut2-kcal{display:none}
+.nut2-card.is-empty .nut2-right>*{display:none}
+.nut2-left{flex:1;text-align:left;min-width:0;position:relative;padding-bottom:6px}
 .nut2-wave{position:absolute;left:0;right:0;bottom:-6px;height:26px;width:100%;opacity:.9}
 .nut2-day{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .nut2-kcal{margin-top:6px;display:flex;align-items:baseline;justify-content:center;gap:5px}
@@ -2923,7 +2928,6 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="nut2">
   <div class="nut2-scan">
     <div class="nut2-scan-t">Scanner un plat</div>
-    <div class="nut2-scan-s">Ton plat en photo — l'IA compte calories &amp; macros</div>
     <button class="nut2-bigcam" type="button" onclick="nutCamera()" aria-label="Scanner mon repas"><i class="ti ti-camera"></i></button>
     <div class="nut2-scan-hint">Appuyer pour scanner</div>
   </div>
@@ -2933,7 +2937,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="nut2-act" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
     <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Écrire</span></button>
   </div>
-  <div class="nut2-card">
+  <div class="nut2-card is-empty">
     <div class="nut2-left">
       <div class="nut2-day">Aujourd'hui</div>
       <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
@@ -2946,8 +2950,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
     </div>
   </div>
-  <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><button type="button" onclick="openNutHistory()" style="border:0;background:none;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:2px;cursor:pointer;text-transform:none;letter-spacing:0">Tout voir <i class="ti ti-chevron-right"></i></button></div>
-  <div id="nutRecent" style="padding:0 8px"></div>
+  <!-- REPAS DU JOUR : masqué dans la coquille vide. Réactivable en retirant display:none (et le is-empty sur .nut2-card) -->
+  <div class="nutx-rh" style="margin:22px 10px 10px;display:none"><span><i class="ti ti-history"></i> Repas du jour</span><button type="button" onclick="openNutHistory()" style="border:0;background:none;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:2px;cursor:pointer;text-transform:none;letter-spacing:0">Tout voir <i class="ti ti-chevron-right"></i></button></div>
+  <div id="nutRecent" style="padding:0 8px;display:none"></div>
   <input type="file" id="nutGalleryFile" accept="image/*" style="display:none" onchange="balPhotoPick(this)">
 </div>
 </section>
@@ -6758,7 +6763,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v325';
+const APP_VERSION='flint-v326';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
