@@ -23,10 +23,21 @@
     --peach:#FCE7DF; --track:#ECE7DD; --line:rgba(20,18,12,.08);
     --green:#3FB57A; --amber:#F2A93B; --indigo:#6C7BD6; --exp:#F0492E; --cons:#6C7BD6;
     --shadow:0 10px 34px rgba(20,18,12,.05),0 2px 6px rgba(20,18,12,.03); --shadowL:0 14px 34px rgba(240,73,46,.22);
-    --r:26px;
+    --sh-card:0 10px 30px rgba(20,18,12,.05),0 1px 3px rgba(20,18,12,.03);
+    --r:26px; --r-md:18px; --r-lg:24px; --r-xl:28px;
+    /* couleurs par métrique (design system) */
+    --m-sleep:#6C7BD6; --m-sleepL:#ECEAFB; --m-charge:#E0922A; --m-chargeL:#FCEFD8;
+    --m-cal:#F0653E; --m-calL:#FCE7E0; --m-fc:#2FA86A; --m-fcL:#E4F5E9; --m-steps:#13AEAA; --m-stepsL:#DCF3F2;
     --disp:'Anton',-apple-system,'Arial Narrow',sans-serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
+  /* === Design system : back-button unifié (visuel only, garde le positionnement de chaque écran) === */
+  .bk,.abk,.fcbk,.calbk,.slbk,.effbk,.tbk,.elx-bk,.nbil-back,.nh-back,.act2-back{
+    width:42px!important;height:42px!important;border-radius:50%!important;border:1px solid var(--line)!important;
+    background:#fff!important;color:var(--ink)!important;box-shadow:0 5px 14px rgba(20,18,12,.06)!important;
+    font-size:21px!important;line-height:1!important;display:grid!important;place-items:center!important;padding:0!important;
+    cursor:pointer;font-family:inherit}
+  .bk:active,.abk:active,.fcbk:active,.calbk:active,.slbk:active,.effbk:active,.tbk:active,.elx-bk:active,.nbil-back:active,.nh-back:active{transform:scale(.88)}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   img{-webkit-touch-callout:none;-webkit-user-drag:none;user-drag:none;pointer-events:none}
   input,textarea{user-select:auto}
@@ -3045,7 +3056,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nbil-tip .tx span{font-size:13px;font-weight:500;color:#6E6A62;line-height:1.4}
 </style>
 <div class="nbil">
-  <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutrition',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button><div class="nbil-h1">Mon bilan</div></div>
+  <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutrition',true)" aria-label="Retour"><i class="ti ti-chevron-left"></i></button><div class="nbil-h1">Mon bilan</div></div>
   <div class="nbil-seg">
     <span class="nbil-seg-pill" id="nbPill"></span>
     <button class="nbil-seg-b on" id="nb_semaine" type="button" onclick="nutBilanSet('semaine')">Semaine</button>
@@ -3105,7 +3116,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .ng-reg .d{width:8px;height:8px;border-radius:50%;flex:none}
 </style>
 <div class="nbil">
-  <div class="ng-top"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button></div>
+  <div class="ng-top"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-chevron-left"></i></button></div>
   <div class="nbil-seg">
     <span class="nbil-seg-pill" id="ngPill"></span>
     <button class="nbil-seg-b on" id="ng_semaine" type="button" onclick="ngSet('semaine')">Semaine</button>
@@ -7166,7 +7177,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v352';
+const APP_VERSION='flint-v353';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
