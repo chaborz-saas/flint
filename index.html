@@ -4103,7 +4103,6 @@ body.stepsview header{display:none}
 
   <div class="efftitle">Activités du jour</div>
   <div id="effActs"></div>
-  <button class="effadd" type="button" onclick="openActSheet&&openActSheet()">＋ Ajouter une séance</button>
 
   <div class="efftitle">Tes 7 derniers jours</div>
   <p class="elx-sub">Chaque indicateur est expliqué sous son graphe. Touche-le pour le détail jour par jour.</p>
@@ -4407,6 +4406,13 @@ body.stepsview header{display:none}
 
 <!-- ===================== EFFORT · TENDANCES (générique) ===================== -->
 <section class="view" id="v-efftrend">
+<style>
+#efftrendRoot .trkpi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:2px 0 18px}
+#efftrendRoot .trkc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 12px;box-shadow:var(--shadow)}
+#efftrendRoot .trkc .kl{font-size:11px;font-weight:700;color:#8A857D}
+#efftrendRoot .trkc .kv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:22px;color:#15140F;line-height:1;margin-top:6px}
+#efftrendRoot .trkc .kv small{font-family:'Inter',sans-serif;font-weight:700;font-size:11px;color:#8A857D;letter-spacing:0;margin-left:2px}
+</style>
 <div class="flcal" id="efftrendRoot">
   <div class="caltop"><button class="calbk" onclick="goBack('load')" aria-label="Retour">‹</button><div class="caltt">Voir les tendances</div><span class="calsp"></span></div>
   <div class="calddwrap">
@@ -7045,10 +7051,20 @@ function renderEffTrend(){var id=window._trMetric||'charge',period=window._trPer
  var lg=document.getElementById('trLegend');if(lg){if(legs){lg.style.display='flex';lg.innerHTML=legs.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')}else{lg.style.display='none';lg.innerHTML=''}}
  var mm=document.getElementById('trDDMenu');if(mm){var list=id.indexOf('sl_')===0?TR_SLEEP:TR_ORDER;mm.innerHTML=list.map(function(mid){return '<button type="button" onclick="trPickMetric(\''+mid+'\')"'+(mid===id?' class="on"':'')+'><i class="ti '+TR[mid].icon+'"></i>'+TR[mid].label+'</button>'}).join('')}
  var ex=document.getElementById('trExtra');
- if(ex){if(id==='charge'){var lv=[['Très intense (>18.0)','#E8674A',0],['Vigoureux (14.1–18.0)','#4A9CC1',0],['Modéré (10.1–14.0)','#61B99A',0],['Léger (0–10.0)','#B9CED8',0]];m.pts.forEach(function(p){var v=p.v;if(v>18)lv[0][2]++;else if(v>14)lv[1][2]++;else if(v>10)lv[2][2]++;else lv[3][2]++});var mx=Math.max.apply(null,lv.map(function(x){return x[2]}))||1;
-   ex.innerHTML='<section class="calcard explainb" style="margin-bottom:18px"><h2 style="font-size:15px;letter-spacing:.12em">Analyse de la charge <span style="color:#7A756E">(jours)</span></h2><div style="margin-top:14px">'+lv.map(function(x){return '<div class="trlv"><span class="dt" style="background:'+x[1]+'"></span><span class="nm">'+x[0]+'</span><span class="bar"><span style="width:'+(x[2]/mx*100)+'%;background:'+x[1]+'"></span></span><span class="ct">'+x[2]+'x</span></div>'}).join('')+'</div></section>'}
-  else if(id==='strength'){ex.innerHTML='<button type="button" class="trcta" onclick="openActSheet&&openActSheet()"><i class="ti ti-barbell"></i> Ajouter une séance</button>'}
-  else ex.innerHTML=''}
+ if(ex){
+  // KPIs (valables pour toutes les métriques) : moyenne / maxi / total ou mini
+  var vv=m.pts.map(function(p){return p.v}),mxv=vv.length?Math.max.apply(null,vv):0,mnv=vv.length?Math.min.apply(null,vv):0,tot=vv.reduce(function(a,b){return a+b},0),u=cfg.unit?(' '+cfg.unit):'';
+  var thirdIsTotal=(id==='steps'||id==='calories'||cfg.fmt==='hm');
+  var kpi='<div class="trkpi">'+
+   '<div class="trkc"><div class="kl">Moyenne</div><div class="kv">'+trFmtV(cfg,m.avg)+'<small>'+u+'</small></div></div>'+
+   '<div class="trkc"><div class="kl">Maxi</div><div class="kv">'+trFmtV(cfg,mxv)+'<small>'+u+'</small></div></div>'+
+   '<div class="trkc"><div class="kl">'+(thirdIsTotal?'Total':'Plus bas')+'</div><div class="kv">'+trFmtV(cfg,thirdIsTotal?tot:mnv)+'<small>'+u+'</small></div></div>'+
+   '</div>';
+  var extra='';
+  if(id==='charge'){var lv=[['Très intense (>18.0)','#E8674A',0],['Vigoureux (14.1–18.0)','#4A9CC1',0],['Modéré (10.1–14.0)','#61B99A',0],['Léger (0–10.0)','#B9CED8',0]];m.pts.forEach(function(p){var v=p.v;if(v>18)lv[0][2]++;else if(v>14)lv[1][2]++;else if(v>10)lv[2][2]++;else lv[3][2]++});var mx=Math.max.apply(null,lv.map(function(x){return x[2]}))||1;
+   extra='<section class="calcard explainb" style="margin-bottom:18px"><h2 style="font-size:15px;letter-spacing:.12em">Analyse de la charge <span style="color:#7A756E">(jours)</span></h2><div style="margin-top:14px">'+lv.map(function(x){return '<div class="trlv"><span class="dt" style="background:'+x[1]+'"></span><span class="nm">'+x[0]+'</span><span class="bar"><span style="width:'+(x[2]/mx*100)+'%;background:'+x[1]+'"></span></span><span class="ct">'+x[2]+'x</span></div>'}).join('')+'</div></section>';}
+  else if(id==='strength'){extra='<button type="button" class="trcta" onclick="openActSheet&&openActSheet()"><i class="ti ti-barbell"></i> Ajouter une séance</button>';}
+  ex.innerHTML=kpi+extra;}
  var box=document.getElementById('trChartBox');if(box)box.classList.remove('inspect');
  set('trChart',trChartSVG(m,null));trApply(m,null);trBind();lockInsightH('trInsight');
 }
@@ -7149,7 +7165,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v348';
+const APP_VERSION='flint-v349';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
