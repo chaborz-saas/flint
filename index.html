@@ -3484,36 +3484,84 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal3-cotx b{display:block;font-size:11.5px;font-weight:800;letter-spacing:.4px;color:var(--green);text-transform:uppercase;margin-bottom:3px}
 .bal3-cotx span{font-size:14px;color:#37372F;line-height:1.35}
 .bal3-cochev{color:#C8C2B8;font-size:20px;flex:none}
+/* ===== Balance v4 — codé (plus d'image de fond) ===== */
+.bal4{padding:4px 16px 100px;font-family:'Inter',sans-serif}
+.bal4-eyb{font-size:12px;font-weight:800;letter-spacing:1.4px;color:#9A948A}
+.bal4-eyb.ctr{display:block;text-align:center;margin-bottom:4px}
+.bal4-goal{position:relative;display:flex;align-items:center;gap:16px;background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:20px 18px;box-shadow:var(--sh-card);overflow:hidden;margin-bottom:16px}
+.bal4-goic{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:36px;flex:none;z-index:1}
+.bal4-gotx{flex:1;min-width:0;z-index:1}
+.bal4-gon{font-family:'Anton';font-size:40px;line-height:1.02;color:#161512;margin:3px 0 5px}
+.bal4-gos{font-size:14px;color:#8A857B;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bal4-goedit{position:absolute;top:18px;right:18px;background:none;border:0;font-family:inherit;font-size:15px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:1px;cursor:pointer;z-index:2}
+.bal4-goedit i{font-size:16px}
+.bal4-mtn{position:absolute;right:0;bottom:0;width:44%;height:74%;z-index:0;opacity:.9;pointer-events:none}
+.bal4-solde{background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:22px 14px 14px;box-shadow:var(--sh-card);margin-bottom:16px}
+.bal4-net{font-family:'Anton';font-size:72px;line-height:.9;text-align:center;color:#161512;letter-spacing:-1px}
+.bal4-netu{text-align:center;font-size:15px;color:#8A857B;margin:9px 0 16px}
+.bal4-split{position:relative;display:flex;background:linear-gradient(90deg,#EDF0FB 0 50%,#FCEEE6 50% 100%);border-radius:22px;overflow:hidden}
+.bal4-split::before{content:"";position:absolute;left:50%;top:14%;bottom:14%;width:1px;background:rgba(20,18,12,.08);transform:translateX(-.5px)}
+.bal4-half{flex:1;text-align:center;padding:20px 10px 18px;min-width:0}
+.bal4-flame{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:27px;margin:0 auto 12px;background:#fff;box-shadow:0 3px 11px rgba(20,18,12,.08)}
+.bal4-flame.in{color:#3E63E0}.bal4-flame.out{color:var(--accent)}
+.bal4-hl{font-size:12px;font-weight:800;letter-spacing:.5px}
+.bal4-hl.in{color:#3E63E0}.bal4-hl.out{color:var(--accent)}
+.bal4-hv{font-family:'Anton';font-size:40px;line-height:1;color:#161512;margin:7px 0 2px}
+.bal4-hu{font-size:13px;color:#8A857B;margin-bottom:14px}
+.bal4-hbar{height:7px;border-radius:6px;overflow:hidden}
+.bal4-hbar.in{background:rgba(62,99,224,.16)}.bal4-hbar.out{background:rgba(240,73,46,.15)}
+.bal4-hbar i{display:block;height:100%;border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.bal4-hbar.in i{background:#3E63E0}.bal4-hbar.out i{background:var(--accent)}
+.bal4-vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 2px 9px rgba(20,18,12,.12);display:grid;place-items:center;font-size:12px;font-weight:800;color:#9A948A;z-index:3;letter-spacing:.5px}
+.bal4-chart{background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:16px 14px 14px;box-shadow:var(--sh-card);margin-bottom:14px}
+.bal4-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.bal4-ctt{font-family:'Anton';font-size:17px;letter-spacing:.3px;color:#161512}
+.bal4-leg{display:flex;gap:14px;font-size:12px;font-weight:700;color:#7C766B}
+.bal4-leg .d{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.bal4-leg .d.in{background:#3E63E0}.bal4-leg .d.out{background:var(--accent)}
+.bal4-foot{text-align:center;font-size:14px;color:#9A948A;margin:20px 0 4px}
+.bal4-foot b{color:var(--accent);font-weight:800}
 </style>
-<div class="bal3">
-  <button class="bal3-back" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
-  <div class="bal3-hero">
-    <span class="bal3-goic" id="bal3GoIc"><i class="ti ti-flame"></i></span>
-    <div class="bal3-gok">TON OBJECTIF</div>
-    <div class="bal3-gon" id="bal3GoName">—</div>
-    <div class="bal3-gos" id="bal3GoSub">—</div>
-    <button class="bal3-goedit" type="button" onclick="goalSheetOpen()">Modifier <i class="ti ti-chevron-right"></i></button>
-    <div class="bal3-ov bal3-cv" style="left:17%;top:70%" id="bal3In">—</div>
-    <div class="bal3-ov bal3-cu" style="left:17%;top:77.5%">kcal</div>
-    <div class="bal3-bar in" style="left:6.5%;top:86%;width:21%"><i id="bal3InBar"></i></div>
-    <div class="bal3-ov bal3-cv" style="left:83%;top:70%" id="bal3Out">—</div>
-    <div class="bal3-ov bal3-cu" style="left:83%;top:77.5%">kcal</div>
-    <div class="bal3-bar out" style="left:72.5%;top:86%;width:21%"><i id="bal3OutBar"></i></div>
-    <span class="bal3-scale"><svg viewBox="0 0 100 100"><circle class="bal3-scaletrk" cx="50" cy="50" r="45"/><circle class="bal3-scalearc" id="bal3ScaleArc" cx="50" cy="50" r="45"/></svg><span class="bal3-scalei"><i class="ti ti-scale"></i></span></span>
-    <div class="bal3-ov bal3-nv" style="left:49%;top:61.5%" id="bal3Net">—</div>
-    <div class="bal3-ov bal3-cu" style="left:49%;top:72%">kcal</div>
-    <div class="bal3-ov bal3-stat" style="left:49%;top:82.5%" id="bal3Stat">—</div>
+<div class="bal4">
+  <div class="bal4-goal">
+    <span class="bal4-goic" id="bal4GoIc"><i class="ti ti-barbell"></i></span>
+    <div class="bal4-gotx">
+      <span class="bal4-eyb">TON OBJECTIF</span>
+      <div class="bal4-gon" id="bal4GoName">—</div>
+      <div class="bal4-gos" id="bal4GoSub">—</div>
+    </div>
+    <button class="bal4-goedit" type="button" onclick="goalSheetOpen()">Modifier <i class="ti ti-chevron-right"></i></button>
+    <svg class="bal4-mtn" viewBox="0 0 200 120" preserveAspectRatio="xMaxYMax slice" aria-hidden="true"><path d="M0 120 L58 44 L92 80 L128 22 L162 66 L200 34 L200 120 Z" fill="#E8E1D5"/><path d="M128 22 L146 47 L134 47 Z M58 44 L72 62 L62 62 Z" fill="#fff" opacity=".6"/></svg>
   </div>
-  <div class="bal3-card">
-    <div class="bal3-ch"><span class="bal3-ctt">Aujourd'hui</span><div class="bal3-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
+
+  <div class="bal4-solde">
+    <span class="bal4-eyb ctr">SOLDE CALORIQUE</span>
+    <div class="bal4-net" id="bal4Net">—</div>
+    <div class="bal4-netu">kcal</div>
+    <div class="bal4-split">
+      <div class="bal4-half">
+        <span class="bal4-flame in"><i class="ti ti-flame"></i></span>
+        <span class="bal4-hl in">CONSOMMÉES</span>
+        <div class="bal4-hv" id="bal4In">—</div>
+        <div class="bal4-hu">kcal</div>
+        <div class="bal4-hbar in"><i id="bal4InBar"></i></div>
+      </div>
+      <span class="bal4-vs">VS</span>
+      <div class="bal4-half">
+        <span class="bal4-flame out"><i class="ti ti-flame"></i></span>
+        <span class="bal4-hl out">DÉPENSÉES</span>
+        <div class="bal4-hv" id="bal4Out">—</div>
+        <div class="bal4-hu">kcal</div>
+        <div class="bal4-hbar out"><i id="bal4OutBar"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bal4-chart">
+    <div class="bal4-ch"><span class="bal4-ctt">Aujourd'hui</span><div class="bal4-leg"><span><i class="d in"></i>Consommé</span><span><i class="d out"></i>Dépensé</span></div></div>
     <div id="bal3Chart"></div>
   </div>
-  <button class="bal3-coach" type="button" onclick="go('coach')">
-    <span class="bal3-coic"><i class="ti ti-target-arrow"></i></span>
-    <span class="bal3-cotx"><b>Coach</b><span id="bal3Coach">—</span></span>
-    <i class="ti ti-chevron-right bal3-cochev"></i>
-  </button>
-  <button class="bal-cta" type="button" onclick="balPhotoStart()"><i class="ti ti-camera"></i>Prendre mon repas en photo</button>
+  <div class="bal4-foot">Chaque choix compte. <b>Reste aligné.</b></div>
   <input type="file" id="balFile" accept="image/*" capture="environment" style="display:none" onchange="balPhotoPick(this)">
 </div>
 </section>
@@ -5976,13 +6024,13 @@ function balCurveNative(k){
  function pth(p){return p.map(function(q,i){return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
  function ar(p){return pth(p)+' L'+p[p.length-1][0].toFixed(1)+' '+Y(0).toFixed(1)+' L'+p[0][0].toFixed(1)+' '+Y(0).toFixed(1)+' Z'}
  var ie=pin[pin.length-1],oe=pout[pout.length-1];
- return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="bni" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--indigo)" stop-opacity=".16"/><stop offset="1" stop-color="var(--indigo)" stop-opacity="0"/></linearGradient><linearGradient id="bno" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".14"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'+grid
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block"><defs><linearGradient id="bni" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E63E0" stop-opacity=".16"/><stop offset="1" stop-color="var(--indigo)" stop-opacity="0"/></linearGradient><linearGradient id="bno" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".14"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'+grid
   +'<path d="'+ar(pout)+'" fill="url(#bno)"/><path d="'+ar(pin)+'" fill="url(#bni)"/>'
   +'<path d="'+pth(pout)+'" fill="none" stroke="var(--accent)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>'
-  +'<path d="'+pth(pin)+'" fill="none" stroke="var(--indigo)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>'
-  +'<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--accent)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--indigo)" stroke-width="2.6"/>'
+  +'<path d="'+pth(pin)+'" fill="none" stroke="#3E63E0" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>'
+  +'<circle cx="'+oe[0].toFixed(1)+'" cy="'+oe[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="var(--accent)" stroke-width="2.6"/><circle cx="'+ie[0].toFixed(1)+'" cy="'+ie[1].toFixed(1)+'" r="4.5" fill="#fff" stroke="#3E63E0" stroke-width="2.6"/>'
   +'<text x="'+(oe[0]+6).toFixed(1)+'" y="'+(oe[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--accent)" font-family="Inter,sans-serif">'+fmtN(totalOut)+'</text>'
-  +'<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="var(--indigo)" font-family="Inter,sans-serif">'+fmtN(totalIn)+'</text>'+xlab+'</svg>';
+  +'<text x="'+(ie[0]+6).toFixed(1)+'" y="'+(ie[1]+4).toFixed(1)+'" font-size="11" font-weight="800" fill="#3E63E0" font-family="Inter,sans-serif">'+fmtN(totalIn)+'</text>'+xlab+'</svg>';
 }
 function balObjGauge(b,G,st){
  var M=Math.max(900,Math.abs(b.net)+150,Math.abs(G.lo),Math.abs(G.hi));
@@ -6008,17 +6056,13 @@ function renderBalance(){
  var g=goalOf(),G=balGoals()[g],ad=goalAdherence(),st=balStatus(b.net,b.hasFood);
  var inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo;
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
- var gi=document.getElementById('bal3GoIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
- set('bal3GoName',G.lbl);
- set('bal3GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
- set('bal3In',fmtN(b.in));set('bal3Out',fmtN(b.out));
- set('bal3Net',(b.net>0?'+':'')+fmtN(b.net));
- var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal3InBar'),ob=document.getElementById('bal3OutBar');
+ var gi=document.getElementById('bal4GoIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
+ set('bal4GoName',G.lbl);
+ set('bal4GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
+ set('bal4In',fmtN(b.in));set('bal4Out',fmtN(b.out));
+ set('bal4Net',(b.net>0?'+':'')+fmtN(b.net));
+ var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal4InBar'),ob=document.getElementById('bal4OutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
- var se=document.getElementById('bal3Stat');if(se){se.innerHTML='<i class="ti '+(b.hasFood?(inT?'ti-circle-check-filled':st[3]):'ti-photo')+'"></i> '+(b.hasFood?st[0]:'En attente');se.style.color=st[1]}
- (function(){var sa=document.getElementById('bal3ScaleArc');if(!sa)return;var Cs=2*Math.PI*45,mid=(G.lo+G.hi)/2,half=(G.hi-G.lo)/2||1,frac;
-  if(!b.hasFood)frac=0;else if(inT)frac=1;else{var ex=(Math.abs(b.net-mid)-half)/(half*3);frac=Math.max(0.5,Math.min(1,0.5+ex))}
-  sa.setAttribute('stroke-dasharray',(frac*Cs).toFixed(1)+' '+(Cs*2).toFixed(1));sa.setAttribute('stroke',b.hasFood?st[1]:'#E7E1D7');})();
  document.getElementById('bal3Chart').innerHTML=balCurveNative(k);
  var ct;
  if(!b.hasFood)ct='Logue tes repas pour suivre ta balance énergétique.';
@@ -7244,7 +7288,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v358';
+const APP_VERSION='flint-v359';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
