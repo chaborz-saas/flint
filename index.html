@@ -2616,6 +2616,15 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .t-charge{background:var(--m-chargeL)}.flhome .t-charge .ic{color:var(--m-charge)}
   .flhome .t-cal{background:var(--m-calL)}.flhome .t-cal .ic{color:var(--m-cal)}
   .flhome .t-sleep{background:var(--m-sleepL)}.flhome .t-sleep .ic{color:var(--m-sleep)}
+  /* Bloc unifié récup + plan (un seul cadre, séparateur) */
+  .flhome .h2block{background:#fff;border:1px solid var(--line);border-radius:28px;margin:0 2px 16px;box-shadow:var(--sh-card);overflow:hidden}
+  .flhome .h2block .h2hero{background:none;border:0;box-shadow:none;margin:0;border-radius:0;padding:18px 20px 16px;gap:14px}
+  .flhome .h2block .h2hero .rw{width:112px;height:112px}
+  .flhome .h2block .h2hero .pct{font-size:36px}
+  .flhome .h2block .h2chk{top:16px;right:18px}
+  .flhome .h2sep{height:1px;background:var(--line);margin:0 18px}
+  .flhome .h2block .h2plan{background:none;border:0;box-shadow:none;margin:0;border-radius:0;padding:15px 18px 18px}
+  .flhome .h2block .h2plan::before{display:none}
   .flhome .h2list{background:#fff;border-radius:28px;padding:4px 18px;margin:0 2px;box-shadow:0 14px 36px rgba(20,18,12,.07)}
   .flhome .h2row{display:flex;align-items:center;gap:15px;width:100%;background:none;border:0;border-bottom:1px solid #F1EBE3;text-align:left;padding:16px 0;cursor:pointer;font-family:inherit}
   .flhome .h2row:last-child{border-bottom:0}.flhome .h2row:active{opacity:.65}
@@ -2644,6 +2653,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="lbl" onclick="flOpenPicker()"><i class="ti ti-calendar"></i><span id="flDateHd">Aujourd'hui</span></button>
     <button class="nav" id="hdNext" onclick="flDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
   </div>
+  <div class="h2block">
   <div class="h2hero" onclick="go('recovery')">
     <div class="rw">
       <svg class="es-ring" viewBox="0 0 120 120"><defs><linearGradient id="flRingGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8FD6AF"/><stop offset="1" stop-color="#2FA86A"/></linearGradient></defs><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="8"/><circle class="ring-fill es-fill" cx="60" cy="60" r="46" fill="none" stroke="url(#flRingGrad)" stroke-width="8" stroke-linecap="round" transform="rotate(-90 60 60)"/></svg>
@@ -2656,6 +2666,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
     <div class="h2chk" id="flCheck"><i class="ti ti-check"></i></div>
   </div>
+  <div class="h2sep"></div>
   <div class="h2plan" id="planCard">
     <div class="h2plan-top">
       <span class="h2plan-badge" id="planBadge"><i class="ti ti-bolt"></i></span>
@@ -2666,6 +2677,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
       <button class="h2plan-t t-cal" type="button" onclick="go('nutrition')"><span class="ic"><i class="ti ti-flame"></i></span><span class="tl">Manger</span><span class="tv" id="planNut">—</span></button>
       <button class="h2plan-t t-sleep" type="button" onclick="go('sleep')"><span class="ic"><i class="ti ti-moon"></i></span><span class="tl">Coucher</span><span class="tv" id="planSleep">—</span></button>
     </div>
+  </div>
   </div>
   <div class="h2list">
     <button class="h2row" type="button" onclick="go('sleep')"><span class="h2ic m-vio"><i class="ti ti-moon"></i></span><span class="h2bd"><span class="h2t">SOMMEIL</span><span class="h2l"><span class="h2v" id="flSleep">—</span><span class="h2s" id="h2SleepS"></span></span><span class="h2bar m-vio"><i id="h2SleepBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
@@ -7221,7 +7233,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v356';
+const APP_VERSION='flint-v357';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
