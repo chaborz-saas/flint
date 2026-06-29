@@ -2599,15 +2599,23 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h2hero .delta{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:#56514B}
   .flhome .h2hero .delta.up{color:#2FA86A}.flhome .h2hero .delta.down{color:#E14434}
   .flhome .h2chk{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 5px 14px rgba(22,21,18,.12);display:grid;place-items:center;font-size:18px;color:#2FA86A}
-  .flhome .h2plan{background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px 20px;margin:0 2px 16px;box-shadow:var(--sh-card)}
-  .flhome .h2plan .eyb{font-size:11px;font-weight:800;letter-spacing:1.4px;color:#8A857D;text-transform:uppercase}
-  .flhome .h2plan-v{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.3px;font-size:21px;line-height:1.12;margin:7px 0 15px;color:#15140F}
-  .flhome .h2plan-rows{display:flex;flex-direction:column;gap:13px}
-  .flhome .h2plan-r{display:flex;align-items:center;gap:12px}
-  .flhome .h2plan-r .ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:18px;flex:none}
-  .flhome .h2plan-r .l{font-size:13px;font-weight:700;color:#8A857D;width:72px;flex:none}
-  .flhome .h2plan-r .v{font-size:14px;font-weight:600;color:#56514B}
-  .flhome .h2plan-r .v b{font-weight:800;color:#15140F}
+  .flhome .h2plan{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px;margin:0 2px 16px;box-shadow:var(--sh-card)}
+  .flhome .h2plan::before{content:'';position:absolute;left:0;right:0;top:0;height:96px;background:linear-gradient(180deg,var(--pl-tint,rgba(47,168,106,.12)),transparent);pointer-events:none}
+  .flhome .h2plan-top{position:relative;display:flex;align-items:center;gap:13px;margin-bottom:16px}
+  .flhome .h2plan-badge{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:23px;color:#fff;flex:none;background:var(--pl-col,#2FA86A);box-shadow:0 6px 16px var(--pl-sh,rgba(47,168,106,.32))}
+  .flhome .h2plan-htx{flex:1;min-width:0}
+  .flhome .h2plan .eyb{font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:#8A857D;text-transform:uppercase}
+  .flhome .h2plan-v{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.2px;font-size:18px;line-height:1.12;margin-top:4px;color:var(--pl-col,#15140F)}
+  .flhome .h2plan-tiles{position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .flhome .h2plan-t{display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;border:0;border-radius:18px;padding:14px 6px;cursor:pointer;font-family:inherit;transition:transform .12s ease}
+  .flhome .h2plan-t:active{transform:scale(.96)}
+  .flhome .h2plan-t .ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:#fff;box-shadow:0 3px 8px rgba(20,18,12,.06)}
+  .flhome .h2plan-t .tl{font-size:10.5px;font-weight:800;letter-spacing:.3px;color:#8A857D;text-transform:uppercase}
+  .flhome .h2plan-t .tv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.3px;font-size:18px;color:#15140F;line-height:1}
+  .flhome .h2plan-t .tv small{font-family:'Inter',sans-serif;font-weight:700;font-size:9.5px;color:#8A857D;letter-spacing:0;margin-left:1px}
+  .flhome .t-charge{background:var(--m-chargeL)}.flhome .t-charge .ic{color:var(--m-charge)}
+  .flhome .t-cal{background:var(--m-calL)}.flhome .t-cal .ic{color:var(--m-cal)}
+  .flhome .t-sleep{background:var(--m-sleepL)}.flhome .t-sleep .ic{color:var(--m-sleep)}
   .flhome .h2list{background:#fff;border-radius:28px;padding:4px 18px;margin:0 2px;box-shadow:0 14px 36px rgba(20,18,12,.07)}
   .flhome .h2row{display:flex;align-items:center;gap:15px;width:100%;background:none;border:0;border-bottom:1px solid #F1EBE3;text-align:left;padding:16px 0;cursor:pointer;font-family:inherit}
   .flhome .h2row:last-child{border-bottom:0}.flhome .h2row:active{opacity:.65}
@@ -2648,13 +2656,15 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
     <div class="h2chk" id="flCheck"><i class="ti ti-check"></i></div>
   </div>
-  <div class="h2plan">
-    <span class="eyb">TON PLAN DU JOUR</span>
-    <div class="h2plan-v" id="planVerdict">—</div>
-    <div class="h2plan-rows">
-      <div class="h2plan-r"><span class="ic" style="background:var(--m-chargeL);color:var(--m-charge)"><i class="ti ti-bolt"></i></span><span class="l">Effort</span><span class="v" id="planEffort">—</span></div>
-      <div class="h2plan-r"><span class="ic" style="background:var(--m-calL);color:var(--m-cal)"><i class="ti ti-flame"></i></span><span class="l">Nutrition</span><span class="v" id="planNut">—</span></div>
-      <div class="h2plan-r"><span class="ic" style="background:var(--m-sleepL);color:var(--m-sleep)"><i class="ti ti-moon"></i></span><span class="l">Sommeil</span><span class="v" id="planSleep">—</span></div>
+  <div class="h2plan" id="planCard">
+    <div class="h2plan-top">
+      <span class="h2plan-badge" id="planBadge"><i class="ti ti-bolt"></i></span>
+      <div class="h2plan-htx"><span class="eyb">TON PLAN DU JOUR</span><div class="h2plan-v" id="planVerdict">—</div></div>
+    </div>
+    <div class="h2plan-tiles">
+      <button class="h2plan-t t-charge" type="button" onclick="go('load')"><span class="ic"><i class="ti ti-bolt"></i></span><span class="tl">Effort</span><span class="tv" id="planEffort">—</span></button>
+      <button class="h2plan-t t-cal" type="button" onclick="go('nutrition')"><span class="ic"><i class="ti ti-flame"></i></span><span class="tl">Manger</span><span class="tv" id="planNut">—</span></button>
+      <button class="h2plan-t t-sleep" type="button" onclick="go('sleep')"><span class="ic"><i class="ti ti-moon"></i></span><span class="tl">Coucher</span><span class="tv" id="planSleep">—</span></button>
     </div>
   </div>
   <div class="h2list">
@@ -5363,19 +5373,21 @@ function renderHome2(){var K=tk(gDay),today=gDay===0;
  var rhr=(t&&t.rhr)?t.rhr:47;bar('h2FcBar',Math.max(.12,Math.min(1,1-(rhr-40)/40)));stat('h2FcS','Repos','#2FA86A');
  var stp=flStepsOf(K),sg=stpGoal();bar('h2StepBar',stp/sg);stat('h2StepS',stp>=sg*0.7?'Actif':'En cours','#13AEAA');
  // === Plan du jour : croise récup × effort × nutrition × sommeil ===
- var pv=document.getElementById('planVerdict');
- if(pv){var verdict,vcol;
-  if(sc==null){verdict='Synchronise ta nuit pour débloquer ton plan du jour.';vcol='#9A988F';}
-  else if(sc>=67){verdict='Feu vert — c\'est le bon jour pour pousser.';vcol='#2FA86A';}
-  else if(sc>=34){verdict='Récup correcte — dose ton effort aujourd\'hui.';vcol='#E0922A';}
-  else{verdict='Récup basse — priorise le repos et le sommeil.';vcol='#E14434';}
-  pv.textContent=verdict;pv.style.color=vcol;}
+ var card=document.getElementById('planCard'),pv=document.getElementById('planVerdict'),bdg=document.getElementById('planBadge');
+ var verdict,vcol,vtint,vsh,vic;
+ if(sc==null){verdict='Synchronise ta nuit pour débloquer ton plan.';vcol='#9A988F';vtint='rgba(154,152,143,.12)';vsh='rgba(154,152,143,.30)';vic='ti-clock';}
+ else if(sc>=67){verdict='Feu vert — c\'est le bon jour pour pousser.';vcol='#2FA86A';vtint='rgba(47,168,106,.12)';vsh='rgba(47,168,106,.32)';vic='ti-flame';}
+ else if(sc>=34){verdict='Récup correcte — dose ton effort aujourd\'hui.';vcol='#E0922A';vtint='rgba(224,146,42,.13)';vsh='rgba(224,146,42,.32)';vic='ti-adjustments';}
+ else{verdict='Récup basse — priorise le repos.';vcol='#E14434';vtint='rgba(225,68,52,.12)';vsh='rgba(225,68,52,.30)';vic='ti-zzz';}
+ if(pv)pv.textContent=verdict;
+ if(card){card.style.setProperty('--pl-col',vcol);card.style.setProperty('--pl-tint',vtint);card.style.setProperty('--pl-sh',vsh);}
+ if(bdg)bdg.innerHTML='<i class="ti '+vic+'"></i>';
  var tgp=(typeof strainTarget==='function'?strainTarget():[12,16]);
- var pe=document.getElementById('planEffort');if(pe)pe.innerHTML='Vise <b>'+tgp[0]+'–'+tgp[1]+'</b> / 21';
- var gp=getNutGoals(K),pn=document.getElementById('planNut');if(pn)pn.innerHTML='Vise <b>~'+fmtN(gp.kcal)+'</b> kcal';
+ var pe=document.getElementById('planEffort');if(pe)pe.innerHTML=tgp[0]+'–'+tgp[1]+'<small>/21</small>';
+ var gp=getNutGoals(K),pn=document.getElementById('planNut');if(pn)pn.innerHTML=fmtN(gp.kcal)+'<small>kcal</small>';
  var pr=getProfile(),nd=pr.need||8,wk=(pr.wake||'07:00').split(':'),wmin=(+wk[0])*60+(+wk[1]),bmin=((wmin-nd*60)%1440+1440)%1440;
  var bed=String(Math.floor(bmin/60)).padStart(2,'0')+'h'+String(bmin%60).padStart(2,'0');
- var ps=document.getElementById('planSleep');if(ps)ps.innerHTML='Couche-toi vers <b>'+bed+'</b> ('+nd+' h)';}
+ var ps=document.getElementById('planSleep');if(ps)ps.innerHTML=bed+'<small>'+nd+'h</small>';}
 function renderToday(){
  var _tv=document.getElementById('v-today');if(_tv&&!_tv.classList.contains('on'))return;
  const p=getProfile(),K=tk(gDay),today=gDay===0,t=sensorOf(K),cal=calibNights(),calib=today&&cal<4;
@@ -7209,7 +7221,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v355';
+const APP_VERSION='flint-v356';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
