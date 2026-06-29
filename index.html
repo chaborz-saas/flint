@@ -4040,30 +4040,71 @@ body.stepsview header{display:none}
 
 <!-- ===================== CHARGE ===================== -->
 <section class="view" id="v-load">
-<div class="flload">
-  <div class="effhd">
-    <button class="effbk" onclick="goBack('today')" aria-label="Retour">‹</button>
-    <div class="effdate" id="effDate">—</div>
-    <div class="effbadge"><span class="dia">◆</span><span id="effBadge">—</span></div>
+<style>
+.elx-hd{display:flex;align-items:center;gap:12px;padding:4px 0 16px}
+.elx-bk{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#15140F;font-size:20px;display:grid;place-items:center;cursor:pointer;flex:none;box-shadow:0 5px 14px rgba(20,18,12,.06);transition:transform .15s ease}
+.elx-bk:active{transform:scale(.88)}
+.elx-hdt{flex:1;min-width:0}
+.elx-t{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:27px;text-transform:uppercase;color:#15140F;line-height:1}
+.elx-d{font-size:12.5px;font-weight:700;color:#8A857D;margin-top:3px}
+.elx-rec{display:flex;flex-direction:column;align-items:center;gap:1px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:7px 13px;cursor:pointer;flex:none}
+.elx-rec .rl{font-size:9.5px;font-weight:800;letter-spacing:.5px;color:#8A857D;text-transform:uppercase}
+.elx-rec b{font-family:'Anton',sans-serif;font-weight:400;font-size:21px;color:#2FA86A;line-height:1}
+.elx-hero{display:flex;align-items:center;gap:16px;width:100%;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;font-family:inherit;text-align:left;margin-bottom:14px}
+.elx-heror{flex:1;min-width:0}
+.elx-hero .el2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.3px;font-size:23px;text-transform:uppercase;color:var(--accent);line-height:1}
+.elx-meaning{font-size:13.5px;font-weight:600;color:#56514B;line-height:1.35;margin-top:7px}
+.elx-more{display:inline-flex;align-items:center;gap:3px;font-size:12.5px;font-weight:800;color:var(--accent);margin-top:9px}
+.elx-card{padding:18px!important;margin-bottom:14px}
+.elx-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:17px;text-transform:uppercase;color:#15140F}
+.elx-p{font-size:14px;line-height:1.5;color:#4F4A44;margin:9px 0 2px}
+.elx-p b{font-weight:800;color:#15140F}
+.elx-scale{position:relative;height:14px;border-radius:8px;margin:18px 0 8px;background:linear-gradient(90deg,#3FAE6A 0%,#9BCB4A 40%,#F2922B 68%,#E14434 100%)}
+.elx-scmark{position:absolute;top:-6px;width:4px;height:26px;border-radius:3px;background:#15140F;box-shadow:0 0 0 3px #fff;transform:translateX(-50%);left:0;transition:left .6s cubic-bezier(.2,.8,.2,1)}
+.elx-zlabs{display:flex;font-size:9.5px;font-weight:800;color:#9A948A;text-transform:uppercase;letter-spacing:.2px}
+.elx-zlabs span{text-align:center}
+.elx-tgt{display:flex;align-items:center;gap:14px;padding:16px 18px!important;margin-bottom:6px}
+.elx-tgti{width:46px;height:46px;border-radius:14px;background:#FCE7E1;color:var(--accent);display:grid;place-items:center;font-size:23px;flex:none}
+.elx-tgtl{font-size:11px;font-weight:800;letter-spacing:.4px;color:#8A857D;text-transform:uppercase}
+.elx-tgtv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.3px;font-size:22px;color:#15140F;line-height:1;margin:3px 0}
+.elx-tgtx{font-size:13px;font-weight:600;color:#56514B;line-height:1.35}
+.elx-sub{font-size:13px;font-weight:600;color:#8A857D;margin:0 2px 12px;line-height:1.35}
+.flload .efftrx{font-size:12.5px;line-height:1.45;color:#7C766B;margin:11px 2px 0;font-weight:500}
+</style>
+<div class="flload elx">
+  <div class="elx-hd">
+    <button class="elx-bk" type="button" onclick="goBack('today')" aria-label="Retour"><i class="ti ti-chevron-left"></i></button>
+    <div class="elx-hdt"><div class="elx-t">Effort du jour</div><div class="elx-d" id="effDate">—</div></div>
+    <button class="elx-rec" type="button" onclick="go('recovery')" aria-label="Récupération"><span class="rl">Récup</span><b id="effBadge">—</b></button>
   </div>
 
-  <button class="effring" type="button" onclick="openTrend('charge')">
+  <button class="elx-hero" type="button" onclick="openTrend('charge')">
     <div class="ring" id="strainRing"></div>
-    <div class="el2" id="strainStatus">—</div>
+    <div class="elx-heror">
+      <div class="el2" id="strainStatus">—</div>
+      <div class="elx-meaning" id="effMeaning">—</div>
+      <span class="elx-more">Voir l'évolution <i class="ti ti-chevron-right"></i></span>
+    </div>
   </button>
 
-  <section class="card effsum" id="effSum"></section>
+  <section class="card elx-card">
+    <div class="elx-ct">C'est quoi, l'effort ?</div>
+    <p class="elx-p">Une note de <b>0 à 21</b> qui résume la <b>charge cardiovasculaire</b> de ta journée : plus tes séances sont <b>intenses et longues</b> (mesuré via ta fréquence cardiaque), plus la note monte.</p>
+    <div class="elx-scale"><div class="elx-scmark" id="effScaleMark"></div></div>
+    <div class="elx-zlabs"><span style="flex:10">Légère</span><span style="flex:4">Modérée</span><span style="flex:4">Soutenue</span><span style="flex:3">Élevée</span></div>
+  </section>
 
-  <section class="card effcoach">
-    <p class="ec1" id="effCoachT">Un effort compris entre 10 et 13,9 est considéré comme modéré.</p>
-    <p class="ec2">Ta charge cardiovasculaire est importante, mais pas éprouvante. C'est une bonne zone pour progresser sans trop entamer ta récupération.</p>
+  <section class="card elx-tgt">
+    <span class="elx-tgti"><i class="ti ti-target-arrow"></i></span>
+    <div class="elx-tgtbd"><div class="elx-tgtl">Ta cible du jour</div><div class="elx-tgtv"><span id="effTgt">—</span></div><div class="elx-tgtx" id="effTgtX">—</div></div>
   </section>
 
   <div class="efftitle">Activités du jour</div>
   <div id="effActs"></div>
   <button class="effadd" type="button" onclick="openActSheet&&openActSheet()">＋ Ajouter une séance</button>
 
-  <div class="efftitle">Tendances hebdomadaires</div>
+  <div class="efftitle">Tes 7 derniers jours</div>
+  <p class="elx-sub">Chaque indicateur est expliqué sous son graphe. Touche-le pour le détail jour par jour.</p>
   <div id="effTrends"></div>
 </div>
 </section>
@@ -6527,17 +6568,21 @@ function setCoachWake(v){const p=getProfile();p.wake=v||'07:00';DB.set('profile'
 
 /* ---------- CHARGE ---------- */
 function renderLoad(){var K=tk();
- var d=new Date();set('effDate',['DIM.','LUN.','MAR.','MER.','JEU.','VEN.','SAM.'][d.getDay()]+', '+CAL_MONTHS[d.getMonth()]+' '+d.getDate());
+ var d=new Date(),JN=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];set('effDate',JN[d.getDay()]+' '+d.getDate()+' '+CAL_MONTHS[d.getMonth()]);
  var rv=recovery();set('effBadge',rv?rv.s:'—');
  var str=loadStrain();
- document.getElementById('strainRing').innerHTML=ringHTML(str/21*100,176,'EFFORT','/ 21','var(--accent)',str.toFixed(1).replace('.',','));
- set('strainStatus',str<10?'Légère':str<14?'Modérée':str<18?'Soutenue':'Très élevée');
- set('effCoachT',str<10?'Un effort inférieur à 10 est considéré comme léger.':str<14?'Un effort compris entre 10 et 13,9 est considéré comme modéré.':str<18?'Un effort entre 14 et 17,9 est considéré comme soutenu.':'Un effort supérieur à 18 est considéré comme très élevé.');
- var rows=[['ti-heart','Zones de fréquence cardiaque 1 à 3','0:15','0:27','down','zones13'],['ti-heart','Zones de fréquence cardiaque 4-5','0:00','0:01','down','zones45'],['ti-barbell','Temps de musculation','0:00','0:00','neutral','strength'],['ti-walk','Pas','14 538','13 561','up','steps']];
- set('effSum',rows.map(function(r){var sym=r[4]==='up'?'▲':r[4]==='down'?'▼':'●',col=r[4]==='up'?'#3B6D11':r[4]==='down'?'#E8674A':'#A6A09A';return '<button class="esrow" type="button" onclick="openTrend(\''+r[5]+'\')"><span class="esi"><i class="ti '+r[0]+'"></i></span><span class="esl">'+r[1]+'</span><span class="esr"><span class="esv">'+r[2]+'</span><span class="esp">'+r[3]+'</span></span><span class="estr" style="color:'+col+'">'+sym+'</span></button>'}).join('')+'<div class="espill">'+['Aujourd\'hui'][0]+' · par rapport aux 30 derniers jours</div>');
+ document.getElementById('strainRing').innerHTML=ringHTML(str/21*100,168,'EFFORT','/ 21','var(--accent)',str.toFixed(1).replace('.',','));
+ set('strainStatus',str<10?'Charge légère':str<14?'Charge modérée':str<18?'Charge soutenue':'Charge très élevée');
+ set('effMeaning',str<10?'Journée tranquille — ton corps récupère.':str<14?'Bonne zone pour progresser sans entamer ta récup.':str<18?'Bel effort — soigne bien ta récupération ensuite.':'Grosse journée — priorise le repos et le sommeil.');
+ var mk=document.getElementById('effScaleMark');if(mk)mk.style.left=Math.max(1.5,Math.min(98.5,str/21*100))+'%';
+ var tg=strainTarget(),lo=tg[0],hi=tg[1];set('effTgt',String(lo).replace('.',',')+' – '+String(hi).replace('.',',')+' / 21');
+ var rs=rv?rv.s:null;
+ var ctx=rs==null?'Synchronise ta nuit pour adapter ta cible.':(rs>=67?'Récup haute ('+rs+'%) : tu peux pousser aujourd\'hui.':rs>=34?'Récup modérée ('+rs+'%) : dose ton effort.':'Récup basse ('+rs+'%) : lève le pied.');
+ var verdict=str<=0?'':(str<lo?' Encore sous ta cible.':str<=hi?' Tu es dans ta cible 👌':' Tu as dépassé ta cible — soigne la récup.');
+ set('effTgtX',ctx+verdict);
  var ss=DB.get('sessions_'+K,[]).filter(function(s){return s.type!=='nap'});
- set('effActs',ss.length?ss.map(function(s,i){var sc=actStrain(s).toFixed(1).replace('.',',');var end=s.start?(function(){var sm=tmin(s.start)+(s.dur||0);return String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')})():'';return '<button class="eact" type="button" onclick="openActivity('+i+')"><span class="eai">'+(s.icon||'🏃')+'<b>'+sc+'</b></span><span class="ean">'+esc(s.name||'Activité')+'</span><span class="eat">'+(s.start||'')+'<br>'+end+'</span></button>'}).join(''):'<p class="sci" style="padding:2px 2px 6px;color:#7C766B">Aucune activité aujourd\'hui.</p>');
- set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div></button>'}).join(''));}
+ set('effActs',ss.length?ss.map(function(s,i){var sc=actStrain(s).toFixed(1).replace('.',',');var end=s.start?(function(){var sm=tmin(s.start)+(s.dur||0);return String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')})():'';return '<button class="eact" type="button" onclick="openActivity('+i+')"><span class="eai">'+(s.icon||'🏃')+'<b>'+sc+'</b></span><span class="ean">'+esc(s.name||'Activité')+'</span><span class="eat">'+(s.start||'')+'<br>'+end+'</span></button>'}).join(''):'<p class="sci" style="padding:2px 2px 14px;color:#7C766B">Aucune séance aujourd\'hui. Ajoute-en une pour suivre ta charge.</p>');
+ set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div>'+(c.exText?'<p class="efftrx">'+c.exText+'</p>':'')+'</button>'}).join(''));}
 
 /* ---------- EFFORT · DÉTAIL D'ACTIVITÉ (vue type Whoop, sombre) ---------- */
 const ZONE_DEF=[
@@ -7102,7 +7147,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v346';
+const APP_VERSION='flint-v347';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
