@@ -2537,6 +2537,28 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 @media (prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+/* ===== Intelligence FLINT : brief, coach proactif, bilan, check-in ===== */
+.flretain{display:block;width:100%;text-align:left;border:0;cursor:pointer;font-family:inherit;padding:15px 16px;margin:16px 0 0;background:#fff;border-radius:var(--r);box-shadow:var(--shadow)}
+.flretain:active{transform:scale(.99)}
+.flretain .frtag{display:block;font-size:10.5px;font-weight:800;letter-spacing:.09em;color:#A39B8E;margin-bottom:10px}
+.flretain .frrow{display:flex;gap:12px;align-items:flex-start}
+.flretain .fric{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#F1ECE4;color:#6E6A62;font-size:20px}
+.flretain.alert .fric{background:#FBE4DD;color:#C0492C}.flretain.warn .fric{background:#FAF0DA;color:#C8901A}.flretain.good .fric{background:#E2F3E9;color:#2FA86A}.flretain.info .fric{background:#E9EBF7;color:#5A52B5}
+.flretain .frtx{flex:1;min-width:0}
+.flretain .frtx b{display:block;font-size:15px;font-weight:800;color:#161512;margin-bottom:3px}
+.flretain .frtx span{display:block;font-size:13px;line-height:1.45;color:#6E6A62}
+.flretain .frcta{display:inline-flex;align-items:center;gap:6px;margin:12px 0 0 52px;font-size:12.5px;font-weight:800;color:var(--accent)}
+.flnrow{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:0;background:transparent;border-bottom:1px solid #F0EBE3;padding:14px 2px;cursor:pointer;font-family:inherit}
+.flnrow:last-child{border-bottom:0}.flnrow:active{opacity:.7}
+.flnic{flex:0 0 38px;height:38px;border-radius:11px;display:grid;place-items:center;background:#F1ECE4;color:#6E6A62;font-size:18px}
+.flnic.alert{background:#FBE4DD;color:#C0492C}.flnic.warn{background:#FAF0DA;color:#C8901A}.flnic.good{background:#E2F3E9;color:#2FA86A}.flnic.info{background:#E9EBF7;color:#5A52B5}
+.flntx{flex:1;min-width:0}.flntx b{display:block;font-size:14px;font-weight:800;color:#161512;margin-bottom:2px}.flntx span{display:block;font-size:12.5px;color:#6E6A62;line-height:1.4}
+.flnch{color:#C9C2B6;flex:0 0 auto}
+.flbrief{padding:14px 16px 44px}
+.fldec{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:16px;padding:10px 20px;border-radius:30px;color:#fff;margin:2px 0 4px}
+.flbk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.flrow2{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F0EBE3;font-size:14px;color:#6E6A62}
+.flrow2:last-child{border-bottom:0}.flrow2 b{color:#161512;font-weight:800}
 </style>
 </head>
 <body>
@@ -2548,7 +2570,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="hdright">
     <div class="wbatt" id="wbatt" onclick="go('profile')" title="Batterie de la montre"><i class="ti ti-device-watch"></i><span id="wbattV">—</span></div>
     <div class="av" id="avatar" onclick="go('profile')" style="background:url('https://randomuser.me/api/portraits/men/32.jpg') center/cover;color:transparent">A</div>
-    <button class="hbell" aria-label="Notifications" onclick="toast('Aucune nouvelle notification')"><i class="ti ti-bell"></i><span class="hdot"></span></button>
+    <button class="hbell" aria-label="Notifications" onclick="flBell()"><i class="ti ti-bell"></i><span class="hdot" style="display:none"></span></button>
   </div>
 </header>
 <div id="updBanner" onclick="forceUpdate()"></div>
@@ -2599,6 +2621,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <span class="fhd-keep"><span id="flEffortBar"></span><span id="flCalBars"></span></span>
   </div>
 
+  <div id="flBriefHost"></div>
+
   <div class="mjwrap">
   <svg class="mjwave" viewBox="0 0 440 64" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C120,4 220,2 290,18 C355,33 400,36 440,26 L440,64 L0,64 Z"/></svg>
 
@@ -2636,6 +2660,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
 </div></section>
 
+
+<!-- ===================== BRIEF DU MATIN ===================== -->
+<section class="view" id="v-brief"><div class="flbrief">
+  <div class="pghd"><button class="bk" onclick="goBack('today')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Brief du matin</div></div>
+  <div id="briefBody"></div>
+</div></section>
+
+<!-- ===================== BILAN DE LA SEMAINE ===================== -->
+<section class="view" id="v-weekreview"><div class="flbrief">
+  <div class="pghd"><button class="bk" onclick="goBack('today')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Bilan de la semaine</div></div>
+  <div id="weekBody"></div>
+</div></section>
 
 <!-- ===================== JOURNAL ===================== -->
 <section class="view" id="v-journal">
@@ -3889,6 +3925,8 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <div class="sect"><i class="ti ti-bell"></i>Notifications</div>
     <div class="swrow"><div><div class="swt">Rappel de coucher</div><div class="sws">Pour atteindre ton objectif de sommeil</div></div><label class="switch"><input type="checkbox" id="ntBed" onchange="toggleNotif('bed',this.checked)"><span class="sl2"></span></label></div>
     <div class="swrow"><div><div class="swt">Récup du matin</div><div class="sws">Ton score dès le réveil</div></div><label class="switch"><input type="checkbox" id="ntMorning" onchange="toggleNotif('morning',this.checked)"><span class="sl2"></span></label></div>
+    <div class="swrow"><div><div class="swt">Check-in du soir</div><div class="sws">Note ta journée vers 21h</div></div><label class="switch"><input type="checkbox" id="ntEvening" onchange="toggleNotif('evening',this.checked)"><span class="sl2"></span></label></div>
+    <div class="swrow"><div><div class="swt">Bilan de la semaine</div><div class="sws">Récap chaque dimanche</div></div><label class="switch"><input type="checkbox" id="ntWeekly" onchange="toggleNotif('weekly',this.checked)"><span class="sl2"></span></label></div>
     <p class="ntnote" id="ntNote"></p>
   </div>
 
@@ -4069,8 +4107,8 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve}[v]||(()=>{}))();
- var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,brief:renderBrief,weekreview:renderWeekReview}[v]||(()=>{}))();
+ try{flTick(v)}catch(e){} var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 /* indicateurs glissants (nav + segments) */
@@ -4119,7 +4157,7 @@ function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)
  var ageGreen=age!=null&&verdict!=='À surveiller',ac=ageGreen?'#2FA86A':'#E8674A';
  var ageCard='<button class="nvcard nvage" onclick="openSleepNight()"><div class="nvtop"><span class="nvic'+(ageGreen?' g':'')+'"><i class="ti ti-user"></i></span><div class="nvhead"><div class="nvname">Âge physiologique</div><div class="nvval" style="color:'+ac+'">'+(age!=null?age:'—')+'<small>ans</small></div><div class="nvverdict" style="color:'+ac+'">'+verdict+'</div>'+(vtxt?'<div class="nvnorm">'+vtxt+'</div>':'')+'</div><span class="nvcv'+(ageGreen?' g':'')+'"><i class="ti ti-chevron-right"></i></span></div></button>';
  host.innerHTML=H+sum+metric('hrv','ti-heartbeat','HRV',t.hrv,'ms')+metric('rhr','ti-heart','FC repos',t.rhr,'bpm')+metric('resp','ti-lungs','Respiration',t.resp,'/min')+ageCard;}
-const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
+const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['stress','😵 Stress élevé'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
 function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr();renderRecJournal();renderRecCorr()}
 function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
 function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({id:b[0],lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
@@ -6057,21 +6095,109 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
 
 /* ---------- PROFIL ---------- */
 function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal();
- const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;renderNotifNote(!!_LN())}
+ const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;const ev=document.getElementById('ntEvening');if(ev)ev.checked=np.evening;const wk=document.getElementById('ntWeekly');if(wk)wk.checked=np.weekly;renderNotifNote(!!_LN())}
 function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;DB.set('profile',p);toast('Profil enregistré');renderToday()}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
 async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();let added=0;if(HC.readSessions){try{const sg=await HC.readSessions();added=importDetectedSessions(sg&&sg.items)}catch(e){}}const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚'+(added?' · '+added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''):''));go('today')}else if(added){DB.set('demo',0);toast(added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''));go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
 
 /* ---------- NOTIFICATIONS INTELLIGENTES ---------- */
-function notifPrefs(){return Object.assign({bed:false,morning:false},DB.get('notifs',{}))}
+function notifPrefs(){return Object.assign({bed:false,morning:false,evening:false,weekly:false},DB.get('notifs',{}))}
 function bedtimeMinutes(){const nd=sleepNeedCalc().need,t=sensorOf(tk());const eff=(t&&t.awake!=null&&t.sleepMin)?Math.max(0.82,Math.min(0.97,t.sleepMin/(t.sleepMin+t.awake))):0.9;const wake=tmin(getProfile().wake);const inBed=nd*0.85/eff;return Math.round(((wake-inBed)%1440+1440)%1440)}
 function _LN(){return window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications}
-async function scheduleNotifs(){const LN=_LN();const p=notifPrefs();if(!LN)return false;try{await LN.requestPermissions()}catch(e){}try{await LN.cancel({notifications:[{id:1},{id:2}]})}catch(e){}const list=[];const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+async function scheduleNotifs(){const LN=_LN();const p=notifPrefs();if(!LN)return false;try{await LN.requestPermissions()}catch(e){}try{await LN.cancel({notifications:[{id:1},{id:2},{id:3},{id:4}]})}catch(e){}const list=[];const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
  if(p.bed){const bed=bedtimeMinutes(),rem=((bed-15)%1440+1440)%1440;list.push({id:1,title:'🌙 Bientôt l\'heure de dormir',body:'Couche-toi vers '+hm(bed)+' pour viser ta récup.',schedule:{on:{hour:Math.floor(rem/60),minute:rem%60},repeats:true}})}
  if(p.morning){const w=tmin(getProfile().wake);list.push({id:2,title:'☀️ Ta récup du jour est prête',body:'Ouvre Flint pour ton score et ta cible d\'effort.',schedule:{on:{hour:Math.floor(w/60),minute:w%60},repeats:true}})}
+ if(p.evening){list.push({id:3,title:'🌙 Check-in du soir',body:'30 s pour noter ta journée et révéler ce qui influence ta récup.',schedule:{on:{hour:21,minute:0},repeats:true}})}
+ if(p.weekly){list.push({id:4,title:'📊 Ton bilan de la semaine est prêt',body:'Tendance récup, charge, sommeil et focus de la semaine prochaine.',schedule:{on:{weekday:1,hour:19,minute:0},repeats:true}})}
  if(list.length){try{await LN.schedule({notifications:list})}catch(e){}}return true}
 function renderNotifNote(native){const el=document.getElementById('ntNote');if(!el)return;el.textContent=native?'⏰ Rappels programmés sur ton téléphone.':'⏰ Les rappels programmés s\'activent sur l\'app Android (APK).'}
 function toggleNotif(k,v){const p=notifPrefs();p[k]=v;DB.set('notifs',p);haptic();scheduleNotifs().then(native=>renderNotifNote(native))}
+
+/* ---------- INTELLIGENCE FLINT : brief, coach proactif, bilan, check-in ---------- */
+function flDecision(s){return s>=67?{k:'Pousse',c:'var(--green)',ic:'flame',plan:'Ton corps est prêt. Conditions optimales pour pousser fort aujourd\'hui.'}:s>=34?{k:'Dose',c:'var(--amber)',ic:'adjustments-horizontal',plan:'Récup correcte. Vise une charge modérée, sans aller au bout.'}:{k:'Repos',c:'var(--accent)',ic:'bed',plan:'Récup basse. Priorise le repos, le sommeil et l\'hydratation.'}}
+function flDropPct(v,b){return (b&&b.m&&v!=null)?Math.round((b.m-v)/b.m*100):null}
+function flHM(min){return Math.floor(min/60)+'h'+String(Math.round(min%60)).padStart(2,'0')}
+function flInsights(){var out=[],rv=recovery(),now=new Date(),h=now.getHours(),dow=now.getDay();var t=sensorOf(tk()),bH=baseStat('hrv'),bR=baseStat('rhr');
+ if(rv){var d=flDecision(rv.s);out.push({id:'brief_'+tk(),kind:'brief',ic:'sunrise',cls:'info',title:'Brief du matin · Récup '+rv.s+'%',body:d.k+' aujourd\'hui. '+d.plan,tap:'openBrief()'})}
+ if(t&&t.hrv!=null&&bH){var dp=flDropPct(t.hrv,bH);if(dp!=null&&dp>=8)out.push({id:'hrvdrop_'+tk(),kind:'alert',ic:'activity-heartbeat',cls:'alert',title:'Ta VFC a chuté '+dp+'% cette nuit',body:'Variabilité cardiaque en baisse nette : possible début de maladie, stress, manque de sommeil ou alcool. Lève le pied aujourd\'hui.',tap:'go(\'recovery\')'})}
+ if(t&&t.rhr!=null&&bR){var up=Math.round(t.rhr-bR.m);if(up>=Math.max(3,bR.sd))out.push({id:'rhrup_'+tk(),kind:'alert',ic:'heart',cls:'alert',title:'FC de repos élevée (+'+up+' bpm)',body:'Ta fréquence cardiaque de repos est au-dessus de ta normale. Signe de fatigue ou de récup incomplète.',tap:'go(\'recovery\')'})}
+ var sd=sleepDebt();if(sd>=3)out.push({id:'sleepdebt',kind:'warn',ic:'zzz',cls:'warn',title:'Dette de sommeil : '+flHM(sd*60),body:'Tu accumules du retard de sommeil. Vise ton besoin complet cette nuit pour rembourser.',tap:'go(\'sleep\')'});
+ if(rv&&rv.s>=80){var ry=DB.get('recov_'+tk(-1),null);if(ry!=null&&ry<55)out.push({id:'rebound_'+tk(),kind:'good',ic:'trending-up',cls:'good',title:'Belle remontée : récup à '+rv.s+'%',body:'Ton corps est repassé au vert après une journée basse. C\'est le bon moment pour une grosse séance.',tap:'openBrief()'})}
+ var c=behaviorCorr(),neg=c.filter(function(x){return x.imp<0})[0];if(neg)out.push({id:'corr_'+neg.id,kind:'good',ic:'bulb',cls:'info',title:'Pattern détecté',body:'Les jours « '+neg.lbl.replace(/^[^ ]+ /,'')+' », ta récup baisse de '+Math.abs(neg.imp)+'%.',tap:'go(\'behavior\')'});
+ if(dow===0)out.push({id:'weekly',kind:'weekly',ic:'calendar-stats',cls:'info',title:'Ton bilan de la semaine est prêt',body:'Tendance récup, charge aiguë/chronique, sommeil et focus de la semaine prochaine.',tap:'openWeekReview()'});
+ if(h>=19){var j=DB.get('journal_'+tk(),{});var any=false;for(var kk in j)if(j[kk])any=true;if(!any)out.push({id:'checkin_'+tk(),kind:'checkin',ic:'notebook',cls:'info',title:'Check-in du soir',body:'30 s pour noter ta journée (alcool, café, stress…) et révéler ce qui influence ta récup.',tap:'openCheckin()'})}
+ return out}
+function flRank(k){return ({alert:0,warn:1,checkin:2,weekly:2,brief:3,good:4,info:5})[k]!=null?({alert:0,warn:1,checkin:2,weekly:2,brief:3,good:4,info:5})[k]:9}
+function flTopInsights(){return flInsights().sort(function(a,b){return flRank(a.kind)-flRank(b.kind)})}
+function flSeen(){return DB.get('notif_seen',[])}
+function flUnseen(){var s=flSeen();return flInsights().filter(function(i){return s.indexOf(i.id)<0})}
+function flRefreshBell(){var dot=document.querySelector('.hbell .hdot');if(dot)dot.style.display=flUnseen().length?'block':'none'}
+function flRenderBriefCard(){var host=document.getElementById('flBriefHost');if(!host)return;var ins=flTopInsights();var top=ins.filter(function(i){return i.kind==='alert'||i.kind==='warn'})[0]||ins.filter(function(i){return i.kind==='brief'})[0]||ins[0];if(!top){host.innerHTML='';return}
+ host.innerHTML='<button class="flretain '+top.cls+'" onclick="'+top.tap+'"><span class="frtag">À RETENIR AUJOURD\'HUI</span><span class="frrow"><span class="fric"><i class="ti ti-'+top.ic+'"></i></span><span class="frtx"><b>'+top.title+'</b><span>'+top.body+'</span></span></span><span class="frcta">'+(top.kind==='brief'?'Voir mon brief':'Voir le détail')+' <i class="ti ti-arrow-right"></i></span></button>'}
+function flBell(){haptic();var ins=flTopInsights(),seen=flSeen();ins.forEach(function(i){if(seen.indexOf(i.id)<0)seen.push(i.id)});DB.set('notif_seen',seen);flRefreshBell();
+ var ex=document.getElementById('flBellSheet');if(ex)ex.remove();var d=document.createElement('div');d.id='flBellSheet';d.className='mpick';
+ var rows=ins.length?ins.map(function(i){return '<button class="flnrow" onclick="closeFlBell();'+i.tap+'"><span class="flnic '+i.cls+'"><i class="ti ti-'+i.ic+'"></i></span><span class="flntx"><b>'+i.title+'</b><span>'+i.body+'</span></span><i class="ti ti-chevron-right flnch"></i></button>'}).join(''):'<p class="sci" style="padding:22px 4px">Rien à signaler. Tout est calme côté récup.</p>';
+ d.innerHTML='<div class="mpbd" onclick="closeFlBell()"></div><div class="mpsh"><div class="mphd"><span>Notifications</span><button type="button" onclick="closeFlBell()"><i class="ti ti-x"></i></button></div><div style="overflow:auto;padding:2px 16px 10px">'+rows+'</div></div>';
+ document.body.appendChild(d);requestAnimationFrame(function(){d.classList.add('show')})}
+function closeFlBell(){var d=document.getElementById('flBellSheet');if(d){d.classList.remove('show');setTimeout(function(){if(d)d.remove()},220)}}
+function openBrief(){go('brief')}
+function renderBrief(){var host=document.getElementById('briefBody');if(!host)return;var rv=recovery();
+ if(!rv){host.innerHTML='<div class="card" style="margin-top:14px"><p class="sci">Ton brief s\'affiche après ta première nuit portée. Synchronise ta Polar Loop.</p></div>';return}
+ var d=flDecision(rv.s),tgt=Math.round(rv.s/100*17),lo=Math.max(6,tgt-2),hi=tgt+1,t=rv.today;
+ var sl=t&&t.sleepMin?flHM(t.sleepMin):'—',sd=sleepDebt();
+ var alert=flTopInsights().filter(function(i){return i.kind==='alert'||i.kind==='warn'})[0];
+ var pct=rv.s,circ=2*Math.PI*52,off=circ*(1-pct/100);
+ host.innerHTML='<div class="card" style="margin-top:14px;text-align:center;padding:24px 18px 22px">'
+  +'<div style="position:relative;width:156px;height:156px;margin:0 auto"><svg viewBox="0 0 120 120" style="width:156px;height:156px"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(120,110,95,.12)" stroke-width="7"/><circle cx="60" cy="60" r="52" fill="none" stroke="'+rv.color+'" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+off+'" transform="rotate(-90 60 60)"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center"><div><div style="font-size:40px;font-weight:800;color:#161512;line-height:1">'+pct+'<small style="font-size:18px">%</small></div><div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:#8F8982">RÉCUPÉRATION</div></div></div></div>'
+  +'<div class="fldec" style="background:'+rv.color+';margin-top:16px"><i class="ti ti-'+d.ic+'"></i>'+d.k+'</div>'
+  +'<p style="font-size:14px;line-height:1.5;color:#4A463F;margin:6px 18px 0">'+d.plan+'</p></div>'
+  +(alert?'<div class="flretain '+alert.cls+'" style="cursor:default"><span class="frrow"><span class="fric"><i class="ti ti-'+alert.ic+'"></i></span><span class="frtx"><b>'+alert.title+'</b><span>'+alert.body+'</span></span></span></div>':'')
+  +'<div class="card" style="margin-top:16px"><div class="ct">Ton plan du jour</div><div class="flbk">'
+   +'<div class="stat"><div class="sl">Cible d\'effort</div><div class="sv">'+lo+'–'+hi+'</div><div class="ss">sur 21</div></div>'
+   +'<div class="stat"><div class="sl">Sommeil cette nuit</div><div class="sv">'+sl+'</div></div>'
+   +'<div class="stat"><div class="sl">Dette de sommeil</div><div class="sv">'+(sd<1?'À jour':flHM(sd*60))+'</div></div>'
+   +'<div class="stat"><div class="sl">VFC</div><div class="sv">'+(t&&t.hrv!=null?t.hrv+'<small> ms</small>':'—')+'</div></div>'
+  +'</div></div>'}
+function openWeekReview(){go('weekreview')}
+function flWeekStrain(off){var s=0;for(var i=off;i<off+7;i++)s+=loadStrain(tk(-i));return Math.round(s)}
+function renderWeekReview(){var host=document.getElementById('weekBody');if(!host)return;
+ var w=assess(7),pw=(function(){var rec=0,n=0;for(var i=7;i<14;i++){var r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;n++}}return n?Math.round(rec/n):null})();
+ var dRec=(w.rec!=null&&pw!=null)?w.rec-pw:null;
+ var acute=flWeekStrain(0),chronic=Math.round((function(){var s=0;for(var i=0;i<28;i++)s+=loadStrain(tk(-i));return s})()/4);
+ var ratio=chronic?acute/chronic:null,ratioTxt=ratio==null?'—':ratio>1.3?'Charge en forte hausse — attention au surmenage':ratio<0.8?'Charge en baisse — phase de récupération':'Charge équilibrée, bon rythme',ratioCol=ratio==null?'#8A8580':ratio>1.3?'#C0492C':ratio<0.8?'#2E78B5':'#2FA86A';
+ var sd=sleepDebt(),best=null,bestK=null;for(var i=0;i<7;i++){var r=DB.get('recov_'+tk(-i),null);if(r!=null&&(best==null||r>best)){best=r;bestK=i}}
+ var DOWF=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],bestDay=bestK!=null?DOWF[new Date(Date.now()-bestK*864e5).getDay()]:null;
+ var c=behaviorCorr(),neg=c.filter(function(x){return x.imp<0})[0];
+ var focus=neg?('Réduis « '+neg.lbl.replace(/^[^ ]+ /,'')+' » : ta récup chute de '+Math.abs(neg.imp)+'% ces jours-là.'):(sd>=3?'Comble ta dette de sommeil ('+flHM(sd*60)+') en visant ton besoin chaque nuit.':'Maintiens ta régularité de sommeil et garde une charge équilibrée.');
+ host.innerHTML='<div class="card" style="margin-top:14px"><div class="ct">Récupération</div><div class="flbk">'
+   +'<div class="stat"><div class="sl">Moy. cette semaine</div><div class="sv">'+(w.rec!=null?w.rec+'%':'—')+'</div>'+(dRec!=null?'<div class="ss" style="color:'+(dRec>=0?'#2FA86A':'#C0492C')+'">'+(dRec>=0?'▲ +':'▼ ')+dRec+' vs sem. dernière</div>':'')+'</div>'
+   +'<div class="stat"><div class="sl">Sommeil moy.</div><div class="sv">'+(w.sl!=null?flHM(w.sl*60):'—')+'</div></div>'
+  +'</div></div>'
+  +'<div class="card"><div class="ct">Charge aiguë vs chronique</div><div class="flbk">'
+   +'<div class="stat"><div class="sl">Aiguë (7 j)</div><div class="sv">'+acute+'</div></div>'
+   +'<div class="stat"><div class="sl">Chronique (moy/sem)</div><div class="sv">'+chronic+'</div></div>'
+  +'</div><p style="margin:13px 2px 0;font-size:13.5px;font-weight:700;color:'+ratioCol+'">'+ratioTxt+'</p></div>'
+  +'<div class="card"><div class="ct">Sommeil & victoires</div>'
+   +'<div class="flrow2"><span>Dette de sommeil</span><b>'+(sd<1?'À jour 💪':flHM(sd*60))+'</b></div>'
+   +(best!=null?'<div class="flrow2"><span>Meilleur jour</span><b>'+bestDay+' · '+best+'%</b></div>':'')
+   +'<div class="flrow2"><span>Séances</span><b>'+w.ses+'</b></div>'
+   +'<div class="flrow2"><span>Effort cumulé</span><b>'+w.str+'</b></div>'
+  +'</div>'
+  +'<div class="flretain info" style="cursor:default"><span class="frtag">FOCUS DE LA SEMAINE PROCHAINE</span><span class="frrow"><span class="fric"><i class="ti ti-target"></i></span><span class="frtx"><b>'+focus+'</b></span></span></div>'}
+var FL_CHECKIN=['alcool','cafeine','repastard','ecrans','stress','sportintense','meditation','hydrate'];
+function openCheckin(){haptic();var ex=document.getElementById('flCkSheet');if(ex)ex.remove();var k='journal_'+tk(),j=DB.get(k,{}),L={};BEHAVIORS.forEach(function(b){L[b[0]]=b[1]});
+ var chips=FL_CHECKIN.map(function(id){return '<button class="bchip'+(j[id]?' on':'')+'" onclick="flCkTap(this,\''+id+'\')">'+(L[id]||id)+'</button>'}).join('');
+ var d=document.createElement('div');d.id='flCkSheet';d.className='mpick';
+ d.innerHTML='<div class="mpbd" onclick="closeCheckin()"></div><div class="mpsh"><div class="mphd"><span>Check-in du soir</span><button type="button" onclick="closeCheckin()"><i class="ti ti-x"></i></button></div><div style="padding:4px 18px 10px"><p class="sci" style="margin:0 0 14px">Comment s\'est passée ta journée ? Flint corrèle ça avec ta récup pour trouver ce qui t\'aide ou te plombe.</p><div style="display:flex;flex-wrap:wrap;gap:9px">'+chips+'</div><button class="msave" style="margin-top:20px" onclick="closeCheckin();toast(\'Check-in enregistré ✓\')">Valider ma journée</button></div></div>';
+ document.body.appendChild(d);requestAnimationFrame(function(){d.classList.add('show')})}
+function flCkTap(btn,id){var k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);btn.classList.toggle('on',!!j[id]);haptic();try{renderJournal();renderCorr();renderRecJournal();renderRecCorr()}catch(e){}}
+function closeCheckin(){var d=document.getElementById('flCkSheet');if(d){d.classList.remove('show');setTimeout(function(){if(d)d.remove()},220)}try{flRefreshBell();flRenderBriefCard()}catch(e){}}
+function flPush(title,body){try{if(window.Capacitor)return;if(!('Notification'in window)||Notification.permission!=='granted')return;new Notification(title,{body:body,icon:'icon-192.png'})}catch(e){}}
+function flTick(v){try{flRefreshBell()}catch(e){}if(v==='today'){try{flRenderBriefCard()}catch(e){}}
+ var now=new Date(),h=now.getHours(),p=notifPrefs();
+ if(p.morning&&h>=5&&h<12){var mk='push_m_'+tk();if(!DB.get(mk,0)){var rv=recovery();if(rv){DB.set(mk,1);flPush('☀️ Récup '+rv.s+'% — '+flDecision(rv.s).k+' aujourd\'hui','Ouvre ton brief du matin dans Flint.')}}}
+ if((p.evening||p.bed)&&h>=20){var ek='push_e_'+tk(),j=DB.get('journal_'+tk(),{}),any=false;for(var kk in j)if(j[kk])any=true;if(!DB.get(ek,0)&&!any){DB.set(ek,1);flPush('🌙 Check-in du soir','30 s pour noter ta journée et révéler ce qui influence ta récup.')}}}
+window.addEventListener('load',function(){setTimeout(function(){var on=document.querySelector('.view.on');flTick(on?on.id.replace('v-',''):'today')},500)});
 
 /* ---------- DEMO / RECOV ---------- */
 function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportintense','magnesium','meditation','repastard','hydrate'];
@@ -6142,7 +6268,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v258';
+const APP_VERSION='flint-v259';
 async function checkUpdate(){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -6433,6 +6559,44 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
 .flx-scan-torch{position:absolute;right:18px;bottom:calc(96px + env(safe-area-inset-bottom));z-index:3;width:50px;height:50px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;place-items:center;font-size:22px;cursor:pointer;backdrop-filter:blur(6px)}
 .flx-scan-torch.on{background:#fff;color:#15140F}
 @media (prefers-reduced-motion:reduce){.flx-scan-line{animation:none;top:50%}}
+/* checkmark succès */
+.flx-scan-ok{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.4);pointer-events:none}
+.flx-scan-ok svg{width:54px;height:54px;fill:none;stroke:#3FB57A;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;filter:drop-shadow(0 0 8px rgba(63,181,122,.6))}
+.flx-scan-ok.show{animation:flxOkPop .42s cubic-bezier(.2,.7,.3,1) forwards}
+.flx-scan-ok.show svg{animation:flxOkDraw .5s .08s ease forwards}
+@keyframes flxOkPop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes flxOkDraw{to{stroke-dashoffset:0}}
+/* mode natif ML Kit : caméra rendue derrière le webview -> tout transparent sauf l'overlay */
+.flx-scan.native{background:transparent}
+html.flx-native-scan,body.flx-native-scan{background:transparent !important}
+body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
+/* récemment scannés */
+.flx-scan-recents{position:absolute;left:0;right:0;bottom:calc(150px + env(safe-area-inset-bottom));z-index:3;padding:0 14px}
+.flx-scan-recents-t{color:rgba(255,255,255,.7);font-family:var(--sans);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:0 4px 7px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.flx-scan-recents-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;scrollbar-width:none}
+.flx-scan-recents-row::-webkit-scrollbar{display:none}
+.flx-rc{flex:0 0 auto;display:flex;align-items:center;gap:7px;max-width:170px;border:0;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);color:#fff;border-radius:999px;padding:6px 13px 6px 6px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer}
+.flx-rc-th{width:26px;height:26px;border-radius:50%;background:#fff center/cover no-repeat;display:grid;place-items:center;color:#9a9a92;font-size:13px;flex:0 0 auto;overflow:hidden}
+.flx-rc-n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* écran priming / refus caméra */
+.flx-scan-prime{display:grid;place-items:center;background:#0c0a08;padding:24px}
+.flx-pr{width:100%;max-width:340px;text-align:center;color:#fff;font-family:var(--sans)}
+.flx-pr-ic{width:84px;height:84px;border-radius:24px;margin:0 auto 18px;display:grid;place-items:center;font-size:38px;background:rgba(240,73,46,.16);color:var(--accent)}
+.flx-pr-ic.denied{background:rgba(226,75,74,.16);color:#E24B4A}
+.flx-pr-h{font-size:22px;font-weight:800;margin-bottom:8px}
+.flx-pr-s{font-size:14px;line-height:1.5;color:rgba(255,255,255,.72);margin-bottom:22px}
+.flx-pr .flx-nf-b{max-width:300px;margin-left:auto;margin-right:auto}
+.flx-pr-x{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;z-index:4;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center}
+/* skeleton chargement fiche */
+.flx-sk{background:linear-gradient(90deg,rgba(0,0,0,.06),rgba(0,0,0,.11),rgba(0,0,0,.06));background-size:200% 100%;animation:flxSk 1.1s ease-in-out infinite;border-radius:10px;display:block}
+@keyframes flxSk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.flx-sk-img{width:100%;height:150px;border-radius:16px;margin-bottom:14px}
+.flx-sk-line{height:16px;margin:0 auto 9px}
+.flx-sk-line.w70{width:70%}.flx-sk-line.w40{width:40%}
+.flx-sk-macros{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.flx-sk-macros .flx-sk{width:62px;height:54px;border-radius:14px}
+.flx-prod-loadtxt{margin-top:18px;color:#A7A29A;font-family:var(--sans);font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px}
+@media (prefers-reduced-motion:reduce){.flx-scan-ok.show,.flx-scan-ok.show svg,.flx-sk{animation:none}.flx-scan-ok.show{opacity:1;transform:none}.flx-scan-ok.show svg{stroke-dashoffset:0}}
 /* écran produit façon Yuka */
 .flx-prod{position:fixed;inset:0;z-index:210}
 .flx-prod-ov{position:absolute;inset:0;background:rgba(20,18,12,.5)}
@@ -6594,7 +6758,7 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
   function openProduct(){
     if(g('flxProd'))g('flxProd').remove();
     var ov=document.createElement('div'); ov.id='flxProd'; ov.className='flx-prod';
-    ov.innerHTML='<div class="flx-prod-ov"></div><div class="flx-prod-pan"><button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button><div class="flx-prod-load"><span class="bal-spin"></span>Recherche du produit…</div></div>';
+    ov.innerHTML='<div class="flx-prod-ov"></div><div class="flx-prod-pan"><button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button><div class="flx-prod-load"><div class="flx-sk flx-sk-img"></div><div class="flx-sk flx-sk-line w70"></div><div class="flx-sk flx-sk-line w40"></div><div class="flx-sk-macros"><span class="flx-sk"></span><span class="flx-sk"></span><span class="flx-sk"></span><span class="flx-sk"></span></div><div class="flx-prod-loadtxt"><span class="bal-spin"></span> Recherche du produit…</div></div></div>';
     document.body.appendChild(ov);
     ov.querySelector('.flx-prod-ov').onclick=function(){ov.remove();};
     ov.querySelector('.flx-prod-x').onclick=function(){ov.remove();};
@@ -6737,18 +6901,56 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       callProxy({manual:payload}).then(function(r){ if(r&&r.ok&&r.data&&r.data.product){ fillProduct(r.data); } else { tt('Création impossible'); } }).catch(function(){ tt('Erreur réseau'); });
     };
   }
+  /* ===== Scanner code-barres production-grade (v259) =====
+     Moteurs (auto-sélection) : 1) ML Kit natif (plugin Capacitor) 2) BarcodeDetector (web/Android) 3) ZXing (repli).
+     + priming permission, refus géré, anim succès, recents, anti-fuite caméra, a11y, throttle/warm-up/dedup. */
+  var _zx=null;
+  function loadZXing(cb){
+    if(window.ZXing){cb(window.ZXing);return;}
+    var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
+    s.onload=function(){cb(window.ZXing);}; s.onerror=function(){cb(null);}; document.head.appendChild(s);
+  }
+  var _scanStream=null,_scanRAF=null,_scanDone=false,_scanHelpTO=null,_nativeBS=null,_nativeListener=null,_visHandler=null,_keyHandler=null,_ac=null;
+
+  function _recentsGet(){ try{ return JSON.parse(localStorage.getItem('flx_recents')||'[]')||[]; }catch(e){ return []; } }
+  function _recentThumb(code,p){
+    var ir=p&&p.imageResolved; if(ir&&ir.status==='resolved'&&ir.imageUrl&&String(ir.imageUrl).indexOf('data:')!==0) return ir.imageUrl;
+    if(p&&p.image&&String(p.image).indexOf('data:')!==0) return p.image;
+    return null;
+  }
+  function _recentsAdd(code,p){
+    try{
+      var list=_recentsGet().filter(function(r){return r.code!==code;});
+      list.unshift({code:code,name:(p&&p.name)||'Produit',brand:(p&&p.brand)||'',thumb:_recentThumb(code,p),ts:Date.now()});
+      if(list.length>12) list=list.slice(0,12);
+      localStorage.setItem('flx_recents',JSON.stringify(list));
+    }catch(e){}
+  }
+  function _pcWrite(code,data){
+    try{
+      var c=JSON.stringify({product:data.product,items:data.items,total:data.total,mealName:data.mealName});
+      if(c.length>=60000) return;
+      localStorage.setItem('flx_pc_'+code,c);
+      var idx=[]; try{ idx=JSON.parse(localStorage.getItem('flx_pc_index')||'[]')||[]; }catch(e){}
+      idx=idx.filter(function(x){return x!==code;}); idx.unshift(code);
+      while(idx.length>40){ var old=idx.pop(); try{ localStorage.removeItem('flx_pc_'+old); }catch(e){} }
+      localStorage.setItem('flx_pc_index',JSON.stringify(idx));
+    }catch(e){
+      try{ var i2=JSON.parse(localStorage.getItem('flx_pc_index')||'[]')||[]; var half=Math.ceil(i2.length/2);
+        for(var i=0;i<half;i++){ var o=i2.pop(); if(o)localStorage.removeItem('flx_pc_'+o); }
+        localStorage.setItem('flx_pc_index',JSON.stringify(i2));
+      }catch(_){}
+    }
+  }
+
   function barcodeLookup(code){
-    code=String(code||'').replace(/\D/g,''); if(code.length<6){tt('Code-barres invalide');return;}
+    code=String(code||'').replace(/\D/g,''); if(code.length<8){tt('Code-barres invalide');return;}
     var ov=openProduct();
-    // cache client : produits récemment scannés -> affichage instantané
-    try{ var raw=localStorage.getItem('flx_pc_'+code); if(raw){ var cd=JSON.parse(raw); if(cd&&cd.product){ fillProduct(cd); return; } } }catch(e){}
+    try{ var raw=localStorage.getItem('flx_pc_'+code); if(raw){ var cd=JSON.parse(raw); if(cd&&cd.product){ fillProduct(cd); _recentsAdd(code,cd.product); return; } } }catch(e){}
     var done=false, ctrl=('AbortController' in window)?new AbortController():null;
     var to=setTimeout(function(){ if(!done&&ctrl){ try{ctrl.abort();}catch(e){} } },9000);
     callProxy({barcode:code}, ctrl).then(function(r){ done=true; clearTimeout(to);
-      if(r&&r.ok&&r.data&&r.data.product){
-        fillProduct(r.data);
-        try{ var c=JSON.stringify({product:r.data.product,items:r.data.items,total:r.data.total,mealName:r.data.mealName}); if(c.length<60000) localStorage.setItem('flx_pc_'+code,c); }catch(e){}
-      }
+      if(r&&r.ok&&r.data&&r.data.product){ fillProduct(r.data); _pcWrite(code,r.data); _recentsAdd(code,r.data.product); }
       else if(r&&r.ok&&r.data&&r.data.items&&r.data.items.length){ if(g('flxProd'))g('flxProd').remove(); showResult(r.data.mealName,r.data.items); }
       else { fillNotFound(code); }
     }).catch(function(){ done=true; clearTimeout(to);
@@ -6764,71 +6966,213 @@ input:focus,textarea:focus,select:focus,.fin:focus,.ging:focus,.bsh-name:focus{b
       } else { tt('Recherche trop longue'); }
     });
   }
-  var _zx=null;
-  function loadZXing(cb){
-    if(window.ZXing){cb(window.ZXing);return;}
-    var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js';
-    s.onload=function(){cb(window.ZXing);}; s.onerror=function(){cb(null);}; document.head.appendChild(s);
+
+  function _beep(){
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
+      _ac=_ac||new AC(); var o=_ac.createOscillator(), gn=_ac.createGain();
+      o.frequency.value=880; o.type='sine'; gn.gain.value=0.035; o.connect(gn); gn.connect(_ac.destination);
+      o.start(); setTimeout(function(){ try{o.stop();}catch(e){} }, 80);
+    }catch(e){}
   }
-  var _scanStream=null,_scanRAF=null,_scanDone=false,_scanHelpTO=null;
+  function _armHelp(){
+    if(_scanHelpTO)clearTimeout(_scanHelpTO);
+    _scanHelpTO=setTimeout(function(){ if(_scanDone)return; var h=g('flxBarHint'); if(h)h.innerHTML='Difficile à lire ? Rapproche un peu, ajoute de la lumière, ou « Saisir » le code.'; }, 6000);
+  }
   function _scanStop(){
     _scanDone=true;
-    try{ if(_scanRAF)cancelAnimationFrame(_scanRAF); }catch(e){}
+    try{ if(_scanRAF)cancelAnimationFrame(_scanRAF); }catch(e){} _scanRAF=null;
     try{ if(_zx)_zx.reset(); }catch(e){}
-    try{ if(_scanStream)_scanStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
-    _scanStream=null;
+    try{ if(_scanStream)_scanStream.getTracks().forEach(function(t){t.stop();}); }catch(e){} _scanStream=null;
     if(_scanHelpTO){ clearTimeout(_scanHelpTO); _scanHelpTO=null; }
+    try{ if(_nativeListener){ var L=_nativeListener; _nativeListener=null; if(L&&L.remove)L.remove(); } }catch(e){}
+    try{ if(_nativeBS&&_nativeBS.stopScan)_nativeBS.stopScan(); }catch(e){} _nativeBS=null;
+    try{ document.documentElement.classList.remove('flx-native-scan'); document.body.classList.remove('flx-native-scan'); }catch(e){}
+    if(_visHandler){ document.removeEventListener('visibilitychange',_visHandler); _visHandler=null; }
+    if(_keyHandler){ document.removeEventListener('keydown',_keyHandler); _keyHandler=null; }
   }
-  function openScanner(){
-    if(g('flxBar'))return;
-    _scanDone=false; _scanStream=null; _scanRAF=null;
-    var ov=document.createElement('div'); ov.id='flxBar'; ov.className='flx-scan';
-    ov.innerHTML='<video id="flxBarVid" playsinline muted autoplay></video>'
-      +'<div class="flx-scan-frame" id="flxBarFrame"><span class="flx-scan-line"></span></div>'
-      +'<div class="flx-scan-top"><button class="flx-scan-x" aria-label="Fermer"><i class="ti ti-x"></i></button><span>Code-barres</span><button class="flx-scan-man"><i class="ti ti-keyboard"></i> Saisir</button></div>'
-      +'<button class="flx-scan-torch" id="flxBarTorch" style="display:none" aria-label="Flash"><i class="ti ti-bulb"></i></button>'
-      +'<div class="flx-scan-hint" id="flxBarHint">Place le code dans le cadre</div>';
+  function _onDetect(raw){
+    if(_scanDone)return;
+    var code=String(raw||'').replace(/\D/g,'');
+    if(code.length<8||code.length>14)return;
+    _scanDone=true; hap(14); _beep();
+    var fr=g('flxBarFrame'); if(fr)fr.classList.add('ok');
+    var ok=g('flxBarOk'); if(ok)ok.classList.add('show');
+    var h=g('flxBarHint'); if(h){ h.textContent='Code détecté'; h.classList.add('ok'); h.setAttribute('aria-label','Code détecté, recherche du produit'); }
+    _scanStop();
+    setTimeout(function(){ var o=g('flxBar'); if(o)o.remove(); barcodeLookup(code); }, 420);
+  }
+
+  function _mountTorchWeb(track){
+    var tb=g('flxBarTorch'); if(!tb)return; tb.style.display='grid'; var on=false;
+    tb.onclick=function(){ on=!on; track.applyConstraints({advanced:[{torch:on}]}).catch(function(){}); tb.classList.toggle('on',on); };
+  }
+  function _mountTorchNative(BS){
+    var tb=g('flxBarTorch'); if(!tb)return; tb.style.display='grid'; var on=false;
+    tb.onclick=function(){ on=!on; try{ if(on){ BS.enableTorch?BS.enableTorch():(BS.toggleTorch&&BS.toggleTorch()); } else { BS.disableTorch?BS.disableTorch():(BS.toggleTorch&&BS.toggleTorch()); } }catch(e){} tb.classList.toggle('on',on); };
+  }
+
+  function _camDenied(err){
+    _scanStop();
+    var o=g('flxBar'); if(!o)return;
+    var noCam=err&&(err.name==='NotFoundError'||err.name==='NotSupported'||err.name==='OverconstrainedError');
+    var title=noCam?'Caméra indisponible':'Caméra non autorisée';
+    var sub=noCam?'Ton appareil ne permet pas le scan ici. Tu peux saisir le code à la main.':'Autorise l\'appareil photo dans les réglages, puis réessaie. Ou saisis le code à la main.';
+    o.className='flx-scan flx-scan-prime';
+    o.innerHTML='<button class="flx-pr-x" id="flxDnX" aria-label="Fermer"><i class="ti ti-x"></i></button>'
+      +'<div class="flx-pr"><div class="flx-pr-ic denied"><i class="ti ti-camera-off"></i></div>'
+      +'<div class="flx-pr-h">'+title+'</div><div class="flx-pr-s">'+sub+'</div>'
+      +(noCam?'':'<button class="flx-nf-b primary" id="flxDnRetry"><i class="ti ti-refresh"></i> Réessayer</button>')
+      +'<button class="flx-nf-b" id="flxDnMan"><i class="ti ti-keyboard"></i> Saisir le code</button></div>';
+    var rt=g('flxDnRetry'); if(rt)rt.onclick=function(){ o.remove(); _startScanner(); };
+    g('flxDnMan').onclick=function(){ o.remove(); _manualEntry(); };
+    g('flxDnX').onclick=function(){ o.remove(); };
+  }
+
+  function _manualEntry(){
+    var ex=g('flxDesc'); if(ex)ex.remove();
+    var ov=document.createElement('div'); ov.id='flxDesc'; ov.className='flx-desc';
+    ov.innerHTML='<div class="flx-desc-ov"></div><div class="flx-desc-pan"><div class="flx-desc-grip"></div>'
+      +'<div class="flx-desc-h">Saisir le code-barres</div><div class="flx-desc-s">Les chiffres juste sous le code-barres</div>'
+      +'<div style="display:flex;gap:8px;align-items:stretch"><input id="flxBcIn" class="flx-mf" style="margin-top:0" type="tel" inputmode="numeric" placeholder="Ex : 3017620422003"><button class="flx-desc-go" id="flxBcGo" style="width:auto;margin:0;padding:0 16px"><i class="ti ti-arrow-right"></i></button></div></div>';
     document.body.appendChild(ov);
+    ov.querySelector('.flx-desc-ov').onclick=function(){ov.remove();};
+    var inp=g('flxBcIn'); setTimeout(function(){if(inp)inp.focus();},80);
+    function run(){ var c=(inp.value||'').replace(/\D/g,''); if(c.length<8){tt('Code trop court');return;} ov.remove(); barcodeLookup(c); }
+    g('flxBcGo').onclick=run;
+    inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();run();} });
+  }
+
+  function _primed(){ try{ return localStorage.getItem('flx_cam_primed')==='1'; }catch(e){ return false; } }
+  function _setPrimed(){ try{ localStorage.setItem('flx_cam_primed','1'); }catch(e){} }
+  function _showPrime(){
+    var ov=document.createElement('div'); ov.id='flxBar'; ov.className='flx-scan flx-scan-prime'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','Autoriser la caméra');
+    ov.innerHTML='<button class="flx-pr-x" id="flxPrX" aria-label="Fermer"><i class="ti ti-x"></i></button>'
+      +'<div class="flx-pr"><div class="flx-pr-ic"><i class="ti ti-barcode"></i></div>'
+      +'<div class="flx-pr-h">Scanner un produit</div>'
+      +'<div class="flx-pr-s">Active l\'appareil photo pour scanner le code-barres. La caméra sert juste au scan, rien n\'est envoyé ni enregistré.</div>'
+      +'<button class="flx-nf-b primary" id="flxPrOk"><i class="ti ti-camera"></i> Activer la caméra</button>'
+      +'<button class="flx-nf-b" id="flxPrMan"><i class="ti ti-keyboard"></i> Saisir le code à la main</button></div>';
+    document.body.appendChild(ov);
+    g('flxPrOk').onclick=function(){ _setPrimed(); ov.remove(); _startScanner(); };
+    g('flxPrMan').onclick=function(){ ov.remove(); _manualEntry(); };
+    g('flxPrX').onclick=function(){ ov.remove(); };
+  }
+
+  function _renderRecents(ov, close){
+    var el=ov.querySelector('#flxBarRecents'); if(!el)return;
+    var list=_recentsGet();
+    if(!list.length){ el.style.display='none'; return; }
+    el.innerHTML='<div class="flx-scan-recents-t">Récemment scannés</div><div class="flx-scan-recents-row">'+list.slice(0,8).map(function(r){
+      return '<button class="flx-rc" data-bc="'+esc(r.code)+'"><span class="flx-rc-th"'+(r.thumb?' style="background-image:url('+esc(r.thumb)+')"':'')+'>'+(r.thumb?'':'<i class="ti ti-shopping-bag"></i>')+'</span><span class="flx-rc-n">'+esc(r.name||'Produit')+'</span></button>';
+    }).join('')+'</div>';
+    [].forEach.call(el.querySelectorAll('.flx-rc'),function(b){ b.onclick=function(){ var bc=b.getAttribute('data-bc'); close(); barcodeLookup(bc); }; });
+  }
+
+  function _startWeb(ov){
     var vid=g('flxBarVid');
-    function close(){ _scanStop(); if(ov.parentNode)ov.remove(); }
-    ov.querySelector('.flx-scan-x').onclick=close;
-    ov.querySelector('.flx-scan-man').onclick=function(){ close(); var c=window.prompt('Saisis les chiffres sous le code-barres :'); if(c) barcodeLookup(c); };
-    function onDetect(raw){
-      if(_scanDone)return; var code=String(raw||'').replace(/\D/g,''); if(code.length<6)return;
-      _scanDone=true; hap(14);
-      var fr=g('flxBarFrame'); if(fr)fr.classList.add('ok');
-      var h=g('flxBarHint'); if(h){ h.textContent='Code détecté'; h.classList.add('ok'); }
-      setTimeout(function(){ _scanStop(); if(ov.parentNode)ov.remove(); barcodeLookup(code); }, 240);
-    }
-    function armHelp(){ _scanHelpTO=setTimeout(function(){ if(_scanDone)return; var h=g('flxBarHint'); if(h)h.innerHTML='Difficile à lire ? Rapproche un peu, ajoute de la lumière, ou « Saisir » le code.'; }, 6000); }
-    function startZXing(){
-      loadZXing(function(ZX){
-        if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
-        try{
-          var hints=null; try{ hints=new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS,[ZX.BarcodeFormat.EAN_13,ZX.BarcodeFormat.EAN_8,ZX.BarcodeFormat.UPC_A,ZX.BarcodeFormat.UPC_E,ZX.BarcodeFormat.QR_CODE,ZX.BarcodeFormat.CODE_128]); }catch(e){ hints=null; }
-          _zx=new ZX.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:100});
-          _zx.decodeFromVideoDevice(undefined,vid,function(result){ if(result&&result.getText)onDetect(result.getText()); });
-          armHelp();
-        }catch(e){ var h2=g('flxBarHint'); if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »'; }
-      });
-    }
-    var hasBD=('BarcodeDetector' in window) && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
-    if(!hasBD){ startZXing(); return; }
-    navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}}).then(function(stream){
-      if(_scanDone){ stream.getTracks().forEach(function(t){t.stop();}); return; }
+    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ _startZXing(ov); return; }
+    var hint=g('flxBarHint'); if(hint)hint.textContent='Ouverture de la caméra…';
+    var primary={audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720},frameRate:{ideal:30}}};
+    var fallback={audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:854},height:{ideal:480}}};
+    var slow=setTimeout(function(){ if(!_scanStream&&!_scanDone){ var h=g('flxBarHint'); if(h)h.textContent='La caméra met un peu de temps…'; } }, 5500);
+    navigator.mediaDevices.getUserMedia(primary).catch(function(){ return navigator.mediaDevices.getUserMedia(fallback); }).then(function(stream){
+      clearTimeout(slow);
+      if(_scanDone){ try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){} return; }
       _scanStream=stream; vid.srcObject=stream; var pl=vid.play(); if(pl&&pl.catch)pl.catch(function(){});
       var track=stream.getVideoTracks()[0];
-      try{ if(track.getCapabilities){ var caps=track.getCapabilities();
-        if(caps.focusMode&&caps.focusMode.indexOf&&caps.focusMode.indexOf('continuous')>-1) track.applyConstraints({advanced:[{focusMode:'continuous'}]}).catch(function(){});
-        if(caps.torch){ var tb=g('flxBarTorch'); if(tb){ tb.style.display='grid'; var on=false; tb.onclick=function(){ on=!on; track.applyConstraints({advanced:[{torch:on}]}).catch(function(){}); tb.classList.toggle('on',on); }; } }
+      try{ if(track.getCapabilities){ var caps=track.getCapabilities(); var adv=[];
+        if(caps.focusMode&&caps.focusMode.indexOf&&caps.focusMode.indexOf('continuous')>-1) adv.push({focusMode:'continuous'});
+        if(caps.exposureMode&&caps.exposureMode.indexOf&&caps.exposureMode.indexOf('continuous')>-1) adv.push({exposureMode:'continuous'});
+        if(adv.length) track.applyConstraints({advanced:adv}).catch(function(){});
+        if(caps.torch) _mountTorchWeb(track);
       } }catch(e){}
       var det=null; try{ det=new window.BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','qr_code']}); }catch(e){ det=null; }
-      if(!det){ try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){} _scanStream=null; _scanDone=false; startZXing(); return; }
-      var loop=function(){ if(_scanDone)return; det.detect(vid).then(function(cs){ if(cs&&cs.length){ onDetect(cs[0].rawValue); } else if(!_scanDone){ _scanRAF=requestAnimationFrame(loop); } }).catch(function(){ if(!_scanDone)_scanRAF=requestAnimationFrame(loop); }); };
-      if(vid.readyState>=2)loop(); else vid.addEventListener('loadeddata',loop,{once:true});
-      armHelp();
-    }).catch(function(){ var h=g('flxBarHint'); if(h)h.textContent='Caméra refusée — utilise « Saisir »'; });
+      if(!det){ try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){} _scanStream=null; _scanDone=false; _startZXing(ov); return; }
+      var h2=g('flxBarHint'); if(h2)h2.textContent='Place le code dans le cadre';
+      var started=0, last=0, MIN=90;
+      var tick=function(now){
+        if(_scanDone)return;
+        now=now||0; if(!started)started=now;
+        if(now-started<300){ _scanRAF=requestAnimationFrame(tick); return; }   // warm-up autofocus/exposition
+        if(now-last<MIN){ _scanRAF=requestAnimationFrame(tick); return; }       // throttle ~11Hz
+        last=now;
+        det.detect(vid).then(function(cs){ if(cs&&cs.length){ _onDetect(cs[0].rawValue); } else if(!_scanDone){ _scanRAF=requestAnimationFrame(tick); } }).catch(function(){ if(!_scanDone)_scanRAF=requestAnimationFrame(tick); });
+      };
+      if(vid.readyState>=2)_scanRAF=requestAnimationFrame(tick); else vid.addEventListener('loadeddata',function(){ _scanRAF=requestAnimationFrame(tick); },{once:true});
+      _armHelp();
+    }).catch(function(err){ clearTimeout(slow); _camDenied(err); });
   }
+
+  function _startZXing(ov){
+    var vid=g('flxBarVid'); if(!vid){ var hh=g('flxBarHint'); if(hh)hh.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+    var hint=g('flxBarHint'); if(hint)hint.textContent='Ouverture de la caméra…';
+    loadZXing(function(ZX){
+      if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+      if(_scanDone)return;
+      try{
+        var hints=null; try{ hints=new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS,[ZX.BarcodeFormat.EAN_13,ZX.BarcodeFormat.EAN_8,ZX.BarcodeFormat.UPC_A,ZX.BarcodeFormat.UPC_E,ZX.BarcodeFormat.QR_CODE,ZX.BarcodeFormat.CODE_128]); }catch(e){ hints=null; }
+        _zx=new ZX.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:100});
+        var h2=g('flxBarHint'); if(h2)h2.textContent='Place le code dans le cadre';
+        _zx.decodeFromVideoDevice(undefined,vid,function(result,err){ if(result&&result.getText)_onDetect(result.getText()); });
+        _armHelp();
+      }catch(e){ _camDenied({name:'NotFoundError'}); }
+    });
+  }
+
+  function _startNative(ov, BS){
+    _nativeBS=BS;
+    var hint=g('flxBarHint'); if(hint)hint.textContent='Ouverture de la caméra…';
+    Promise.resolve().then(function(){ return BS.requestPermissions?BS.requestPermissions():{camera:'granted'}; }).then(function(perm){
+      var c=perm&&perm.camera;
+      if(c&&c!=='granted'&&c!=='limited'){ _camDenied({name:'NotAllowedError',native:true}); return Promise.reject('h'); }
+      return BS.isSupported?BS.isSupported():{supported:true};
+    }).then(function(sup){
+      if(sup&&sup.supported===false){ _camDenied({name:'NotSupported'}); return Promise.reject('h'); }
+      if(_scanDone) return Promise.reject('h');
+      document.documentElement.classList.add('flx-native-scan'); document.body.classList.add('flx-native-scan');
+      try{ if(BS.isTorchAvailable) BS.isTorchAvailable().then(function(t){ if(t&&t.available)_mountTorchNative(BS); }).catch(function(){}); }catch(e){}
+      return BS.addListener('barcodesScanned', function(res){ var b=res&&res.barcodes&&res.barcodes[0]; if(b)_onDetect(b.rawValue||b.displayValue||b.value); });
+    }).then(function(listener){
+      if(_scanDone){ try{ if(listener&&listener.remove)listener.remove(); }catch(e){} try{BS.stopScan&&BS.stopScan();}catch(e){} return; }
+      if(listener)_nativeListener=listener;
+      var h=g('flxBarHint'); if(h)h.textContent='Place le code dans le cadre';
+      _armHelp();
+      return BS.startScan?BS.startScan({}):null;
+    }).catch(function(e){ if(e!=='h'){ var h=g('flxBarHint'); if(h)h.textContent='Scanner natif indisponible — utilise « Saisir »'; } });
+  }
+
+  function _startScanner(){
+    if(g('flxBar'))return;
+    _scanDone=false; _scanStream=null; _scanRAF=null; _nativeBS=null; _nativeListener=null;
+    var BS=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.BarcodeScanner;
+    var useNative=!!(BS&&BS.startScan);
+    var ov=document.createElement('div'); ov.id='flxBar'; ov.className='flx-scan'+(useNative?' native':''); ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','Scanner code-barres');
+    ov.innerHTML=(useNative?'':'<video id="flxBarVid" playsinline muted autoplay></video>')
+      +'<div class="flx-scan-frame" id="flxBarFrame"><span class="flx-scan-line"></span><span class="flx-scan-ok" id="flxBarOk"><svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg></span></div>'
+      +'<div class="flx-scan-top"><button class="flx-scan-x" aria-label="Fermer le scanner"><i class="ti ti-x"></i></button><span>Code-barres</span><button class="flx-scan-man"><i class="ti ti-keyboard"></i> Saisir</button></div>'
+      +'<button class="flx-scan-torch" id="flxBarTorch" style="display:none" aria-label="Activer le flash"><i class="ti ti-bulb"></i></button>'
+      +'<div class="flx-scan-recents" id="flxBarRecents"></div>'
+      +'<div class="flx-scan-hint" id="flxBarHint" aria-live="polite">Ouverture de la caméra…</div>';
+    document.body.appendChild(ov);
+    function close(){ _scanStop(); var o=g('flxBar'); if(o)o.remove(); }
+    ov.querySelector('.flx-scan-x').onclick=close;
+    ov.querySelector('.flx-scan-man').onclick=function(){ close(); _manualEntry(); };
+    _keyHandler=function(e){ if(e.key==='Escape')close(); };
+    document.addEventListener('keydown',_keyHandler);
+    _visHandler=function(){ if(document.hidden)close(); };
+    document.addEventListener('visibilitychange',_visHandler);
+    try{ ov.querySelector('.flx-scan-x').focus(); }catch(e){}
+    _renderRecents(ov, close);
+    if(useNative) _startNative(ov, BS); else _startWeb(ov);
+  }
+
+  function openScanner(){
+    if(g('flxBar'))return;
+    if(!_primed()){ _showPrime(); return; }
+    _startScanner();
+  }
+
   var _bcModes=window.balSheetClose;
   if(typeof _bcModes==='function'){ window.balSheetClose=function(){ removePortion(); return _bcModes.apply(this,arguments); }; }
   window.nutDescribe=function(){ openDescribe(); };
