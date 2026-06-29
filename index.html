@@ -3,11 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=465, viewport-fit=cover, maximum-scale=1">
-<meta name="theme-color" content="#F3EFE7">
+<meta name="theme-color" content="#FAF8F5">
+<!-- PWA installable iOS + Android : plein écran, splash auto (iOS 16.4+), auto-update via service worker -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FLINT">
+<meta name="application-name" content="FLINT">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="FLINT — ta récupération, ton sommeil et ta charge, comme un Whoop, sans abonnement.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preload" as="image" href="icons/home_empty.png?v=5">
 <link rel="preload" as="image" href="icons/sleep/mockup_empty.png?v=4">
 <link rel="preload" as="image" href="icons/sleep/sleep_landscape.png?v=3">
@@ -2559,6 +2567,17 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flbk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .flrow2{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F0EBE3;font-size:14px;color:#6E6A62}
 .flrow2:last-child{border-bottom:0}.flrow2 b{color:#161512;font-weight:800}
+/* guide d'installation iOS (Ajouter à l'écran d'accueil) */
+.iosinstall{position:fixed;left:12px;right:12px;bottom:max(14px,env(safe-area-inset-bottom));z-index:300;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ECE6DD;border-radius:18px;padding:13px 14px;box-shadow:0 14px 44px rgba(22,21,18,.22);transform:translateY(150%);opacity:0;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .3s}
+.iosinstall.show{transform:translateY(0);opacity:1}
+.iosinstall .iosic{width:46px;height:46px;border-radius:12px;flex:0 0 auto}
+.iosinstall .iostx{flex:1;min-width:0}
+.iosinstall .iostx b{display:block;font-size:14.5px;font-weight:800;color:#161512;margin-bottom:2px}
+.iosinstall .iostx span{display:block;font-size:12.5px;line-height:1.4;color:#6E6A62}
+.iosinstall .iostx i{color:#2E78B5;font-size:15px;vertical-align:-2px}
+.iosinstall .iosx{position:absolute;top:-9px;right:-9px;width:26px;height:26px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#8F8982;display:grid;place-items:center;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.iosinstall .iosarrow{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);color:#2E78B5;font-size:24px;animation:iosbounce 1.3s infinite}
+@keyframes iosbounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 </style>
 </head>
 <body>
@@ -2574,6 +2593,12 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
 </header>
 <div id="updBanner" onclick="forceUpdate()"></div>
+<div id="iosInstall" class="iosinstall" hidden>
+  <button class="iosx" type="button" aria-label="Fermer" onclick="dismissIosInstall()"><i class="ti ti-x"></i></button>
+  <img class="iosic" src="apple-touch-icon.png" alt="FLINT">
+  <div class="iostx"><b>Installe FLINT sur ton iPhone</b><span>Appuie sur <i class="ti ti-share-2"></i> Partager, puis « Sur l'écran d'accueil ».</span></div>
+  <div class="iosarrow"><i class="ti ti-chevron-down"></i></div>
+</div>
 
 <!-- ===================== AUJOURD'HUI ===================== -->
 <section class="view on" id="v-today"><div class="flhome">
@@ -6198,6 +6223,13 @@ function flTick(v){try{flRefreshBell()}catch(e){}if(v==='today'){try{flRenderBri
  if(p.morning&&h>=5&&h<12){var mk='push_m_'+tk();if(!DB.get(mk,0)){var rv=recovery();if(rv){DB.set(mk,1);flPush('☀️ Récup '+rv.s+'% — '+flDecision(rv.s).k+' aujourd\'hui','Ouvre ton brief du matin dans Flint.')}}}
  if((p.evening||p.bed)&&h>=20){var ek='push_e_'+tk(),j=DB.get('journal_'+tk(),{}),any=false;for(var kk in j)if(j[kk])any=true;if(!DB.get(ek,0)&&!any){DB.set(ek,1);flPush('🌙 Check-in du soir','30 s pour noter ta journée et révéler ce qui influence ta récup.')}}}
 window.addEventListener('load',function(){setTimeout(function(){var on=document.querySelector('.view.on');flTick(on?on.id.replace('v-',''):'today')},500)});
+
+/* ---------- Guide d'installation iOS (Ajouter à l'écran d'accueil) ---------- */
+function flIsStandalone(){return (window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||(window.matchMedia&&window.matchMedia('(display-mode: minimal-ui)').matches)}
+function flIsIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)}
+function dismissIosInstall(){var el=document.getElementById('iosInstall');if(el){el.classList.remove('show');setTimeout(function(){el.hidden=true},320)}try{DB.set('ios_install_dismissed',Date.now())}catch(e){}try{haptic()}catch(e){}}
+function maybeShowIosInstall(){try{if(!flIsIOS()||flIsStandalone())return;var last=DB.get('ios_install_dismissed',0);if(last&&(Date.now()-last)<7*864e5)return;var el=document.getElementById('iosInstall');if(!el)return;setTimeout(function(){if(flIsStandalone())return;el.hidden=false;requestAnimationFrame(function(){el.classList.add('show')})},2600)}catch(e){}}
+window.addEventListener('load',maybeShowIosInstall);
 
 /* ---------- DEMO / RECOV ---------- */
 function simulateData(silent){const BEH=['cafeine','alcool','ecrans','sportintense','magnesium','meditation','repastard','hydrate'];
