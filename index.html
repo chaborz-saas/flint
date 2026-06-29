@@ -2943,21 +2943,29 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .bsh-save{flex:1.45;border:0;background:var(--accent);border-radius:999px;padding:16px;font-family:var(--sans);font-size:16px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(240,73,46,.28)}
 </style>
 <div class="nut2">
-  <!-- Architecture image-overlay (comme la page Pas/Sommeil) : maquette en fond + valeurs incrustées par-dessus -->
-  <div class="nut2stage">
-    <div class="nov-sub">Ton plat en photo — l'IA compte calories &amp; macros</div>
-    <!-- hotspots cliquables transparents alignés sur la maquette -->
-    <button class="nov" type="button" style="left:27%;top:14%;width:46%;height:31%" onclick="nutCamera()" aria-label="Scanner mon repas"></button>
-    <button class="nov" type="button" style="left:5%;top:45.5%;width:21.5%;height:11.5%" onclick="nutCamera()" aria-label="Scanner"></button>
-    <button class="nov" type="button" style="left:27.8%;top:45.5%;width:21.5%;height:11.5%" onclick="nutGallery()" aria-label="Galerie"></button>
-    <button class="nov" type="button" style="left:50.6%;top:45.5%;width:21.5%;height:11.5%" onclick="nutBarcode()" aria-label="Code-barres"></button>
-    <button class="nov" type="button" style="left:73.4%;top:45.5%;width:21.5%;height:11.5%" onclick="nutDescribe()" aria-label="Écrire"></button>
-    <!-- valeurs variables incrustées sur la carte AUJOURD'HUI -->
-    <div class="nov-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
-    <div class="nov-macros">
-      <div class="nov-mrow"><svg class="nov-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingP" cx="18" cy="18" r="15" stroke="#5A8DEE"/></svg><span class="nov-mv"><b id="nut2Prot">0</b><i>g</i></span><span class="nov-ml">Protéines</span></div>
-      <div class="nov-mrow"><svg class="nov-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingC" cx="18" cy="18" r="15" stroke="#E0922A"/></svg><span class="nov-mv"><b id="nut2Carb">0</b><i>g</i></span><span class="nov-ml">Glucides</span></div>
-      <div class="nov-mrow"><svg class="nov-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><span class="nov-mv"><b id="nut2Fat">0</b><i>g</i></span><span class="nov-ml">Lipides</span></div>
+  <div class="nut2-scan">
+    <div class="nut2-scan-t">Scanner un plat</div>
+    <div class="nut2-scan-s">Ton plat en photo — l'IA compte calories &amp; macros</div>
+    <button class="nut2-bigcam" type="button" onclick="nutCamera()" aria-label="Scanner mon repas"><i class="ti ti-camera"></i></button>
+    <div class="nut2-scan-hint">Appuyer pour scanner</div>
+  </div>
+  <div class="nut2-acts">
+    <button class="nut2-act" type="button" onclick="nutCamera()"><i class="ti ti-camera"></i><span>Scanner</span></button>
+    <button class="nut2-act" type="button" onclick="nutGallery()"><i class="ti ti-photo"></i><span>Galerie</span></button>
+    <button class="nut2-act" type="button" onclick="nutBarcode()"><i class="ti ti-barcode"></i><span>Code-barres</span></button>
+    <button class="nut2-act" type="button" onclick="nutDescribe()"><i class="ti ti-pencil"></i><span>Écrire</span></button>
+  </div>
+  <div class="nut2-card">
+    <div class="nut2-left">
+      <div class="nut2-day">Aujourd'hui</div>
+      <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
+      <svg class="nut2-wave" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 17 C13 9 21 22 33 16 C45 10 53 21 65 15 C79 8 89 19 103 14 C110 11 115 13 117 13" fill="none" stroke="#F0492E" stroke-width="2" stroke-linecap="round"/><circle cx="117" cy="13" r="3" fill="#fff" stroke="#F0492E" stroke-width="2"/></svg>
+    </div>
+    <div class="nut2-sep"></div>
+    <div class="nut2-right">
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingP" cx="18" cy="18" r="15" stroke="#5A8DEE"/></svg><div class="nut2-mv"><b id="nut2Prot">0</b><i>g</i></div><span class="nut2-ml">Protéines</span></div>
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingC" cx="18" cy="18" r="15" stroke="#E0922A"/></svg><div class="nut2-mv"><b id="nut2Carb">0</b><i>g</i></div><span class="nut2-ml">Glucides</span></div>
+      <div class="nut2-mrow"><svg class="nut2-ring" viewBox="0 0 36 36"><circle class="nrt" cx="18" cy="18" r="15"/><circle class="nra" id="nut2RingF" cx="18" cy="18" r="15" stroke="#F0653E"/></svg><div class="nut2-mv"><b id="nut2Fat">0</b><i>g</i></div><span class="nut2-ml">Lipides</span></div>
     </div>
   </div>
   <div class="nutx-rh" style="margin:22px 10px 10px"><span><i class="ti ti-history"></i> Repas du jour</span><button type="button" onclick="openNutHistory()" style="border:0;background:none;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:2px;cursor:pointer;text-transform:none;letter-spacing:0">Tout voir <i class="ti ti-chevron-right"></i></button></div>
@@ -6772,7 +6780,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v330';
+const APP_VERSION='flint-v331';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
