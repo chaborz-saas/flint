@@ -3090,6 +3090,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .ngNav .rg{font-size:14px;font-weight:800;color:#151515;min-width:160px;text-align:center}
 .ng-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:16px;color:#151515;text-transform:uppercase}
 #v-nutgraph .nbil-kpi .kv.grn{color:#3B6D11}
+.ng-obj{font-size:12.5px;font-weight:600;color:#8A857D;margin-top:7px}
+.ng-obj b{font-weight:800;color:#56514B}
+.ng-en{display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:14px}
+.ng-en>div{text-align:center;padding:0 6px}.ng-en>div+div{border-left:1px solid #F1EBE3}
+.ng-en .el{font-size:11.5px;font-weight:600;color:#8A857D;margin-bottom:6px}
+.ng-en .ev{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:23px;color:#151515;line-height:1}
+.ng-seg3{display:flex;gap:3px;height:13px;margin:14px 0 11px}
+.ng-seg3 i{display:block;height:100%;border-radius:4px;width:0;transition:width .5s ease;min-width:0}
+.ng-seg3 .u{background:#E0922A}.ng-seg3 .i{background:#3FAE6A}.ng-seg3 .o{background:#E0563A}
+.ng-reg{display:flex;align-items:center;gap:14px;font-size:12.5px;font-weight:700;flex-wrap:wrap}
+.ng-reg span{display:inline-flex;align-items:center;gap:6px;color:#56514B}
+.ng-reg .d{width:8px;height:8px;border-radius:50%;flex:none}
 </style>
 <div class="nbil">
   <div class="ng-top"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button></div>
@@ -3102,6 +3114,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   <div class="ng-hero">
     <div class="hl" id="ngLbl">Moyenne / jour</div>
     <div class="hrow"><div class="hv"><span id="ngBig">—</span><small>kcal</small></div><span class="ng-delta" id="ngDelta" style="display:none"></span></div>
+    <div class="ng-obj" id="ngObj"></div>
   </div>
   <div class="ngNav"><button type="button" onclick="ngShift(-1)" aria-label="Période précédente"><i class="ti ti-chevron-left"></i></button><span class="rg" id="ngRange">—</span><button type="button" id="ngNext" onclick="ngShift(1)" aria-label="Période suivante"><i class="ti ti-chevron-right"></i></button></div>
   <div class="nbil-card">
@@ -3109,10 +3122,23 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="nbil-csub">Glisse le doigt sur le graphe pour lire chaque jour.</div>
     <div id="ngChart" style="margin-top:6px"></div>
   </div>
+  <div class="nbil-card">
+    <div class="ng-ct">Énergie · moyenne / jour</div>
+    <div class="ng-en">
+      <div><div class="el">Consommé</div><div class="ev" id="ngEC">—</div></div>
+      <div><div class="el">Dépensé</div><div class="ev" id="ngEB">—</div></div>
+      <div><div class="el">Bilan</div><div class="ev" id="ngEN">—</div></div>
+    </div>
+  </div>
+  <div class="nbil-card">
+    <div class="ng-ct">Régularité vs ta cible</div>
+    <div class="ng-seg3"><i class="u" id="ngSegU"></i><i class="i" id="ngSegI"></i><i class="o" id="ngSegO"></i></div>
+    <div class="ng-reg"><span><i class="d" style="background:#3FAE6A"></i><span id="ngRegIn">—</span> dans la cible</span><span><i class="d" style="background:#E0922A"></i><span id="ngRegU">—</span> sous</span><span><i class="d" style="background:#E0563A"></i><span id="ngRegO">—</span> au-dessus</span></div>
+  </div>
   <div class="nbil-kpis">
-    <div class="nbil-kpi"><div class="kl">Dans ta cible</div><div class="kv grn"><span id="ngInTgt">—</span></div></div>
     <div class="nbil-kpi"><div class="kl">Jours loggés</div><div class="kv"><span id="ngLogged">—</span></div></div>
     <div class="nbil-kpi"><div class="kl">Meilleur jour</div><div class="kv"><span id="ngBest">—</span></div></div>
+    <div class="nbil-kpi"><div class="kl">Total période</div><div class="kv"><span id="ngTotal">—</span></div></div>
   </div>
   <div class="nbil-tip"><span class="t2"><i class="ti ti-bulb"></i></span><span class="tx"><b>Analyse</b><span id="ngInsight">—</span></span></div>
 </div>
@@ -5505,18 +5531,25 @@ function renderNutGraph(){var data=nutBilanData(_ngP,_ngOff);_ngData=data;var g=
    var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}if(_ngSel!=null){_ngSel=null;c.innerHTML=nutBilanChart(_ngData,getNutGoals().kcal,null);ngHero();}};
    c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);c.addEventListener('pointerleave',endf);}}
  ngHero();
- var span=_ngP==='annee'?12:(_ngP==='mois'?30:7),logged=data.filter(function(d){return d.has}).length,avg=ngAvg(data);
- set('ngLogged',logged+'/'+span);
- var inT=0,tot=0;if(_ngP!=='annee'){var G=balGoals()[goalOf()],unit=_ngP==='mois'?30:7;for(var i=0;i<unit;i++){var kk=tk(_ngOff*unit-i);if(mealsOf(kk).length){tot++;var net=balanceOf(kk).net;if(net>=G.lo&&net<=G.hi)inT++}}}
- set('ngInTgt',_ngP==='annee'?'—':(tot?Math.round(inT/tot*100)+'%':'—'));
- var best=null;data.forEach(function(d){if(d.kcal>0&&(!best||d.kcal>best.kcal))best=d});
- set('ngBest',best?fmtN(best.kcal):'—');
- var tip=document.getElementById('ngInsight');if(tip){var pct=avg&&g.kcal?Math.round((avg-g.kcal)/g.kcal*100):0,msg;
-  if(!avg)msg='Pas encore de données sur cette période — logue tes repas pour voir ton analyse.';
-  else if(logged<span*0.6)msg='Régularité à soigner : '+logged+'/'+span+' jours loggés. Plus tu logges, plus l\'analyse est fiable.';
-  else if(Math.abs(pct)<=8)msg='Tu tournes autour de ta cible ('+fmtN(g.kcal)+' kcal/j). C\'est exactement le bon rythme, continue.';
-  else if(pct<0)msg='Tu manges ~'+Math.abs(pct)+'% sous ta cible en moyenne'+(best?'. Ton plus haut : '+fmtN(best.kcal)+' kcal.':'.');
-  else msg='Tu es ~'+pct+'% au-dessus de ta cible en moyenne. Surveille les portions les jours chargés.';
+ set('ngObj','Objectif <b>'+fmtN(g.kcal)+'</b> kcal/j');var _o=document.getElementById('ngObj');if(_o)_o.innerHTML='Objectif <b>'+fmtN(g.kcal)+'</b> kcal/j';
+ var keys=[];
+ if(_ngP==='annee'){var now=new Date();for(var m=11;m>=0;m--){var dM=new Date(now.getFullYear(),now.getMonth()-m+_ngOff*12,1),yy=dM.getFullYear(),mm=dM.getMonth(),dim=new Date(yy,mm+1,0).getDate();for(var dd=1;dd<=dim;dd++)keys.push(yy+'-'+(mm+1)+'-'+dd);}}
+ else{var sp=_ngP==='mois'?30:7;for(var i=sp-1;i>=0;i--)keys.push(tk(_ngOff*sp-i));}
+ var G=balGoals()[goalOf()],sumC=0,sumB=0,nLog=0,under=0,inT=0,over=0,total=0,best=0;
+ keys.forEach(function(kk){if(!mealsOf(kk).length)return;nLog++;var c=nutTotals(kk).kcal,b=caloriesBurned(kk),net=c-b;sumC+=c;sumB+=b;total+=c;if(net<G.lo)under++;else if(net<=G.hi)inT++;else over++;if(c>best)best=c;});
+ var aC=nLog?Math.round(sumC/nLog):0,aB=nLog?Math.round(sumB/nLog):0,aN=aC-aB;
+ set('ngEC',aC?fmtN(aC):'—');set('ngEB',aB?fmtN(aB):'—');
+ var ne=document.getElementById('ngEN');if(ne){if(aC){ne.textContent=(aN>0?'+':(aN<0?'−':''))+fmtN(Math.abs(aN));ne.style.color=aN<=0?'#3B6D11':'#C0432A';}else{ne.textContent='—';ne.style.color='#151515';}}
+ var totSeg=under+inT+over||1,su=document.getElementById('ngSegU'),si=document.getElementById('ngSegI'),so=document.getElementById('ngSegO');
+ if(su)su.style.width=(under/totSeg*100)+'%';if(si)si.style.width=(inT/totSeg*100)+'%';if(so)so.style.width=(over/totSeg*100)+'%';
+ set('ngRegIn',inT);set('ngRegU',under);set('ngRegO',over);
+ set('ngLogged',nLog+'/'+keys.length);set('ngBest',best?fmtN(best):'—');set('ngTotal',total?fmtN(total):'—');
+ var tip=document.getElementById('ngInsight');if(tip){var pct=aC&&g.kcal?Math.round((aC-g.kcal)/g.kcal*100):0,msg;
+  if(!aC)msg='Pas encore de données sur cette période — logue tes repas pour voir ton analyse.';
+  else if(nLog<keys.length*0.6)msg='Régularité à soigner : '+nLog+'/'+keys.length+' jours loggés. Plus tu logges, plus l\'analyse est fiable.';
+  else if(inT>=nLog*0.6)msg='Solide : '+inT+'/'+nLog+' jours dans ta cible, bilan moyen '+(aN<=0?'−':'+')+fmtN(Math.abs(aN))+' kcal/j. Tu es pile dans ton objectif.';
+  else if(under>over)msg='Tu manges souvent sous ta cible ('+under+' jours sur '+nLog+'). Ajoute une collation protéinée les jours d\'entraînement.';
+  else msg='Tu dépasses ta cible '+over+' jours sur '+nLog+'. Surveille les portions et les extras les jours chargés.';
   tip.textContent=msg;}}
 function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_nbSel=null;
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
@@ -7069,7 +7102,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v345';
+const APP_VERSION='flint-v346';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
