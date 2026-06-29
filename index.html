@@ -2653,7 +2653,21 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .m-red{background:#FCE7E0;color:#F0653E}.flhome .h2bar.m-red i{background:#F0653E}
   .flhome .m-cor{background:#E4F5E9;color:#2FA86A}.flhome .h2bar.m-cor i{background:#2FA86A}
   .flhome .m-grn{background:#DCF3F2;color:#13AEAA}.flhome .h2bar.m-grn i{background:#13AEAA}
+  /* ===== Barre condensée 3 anneaux (façon WHOOP) — apparaît au scroll ===== */
+  .flhome .h3cond{position:sticky;top:60px;height:0;z-index:17;pointer-events:none}
+  .flhome .h3cond-in{display:flex;justify-content:space-around;align-items:center;gap:6px;padding:9px 12px;background:rgba(250,248,245,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);box-shadow:0 8px 20px rgba(20,18,12,.06);opacity:0;transform:translateY(-14px);transition:opacity .3s ease,transform .34s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+  .flhome .h3cond.show .h3cond-in{opacity:1;transform:translateY(0);pointer-events:auto}
+  .flhome .h3c{display:flex;align-items:center;gap:8px;background:none;border:0;font-family:inherit;cursor:pointer;padding:2px 4px;transition:transform .12s ease}
+  .flhome .h3c:active{transform:scale(.93)}
+  .flhome .h3c .h3ring{width:30px;height:30px;flex:none}
+  .flhome .h3c .h3lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:#56514B}
+  .flhome .h3rf{transition:stroke-dasharray .55s cubic-bezier(.2,.8,.2,1)}
   </style>
+  <div class="h3cond"><div class="h3cond-in">
+    <button class="h3c" type="button" onclick="go('sleep')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3SleepArc" cx="16" cy="16" r="14" fill="none" stroke="#6C7BD6" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">SOMMEIL</span></button>
+    <button class="h3c" type="button" onclick="go('recovery')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3RecupArc" cx="16" cy="16" r="14" fill="none" stroke="#2FA86A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">RÉCUP</span></button>
+    <button class="h3c" type="button" onclick="go('load')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3EffortArc" cx="16" cy="16" r="14" fill="none" stroke="#E0922A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">EFFORT</span></button>
+  </div></div>
   <div class="h2dn">
     <button class="nav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
     <button class="lbl" onclick="flOpenPicker()"><i class="ti ti-calendar"></i><span id="flDateHd">Aujourd'hui</span></button>
@@ -5611,8 +5625,23 @@ function renderToday(){
  const rn=document.getElementById('flRecup');if(rn){if(has){countUpEl(rn,rv.s,'')}else rn.textContent=calib?cal+'/4':'—'}
  const kn=document.getElementById('flKcal');if(kn){countUpEl(kn,kcalB,'',true)}
  renderHome2();
+ (function(){var C=87.96;function arc(id,frac,col){var e=document.getElementById(id);if(!e)return;e.setAttribute('stroke-dasharray',(Math.max(0,Math.min(1,frac))*C).toFixed(1)+' '+C.toFixed(1));if(col)e.setAttribute('stroke',col);}
+  var tt=sensorOf(K),need=(getProfile().need||8)*60,sp=(tt&&tt.sleepMin)?tt.sleepMin/need:0;
+  arc('h3SleepArc',sp);
+  arc('h3RecupArc',(rv&&rv.s!=null)?rv.s/100:0,(rv&&rv.color)?rv.color:null);
+  arc('h3EffortArc',(typeof loadStrain==='function'?loadStrain():0)/21);
+ })();
  window._todayShown=true;
+ flCondUpdate();
 }
+/* ===== Barre condensée : apparaît quand le hero récup est scrollé hors champ ===== */
+function flCondUpdate(){
+ var tv=document.getElementById('v-today');if(!tv||!tv.classList.contains('on'))return;
+ var bar=document.querySelector('.flhome .h3cond'),hero=document.querySelector('.flhome .h2hero');if(!bar||!hero)return;
+ bar.classList.toggle('show',hero.getBoundingClientRect().bottom<74);
+}
+(function(){var tick=false;function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){flCondUpdate();tick=false});}
+ window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll,{passive:true});})();
 /* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
 function importDetectedSessions(items){if(!items||!items.length)return 0;const k=tk(),a=DB.get('sessions_'+k,[]);let n=0;items.forEach(it=>{const start=it.start||'';if(a.some(s=>s.auto&&s.start===start&&s.name===(it.sport||'Activité')))return;a.push({name:it.sport||'Activité',icon:sportIcon(it.sport),start:start,dur:it.dur||30,int:it.int||2,auto:true});n++});if(n)DB.set('sessions_'+k,a);return n}
 
@@ -7438,7 +7467,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v367';
+const APP_VERSION='flint-v368';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
