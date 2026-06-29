@@ -3497,8 +3497,15 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal4-goedit i{font-size:16px}
 .bal4-mtn{position:absolute;right:0;bottom:0;width:44%;height:74%;z-index:0;opacity:.9;pointer-events:none}
 .bal4-solde{background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:22px 14px 14px;box-shadow:var(--sh-card);margin-bottom:16px}
-.bal4-net{font-family:'Anton';font-size:72px;line-height:.9;text-align:center;color:#161512;letter-spacing:-1px}
-.bal4-netu{text-align:center;font-size:15px;color:#8A857B;margin:9px 0 16px}
+.bal4-net{position:relative;font-family:'Anton';font-size:72px;line-height:.9;text-align:center;color:#161512;letter-spacing:-1px}
+.bal4-nin{position:relative;display:inline-block}
+.bal4-sgn{position:absolute;right:100%;top:0;margin-right:.05em}
+.bal4-netu{text-align:center;font-size:15px;color:#8A857B;margin:9px 0 0}
+.bal4-verd{text-align:center;margin:13px 0 16px}
+.bal4-vchip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;letter-spacing:.2px;padding:5px 12px;border-radius:999px}
+.bal4-vchip i{font-size:14px}
+.bal4-vtxt{font-size:13px;font-weight:500;color:#6B655C;line-height:1.42;margin:10px auto 0;max-width:290px}
+.bal4-vtxt b{font-weight:800;color:#15140F}
 .bal4-split{position:relative;display:flex;background:linear-gradient(90deg,#EDF0FB 0 50%,#FCEEE6 50% 100%);border-radius:22px;overflow:hidden}
 .bal4-split::before{content:"";position:absolute;left:50%;top:14%;bottom:14%;width:1px;background:rgba(20,18,12,.08);transform:translateX(-.5px)}
 .bal4-half{flex:1;text-align:center;padding:20px 10px 18px;min-width:0}
@@ -3538,6 +3545,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
     <span class="bal4-eyb ctr">SOLDE CALORIQUE</span>
     <div class="bal4-net" id="bal4Net">—</div>
     <div class="bal4-netu">kcal</div>
+    <div class="bal4-verd">
+      <span class="bal4-vchip" id="bal4Chip">—</span>
+      <p class="bal4-vtxt" id="bal4Txt">—</p>
+    </div>
     <div class="bal4-split">
       <div class="bal4-half">
         <span class="bal4-flame in"><i class="ti ti-tools-kitchen-2"></i></span>
@@ -6122,16 +6133,25 @@ function renderBalance(){
  set('bal4GoName',G.lbl);
  set('bal4GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  set('bal4In',fmtN(b.in));set('bal4Out',fmtN(b.out));
- set('bal4Net',(b.net>0?'+':'')+fmtN(b.net));
+ var sign=b.net<0?'-':(b.net>0?'+':'');
+ var bn=document.getElementById('bal4Net');if(bn)bn.innerHTML='<span class="bal4-nin">'+(sign?'<span class="bal4-sgn">'+sign+'</span>':'')+fmtN(Math.abs(b.net))+'</span>';
  var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal4InBar'),ob=document.getElementById('bal4OutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
  document.getElementById('bal3Chart').innerHTML=balCurveNative(k);
- var ct;
- if(!b.hasFood)ct='Logue tes repas pour suivre ta balance énergétique.';
- else if(inT)ct='Excellent '+(g==='seche'?'déficit':g==='masse'?'surplus':'équilibre')+' aujourd\'hui, tu es parfaitement dans ta cible.';
- else if(below)ct=(g==='seche')?'Déficit trop fort — remange un peu pour sécher sans casser ta récup.':'En dessous de ta cible, il te manque du carburant.';
- else ct='Au-dessus de ta cible aujourd\'hui — ajuste pour rester '+G.lbl.toLowerCase()+'.';
- set('bal3Coach',ct);
+ var ch=document.getElementById('bal4Chip');if(ch){ch.innerHTML='<i class="ti '+st[3]+'"></i> '+st[0];ch.style.color=st[1];ch.style.background=st[2]}
+ var gw=g==='seche'?'sèche':g==='masse'?'prise de muscle':'maintien',ct;
+ if(!b.hasFood)ct='Logue tes repas pour voir si ton solde colle à ton objectif <b>'+gw+'</b>.';
+ else if(inT)ct='Pile dans ta cible '+gw+' (<b>'+fmtN(G.lo)+' à '+fmtN(G.hi)+' kcal</b>). Continue exactement comme ça 👌';
+ else if(below){
+  ct=(g==='seche')?'Déficit trop fort. Au-delà de <b>'+fmtN(Math.abs(G.lo))+' kcal</b>, tu risques de perdre du muscle et d\'entamer ta récup — remange un peu.':
+     (g==='masse')?'Pas assez de surplus : il te manque <b>'+fmtN(G.lo-b.net)+' kcal</b> pour nourrir ta prise de muscle.':
+     'En dessous de l\'équilibre — ajoute <b>'+fmtN(G.lo-b.net)+' kcal</b> pour te stabiliser.';
+ } else {
+  ct=(g==='seche')?'Pas assez de déficit pour sécher — réduis d\'environ <b>'+fmtN(b.net-G.hi)+' kcal</b>.':
+     (g==='masse')?'Surplus trop fort : au-delà, tu prends surtout du gras. Retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b>.':
+     'Au-dessus de l\'équilibre — retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b> pour rester stable.';
+ }
+ var bt=document.getElementById('bal4Txt');if(bt)bt.innerHTML=ct;
 }
 function balPhotoStart(){var f=document.getElementById('balFile');if(f){f.value='';f.click()}}
 function _downscaleImg(dataUrl,maxw,cb){var img=new Image();img.onload=function(){var s=Math.min(1,maxw/img.width),w=Math.round(img.width*s),h=Math.round(img.height*s);var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);try{cb(c.toDataURL('image/jpeg',0.7))}catch(e){cb(null)}};img.onerror=function(){cb(null)};img.src=dataUrl}
@@ -7398,7 +7418,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v363';
+const APP_VERSION='flint-v364';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
