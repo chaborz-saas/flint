@@ -2984,24 +2984,41 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <section class="view" id="v-nutbilan">
 <style>
 .nbil{padding:0 14px 96px;font-family:'Inter',sans-serif;color:#151515}
-.nbil-hd{display:flex;align-items:center;gap:12px;margin:6px 2px 14px}
-.nbil-back{width:42px;height:42px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.12);color:#151515;font-size:20px;display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
+.nbil-hd{display:flex;align-items:center;gap:14px;margin:6px 2px 16px}
+.nbil-back{width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.12);color:#151515;font-size:21px;display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
 .nbil-back:active{transform:scale(.86)}
-.nbil-h1{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:27px;text-transform:uppercase;color:#151515;line-height:1}
-.nbil-seg{display:flex;gap:4px;background:rgba(22,21,18,.05);border-radius:14px;padding:4px;margin:0 0 16px}
-.nbil-seg-b{flex:1;border:0;background:none;font-family:inherit;font-size:13.5px;font-weight:800;color:#7C7770;padding:10px 0;border-radius:11px;cursor:pointer}
+.nbil-h1{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1px;font-size:32px;text-transform:uppercase;color:#151515;line-height:1}
+.nbil-seg{display:flex;gap:4px;background:rgba(22,21,18,.05);border-radius:16px;padding:5px;margin:0 0 16px}
+.nbil-seg-b{flex:1;border:0;background:none;font-family:inherit;font-size:14px;font-weight:800;color:#7C7770;padding:11px 0;border-radius:12px;cursor:pointer}
 .nbil-seg-b.on{background:#fff;color:#F04A32;box-shadow:0 2px 8px rgba(22,21,18,.08)}
-.nbil-card{background:#fff;border:1px solid #F1EBE3;border-radius:22px;padding:16px 16px 12px;box-shadow:0 6px 22px rgba(20,18,12,.05);margin-bottom:14px}
-.nbil-ct{font-family:'Anton',sans-serif;font-weight:400;font-size:13px;letter-spacing:.4px;color:#7C766B;text-transform:uppercase;margin-bottom:10px}
-.nbil-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.nbil-kpi{background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:14px 15px;box-shadow:0 6px 18px rgba(20,18,12,.04)}
-.nbil-kpi .kl{font-size:11.5px;font-weight:700;color:#8A857D}
-.nbil-kpi .kv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:26px;color:#151515;line-height:1;margin-top:5px}
-.nbil-kpi .kv.acc{color:#F04A32}.nbil-kpi .kv.grn{color:#3B6D11}
-.nbil-macros{display:flex;justify-content:space-around;text-align:center;background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:15px 10px;box-shadow:0 6px 18px rgba(20,18,12,.04)}
-.nbil-macros .ml{font-size:11.5px;font-weight:700;color:#8A857D;margin-bottom:5px}
-.nbil-macros .mv{font-family:'Anton',sans-serif;font-weight:400;font-size:21px;color:#151515;line-height:1}
-.nbil-macros .mv.p{color:#5A8DEE}.nbil-macros .mv.c{color:#E0922A}.nbil-macros .mv.f{color:#F0653E}
+.nbil-card{background:#fff;border:1px solid #F1EBE3;border-radius:24px;padding:18px 16px 15px;box-shadow:0 6px 22px rgba(20,18,12,.05);margin-bottom:14px}
+.nbil-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:18px;color:#151515;text-transform:uppercase;line-height:1}
+.nbil-csub{font-size:12.5px;font-weight:500;color:#8A857D;margin:7px 0 4px;line-height:1.3}
+.nbil-sum{display:flex;align-items:center;gap:12px;background:#FBF3EF;border-radius:16px;padding:12px 13px;margin-top:14px}
+.nbil-sum .si{width:42px;height:42px;border-radius:50%;background:#FCE2D8;color:var(--accent);display:grid;place-items:center;font-size:21px;flex:none}
+.nbil-sum .st{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:#3E3A35;line-height:1.3}
+.nbil-sum .st b{font-weight:800}.nbil-sum .st b.grn{color:#3B6D11}.nbil-sum .st b.acc{color:var(--accent)}.nbil-sum .st b.amb{color:#E0922A}
+.nbil-badge{flex:none;font-family:'Anton',sans-serif;font-weight:400;font-size:18px;letter-spacing:-.3px;padding:8px 13px;border-radius:13px;background:#EFEAE2;color:#56514B}
+.nbil-badge.ok{background:#E9F6EE;color:#3B6D11}
+.nbil-badge.warn{background:#FBF1DD;color:#B5790F}
+.nbil-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.nbil-kpi{background:#fff;border:1px solid #F1EBE3;border-radius:18px;padding:15px 13px;box-shadow:0 6px 18px rgba(20,18,12,.04)}
+.nbil-kpi .kl{font-size:11px;font-weight:700;color:#8A857D}
+.nbil-kpi .kv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1px;font-size:25px;color:#151515;line-height:1;margin-top:7px}
+.nbil-kpi .kv small{font-family:'Inter',sans-serif;font-weight:700;font-size:11px;color:#8A857D;margin-left:3px;letter-spacing:0}
+.nbil-kpi .kv.acc{color:#F04A32}
+.nbil-mac{display:grid;grid-template-columns:1fr 1fr 1fr}
+.nbil-mac>div{text-align:center;padding:0 10px}
+.nbil-mac>div+div{border-left:1px solid #F1EBE3}
+.nbil-mac .ml{font-size:12px;font-weight:600;color:#8A857D;margin-bottom:7px}
+.nbil-mac .mv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.5px;font-size:22px;color:#151515;line-height:1;margin-bottom:10px}
+.nbil-mbar{height:6px;border-radius:5px;background:#EFEAE2;overflow:hidden}
+.nbil-mbar i{display:block;height:100%;border-radius:5px;width:0;transition:width .5s ease}
+.nbil-mbar.p i{background:#5A8DEE}.nbil-mbar.c i{background:#E0922A}.nbil-mbar.f i{background:#F0653E}
+.nbil-tip{display:flex;align-items:flex-start;gap:13px;background:#fff;border:1px solid #F1EBE3;border-radius:20px;padding:16px;box-shadow:0 6px 18px rgba(20,18,12,.04);margin-top:14px}
+.nbil-tip .t2{width:46px;height:46px;border-radius:50%;background:#FCE9E4;color:var(--accent);display:grid;place-items:center;font-size:23px;flex:none}
+.nbil-tip .tx b{display:block;font-size:14.5px;font-weight:800;color:#151515;margin-bottom:3px}
+.nbil-tip .tx span{font-size:13px;font-weight:500;color:#6E6A62;line-height:1.4}
 </style>
 <div class="nbil">
   <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutrition',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button><div class="nbil-h1">Mon bilan</div></div>
@@ -3010,18 +3027,26 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="nbil-seg-b" id="nb_mois" type="button" onclick="nutBilanSet('mois')">Mois</button>
     <button class="nbil-seg-b" id="nb_annee" type="button" onclick="nutBilanSet('annee')">Année</button>
   </div>
-  <div class="nbil-card"><div class="nbil-ct">Calories vs objectif</div><div id="nbChart"></div></div>
+  <div class="nbil-card">
+    <div class="nbil-ct">Calories vs objectif</div>
+    <div class="nbil-csub">Tes calories moyennes comparées à ton objectif quotidien.</div>
+    <div id="nbChart"></div>
+    <div class="nbil-sum"><span class="si"><i class="ti ti-trending-up"></i></span><span class="st" id="nbSumTxt">—</span><span class="nbil-badge" id="nbSumBadge">—</span></div>
+  </div>
   <div class="nbil-kpis">
-    <div class="nbil-kpi"><div class="kl">Moyenne / jour</div><div class="kv" id="nbAvg">—</div></div>
-    <div class="nbil-kpi"><div class="kl">Dans ta cible</div><div class="kv grn" id="nbInTgt">—</div></div>
-    <div class="nbil-kpi"><div class="kl">Jours loggés</div><div class="kv" id="nbLogged">—</div></div>
-    <div class="nbil-kpi"><div class="kl">Série en cours</div><div class="kv acc" id="nbStreak">—</div></div>
+    <div class="nbil-kpi"><div class="kl">Moyenne / jour</div><div class="kv"><span id="nbAvg">—</span><small>kcal</small></div></div>
+    <div class="nbil-kpi"><div class="kl">Jours loggés</div><div class="kv"><span id="nbLogged">—</span><small>jours</small></div></div>
+    <div class="nbil-kpi"><div class="kl">Série</div><div class="kv acc"><span id="nbStreak">—</span><small>jours</small></div></div>
   </div>
-  <div class="nbil-macros">
-    <div><div class="ml">Protéines</div><div class="mv p" id="nbProt">—</div></div>
-    <div><div class="ml">Glucides</div><div class="mv c" id="nbCarb">—</div></div>
-    <div><div class="ml">Lipides</div><div class="mv f" id="nbFat">—</div></div>
+  <div class="nbil-card">
+    <div class="nbil-ct">Macros moyennes</div>
+    <div class="nbil-mac" style="margin-top:14px">
+      <div><div class="ml">Protéines</div><div class="mv" id="nbProt">—</div><div class="nbil-mbar p"><i id="nbProtBar"></i></div></div>
+      <div><div class="ml">Glucides</div><div class="mv" id="nbCarb">—</div><div class="nbil-mbar c"><i id="nbCarbBar"></i></div></div>
+      <div><div class="ml">Lipides</div><div class="mv" id="nbFat">—</div><div class="nbil-mbar f"><i id="nbFatBar"></i></div></div>
+    </div>
   </div>
+  <div class="nbil-tip"><span class="t2"><i class="ti ti-bulb"></i></span><span class="tx"><b>Conseil Flint</b><span id="nbConseil">—</span></span></div>
 </div>
 </section>
 
@@ -5345,21 +5370,25 @@ function nutBilanData(){var out=[];
   for(var m=11;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m,1),y=d.getFullYear(),mo=d.getMonth(),days=new Date(y,mo+1,0).getDate(),sum=0,cnt=0;
    for(var dd=1;dd<=days;dd++){var kk=y+'-'+(mo+1)+'-'+dd;if(mealsOf(kk).length){sum+=nutTotals(kk).kcal;cnt++}}
    out.push({lab:ML[mo],kcal:cnt?Math.round(sum/cnt):0,has:cnt>0});}
- }else{var n=_nbPeriod==='mois'?30:7,WD=['D','L','M','M','J','V','S'];
-  for(var i=n-1;i>=0;i--){var k2=tk(-i),dt=new Date();dt.setDate(dt.getDate()-i);
-   out.push({lab:n<=7?WD[dt.getDay()]:String(dt.getDate()),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}}
+ }else if(_nbPeriod==='mois'){for(var i=29;i>=0;i--){var k2=tk(-i),dt=new Date();dt.setDate(dt.getDate()-i);
+   out.push({lab:(i%5===0?String(dt.getDate()):''),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}
+ }else{var WD=['D','L','M','M','J','V','S'];
+   for(var w=6;w>=0;w--){var dw=new Date();dw.setDate(dw.getDate()-w);var kw=tk(-w);
+    out.push({lab:WD[dw.getDay()],kcal:nutTotals(kw).kcal,has:mealsOf(kw).length>0});}}
  return out;}
-function nutBilanChart(data,goal){var W=360,L=14,R=12,top=16,bot=150,plotH=bot-top,n=data.length,slot=(W-L-R)/n,bw=Math.min(22,slot*0.5);
- var mx=Math.max(goal*1.25,Math.max.apply(null,data.map(function(p){return p.kcal})))||goal||2000;
- var s='<svg viewBox="0 0 '+W+' 176" style="width:100%;height:auto;display:block"><defs><linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
- var gy=bot-(goal/mx)*plotH;
- s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+gy.toFixed(1)+'" y2="'+gy.toFixed(1)+'" stroke="#F0492E" stroke-width="1.4" stroke-dasharray="5 5"/>';
- s+='<text x="'+(W-R)+'" y="'+(gy-5).toFixed(1)+'" text-anchor="end" font-size="10.5" font-weight="800" fill="#F0492E" font-family="Inter,sans-serif">obj '+fmtN(goal)+'</text>';
+function nutBilanChart(data,goal){var W=372,L=38,R=12,top=28,bot=150,plotH=bot-top,n=data.length,slot=(W-L-R)/n,bw=Math.min(20,slot*0.46);
+ var peak=Math.max(goal*1.12,Math.max.apply(null,data.map(function(p){return p.kcal})))||goal||2000,axMax=Math.max(1000,Math.ceil(peak/1000)*1000);
+ var s='<svg viewBox="0 0 '+W+' 186" style="width:100%;height:auto;display:block"><defs><linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
+ for(var gv=0;gv<=axMax;gv+=1000){var gyy=bot-(gv/axMax)*plotH;s+='<text x="'+(L-7)+'" y="'+(gyy+3.6).toFixed(1)+'" text-anchor="end" font-size="10.5" font-weight="700" fill="#B4ADA1" font-family="Inter,sans-serif">'+(gv?fmtN(gv):'0')+'</text>';}
+ var oy=bot-(goal/axMax)*plotH;
+ s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+oy.toFixed(1)+'" y2="'+oy.toFixed(1)+'" stroke="#F0492E" stroke-width="1.6" stroke-dasharray="6 5"/>';
+ s+='<text x="'+(W-R)+'" y="'+(oy-7).toFixed(1)+'" text-anchor="end" font-size="12.5" font-weight="800" fill="#F0492E" font-family="Inter,sans-serif">Objectif '+fmtN(goal)+'</text>';
  data.forEach(function(p,i){var x=L+i*slot+slot/2,bx=x-bw/2;
-  if(p.kcal>0){var h=Math.max(3,(Math.min(mx,p.kcal)/mx)*plotH),y=bot-h,col=p.kcal<=goal*1.08?'url(#nbg)':'#E0922A';
-   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,6)+'" fill="'+col+'"/>';}
-  else s+='<rect x="'+bx.toFixed(1)+'" y="'+(bot-4)+'" width="'+bw.toFixed(1)+'" height="4" rx="2" fill="#ECE6DD"/>';
-  s+='<text x="'+x.toFixed(1)+'" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#9A948A" font-family="Inter,sans-serif">'+p.lab+'</text>';});
+  if(p.kcal>0){var h=Math.max(5,(Math.min(axMax,p.kcal)/axMax)*plotH),y=bot-h;
+   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,7)+'" fill="url(#nbg)"/>';
+   s+='<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#56514B" font-family="Inter,sans-serif">'+fmtN(p.kcal)+'</text>';}
+  else s+='<rect x="'+bx.toFixed(1)+'" y="'+(bot-4)+'" width="'+bw.toFixed(1)+'" height="4" rx="2" fill="#E6DFD5"/>';
+  s+='<text x="'+x.toFixed(1)+'" y="172" text-anchor="middle" font-size="11" font-weight="800" fill="#8A857D" font-family="Inter,sans-serif">'+p.lab+'</text>';});
  return s+'</svg>';}
 function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
@@ -5367,15 +5396,32 @@ function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();
  var vals=data.filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});
  var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):0;
  var logged=data.filter(function(d){return d.has}).length;
- var inTgt=0,totDays=0;
- if(_nbPeriod!=='annee'){var nn=_nbPeriod==='mois'?30:7,G=balGoals()[goalOf()];for(var i=0;i<nn;i++){var kk=tk(-i);if(mealsOf(kk).length){totDays++;var net=balanceOf(kk).net;if(net>=G.lo&&net<=G.hi)inTgt++}}}
+ var totDays=_nbPeriod==='annee'?12:(_nbPeriod==='mois'?30:7);
  set('nbAvg',avg?fmtN(avg):'—');
- set('nbLogged',_nbPeriod==='annee'?(logged+' mois'):(logged+'/'+(_nbPeriod==='mois'?30:7)+' j'));
- set('nbInTgt',_nbPeriod==='annee'?'—':(totDays?Math.round(inTgt/totDays*100)+'%':'—'));
- set('nbStreak',nutStreak()+' j');
+ set('nbLogged',logged+'/'+totDays);
+ set('nbStreak',nutStreak());
+ var pct=avg&&g.kcal?Math.round((avg-g.kcal)/g.kcal*100):0;
+ var sumT=document.getElementById('nbSumTxt'),sumB=document.getElementById('nbSumBadge');
+ if(sumT&&sumB){
+  if(!avg){sumT.innerHTML='Pas encore de données cette période.';sumB.textContent='—';sumB.className='nbil-badge';}
+  else if(Math.abs(pct)<=8){sumT.innerHTML='Tu es <b class="grn">dans ta cible</b> cette période.';sumB.textContent=(pct>0?'+':'')+pct+' %';sumB.className='nbil-badge ok';}
+  else if(pct<0){sumT.innerHTML='Tu es <b class="acc">en dessous</b> de ton objectif cette '+(_nbPeriod==='annee'?'année':(_nbPeriod==='mois'?'mois':'semaine'))+'.';sumB.textContent=pct+' %';sumB.className='nbil-badge ok';}
+  else {sumT.innerHTML='Tu es <b class="amb">au-dessus</b> de ton objectif cette '+(_nbPeriod==='annee'?'année':(_nbPeriod==='mois'?'mois':'semaine'))+'.';sumB.textContent='+'+pct+' %';sumB.className='nbil-badge warn';}
+ }
  var mp=0,mc=0,mf=0,mn=0,d2=_nbPeriod==='mois'?30:(_nbPeriod==='annee'?365:7);
  for(var j=0;j<d2;j++){var k3=tk(-j);if(mealsOf(k3).length){var t=nutTotals(k3);mp+=t.prot;mc+=t.carb;mf+=t.fat;mn++}}
- set('nbProt',(mn?Math.round(mp/mn):0)+' g');set('nbCarb',(mn?Math.round(mc/mn):0)+' g');set('nbFat',(mn?Math.round(mf/mn):0)+' g');}
+ var ap=mn?Math.round(mp/mn):0,ac=mn?Math.round(mc/mn):0,af=mn?Math.round(mf/mn):0;
+ set('nbProt',ap+' g');set('nbCarb',ac+' g');set('nbFat',af+' g');
+ function bar(id,v,gv){var e=document.getElementById(id);if(e)e.style.width=Math.max(0,Math.min(100,gv?v/gv*100:0))+'%';}
+ bar('nbProtBar',ap,g.prot);bar('nbCarbBar',ac,g.carb);bar('nbFatBar',af,g.fat);
+ var tip=document.getElementById('nbConseil');
+ if(tip){var msg;
+  if(!avg)msg='Logue tes repas quelques jours pour voir apparaître ton bilan.';
+  else if(logged<totDays*0.6)msg='Sois plus régulier : logge chaque repas pour un bilan fiable.';
+  else if(pct>12)msg='Tu dépasses ta cible — surveille les portions et les extras.';
+  else if(pct<-12)msg='Tu manges sous ta cible — ajoute une collation protéinée les jours d\'entraînement.';
+  else msg='Ta moyenne est bonne, essaie d\'être plus régulier le week-end pour atteindre ton objectif.';
+  tip.textContent=msg;}}
 /* ---------- Nutrition : historique multi-jours + détail repas ---------- */
 function macroDonut(prot,carb,fat){
  var p=(prot||0)*4,c=(carb||0)*4,f=(fat||0)*9,tot=p+c+f||1,R=52,C=2*Math.PI*R,off=0;
@@ -6890,7 +6936,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v339';
+const APP_VERSION='flint-v340';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
