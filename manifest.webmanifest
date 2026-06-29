@@ -1,7 +1,7 @@
 {
   "name": "FLINT",
   "short_name": "FLINT",
-  "description": "Ta récupération, ton sommeil et ta charge — comme un Whoop, sans abonnement.",
+  "description": "Ta récupération, ton sommeil et ta charge, comme un Whoop, sans abonnement.",
   "id": "/flint/",
   "start_url": "./",
   "scope": "./",
