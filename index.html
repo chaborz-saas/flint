@@ -3507,8 +3507,14 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal3-cochev{color:#C8C2B8;font-size:20px;flex:none}
 /* ===== Balance v4 — codé (plus d'image de fond) ===== */
 .bal4{padding:4px 16px 100px;font-family:'Inter',sans-serif}
+.bal4-dn{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 16px}
+.bal4-dn .nav{width:38px;height:38px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#15140F;font-size:18px;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(22,21,18,.05);flex:none;transition:transform .12s ease}
+.bal4-dn .nav:active{transform:scale(.9)}
+.bal4-dn .nav[disabled]{opacity:.38;pointer-events:none}
+.bal4-dn .lbl{display:inline-flex;align-items:center;gap:9px;border:1px solid #ECE6DD;background:#fff;border-radius:30px;padding:10px 17px;font-family:inherit;font-size:15px;font-weight:700;color:#15140F;cursor:pointer;box-shadow:0 6px 18px rgba(22,21,18,.05);text-transform:capitalize}
+.bal4-dn .lbl i{font-size:16px;color:var(--accent)}
 .bal4-eyb{font-size:12px;font-weight:800;letter-spacing:1.4px;color:#9A948A}
-.bal4-eyb.ctr{display:block;text-align:center;margin-bottom:4px}
+.bal4-eyb.ctr{display:block;text-align:center;margin-bottom:10px}
 .bal4-goal{position:relative;display:flex;align-items:center;gap:16px;background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:20px 18px;box-shadow:var(--sh-card);overflow:hidden;margin-bottom:16px}
 .bal4-goic{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:36px;flex:none;z-index:1}
 .bal4-gotx{flex:1;min-width:0;z-index:1}
@@ -3518,10 +3524,10 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal4-goedit i{font-size:16px}
 .bal4-mtn{position:absolute;right:0;bottom:0;width:44%;height:74%;z-index:0;opacity:.9;pointer-events:none}
 .bal4-solde{background:#FCFAF6;border:1px solid #F1EBE3;border-radius:28px;padding:22px 14px 14px;box-shadow:var(--sh-card);margin-bottom:16px}
-.bal4-net{position:relative;font-family:'Anton';font-size:72px;line-height:.9;text-align:center;color:#161512;letter-spacing:-1px}
+.bal4-net{position:relative;font-family:'Anton';font-size:72px;line-height:.74;text-align:center;color:#161512;letter-spacing:-1px}
 .bal4-nin{position:relative;display:inline-block}
 .bal4-sgn{position:absolute;right:100%;top:0;margin-right:.05em}
-.bal4-netu{text-align:center;font-size:15px;color:#8A857B;margin:9px 0 0}
+.bal4-netu{text-align:center;font-size:15px;color:#8A857B;margin:10px 0 0}
 .bal4-verd{text-align:center;margin:13px 0 16px}
 .bal4-vchip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;letter-spacing:.2px;padding:5px 12px;border-radius:999px}
 .bal4-vchip i{font-size:14px}
@@ -3551,6 +3557,11 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 .bal4-foot b{color:var(--accent);font-weight:800}
 </style>
 <div class="bal4">
+  <div class="bal4-dn">
+    <button class="nav" type="button" onclick="balDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
+    <button class="lbl" type="button" onclick="balToday()"><i class="ti ti-calendar"></i><span id="bal4Date">Aujourd'hui</span></button>
+    <button class="nav" id="bal4Next" type="button" onclick="balDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
+  </div>
   <div class="bal4-goal">
     <span class="bal4-goic" id="bal4GoIc"><i class="ti ti-barbell"></i></span>
     <div class="bal4-gotx">
@@ -6183,6 +6194,8 @@ function renderBalance(){
  var g=goalOf(),G=balGoals()[g],ad=goalAdherence(),st=balStatus(b.net,b.hasFood);
  var inT=b.hasFood&&b.net>=G.lo&&b.net<=G.hi,below=b.net<G.lo;
  if(!DB.get('balGoalSet')&&!_goShown){_goShown=true;setTimeout(goalSheetOpen,300)}
+ var _bl=_balDay===0?'Aujourd\'hui':(_balDay===-1?'Hier':(function(){var dt=new Date();dt.setDate(dt.getDate()+_balDay);var ds=dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});return ds.charAt(0).toUpperCase()+ds.slice(1)})());
+ set('bal4Date',_bl);var _bnx=document.getElementById('bal4Next');if(_bnx)_bnx.disabled=(_balDay===0);
  var gi=document.getElementById('bal4GoIc');if(gi){gi.innerHTML='<i class="ti '+G.ic+'"></i>';gi.style.color=G.col;gi.style.background=G.colL}
  set('bal4GoName',G.lbl);
  set('bal4GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
@@ -7478,7 +7491,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v373';
+const APP_VERSION='flint-v374';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
