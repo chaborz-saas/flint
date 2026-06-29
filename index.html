@@ -2854,12 +2854,12 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2stage .nov{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;z-index:6;border-radius:5cqw;-webkit-tap-highlight-color:transparent}
 .nut2stage .nov:active{background:rgba(240,73,46,.06)}
 .nut2stage .nov-kcal{position:absolute;left:6%;width:44%;top:87.2%;transform:translateY(-50%);text-align:center;display:flex;align-items:baseline;justify-content:center;gap:1cqw;z-index:4}
-.nut2stage .nov-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:10.6cqw;line-height:1;color:#15140F}
-.nut2stage .nov-kcal span{font-family:'Inter',sans-serif;font-size:3cqw;font-weight:800;color:var(--accent)}
+.nut2stage .nov-kcal b{font-family:'Inter',sans-serif;font-style:normal;font-weight:600;font-size:9.2cqw;letter-spacing:-.02em;line-height:1;color:#15140F}
+.nut2stage .nov-kcal span{font-family:'Inter',sans-serif;font-size:2.9cqw;font-weight:700;color:var(--accent)}
 .nut2stage .nov-ring{position:absolute;width:6.36cqw;height:6.36cqw;transform:translate(-50%,-50%) rotate(-90deg);z-index:5}
 .nut2stage .nov-ring .nrt{fill:none;stroke:none}
 .nut2stage .nov-ring .nra{fill:none;stroke-width:1.7;stroke-linecap:round;stroke-dasharray:0 94.2}
-.nut2stage .nov-val{position:absolute;transform:translate(-50%,-50%);font-family:'Inter',sans-serif;font-style:normal;font-weight:800;font-size:5cqw;letter-spacing:-.02em;line-height:1;color:#15140F;white-space:nowrap;z-index:4}
+.nut2stage .nov-val{position:absolute;transform:translate(-50%,-50%);font-family:'Inter',sans-serif;font-style:normal;font-weight:700;font-size:3.9cqw;letter-spacing:-.02em;line-height:1;color:#15140F;white-space:nowrap;z-index:4}
 .nut2stage .nov-val i{font-family:'Inter',sans-serif;font-style:normal;font-size:.44em;font-weight:600;color:#9A948A;margin-left:.2em}
 .nut2-card{display:flex;align-items:stretch;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:22px 18px;min-height:162px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
 /* Modificateur coquille vide (non utilisé en version peuplée) : masque les valeurs.
@@ -6765,7 +6765,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v335';
+const APP_VERSION='flint-v336';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
