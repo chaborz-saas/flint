@@ -44,6 +44,9 @@
   html,body{margin:0;background:var(--bg)}
   body{color:var(--ink);font-family:var(--sans);padding-bottom:88px;overflow-x:hidden;-webkit-font-smoothing:antialiased;
     background:radial-gradient(120% 60% at 50% -10%, #FBF8F2, transparent 60%), var(--bg);background-attachment:fixed}
+  *{-webkit-tap-highlight-color:transparent}
+  ::selection{background:var(--accent);color:#fff}
+  ::-moz-selection{background:var(--accent);color:#fff}
   .num{font-variant-numeric:tabular-nums}
   .disp{font-family:var(--disp);font-weight:400;letter-spacing:.01em}
   header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
@@ -2660,13 +2663,15 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h3c{display:flex;align-items:center;gap:8px;background:none;border:0;font-family:inherit;cursor:pointer;padding:2px 4px;transition:transform .12s ease}
   .flhome .h3c:active{transform:scale(.93)}
   .flhome .h3c .h3ring{width:30px;height:30px;flex:none}
-  .flhome .h3c .h3lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:#56514B}
+  .flhome .h3c .h3tx{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05;text-align:left}
+  .flhome .h3c .h3tx b{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-.3px;font-size:16px;color:#15140F}
+  .flhome .h3c .h3lbl{font-size:9.5px;font-weight:800;letter-spacing:.5px;color:#8A857D;margin-top:2px}
   .flhome .h3rf{transition:stroke-dasharray .55s cubic-bezier(.2,.8,.2,1)}
   </style>
   <div class="h3cond"><div class="h3cond-in">
-    <button class="h3c" type="button" onclick="go('sleep')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3SleepArc" cx="16" cy="16" r="14" fill="none" stroke="#6C7BD6" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">SOMMEIL</span></button>
-    <button class="h3c" type="button" onclick="go('recovery')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3RecupArc" cx="16" cy="16" r="14" fill="none" stroke="#2FA86A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">RÉCUP</span></button>
-    <button class="h3c" type="button" onclick="go('load')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3EffortArc" cx="16" cy="16" r="14" fill="none" stroke="#E0922A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3lbl">EFFORT</span></button>
+    <button class="h3c" type="button" onclick="go('sleep')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3SleepArc" cx="16" cy="16" r="14" fill="none" stroke="#6C7BD6" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3tx"><b id="h3SleepV">—</b><span class="h3lbl">SOMMEIL</span></span></button>
+    <button class="h3c" type="button" onclick="go('recovery')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3RecupArc" cx="16" cy="16" r="14" fill="none" stroke="#2FA86A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3tx"><b id="h3RecupV">—</b><span class="h3lbl">RÉCUP</span></span></button>
+    <button class="h3c" type="button" onclick="go('load')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3EffortArc" cx="16" cy="16" r="14" fill="none" stroke="#E0922A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3tx"><b id="h3EffortV">—</b><span class="h3lbl">EFFORT</span></span></button>
   </div></div>
   <div class="h2dn">
     <button class="nav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
@@ -5630,6 +5635,8 @@ function renderToday(){
   arc('h3SleepArc',sp);
   arc('h3RecupArc',(rv&&rv.s!=null)?rv.s/100:0,(rv&&rv.color)?rv.color:null);
   arc('h3EffortArc',(typeof loadStrain==='function'?loadStrain():0)/21);
+  var gv=function(id){var e=document.getElementById(id);return e?e.textContent:'—'};
+  set('h3SleepV',gv('flSleep'));set('h3RecupV',(rv&&rv.s!=null)?rv.s+'%':'—');set('h3EffortV',gv('flLoad'));
  })();
  window._todayShown=true;
  flCondUpdate();
@@ -7467,7 +7474,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v368';
+const APP_VERSION='flint-v369';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
