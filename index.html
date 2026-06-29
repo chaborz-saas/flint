@@ -4061,8 +4061,10 @@ body.stepsview header{display:none}
 .elx-p b{font-weight:800;color:#15140F}
 .elx-scale{position:relative;height:14px;border-radius:8px;margin:18px 0 8px;background:linear-gradient(90deg,#3FAE6A 0%,#9BCB4A 40%,#F2922B 68%,#E14434 100%)}
 .elx-scmark{position:absolute;top:-6px;width:4px;height:26px;border-radius:3px;background:#15140F;box-shadow:0 0 0 3px #fff;transform:translateX(-50%);left:0;transition:left .6s cubic-bezier(.2,.8,.2,1)}
-.elx-zlabs{display:flex;font-size:9.5px;font-weight:800;color:#9A948A;text-transform:uppercase;letter-spacing:.2px}
-.elx-zlabs span{text-align:center}
+.elx-zlabs{display:flex;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2px}
+.elx-zlabs span{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.elx-zlabs b{font-weight:800;color:#9A948A}
+.elx-zlabs i{font-style:normal;font-weight:800;font-size:11px;color:#56514B;letter-spacing:0}
 .elx-tgt{display:flex;align-items:center;gap:14px;padding:16px 18px!important;margin-bottom:6px}
 .elx-tgti{width:46px;height:46px;border-radius:14px;background:#FCE7E1;color:var(--accent);display:grid;place-items:center;font-size:23px;flex:none}
 .elx-tgtl{font-size:11px;font-weight:800;letter-spacing:.4px;color:#8A857D;text-transform:uppercase}
@@ -4091,7 +4093,7 @@ body.stepsview header{display:none}
     <div class="elx-ct">C'est quoi, l'effort ?</div>
     <p class="elx-p">Une note de <b>0 à 21</b> qui résume la <b>charge cardiovasculaire</b> de ta journée : plus tes séances sont <b>intenses et longues</b> (mesuré via ta fréquence cardiaque), plus la note monte.</p>
     <div class="elx-scale"><div class="elx-scmark" id="effScaleMark"></div></div>
-    <div class="elx-zlabs"><span style="flex:10">Légère</span><span style="flex:4">Modérée</span><span style="flex:4">Soutenue</span><span style="flex:3">Élevée</span></div>
+    <div class="elx-zlabs"><span style="flex:10"><b>Légère</b><i>0–10</i></span><span style="flex:4"><b>Modérée</b><i>10–14</i></span><span style="flex:4"><b>Soutenue</b><i>14–18</i></span><span style="flex:3"><b>Élevée</b><i>18+</i></span></div>
   </section>
 
   <section class="card elx-tgt">
@@ -7147,7 +7149,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v347';
+const APP_VERSION='flint-v348';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
