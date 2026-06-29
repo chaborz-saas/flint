@@ -6228,14 +6228,14 @@ function renderBalance(){
  set('bal4GoSub','depuis '+goalDays()+' j'+(ad.tot?' · '+ad.pct+'% dans ta cible':' · logue tes repas'));
  set('bal4In',fmtN(b.in));set('bal4Out',fmtN(b.out));
  var sign=b.net<0?'-':(b.net>0?'+':'');
- var bn=document.getElementById('bal4Net');if(bn){bn.innerHTML='<span class="bal4-nin">'+(sign?'<span class="bal4-sgn">'+sign+'</span>':'')+'<span id="bal4NetN"></span></span>';countUpEl(document.getElementById('bal4NetN'),Math.abs(b.net),'',true);}
+ var bn=document.getElementById('bal4Net');if(bn){bn.innerHTML='<span class="bal4-nin">'+(sign?'<span class="bal4-sgn">'+sign+'</span>':'')+'<span id="bal4NetN"></span></span>';countUpEl(document.getElementById('bal4NetN'),Math.abs(b.net),'',true);bn.style.color=b.hasFood?st[1]:'#161512';}
  var mx=Math.max(b.in,b.out,1),ib=document.getElementById('bal4InBar'),ob=document.getElementById('bal4OutBar');
  if(ib)ib.style.width=(b.in/mx*100).toFixed(1)+'%';if(ob)ob.style.width=(b.out/mx*100).toFixed(1)+'%';
  window._bcK=k;var host=document.getElementById('bal3Chart');host.innerHTML=balCurveNative(k,null);
  if(host&&!host._bcBound){host._bcBound=1;
   var sc=function(cx){var svg=host.querySelector('svg');if(!svg)return;var r=svg.getBoundingClientRect();var hx=(cx-r.left)/r.width*330;var h=6+(hx-34)/(330-34-46)*18;h=Math.max(6,Math.min(24,h));host.innerHTML=balCurveNative(window._bcK,h);};
   host.addEventListener('pointerdown',function(e){e.preventDefault();try{host.setPointerCapture(e.pointerId)}catch(_){}if(typeof haptic==='function')haptic(5);sc(e.clientX);host._sm=function(ev){sc(ev.clientX)};host.addEventListener('pointermove',host._sm)});
-  var end=function(e){try{host.releasePointerCapture(e.pointerId)}catch(_){}if(host._sm){host.removeEventListener('pointermove',host._sm);host._sm=null}host.innerHTML=balCurveNative(window._bcK,null)};
+  var end=function(e){try{host.releasePointerCapture(e.pointerId)}catch(_){}if(host._sm){host.removeEventListener('pointermove',host._sm);host._sm=null}};
   host.addEventListener('pointerup',end);host.addEventListener('pointercancel',end);host.style.cursor='ew-resize';host.style.touchAction='none';
  }
  var ch=document.getElementById('bal4Chip');if(ch){ch.innerHTML='<i class="ti '+st[3]+'"></i> '+st[0];ch.style.color=st[1];ch.style.background=st[2]}
@@ -7537,7 +7537,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v375';
+const APP_VERSION='flint-v376';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
