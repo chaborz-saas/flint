@@ -2973,7 +2973,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nh-k small{font-family:'Inter';font-style:normal;font-size:10px;font-weight:700;color:#9A948A;margin-left:2px}
 .nh-c{color:#C8C2B8;font-size:18px;flex:none}
 /* détail repas */
-.md{padding:0 14px 96px;font-family:'Inter',sans-serif;color:#151515}
+#v-mealdetail .md{padding:0 14px 96px;font-family:'Inter',sans-serif;color:#151515}
 .md-hd{margin:6px 2px 0}
 .md-name{font-family:'Anton';font-style:oblique 8deg;font-size:30px;line-height:1.02;margin:8px 0 4px;color:#151515}
 .md-date{font-size:13px;color:#8A8580;margin-bottom:2px}
@@ -6758,7 +6758,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v324';
+const APP_VERSION='flint-v325';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
