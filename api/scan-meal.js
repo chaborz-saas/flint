@@ -266,7 +266,7 @@ async function offLookup(code) {
   const f = serving / 100;
   const name = p.product_name_fr || p.product_name || p.brands || 'Produit';
   const item = { name: String(name).slice(0, 60), grams: round(serving), kcal: round(per100.kcal * f), prot: round(per100.prot * f), carb: round(per100.carb * f), fat: round(per100.fat * f), confidence: 0.92, box: null, serving: round(serving), servingLabel: servingLabel(p.serving_size), barcode: c };
-  if (!item.kcal && !item.prot && !item.carb && !item.fat) return { error: 'Pas d\'infos nutritionnelles pour ce produit' };
+  const _incomplete = (!item.kcal && !item.prot && !item.carb && !item.fat);
   const score = healthScore(p, n, per100);
   const label = score >= 75 ? 'Excellent' : (score >= 50 ? 'Bon' : (score >= 25 ? 'Médiocre' : 'Mauvais'));
   const img = resolveProductImage(p, c);
@@ -285,7 +285,54 @@ async function offLookup(code) {
     analysis: buildAnalysis(p, n, per100),
     per100: { kcal: round(per100.kcal), prot: round(per100.prot), carb: round(per100.carb), fat: round(per100.fat) }
   };
-  return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product };
+  return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product, status: _incomplete ? 'partial' : 'ok', needsNutrition: _incomplete };
+}
+
+// --- Cascade multi-bases : variantes de code -> OFF -> identification UPCitemdb -> recherche OFF par nom ---
+function codeVariants(c) {
+  const v = [c];
+  if (c.length === 12) v.push('0' + c);                       // UPC-A -> EAN-13
+  if (c.length === 13 && c[0] === '0') v.push(c.slice(1));    // EAN-13 (zéro de tête) -> UPC-A
+  if (c.length === 14 && c[0] === '0') v.push(c.slice(1));    // GTIN-14 -> EAN-13
+  if (c.length === 11) v.push('0' + c);                       // UPC sans préfixe
+  return v;
+}
+async function upcIdentify(code) {
+  try {
+    const r = await fetch('https://api.upcitemdb.com/prod/trial/lookup?upc=' + encodeURIComponent(code), { headers: { 'User-Agent': 'FLINT/1.0 (nutrition app)' } });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const it = (j.items || [])[0];
+    if (!it || !it.title) return null;
+    return { name: String(it.title).slice(0, 70), brand: String(it.brand || '').slice(0, 40) };
+  } catch (e) { return null; }
+}
+async function barcodeCascade(raw) {
+  const c = String(raw).replace(/\D/g, '');
+  if (c.length < 6) return { error: 'Code-barres invalide' };
+  const seen = new Set();
+  for (const v of codeVariants(c)) {
+    if (seen.has(v)) continue; seen.add(v);
+    const off = await offLookup(v);
+    if (!off.error) { off.barcode = off.barcode || c; return off; }   // trouvé (complet ou partiel)
+  }
+  // OFF a tout raté -> identifier le code-barres puis chercher par nom une fiche complète
+  const id = await upcIdentify(c);
+  if (id && id.name) {
+    const results = await offSearch(id.name + (id.brand ? (' ' + id.brand) : ''));
+    if (results && results.length) {
+      const best = await offLookup(results[0].barcode);
+      if (!best.error) { best.matchType = 'name-approx'; best.scannedBarcode = c; return best; }
+    }
+    // identifié mais aucune nutrition trouvée : on renvoie le nom, l'utilisateur complète (jamais de cul-de-sac)
+    return {
+      status: 'partial', needsNutrition: true, barcode: c, mealName: id.name.slice(0, 60),
+      items: [{ name: id.name.slice(0, 60), grams: 30, kcal: null, prot: null, carb: null, fat: null, barcode: c, confidence: 0.4 }],
+      total: { kcal: null, prot: null, carb: null, fat: null },
+      product: { name: id.name.slice(0, 80), brand: (id.brand || '').slice(0, 40), image: null, score: null, label: null }
+    };
+  }
+  return { error: 'Produit introuvable' };
 }
 
 // --- Extraction d'étiquette nutritionnelle (photo -> champs) via Gemini ---
@@ -427,9 +474,9 @@ module.exports = async function handler(req, res) {
       if (up) return res.status(200).json(up);
       const hit = await cacheGet(bc);
       if (hit) return res.status(200).json(hit);
-      const out = await offLookup(body.barcode);
+      const out = await barcodeCascade(body.barcode);
       if (out.error) return res.status(200).json({ status: 'not_found', barcode: bc });   // jamais de cul-de-sac
-      cacheSet(bc, out).catch(() => {});
+      if (out.status !== 'partial' && out.needsNutrition !== true) cacheSet(bc, out).catch(() => {});   // on ne cache que les fiches complètes
       return res.status(200).json(out);
     }
 
