@@ -2988,9 +2988,10 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nbil-back{width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 5px 16px rgba(20,18,12,.12);color:#151515;font-size:21px;display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .2s cubic-bezier(.34,1.7,.5,1)}
 .nbil-back:active{transform:scale(.86)}
 .nbil-h1{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1px;font-size:32px;text-transform:uppercase;color:#151515;line-height:1}
-.nbil-seg{display:flex;gap:4px;background:rgba(22,21,18,.05);border-radius:16px;padding:5px;margin:0 0 16px}
-.nbil-seg-b{flex:1;border:0;background:none;font-family:inherit;font-size:14px;font-weight:800;color:#7C7770;padding:11px 0;border-radius:12px;cursor:pointer}
-.nbil-seg-b.on{background:#fff;color:#F04A32;box-shadow:0 2px 8px rgba(22,21,18,.08)}
+.nbil-seg{display:flex;gap:4px;background:rgba(22,21,18,.05);border-radius:16px;padding:5px;margin:0 0 16px;position:relative}
+.nbil-seg-pill{position:absolute;top:5px;left:5px;height:calc(100% - 10px);background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(22,21,18,.10);z-index:0;transition:transform .34s cubic-bezier(.34,1.12,.5,1),width .34s cubic-bezier(.34,1.12,.5,1)}
+.nbil-seg-b{flex:1;position:relative;z-index:1;border:0;background:none;font-family:inherit;font-size:14px;font-weight:800;color:#7C7770;padding:11px 0;border-radius:12px;cursor:pointer;transition:color .25s ease}
+.nbil-seg-b.on{color:#F04A32}
 .nbil-card{background:#fff;border:1px solid #F1EBE3;border-radius:24px;padding:18px 16px 15px;box-shadow:0 6px 22px rgba(20,18,12,.05);margin-bottom:14px}
 .nbil-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:18px;color:#151515;text-transform:uppercase;line-height:1}
 .nbil-csub{font-size:12.5px;font-weight:500;color:#8A857D;margin:7px 0 4px;line-height:1.3}
@@ -3023,6 +3024,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="nbil">
   <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutrition',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button><div class="nbil-h1">Mon bilan</div></div>
   <div class="nbil-seg">
+    <span class="nbil-seg-pill" id="nbPill"></span>
     <button class="nbil-seg-b on" id="nb_semaine" type="button" onclick="nutBilanSet('semaine')">Semaine</button>
     <button class="nbil-seg-b" id="nb_mois" type="button" onclick="nutBilanSet('mois')">Mois</button>
     <button class="nbil-seg-b" id="nb_annee" type="button" onclick="nutBilanSet('annee')">Année</button>
@@ -5396,8 +5398,10 @@ function nutBilanChart(data,goal,sel){var W=372,L=38,R=12,top=28,bot=150,plotH=b
   s+='<rect x="'+tx.toFixed(1)+'" y="2" width="'+tw.toFixed(1)+'" height="23" rx="7" fill="#1A1812"/><text x="'+(tx+tw/2).toFixed(1)+'" y="17.5" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="800" fill="#fff">'+lbl+'</text>';}
  return s+'</svg>';}
 function nbScrub(cx){var svg=document.querySelector('#nbChart svg');if(!svg||!_nbData)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*372;var L=38,R=12,n=_nbData.length,slot=(372-L-R)/n;var i=Math.round((px-L-slot/2)/slot);i=Math.max(0,Math.min(n-1,i));if(i===_nbSel)return;_nbSel=i;document.getElementById('nbChart').innerHTML=nutBilanChart(_nbData,getNutGoals().kcal,_nbSel);haptic(4);}
+function nbMovePill(){var btn=document.getElementById('nb_'+_nbPeriod),pill=document.getElementById('nbPill');if(!btn||!pill||!btn.offsetWidth)return;var first=!pill.style.transform;if(first)pill.style.transition='none';pill.style.width=btn.offsetWidth+'px';pill.style.transform='translateX('+(btn.offsetLeft-5)+'px)';if(first){void pill.offsetWidth;pill.style.transition='';}}
 function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_nbSel=null;
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
+ nbMovePill();
  var c=document.getElementById('nbChart');if(c){c.innerHTML=nutBilanChart(data,g.kcal,_nbSel);
   if(!c._scrub){c._scrub=1;c.style.touchAction='none';
    c.addEventListener('pointerdown',function(e){e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}nbScrub(e.clientX);c._sm=function(ev){nbScrub(ev.clientX)};c.addEventListener('pointermove',c._sm)});
@@ -6946,7 +6950,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v341';
+const APP_VERSION='flint-v342';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
