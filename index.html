@@ -5362,37 +5362,47 @@ function renderNutrition(){var k=tk(),tt=nutTotals(k),g=getNutGoals(k);
 function addMeal(){const g=id=>document.getElementById(id);const name=g('nmName').value.trim()||'Repas';const kcal=parseInt(g('nmKcal').value)||0;if(!kcal){toast('Indique les calories');return}const meal={name,kcal,prot:parseInt(g('nmProt').value)||0,carb:parseInt(g('nmCarb').value)||0,fat:parseInt(g('nmFat').value)||0};const k=tk(),a=mealsOf(k);a.push(meal);DB.set('meals_'+k,a);['nmName','nmKcal','nmProt','nmCarb','nmFat'].forEach(x=>g(x).value='');toast('Repas ajouté 🍽️');renderNutrition()}
 function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a);renderNutrition()}
 /* ---------- Bilan nutrition : Semaine / Mois / Année ---------- */
-var _nbPeriod='semaine';
+var _nbPeriod='semaine',_nbSel=null,_nbData=null;
 function openNutBilan(){go('nutbilan');}
-function nutBilanSet(p){_nbPeriod=p;renderNutBilan();haptic();}
-function nutBilanData(){var out=[];
- if(_nbPeriod==='annee'){var now=new Date();var ML=['J','F','M','A','M','J','J','A','S','O','N','D'];
+function nutBilanSet(p){_nbPeriod=p;_nbSel=null;renderNutBilan();haptic();}
+function nutBilanData(){var out=[];var MS=['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+ if(_nbPeriod==='annee'){var now=new Date();var ML=['J','F','M','A','M','J','J','A','S','O','N','D'];var MLF=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   for(var m=11;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m,1),y=d.getFullYear(),mo=d.getMonth(),days=new Date(y,mo+1,0).getDate(),sum=0,cnt=0;
    for(var dd=1;dd<=days;dd++){var kk=y+'-'+(mo+1)+'-'+dd;if(mealsOf(kk).length){sum+=nutTotals(kk).kcal;cnt++}}
-   out.push({lab:ML[mo],kcal:cnt?Math.round(sum/cnt):0,has:cnt>0});}
+   out.push({lab:ML[mo],full:MLF[mo]+' '+y,kcal:cnt?Math.round(sum/cnt):0,has:cnt>0});}
  }else if(_nbPeriod==='mois'){for(var i=29;i>=0;i--){var k2=tk(-i),dt=new Date();dt.setDate(dt.getDate()-i);
-   out.push({lab:(i%5===0?String(dt.getDate()):''),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}
- }else{var WD=['D','L','M','M','J','V','S'];
+   out.push({lab:(i%5===0?String(dt.getDate()):''),full:(i===0?'Aujourd\'hui':dt.getDate()+' '+MS[dt.getMonth()]),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}
+ }else{var WD=['D','L','M','M','J','V','S'],WDF=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
    for(var w=6;w>=0;w--){var dw=new Date();dw.setDate(dw.getDate()-w);var kw=tk(-w);
-    out.push({lab:WD[dw.getDay()],kcal:nutTotals(kw).kcal,has:mealsOf(kw).length>0});}}
+    out.push({lab:WD[dw.getDay()],full:(w===0?'Aujourd\'hui':WDF[dw.getDay()]+' '+dw.getDate()),kcal:nutTotals(kw).kcal,has:mealsOf(kw).length>0});}}
  return out;}
-function nutBilanChart(data,goal){var W=372,L=38,R=12,top=28,bot=150,plotH=bot-top,n=data.length,slot=(W-L-R)/n,bw=Math.min(20,slot*0.46);
+function nutBilanChart(data,goal,sel){var W=372,L=38,R=12,top=28,bot=150,plotH=bot-top,n=data.length,slot=(W-L-R)/n,bw=Math.min(20,slot*0.46);
  var peak=Math.max(goal*1.12,Math.max.apply(null,data.map(function(p){return p.kcal})))||goal||2000,axMax=Math.max(1000,Math.ceil(peak/1000)*1000);
- var s='<svg viewBox="0 0 '+W+' 186" style="width:100%;height:auto;display:block"><defs><linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
+ var showVals=n<=7;
+ var s='<svg viewBox="0 0 '+W+' 186" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
  for(var gv=0;gv<=axMax;gv+=1000){var gyy=bot-(gv/axMax)*plotH;s+='<text x="'+(L-7)+'" y="'+(gyy+3.6).toFixed(1)+'" text-anchor="end" font-size="10.5" font-weight="700" fill="#B4ADA1" font-family="Inter,sans-serif">'+(gv?fmtN(gv):'0')+'</text>';}
  var oy=bot-(goal/axMax)*plotH;
  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+oy.toFixed(1)+'" y2="'+oy.toFixed(1)+'" stroke="#F0492E" stroke-width="1.6" stroke-dasharray="6 5"/>';
  s+='<text x="'+(W-R)+'" y="'+(oy-7).toFixed(1)+'" text-anchor="end" font-size="12.5" font-weight="800" fill="#F0492E" font-family="Inter,sans-serif">Objectif '+fmtN(goal)+'</text>';
- data.forEach(function(p,i){var x=L+i*slot+slot/2,bx=x-bw/2;
+ data.forEach(function(p,i){var x=L+i*slot+slot/2,bx=x-bw/2,dim=(sel!=null&&sel!==i);
   if(p.kcal>0){var h=Math.max(5,(Math.min(axMax,p.kcal)/axMax)*plotH),y=bot-h;
-   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,7)+'" fill="url(#nbg)"/>';
-   s+='<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#56514B" font-family="Inter,sans-serif">'+fmtN(p.kcal)+'</text>';}
+   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,7)+'" fill="url(#nbg)" opacity="'+(dim?'.4':'1')+'"/>';
+   if(showVals&&sel==null)s+='<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#56514B" font-family="Inter,sans-serif">'+fmtN(p.kcal)+'</text>';}
   else s+='<rect x="'+bx.toFixed(1)+'" y="'+(bot-4)+'" width="'+bw.toFixed(1)+'" height="4" rx="2" fill="#E6DFD5"/>';
-  s+='<text x="'+x.toFixed(1)+'" y="172" text-anchor="middle" font-size="11" font-weight="800" fill="#8A857D" font-family="Inter,sans-serif">'+p.lab+'</text>';});
+  s+='<text x="'+x.toFixed(1)+'" y="172" text-anchor="middle" font-size="11" font-weight="800" fill="'+(dim?'#C2BBAF':'#8A857D')+'" font-family="Inter,sans-serif">'+p.lab+'</text>';});
+ if(sel!=null&&data[sel]){var p=data[sel],x=L+sel*slot+slot/2;
+  s+='<line x1="'+x.toFixed(1)+'" y1="20" x2="'+x.toFixed(1)+'" y2="'+bot+'" stroke="#37372F" stroke-width="1.2" stroke-dasharray="3 3" opacity=".4"/>';
+  var lbl=p.full+'  ·  '+(p.kcal?fmtN(p.kcal)+' kcal':'aucun repas'),tw=lbl.length*6+18,tx=Math.max(2,Math.min(W-tw-2,x-tw/2));
+  s+='<rect x="'+tx.toFixed(1)+'" y="2" width="'+tw.toFixed(1)+'" height="23" rx="7" fill="#1A1812"/><text x="'+(tx+tw/2).toFixed(1)+'" y="17.5" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="800" fill="#fff">'+lbl+'</text>';}
  return s+'</svg>';}
-function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();
+function nbScrub(cx){var svg=document.querySelector('#nbChart svg');if(!svg||!_nbData)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*372;var L=38,R=12,n=_nbData.length,slot=(372-L-R)/n;var i=Math.round((px-L-slot/2)/slot);i=Math.max(0,Math.min(n-1,i));if(i===_nbSel)return;_nbSel=i;document.getElementById('nbChart').innerHTML=nutBilanChart(_nbData,getNutGoals().kcal,_nbSel);haptic(4);}
+function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_nbSel=null;
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
- var c=document.getElementById('nbChart');if(c)c.innerHTML=nutBilanChart(data,g.kcal);
+ var c=document.getElementById('nbChart');if(c){c.innerHTML=nutBilanChart(data,g.kcal,_nbSel);
+  if(!c._scrub){c._scrub=1;c.style.touchAction='none';
+   c.addEventListener('pointerdown',function(e){e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}nbScrub(e.clientX);c._sm=function(ev){nbScrub(ev.clientX)};c.addEventListener('pointermove',c._sm)});
+   var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}};
+   c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);}}
  var vals=data.filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});
  var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):0;
  var logged=data.filter(function(d){return d.has}).length;
@@ -6936,7 +6946,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v340';
+const APP_VERSION='flint-v341';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
