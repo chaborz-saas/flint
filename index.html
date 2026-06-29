@@ -3076,30 +3076,45 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <!-- ===================== NUTRITION · GRAPHE CALORIES (plein écran explorable) ===================== -->
 <section class="view" id="v-nutgraph">
 <style>
-.ngHero{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:2px 4px 14px}
-.ngHero .hl{font-size:12.5px;font-weight:700;color:#8A857D}
-.ngHero .hv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1px;font-size:42px;color:#151515;line-height:.92;margin-top:4px}
-.ngHero .hv small{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#8A857D;letter-spacing:0;margin-left:5px}
+.ng-top{margin:6px 0 12px}
+.ng-hero{margin:4px 4px 14px}
+.ng-hero .hl{font-size:12.5px;font-weight:700;color:#8A857D}
+.ng-hero .hrow{display:flex;align-items:baseline;gap:12px;margin-top:5px;flex-wrap:wrap}
+.ng-hero .hv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1.5px;font-size:46px;color:#151515;line-height:.9}
+.ng-hero .hv small{font-family:'Inter',sans-serif;font-weight:700;font-size:15px;color:#8A857D;letter-spacing:0;margin-left:5px}
+.ng-delta{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:11px;background:#EFEAE2;color:#56514B}
+.ng-delta.up{background:#E9F6EE;color:#3B6D11}.ng-delta.down{background:#FBE9E4;color:#C0432A}
 .ngNav{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 0 14px}
 .ngNav button{width:38px;height:38px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#151515;font-size:19px;cursor:pointer;display:grid;place-items:center;flex:none;transition:transform .12s ease}
 .ngNav button:active{transform:scale(.9)}.ngNav button[disabled]{opacity:.35;cursor:default}
 .ngNav .rg{font-size:14px;font-weight:800;color:#151515;min-width:160px;text-align:center}
+.ng-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:16px;color:#151515;text-transform:uppercase}
+#v-nutgraph .nbil-kpi .kv.grn{color:#3B6D11}
 </style>
 <div class="nbil">
-  <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button><div class="nbil-h1">Calories</div></div>
+  <div class="ng-top"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button></div>
   <div class="nbil-seg">
     <span class="nbil-seg-pill" id="ngPill"></span>
     <button class="nbil-seg-b on" id="ng_semaine" type="button" onclick="ngSet('semaine')">Semaine</button>
     <button class="nbil-seg-b" id="ng_mois" type="button" onclick="ngSet('mois')">Mois</button>
     <button class="nbil-seg-b" id="ng_annee" type="button" onclick="ngSet('annee')">Année</button>
   </div>
-  <div class="ngHero"><div><div class="hl" id="ngLbl">Moyenne / jour</div><div class="hv"><span id="ngBig">—</span><small>kcal</small></div></div></div>
+  <div class="ng-hero">
+    <div class="hl" id="ngLbl">Moyenne / jour</div>
+    <div class="hrow"><div class="hv"><span id="ngBig">—</span><small>kcal</small></div><span class="ng-delta" id="ngDelta" style="display:none"></span></div>
+  </div>
   <div class="ngNav"><button type="button" onclick="ngShift(-1)" aria-label="Période précédente"><i class="ti ti-chevron-left"></i></button><span class="rg" id="ngRange">—</span><button type="button" id="ngNext" onclick="ngShift(1)" aria-label="Période suivante"><i class="ti ti-chevron-right"></i></button></div>
   <div class="nbil-card">
-    <div class="nbil-ct">Calories vs objectif</div>
+    <div class="ng-ct">Calories vs objectif</div>
     <div class="nbil-csub">Glisse le doigt sur le graphe pour lire chaque jour.</div>
     <div id="ngChart" style="margin-top:6px"></div>
   </div>
+  <div class="nbil-kpis">
+    <div class="nbil-kpi"><div class="kl">Dans ta cible</div><div class="kv grn"><span id="ngInTgt">—</span></div></div>
+    <div class="nbil-kpi"><div class="kl">Jours loggés</div><div class="kv"><span id="ngLogged">—</span></div></div>
+    <div class="nbil-kpi"><div class="kl">Meilleur jour</div><div class="kv"><span id="ngBest">—</span></div></div>
+  </div>
+  <div class="nbil-tip"><span class="t2"><i class="ti ti-bulb"></i></span><span class="tx"><b>Analyse</b><span id="ngInsight">—</span></span></div>
 </div>
 </section>
 
@@ -5474,9 +5489,11 @@ function ngRangeLbl(){var MS=['janv.','févr.','mars','avr.','mai','juin','juil.
  if(_ngP==='annee'){return ''+(new Date().getFullYear()+_ngOff);}
  var span=_ngP==='mois'?30:7,a=new Date();a.setDate(a.getDate()+_ngOff*span-(span-1));var b=new Date();b.setDate(b.getDate()+_ngOff*span);
  return a.getDate()+' '+MS[a.getMonth()]+' – '+b.getDate()+' '+MS[b.getMonth()];}
-function ngHero(){var sel=_ngSel!=null&&_ngData?_ngData[_ngSel]:null;
- if(sel){set('ngBig',sel.kcal?fmtN(sel.kcal):'—');set('ngLbl',sel.full);}
- else{var vals=(_ngData||[]).filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):0;set('ngBig',avg?fmtN(avg):'—');set('ngLbl',_ngP==='annee'?'Moyenne / mois':'Moyenne / jour');}}
+function ngAvg(data){var v=(data||[]).filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});return v.length?Math.round(v.reduce(function(a,b){return a+b},0)/v.length):0;}
+function ngHero(){var sel=_ngSel!=null&&_ngData?_ngData[_ngSel]:null,de=document.getElementById('ngDelta');
+ if(sel){set('ngBig',sel.kcal?fmtN(sel.kcal):'—');set('ngLbl',sel.full);if(de)de.style.display='none';return;}
+ var avg=ngAvg(_ngData);set('ngBig',avg?fmtN(avg):'—');set('ngLbl',_ngP==='annee'?'Moyenne / mois':'Moyenne / jour');
+ if(de){var pavg=ngAvg(nutBilanData(_ngP,_ngOff-1));if(avg&&pavg){var dp=Math.round((avg-pavg)/pavg*100);de.style.display='';de.className='ng-delta '+(dp>=0?'up':'down');de.innerHTML='<i class="ti ti-'+(dp>=0?'caret-up-filled':'caret-down-filled')+'"></i> '+(dp>=0?'+':'')+dp+'% vs préc.';}else de.style.display='none';}}
 function ngScrub(cx){var svg=document.querySelector('#ngChart svg');if(!svg||!_ngData)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*372;var L=38,R=12,n=_ngData.length,slot=(372-L-R)/n;var i=Math.round((px-L-slot/2)/slot);i=Math.max(0,Math.min(n-1,i));if(i===_ngSel)return;_ngSel=i;document.getElementById('ngChart').innerHTML=nutBilanChart(_ngData,getNutGoals().kcal,_ngSel);ngHero();haptic(4);}
 function renderNutGraph(){var data=nutBilanData(_ngP,_ngOff);_ngData=data;var g=getNutGoals();
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('ng_'+p);if(b)b.className='nbil-seg-b'+(_ngP===p?' on':'')});
@@ -5487,7 +5504,20 @@ function renderNutGraph(){var data=nutBilanData(_ngP,_ngOff);_ngData=data;var g=
    c.addEventListener('pointerdown',function(e){e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}ngScrub(e.clientX);c._sm=function(ev){ngScrub(ev.clientX)};c.addEventListener('pointermove',c._sm)});
    var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}if(_ngSel!=null){_ngSel=null;c.innerHTML=nutBilanChart(_ngData,getNutGoals().kcal,null);ngHero();}};
    c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);c.addEventListener('pointerleave',endf);}}
- ngHero();}
+ ngHero();
+ var span=_ngP==='annee'?12:(_ngP==='mois'?30:7),logged=data.filter(function(d){return d.has}).length,avg=ngAvg(data);
+ set('ngLogged',logged+'/'+span);
+ var inT=0,tot=0;if(_ngP!=='annee'){var G=balGoals()[goalOf()],unit=_ngP==='mois'?30:7;for(var i=0;i<unit;i++){var kk=tk(_ngOff*unit-i);if(mealsOf(kk).length){tot++;var net=balanceOf(kk).net;if(net>=G.lo&&net<=G.hi)inT++}}}
+ set('ngInTgt',_ngP==='annee'?'—':(tot?Math.round(inT/tot*100)+'%':'—'));
+ var best=null;data.forEach(function(d){if(d.kcal>0&&(!best||d.kcal>best.kcal))best=d});
+ set('ngBest',best?fmtN(best.kcal):'—');
+ var tip=document.getElementById('ngInsight');if(tip){var pct=avg&&g.kcal?Math.round((avg-g.kcal)/g.kcal*100):0,msg;
+  if(!avg)msg='Pas encore de données sur cette période — logue tes repas pour voir ton analyse.';
+  else if(logged<span*0.6)msg='Régularité à soigner : '+logged+'/'+span+' jours loggés. Plus tu logges, plus l\'analyse est fiable.';
+  else if(Math.abs(pct)<=8)msg='Tu tournes autour de ta cible ('+fmtN(g.kcal)+' kcal/j). C\'est exactement le bon rythme, continue.';
+  else if(pct<0)msg='Tu manges ~'+Math.abs(pct)+'% sous ta cible en moyenne'+(best?'. Ton plus haut : '+fmtN(best.kcal)+' kcal.':'.');
+  else msg='Tu es ~'+pct+'% au-dessus de ta cible en moyenne. Surveille les portions les jours chargés.';
+  tip.textContent=msg;}}
 function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_nbSel=null;
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
  nbMovePill();
@@ -7039,7 +7069,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v344';
+const APP_VERSION='flint-v345';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
