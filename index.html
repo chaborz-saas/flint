@@ -4181,6 +4181,17 @@ body.stepsview header{display:none}
 .elx-tgtx{font-size:13px;font-weight:600;color:#56514B;line-height:1.35}
 .elx-sub{font-size:13px;font-weight:600;color:#8A857D;margin:0 2px 12px;line-height:1.35}
 .flload .efftrx{font-size:12.5px;line-height:1.45;color:#7C766B;margin:11px 2px 0;font-weight:500}
+.elx-baltrk{position:relative;display:flex;height:13px;border-radius:8px;overflow:hidden;margin:18px 0 7px}
+.elx-baltrk span{display:block;height:100%}
+.elx-balmark{position:absolute;top:-5px;width:4px;height:23px;border-radius:3px;background:#15140F;box-shadow:0 0 0 3px #fff;transform:translateX(-50%);left:0;transition:left .6s cubic-bezier(.2,.8,.2,1)}
+.elx-ballabs{display:flex;font-size:9px;font-weight:800;text-transform:uppercase;color:#9A948A;letter-spacing:.2px}
+.elx-ballabs span{text-align:center}
+.elx-balverd{display:flex;gap:12px;align-items:flex-start;border-radius:16px;padding:13px 14px;margin-top:16px;background:#F4F7F2;transition:background .3s ease}
+.elx-balverd .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:21px;flex:none;background:#fff}
+.elx-balverd .tx b{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:15px;letter-spacing:.3px;text-transform:uppercase;line-height:1.1;margin-bottom:3px}
+.elx-balverd .tx span{font-size:13px;font-weight:600;color:#56514B;line-height:1.4}
+.elx-balcap{font-size:11.5px;font-weight:700;color:#8A857D;text-align:center;margin-top:12px}
+.elx-balcap b{color:#15140F}
 </style>
 <div class="flload elx">
   <div class="elx-hd">
@@ -4208,6 +4219,21 @@ body.stepsview header{display:none}
   <section class="card elx-tgt">
     <span class="elx-tgti"><i class="ti ti-target-arrow"></i></span>
     <div class="elx-tgtbd"><div class="elx-tgtl">Ta cible du jour</div><div class="elx-tgtv"><span id="effTgt">—</span></div><div class="elx-tgtx" id="effTgtX">—</div></div>
+  </section>
+
+  <section class="card elx-card elx-bal">
+    <div class="elx-ct">Équilibre de charge</div>
+    <p class="elx-p">Ta charge des <b>7 derniers jours</b> comparée à ton habitude des <b>4 dernières semaines</b>. Trop haut = surmenage, trop bas = désentraînement.</p>
+    <div class="elx-baltrk">
+      <span style="flex:.3;background:#DDE6F5"></span><span style="flex:.5;background:#BBE5CC"></span><span style="flex:.2;background:#F7E0B8"></span><span style="flex:.3;background:#F6C3B6"></span>
+      <i class="elx-balmark" id="effBalMark"></i>
+    </div>
+    <div class="elx-ballabs"><span style="flex:.3">Sous-charge</span><span style="flex:.5">Optimal</span><span style="flex:.2">Élevé</span><span style="flex:.3">Risque</span></div>
+    <div class="elx-balverd" id="effBalVerd">
+      <span class="ic" id="effBalIc"><i class="ti ti-circle-check"></i></span>
+      <div class="tx"><b id="effBalLab">—</b><span id="effBalTxt">—</span></div>
+    </div>
+    <div class="elx-balcap">7 jours : <b id="effBalA">—</b> · 4 semaines : <b id="effBalC">—</b></div>
   </section>
 
   <div class="efftitle">Activités du jour</div>
@@ -5169,9 +5195,9 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
   cc.addEventListener('pointerup',endf);cc.addEventListener('pointercancel',endf)})();}
 function metrendInfo(){var e=document.getElementById('tExplCard');if(e)e.scrollIntoView({behavior:'smooth',block:'center'})}
 function metKeyDate(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
-function vIcon(c){return (c==='#2FAE67'||c==='#2FA86A'||c==='#5A52B5')?'ti-circle-filled':(c==='#E8674A'||c==='#C0492C')?'ti-sparkles':(c==='#3FA0E0'||c==='#2E78B5')?'ti-arrow-down':'ti-minus'}
+function vIcon(c){return (c==='#2FAE67'||c==='#2FA86A'||c==='#5A52B5')?'ti-point':(c==='#E8674A'||c==='#C0492C')?'ti-sparkles':(c==='#3FA0E0'||c==='#2E78B5')?'ti-arrow-down':'ti-minus'}
 function dayVerdict(M,v,b){if(v==null)return null;
- if(b&&b.sd>0){var z=(v-b.m)/b.sd;if(M.lowerIsBetter)z=-z;var lvl=z>=1.05?3:z>=0.3?2:z>=-0.7?1:0;return [{t:'Faible',c:'#3FA0E0',i:'ti-arrow-down'},{t:'Correct',c:'#8A8580',i:'ti-minus'},{t:'Bon',c:'#2FAE67',i:'ti-circle-filled'},{t:'Excellent',c:'#E8674A',i:'ti-sparkles'}][lvl]}
+ if(b&&b.sd>0){var z=(v-b.m)/b.sd;if(M.lowerIsBetter)z=-z;var lvl=z>=1.05?3:z>=0.3?2:z>=-0.7?1:0;return [{t:'Faible',c:'#3FA0E0',i:'ti-arrow-down'},{t:'Correct',c:'#8A8580',i:'ti-minus'},{t:'Bon',c:'#2FAE67',i:'ti-point'},{t:'Excellent',c:'#E8674A',i:'ti-sparkles'}][lvl]}
  if(M.verdict){var o=M.verdict(v);return {t:o.t,c:o.c,i:vIcon(o.c)}}return null}
 function daySparkSVG(M,k,on){var vals=[];for(var i=6;i>=0;i--)vals.push(M.val(tk2off(k,-i)));var vv=vals.filter(function(x){return x!=null});if(vv.length<2)return '<div class="mt2sparkph"></div>';var mn=Math.min.apply(null,vv),mx=Math.max.apply(null,vv);if(mn===mx){mn-=1;mx+=1}var W=88,H=34,col='#C2BDB4';var pts=vals.map(function(x,i){return x==null?null:[6+i*(W-12)/6,H-5-(x-mn)/(mx-mn)*(H-12)]}).filter(Boolean);var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' ');var dots=pts.map(function(p){return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="1.9" fill="'+col+'"/>'}).join('');return '<svg viewBox="0 0 '+W+' '+H+'" class="mt2spark" preserveAspectRatio="none"><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'+dots+'</svg>'}
 function buildDayCards(M,b){var host=document.getElementById('tCards');if(!host)return;var todayK=tk(),selK=_tDaySel,list,html='';
@@ -5843,7 +5869,7 @@ function goalSheetOpen(){_goPick=goalOf();renderGoalOpts();document.getElementBy
 function goalSheetClose(){document.getElementById('goSheet').classList.remove('on')}
 function goalPick(t){_goPick=t;renderGoalOpts();haptic()}
 function goalConfirm(){if(_goPick)setBalGoal(_goPick);goalSheetClose()}
-function renderGoalOpts(){var G=balGoals();set('goOpts',['seche','maintien','masse'].map(function(t){var g=G[t],on=t===_goPick;return '<button type="button" class="go-opt'+(on?' on':'')+'" onclick="goalPick(\''+t+'\')"><span class="go-oic" style="color:'+g.col+';background:'+g.colL+'"><i class="ti '+g.ic+'"></i></span><span class="go-otx"><span class="go-on">'+g.name+'</span><span class="go-od">'+g.desc+'</span><span class="go-ot">'+g.tgt+'</span></span><span class="go-ock" style="color:'+g.col+'"><i class="ti ti-circle-check-filled"></i></span></button>'}).join(''))}
+function renderGoalOpts(){var G=balGoals();set('goOpts',['seche','maintien','masse'].map(function(t){var g=G[t],on=t===_goPick;return '<button type="button" class="go-opt'+(on?' on':'')+'" onclick="goalPick(\''+t+'\')"><span class="go-oic" style="color:'+g.col+';background:'+g.colL+'"><i class="ti '+g.ic+'"></i></span><span class="go-otx"><span class="go-on">'+g.name+'</span><span class="go-od">'+g.desc+'</span><span class="go-ot">'+g.tgt+'</span></span><span class="go-ock" style="color:'+g.col+'"><i class="ti ti-circle-check"></i></span></button>'}).join(''))}
 /* statut RELATIF à l'objectif : vert = dans ta cible, ambre = écart, rouge = à contre-courant */
 function balStatus(net,hasFood){
  if(!hasFood)return ['En attente','var(--faint)','#EDE8DE','ti-photo'];
@@ -6409,7 +6435,7 @@ function recFactorsHTML(rv){if(!rv)return '';
   var bm=r.base?r.base.m:null,thr=r.dec?0.05:0.5,dir=0;
   if(r.cur!=null&&bm!=null){if(r.cur>bm+thr)dir=1;else if(r.cur<bm-thr)dir=-1}
   var good=dir===0?null:(r.lower?dir<0:dir>0),col=dir===0?'#9A988F':good?'#3FB57A':'#F0492E';
-  var arrow=dir>0?'ti-caret-up-filled':dir<0?'ti-caret-down-filled':'ti-point-filled';
+  var arrow=dir>0?'ti-caret-up':dir<0?'ti-caret-down':'ti-point';
   return '<button class="rfr" type="button" onclick="openMetricTrend(\''+r.metric+'\')"><span class="rfi"><i class="ti '+r.icon+'"></i></span><span class="rfn">'+r.label+'</span><span class="rfval"><span class="rfv">'+fmt(r.cur)+' <i class="ti '+arrow+'" style="color:'+col+'"></i></span><span class="rfb">'+(bm!=null?fmt(bm):'—')+'</span></span></button>';
  }).join('');
 }
@@ -6713,7 +6739,26 @@ function renderLoad(){var K=tk();
  set('effTgtX',ctx+verdict);
  var ss=DB.get('sessions_'+K,[]).filter(function(s){return s.type!=='nap'});
  set('effActs',ss.length?ss.map(function(s,i){var sc=actStrain(s).toFixed(1).replace('.',',');var end=s.start?(function(){var sm=tmin(s.start)+(s.dur||0);return String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')})():'';return '<button class="eact" type="button" onclick="openActivity('+i+')"><span class="eai">'+(s.icon||'🏃')+'<b>'+sc+'</b></span><span class="ean">'+esc(s.name||'Activité')+'</span><span class="eat">'+(s.start||'')+'<br>'+end+'</span></button>'}).join(''):'<p class="sci" style="padding:2px 2px 14px;color:#7C766B">Aucune séance aujourd\'hui. Ajoute-en une pour suivre ta charge.</p>');
- set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div>'+(c.exText?'<p class="efftrx">'+c.exText+'</p>':'')+'</button>'}).join(''));}
+ set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div>'+(c.exText?'<p class="efftrx">'+c.exText+'</p>':'')+'</button>'}).join(''));
+ (function(){var cb=chargeBalance();
+  var pos=Math.max(4,Math.min(96,(cb.ratio-0.5)/1.3*100));
+  var mk=document.getElementById('effBalMark');if(mk)mk.style.left=pos.toFixed(1)+'%';
+  set('effBalA',cb.acute.toFixed(1).replace('.',','));set('effBalC',cb.chronic.toFixed(1).replace('.',','));
+  set('effBalLab',cb.lab);set('effBalTxt',cb.txt);
+  var ic=document.getElementById('effBalIc');if(ic){ic.innerHTML='<i class="ti '+cb.ic+'"></i>';ic.style.color=cb.col}
+  var lb=document.getElementById('effBalLab');if(lb)lb.style.color=cb.col;
+  var vd=document.getElementById('effBalVerd');if(vd)vd.style.background=cb.tint;
+ })();
+}
+function chargeBalance(){
+ var w=TR.charge.weekly,a=0;for(var i=0;i<w.length;i++)a+=w[i][2];a=a/(w.length||1);
+ var chronic=10.4,r=chronic>0?a/chronic:1,o;
+ if(r<0.8)o={zone:0,lab:'Sous-charge',col:'#3E63E0',tint:'#ECF0FC',ic:'ti-trending-down',txt:'Ton volume baisse. Si tu te sens frais, c\'est le moment d\'ajouter une séance.'};
+ else if(r<=1.3)o={zone:1,lab:'Optimal',col:'#2FA86A',tint:'#EAF6EF',ic:'ti-circle-check',txt:'Tu progresses sans entamer ta récup. Continue comme ça.'};
+ else if(r<=1.5)o={zone:2,lab:'Élevé',col:'#E0922A',tint:'#FBF1DD',ic:'ti-alert-triangle',txt:'Charge en hausse rapide — surveille ta récup et garde une séance facile cette semaine.'};
+ else o={zone:3,lab:'Risque',col:'var(--accent)',tint:'#FBE9E4',ic:'ti-alert-triangle',txt:'Montée trop rapide, risque de surmenage. Lève le pied 1 à 2 jours.'};
+ o.acute=a;o.chronic=chronic;o.ratio=r;return o;
+}
 
 /* ---------- EFFORT · DÉTAIL D'ACTIVITÉ (vue type Whoop, sombre) ---------- */
 const ZONE_DEF=[
@@ -7037,7 +7082,7 @@ function lockInsightH(id){var p=document.getElementById(id);if(!p)return;p.style
 /* ========== UNIVERS EFFORT · TENDANCES (moteur générique + inspection tactile) ========== */
 function minToHM(m){m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')}
 function trFmtV(cfg,v){return cfg.fmt==='dec'?(Math.round(v*10)/10).toFixed(1).replace('.',','):cfg.fmt==='hm'?minToHM(v):calNum(v)}
-var TR_ORDER=['charge','zones13','zones45','steps','calories','strength'];
+var TR_ORDER=['charge','zones13','zones45','steps','calories'];
 var TR_SLEEP=['sl_heures','sl_repair','sl_regul','sl_fcnoct'];
 var TR={
  sl_heures:{label:'Heures de sommeil',icon:'ti-moon',unit:'',fmt:'hm',maxY:600,color:'#A99AF7',valLabel:'Moyenne',anchor:[2025,4,14],
@@ -7288,7 +7333,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v360';
+const APP_VERSION='flint-v361';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
