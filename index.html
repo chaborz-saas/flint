@@ -2995,6 +2995,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nbil-card{background:#fff;border:1px solid #F1EBE3;border-radius:24px;padding:18px 16px 15px;box-shadow:0 6px 22px rgba(20,18,12,.05);margin-bottom:14px}
 .nbil-ct{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.2px;font-size:18px;color:#151515;text-transform:uppercase;line-height:1}
 .nbil-csub{font-size:12.5px;font-weight:500;color:#8A857D;margin:7px 0 4px;line-height:1.3}
+.nbil-cthd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.nbil-exp{width:34px;height:34px;border-radius:11px;border:1px solid #F1EBE3;background:#FBF7F2;color:var(--accent);font-size:18px;display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .12s ease}
+.nbil-exp:active{transform:scale(.9)}
 .nbil-sum{display:flex;align-items:center;gap:12px;background:#FBF3EF;border-radius:16px;padding:12px 13px;margin-top:14px}
 .nbil-sum .si{width:42px;height:42px;border-radius:50%;background:#FCE2D8;color:var(--accent);display:grid;place-items:center;font-size:21px;flex:none}
 .nbil-sum .st{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:#3E3A35;line-height:1.3}
@@ -3030,9 +3033,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="nbil-seg-b" id="nb_annee" type="button" onclick="nutBilanSet('annee')">Année</button>
   </div>
   <div class="nbil-card">
-    <div class="nbil-ct">Calories vs objectif</div>
-    <div class="nbil-csub">Tes calories moyennes comparées à ton objectif quotidien.</div>
-    <div id="nbChart"></div>
+    <div class="nbil-cthd"><div><div class="nbil-ct">Calories vs objectif</div><div class="nbil-csub">Tes calories moyennes comparées à ton objectif quotidien.</div></div><button class="nbil-exp" type="button" onclick="openNutGraph()" aria-label="Ouvrir le graphe en grand"><i class="ti ti-arrow-up-right"></i></button></div>
+    <div id="nbChart" style="margin-top:4px"></div>
     <div class="nbil-sum"><span class="si"><i class="ti ti-trending-up"></i></span><span class="st" id="nbSumTxt">—</span><span class="nbil-badge" id="nbSumBadge">—</span></div>
   </div>
   <div class="nbil-kpis">
@@ -3049,6 +3051,36 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </div>
   </div>
   <div class="nbil-tip"><span class="t2"><i class="ti ti-bulb"></i></span><span class="tx"><b>Conseil Flint</b><span id="nbConseil">—</span></span></div>
+</div>
+</section>
+
+<!-- ===================== NUTRITION · GRAPHE CALORIES (plein écran explorable) ===================== -->
+<section class="view" id="v-nutgraph">
+<style>
+.ngHero{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:2px 4px 14px}
+.ngHero .hl{font-size:12.5px;font-weight:700;color:#8A857D}
+.ngHero .hv{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:-1px;font-size:42px;color:#151515;line-height:.92;margin-top:4px}
+.ngHero .hv small{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:#8A857D;letter-spacing:0;margin-left:5px}
+.ngNav{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 0 14px}
+.ngNav button{width:38px;height:38px;border-radius:50%;border:1px solid #ECE6DD;background:#fff;color:#151515;font-size:19px;cursor:pointer;display:grid;place-items:center;flex:none;transition:transform .12s ease}
+.ngNav button:active{transform:scale(.9)}.ngNav button[disabled]{opacity:.35;cursor:default}
+.ngNav .rg{font-size:14px;font-weight:800;color:#151515;min-width:160px;text-align:center}
+</style>
+<div class="nbil">
+  <div class="nbil-hd"><button class="nbil-back" type="button" onclick="go('nutbilan',true)" aria-label="Retour"><i class="ti ti-arrow-left"></i></button><div class="nbil-h1">Calories</div></div>
+  <div class="nbil-seg">
+    <span class="nbil-seg-pill" id="ngPill"></span>
+    <button class="nbil-seg-b on" id="ng_semaine" type="button" onclick="ngSet('semaine')">Semaine</button>
+    <button class="nbil-seg-b" id="ng_mois" type="button" onclick="ngSet('mois')">Mois</button>
+    <button class="nbil-seg-b" id="ng_annee" type="button" onclick="ngSet('annee')">Année</button>
+  </div>
+  <div class="ngHero"><div><div class="hl" id="ngLbl">Moyenne / jour</div><div class="hv"><span id="ngBig">—</span><small>kcal</small></div></div></div>
+  <div class="ngNav"><button type="button" onclick="ngShift(-1)" aria-label="Période précédente"><i class="ti ti-chevron-left"></i></button><span class="rg" id="ngRange">—</span><button type="button" id="ngNext" onclick="ngShift(1)" aria-label="Période suivante"><i class="ti ti-chevron-right"></i></button></div>
+  <div class="nbil-card">
+    <div class="nbil-ct">Calories vs objectif</div>
+    <div class="nbil-csub">Glisse le doigt sur le graphe pour lire chaque jour.</div>
+    <div id="ngChart" style="margin-top:6px"></div>
+  </div>
 </div>
 </section>
 
@@ -4561,7 +4593,7 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,nuthistory:renderNutHistory,mealdetail:renderMealDetail,nutbilan:renderNutBilan}[v]||(()=>{}))();
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,nuthistory:renderNutHistory,mealdetail:renderMealDetail,nutbilan:renderNutBilan,nutgraph:renderNutGraph}[v]||(()=>{}))();
  var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
 function goBack(fb){window._navStack=window._navStack||[];var prev=window._navStack.pop();go(prev||fb||'today',true)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -5367,28 +5399,28 @@ function delMeal(i){const k=tk(),a=mealsOf(k);a.splice(i,1);DB.set('meals_'+k,a)
 var _nbPeriod='semaine',_nbSel=null,_nbData=null;
 function openNutBilan(){go('nutbilan');}
 function nutBilanSet(p){_nbPeriod=p;_nbSel=null;renderNutBilan();haptic();}
-function nutBilanData(){var out=[];var MS=['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
- if(_nbPeriod==='annee'){var now=new Date();var ML=['J','F','M','A','M','J','J','A','S','O','N','D'];var MLF=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  for(var m=11;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m,1),y=d.getFullYear(),mo=d.getMonth(),days=new Date(y,mo+1,0).getDate(),sum=0,cnt=0;
+function nutBilanData(period,off){period=period||_nbPeriod;off=off||0;var out=[];var MS=['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+ if(period==='annee'){var now=new Date();var ML=['J','F','M','A','M','J','J','A','S','O','N','D'];var MLF=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  for(var m=11;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m+off*12,1),y=d.getFullYear(),mo=d.getMonth(),days=new Date(y,mo+1,0).getDate(),sum=0,cnt=0;
    for(var dd=1;dd<=days;dd++){var kk=y+'-'+(mo+1)+'-'+dd;if(mealsOf(kk).length){sum+=nutTotals(kk).kcal;cnt++}}
    out.push({lab:ML[mo],full:MLF[mo]+' '+y,kcal:cnt?Math.round(sum/cnt):0,has:cnt>0});}
- }else if(_nbPeriod==='mois'){for(var i=29;i>=0;i--){var k2=tk(-i),dt=new Date();dt.setDate(dt.getDate()-i);
-   out.push({lab:(i%5===0?String(dt.getDate()):''),full:(i===0?'Aujourd\'hui':dt.getDate()+' '+MS[dt.getMonth()]),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}
+ }else if(period==='mois'){for(var i=29;i>=0;i--){var dof=off*30-i,k2=tk(dof),dt=new Date();dt.setDate(dt.getDate()+dof);
+   out.push({lab:(i%5===0?String(dt.getDate()):''),full:(dof===0?'Aujourd\'hui':dt.getDate()+' '+MS[dt.getMonth()]),kcal:nutTotals(k2).kcal,has:mealsOf(k2).length>0});}
  }else{var WD=['D','L','M','M','J','V','S'],WDF=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-   for(var w=6;w>=0;w--){var dw=new Date();dw.setDate(dw.getDate()-w);var kw=tk(-w);
-    out.push({lab:WD[dw.getDay()],full:(w===0?'Aujourd\'hui':WDF[dw.getDay()]+' '+dw.getDate()),kcal:nutTotals(kw).kcal,has:mealsOf(kw).length>0});}}
+   for(var w=6;w>=0;w--){var dof2=off*7-w,kw=tk(dof2),dw=new Date();dw.setDate(dw.getDate()+dof2);
+    out.push({lab:WD[dw.getDay()],full:(dof2===0?'Aujourd\'hui':WDF[dw.getDay()]+' '+dw.getDate()),kcal:nutTotals(kw).kcal,has:mealsOf(kw).length>0});}}
  return out;}
 function nutBilanChart(data,goal,sel){var W=372,L=38,R=12,top=28,bot=150,plotH=bot-top,n=data.length,slot=(W-L-R)/n,bw=Math.min(20,slot*0.46);
  var peak=Math.max(goal*1.12,Math.max.apply(null,data.map(function(p){return p.kcal})))||goal||2000,axMax=Math.max(1000,Math.ceil(peak/1000)*1000);
- var showVals=n<=7;
- var s='<svg viewBox="0 0 '+W+' 186" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
+ var showVals=n<=7,gid='nbg'+(window._nbGid=(window._nbGid||0)+1);
+ var s='<svg viewBox="0 0 '+W+' 186" style="width:100%;height:auto;display:block;touch-action:none"><defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04A32"/><stop offset="1" stop-color="#FF9B2F"/></linearGradient></defs>';
  for(var gv=0;gv<=axMax;gv+=1000){var gyy=bot-(gv/axMax)*plotH;s+='<text x="'+(L-7)+'" y="'+(gyy+3.6).toFixed(1)+'" text-anchor="end" font-size="10.5" font-weight="700" fill="#B4ADA1" font-family="Inter,sans-serif">'+(gv?fmtN(gv):'0')+'</text>';}
  var oy=bot-(goal/axMax)*plotH;
  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+oy.toFixed(1)+'" y2="'+oy.toFixed(1)+'" stroke="#F0492E" stroke-width="1.6" stroke-dasharray="6 5"/>';
  s+='<text x="'+(W-R)+'" y="'+(oy-7).toFixed(1)+'" text-anchor="end" font-size="12.5" font-weight="800" fill="#F0492E" font-family="Inter,sans-serif">Objectif '+fmtN(goal)+'</text>';
  data.forEach(function(p,i){var x=L+i*slot+slot/2,bx=x-bw/2,dim=(sel!=null&&sel!==i);
   if(p.kcal>0){var h=Math.max(5,(Math.min(axMax,p.kcal)/axMax)*plotH),y=bot-h;
-   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,7)+'" fill="url(#nbg)" opacity="'+(dim?'.4':'1')+'"/>';
+   s+='<rect x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="'+Math.min(bw/2,7)+'" fill="url(#'+gid+')" opacity="'+(dim?'.4':'1')+'"/>';
    if(showVals&&sel==null)s+='<text x="'+x.toFixed(1)+'" y="'+(y-6).toFixed(1)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#56514B" font-family="Inter,sans-serif">'+fmtN(p.kcal)+'</text>';}
   else s+='<rect x="'+bx.toFixed(1)+'" y="'+(bot-4)+'" width="'+bw.toFixed(1)+'" height="4" rx="2" fill="#E6DFD5"/>';
   s+='<text x="'+x.toFixed(1)+'" y="172" text-anchor="middle" font-size="11" font-weight="800" fill="'+(dim?'#C2BBAF':'#8A857D')+'" font-family="Inter,sans-serif">'+p.lab+'</text>';});
@@ -5399,14 +5431,37 @@ function nutBilanChart(data,goal,sel){var W=372,L=38,R=12,top=28,bot=150,plotH=b
  return s+'</svg>';}
 function nbScrub(cx){var svg=document.querySelector('#nbChart svg');if(!svg||!_nbData)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*372;var L=38,R=12,n=_nbData.length,slot=(372-L-R)/n;var i=Math.round((px-L-slot/2)/slot);i=Math.max(0,Math.min(n-1,i));if(i===_nbSel)return;_nbSel=i;document.getElementById('nbChart').innerHTML=nutBilanChart(_nbData,getNutGoals().kcal,_nbSel);haptic(4);}
 function nbMovePill(){var btn=document.getElementById('nb_'+_nbPeriod),pill=document.getElementById('nbPill');if(!btn||!pill||!btn.offsetWidth)return;var first=!pill.style.transform;if(first)pill.style.transition='none';pill.style.width=btn.offsetWidth+'px';pill.style.transform='translateX('+(btn.offsetLeft-5)+'px)';if(first){void pill.offsetWidth;pill.style.transition='';}}
+/* ---------- Calories · graphe plein écran explorable (nav périodes + scrub) ---------- */
+var _ngP='semaine',_ngOff=0,_ngSel=null,_ngData=null;
+function openNutGraph(){_ngP=_nbPeriod;_ngOff=0;_ngSel=null;go('nutgraph');}
+function ngSet(p){_ngP=p;_ngOff=0;_ngSel=null;renderNutGraph();haptic();}
+function ngShift(d){var n=Math.min(0,_ngOff+d);if(n===_ngOff)return;_ngOff=n;_ngSel=null;renderNutGraph();haptic();}
+function ngRangeLbl(){var MS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+ if(_ngP==='annee'){return ''+(new Date().getFullYear()+_ngOff);}
+ var span=_ngP==='mois'?30:7,a=new Date();a.setDate(a.getDate()+_ngOff*span-(span-1));var b=new Date();b.setDate(b.getDate()+_ngOff*span);
+ return a.getDate()+' '+MS[a.getMonth()]+' – '+b.getDate()+' '+MS[b.getMonth()];}
+function ngHero(){var sel=_ngSel!=null&&_ngData?_ngData[_ngSel]:null;
+ if(sel){set('ngBig',sel.kcal?fmtN(sel.kcal):'—');set('ngLbl',sel.full);}
+ else{var vals=(_ngData||[]).filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):0;set('ngBig',avg?fmtN(avg):'—');set('ngLbl',_ngP==='annee'?'Moyenne / mois':'Moyenne / jour');}}
+function ngScrub(cx){var svg=document.querySelector('#ngChart svg');if(!svg||!_ngData)return;var r=svg.getBoundingClientRect();var px=(cx-r.left)/r.width*372;var L=38,R=12,n=_ngData.length,slot=(372-L-R)/n;var i=Math.round((px-L-slot/2)/slot);i=Math.max(0,Math.min(n-1,i));if(i===_ngSel)return;_ngSel=i;document.getElementById('ngChart').innerHTML=nutBilanChart(_ngData,getNutGoals().kcal,_ngSel);ngHero();haptic(4);}
+function renderNutGraph(){var data=nutBilanData(_ngP,_ngOff);_ngData=data;var g=getNutGoals();
+ ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('ng_'+p);if(b)b.className='nbil-seg-b'+(_ngP===p?' on':'')});
+ (function(){var btn=document.getElementById('ng_'+_ngP),pill=document.getElementById('ngPill');if(btn&&pill&&btn.offsetWidth){var first=!pill.style.transform;if(first)pill.style.transition='none';pill.style.width=btn.offsetWidth+'px';pill.style.transform='translateX('+(btn.offsetLeft-5)+'px)';if(first){void pill.offsetWidth;pill.style.transition='';}}})();
+ set('ngRange',ngRangeLbl());var nx=document.getElementById('ngNext');if(nx)nx.disabled=_ngOff>=0;
+ var c=document.getElementById('ngChart');if(c){c.innerHTML=nutBilanChart(data,g.kcal,_ngSel);
+  if(!c._scrub){c._scrub=1;c.style.touchAction='none';
+   c.addEventListener('pointerdown',function(e){e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}ngScrub(e.clientX);c._sm=function(ev){ngScrub(ev.clientX)};c.addEventListener('pointermove',c._sm)});
+   var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}if(_ngSel!=null){_ngSel=null;c.innerHTML=nutBilanChart(_ngData,getNutGoals().kcal,null);ngHero();}};
+   c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);c.addEventListener('pointerleave',endf);}}
+ ngHero();}
 function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_nbSel=null;
  ['semaine','mois','annee'].forEach(function(p){var b=document.getElementById('nb_'+p);if(b)b.className='nbil-seg-b'+(_nbPeriod===p?' on':'')});
  nbMovePill();
  var c=document.getElementById('nbChart');if(c){c.innerHTML=nutBilanChart(data,g.kcal,_nbSel);
   if(!c._scrub){c._scrub=1;c.style.touchAction='none';
    c.addEventListener('pointerdown',function(e){e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}nbScrub(e.clientX);c._sm=function(ev){nbScrub(ev.clientX)};c.addEventListener('pointermove',c._sm)});
-   var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}};
-   c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);}}
+   var endf=function(e){if(c._sm){c.removeEventListener('pointermove',c._sm);c._sm=null}try{c.releasePointerCapture(e.pointerId)}catch(_){}if(_nbSel!=null){_nbSel=null;c.innerHTML=nutBilanChart(_nbData,getNutGoals().kcal,null);}};
+   c.addEventListener('pointerup',endf);c.addEventListener('pointercancel',endf);c.addEventListener('pointerleave',endf);}}
  var vals=data.filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});
  var avg=vals.length?Math.round(vals.reduce(function(a,b){return a+b},0)/vals.length):0;
  var logged=data.filter(function(d){return d.has}).length;
@@ -6950,7 +7005,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v342';
+const APP_VERSION='flint-v343';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
