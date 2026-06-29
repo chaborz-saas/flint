@@ -4201,6 +4201,12 @@ body.stepsview header{display:none}
 .elx-zleg .zi.off{opacity:.4}
 .elx-zverd{display:flex;align-items:center;gap:11px;margin-top:15px;font-size:13px;font-weight:600;color:#56514B;line-height:1.4;background:#F7F4EF;border-radius:14px;padding:11px 13px}
 .elx-zverd .ic{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--accent);display:grid;place-items:center;font-size:18px;flex:none}
+.elx-nextbox{display:flex;align-items:center;gap:13px;border-radius:16px;padding:14px;margin-top:15px;background:#FBE9E4;transition:background .3s ease}
+.elx-nextbox .ic{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;flex:none}
+.elx-nextbox .t{font-family:'Anton',sans-serif;font-weight:400;font-size:19px;letter-spacing:.2px;text-transform:uppercase;line-height:1;color:#15140F}
+.elx-nextbox .tags{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.elx-nextbox .tags span{font-size:11px;font-weight:800;color:#56514B;background:#fff;border-radius:7px;padding:3px 8px}
+.elx-nexttxt{font-size:13.5px;line-height:1.45;color:#56514B;margin:12px 2px 0;font-weight:500}
 </style>
 <div class="flload elx">
   <div class="elx-hd">
@@ -4236,6 +4242,19 @@ body.stepsview header{display:none}
   <section class="card elx-tgt">
     <span class="elx-tgti"><i class="ti ti-target-arrow"></i></span>
     <div class="elx-tgtbd"><div class="elx-tgtl">Ta cible du jour</div><div class="elx-tgtv"><span id="effTgt">—</span></div><div class="elx-tgtx" id="effTgtX">—</div></div>
+  </section>
+
+  <section class="card elx-card elx-next">
+    <div class="elx-ct">Ta séance idéale</div>
+    <p class="elx-p">Ce que FLINT te recommande, vu ta <b>récup</b> et ta <b>charge</b> du moment.</p>
+    <div class="elx-nextbox" id="effNextBox">
+      <span class="ic" id="effNextIc"><i class="ti ti-flame"></i></span>
+      <div class="bd">
+        <div class="t" id="effNextT">—</div>
+        <div class="tags"><span id="effNextDur">—</span><span id="effNextZone">—</span></div>
+      </div>
+    </div>
+    <p class="elx-nexttxt" id="effNextTxt">—</p>
   </section>
 
   <section class="card elx-card elx-bal">
@@ -6766,6 +6785,11 @@ function renderLoad(){var K=tk();
   else if(lo/tot>=0.8)txt='Majorité en zones faciles (1–3) — excellent socle d\'endurance.';
   else txt='Bon mélange endurance et intensité aujourd\'hui — entraînement équilibré.';
   set('effZtxt',txt);})();
+ (function(){var ns=nextSession();
+  set('effNextT',ns.t);set('effNextDur',ns.dur);set('effNextZone',ns.zone);set('effNextTxt',ns.txt);
+  var bx=document.getElementById('effNextBox');if(bx)bx.style.background=ns.tint;
+  var ic=document.getElementById('effNextIc');if(ic){ic.innerHTML='<i class="ti '+ns.ic+'"></i>';ic.style.color=ns.col}
+ })();
  set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div>'+(c.exText?'<p class="efftrx">'+c.exText+'</p>':'')+'</button>'}).join(''));
  (function(){var cb=chargeBalance();
   var pos=Math.max(4,Math.min(96,(cb.ratio-0.5)/1.3*100));
@@ -6791,6 +6815,14 @@ function zonesToday(ss){
  var z=[0,0,0,0,0];(ss||[]).forEach(function(s){var w=W[s.int||2]||W[2],d=s.dur||0;for(var i=0;i<5;i++)z[i]+=d*w[i]});
  z=z.map(function(v){return Math.round(v)});
  return {z:z,tot:z.reduce(function(a,b){return a+b},0)};
+}
+function nextSession(){
+ var rv=recovery(),rs=rv?rv.s:null,cb=chargeBalance();
+ if(cb.zone>=3||(rs!=null&&rs<34))return {t:'Récup active',ic:'ti-walk',col:'#3E63E0',tint:'#ECF0FC',dur:'20–40 min',zone:'Zone 1',txt:'Ton corps a besoin de souffler. Marche, mobilité ou très facile — zéro intensité aujourd\'hui.'};
+ if(rs==null)return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 2–3',txt:'Synchronise ta nuit pour une reco précise. En attendant, reste sur du modéré.'};
+ if(rs>=67&&cb.zone<=1)return {t:'Tu peux pousser',ic:'ti-flame',col:'var(--accent)',tint:'#FBE9E4',dur:'40–55 min',zone:'Zones 4–5',txt:'Récup haute et charge maîtrisée : c\'est le bon jour pour une séance de qualité avec des intervalles.'};
+ if(rs>=67)return {t:'Séance soutenue',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 3–4',txt:'Bonne récup mais charge déjà élevée : pousse un peu, sans aller au max.'};
+ return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 2–3',txt:'Récup correcte : entretiens ta forme sans entamer ta récupération.'};
 }
 
 /* ---------- EFFORT · DÉTAIL D'ACTIVITÉ (vue type Whoop, sombre) ---------- */
@@ -7366,7 +7398,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v362';
+const APP_VERSION='flint-v363';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
