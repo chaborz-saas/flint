@@ -4192,6 +4192,15 @@ body.stepsview header{display:none}
 .elx-balverd .tx span{font-size:13px;font-weight:600;color:#56514B;line-height:1.4}
 .elx-balcap{font-size:11.5px;font-weight:700;color:#8A857D;text-align:center;margin-top:12px}
 .elx-balcap b{color:#15140F}
+.elx-zbar{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:16px 0 14px;background:#EEE9E0}
+.elx-zbar span{display:block;height:100%;min-width:0;transition:flex-grow .5s cubic-bezier(.2,.8,.2,1)}
+.elx-zleg{display:flex;flex-wrap:wrap;gap:9px 16px}
+.elx-zleg .zi{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#8A857D}
+.elx-zleg .zi .d{width:9px;height:9px;border-radius:3px;flex:none}
+.elx-zleg .zi b{font-weight:800;color:#15140F}
+.elx-zleg .zi.off{opacity:.4}
+.elx-zverd{display:flex;align-items:center;gap:11px;margin-top:15px;font-size:13px;font-weight:600;color:#56514B;line-height:1.4;background:#F7F4EF;border-radius:14px;padding:11px 13px}
+.elx-zverd .ic{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--accent);display:grid;place-items:center;font-size:18px;flex:none}
 </style>
 <div class="flload elx">
   <div class="elx-hd">
@@ -4214,6 +4223,14 @@ body.stepsview header{display:none}
     <p class="elx-p">Une note de <b>0 à 21</b> qui résume la <b>charge cardiovasculaire</b> de ta journée : plus tes séances sont <b>intenses et longues</b> (mesuré via ta fréquence cardiaque), plus la note monte.</p>
     <div class="elx-scale"><div class="elx-scmark" id="effScaleMark"></div></div>
     <div class="elx-zlabs"><span style="flex:10"><b>Légère</b><i>0–10</i></span><span style="flex:4"><b>Modérée</b><i>10–14</i></span><span style="flex:4"><b>Soutenue</b><i>14–18</i></span><span style="flex:3"><b>Élevée</b><i>18+</i></span></div>
+  </section>
+
+  <section class="card elx-card elx-zones">
+    <div class="elx-ct">Où est passé ton effort</div>
+    <p class="elx-p">La répartition de ton temps par <b>zone de fréquence cardiaque</b> aujourd'hui.</p>
+    <div class="elx-zbar" id="effZbar"></div>
+    <div class="elx-zleg" id="effZleg"></div>
+    <div class="elx-zverd" id="effZverd"><span class="ic"><i class="ti ti-heart"></i></span><span id="effZtxt">—</span></div>
   </section>
 
   <section class="card elx-tgt">
@@ -6739,6 +6756,16 @@ function renderLoad(){var K=tk();
  set('effTgtX',ctx+verdict);
  var ss=DB.get('sessions_'+K,[]).filter(function(s){return s.type!=='nap'});
  set('effActs',ss.length?ss.map(function(s,i){var sc=actStrain(s).toFixed(1).replace('.',',');var end=s.start?(function(){var sm=tmin(s.start)+(s.dur||0);return String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')})():'';return '<button class="eact" type="button" onclick="openActivity('+i+')"><span class="eai">'+(s.icon||'🏃')+'<b>'+sc+'</b></span><span class="ean">'+esc(s.name||'Activité')+'</span><span class="eat">'+(s.start||'')+'<br>'+end+'</span></button>'}).join(''):'<p class="sci" style="padding:2px 2px 14px;color:#7C766B">Aucune séance aujourd\'hui. Ajoute-en une pour suivre ta charge.</p>');
+ (function(){var ZM=[['Z1','#B9CED8','Facile'],['Z2','#4A9CC1','Endurance'],['Z3','#61B99A','Tempo'],['Z4','#F5A85B','Seuil'],['Z5','#E8674A','Max']];
+  var zt=zonesToday(ss),z=zt.z,tot=zt.tot;
+  var bar=document.getElementById('effZbar');if(bar)bar.innerHTML=tot?z.map(function(v,i){return v>0?'<span style="flex:'+v+';background:'+ZM[i][1]+'" title="'+ZM[i][0]+' · '+v+' min"></span>':''}).join(''):'';
+  var leg=document.getElementById('effZleg');if(leg)leg.innerHTML=ZM.map(function(m,i){return '<span class="zi'+(z[i]>0?'':' off')+'"><span class="d" style="background:'+m[1]+'"></span><b>'+m[0]+'</b> '+(z[i]>0?z[i]+' min':'—')+'</span>'}).join('');
+  var lo=z[0]+z[1]+z[2],hi=z[3]+z[4],txt;
+  if(!tot)txt='Aucune séance aujourd\'hui — ajoute-en une pour voir où passe ton effort.';
+  else if(hi/tot>=0.35)txt='Beaucoup d\'intensité (zones 4–5) — pense à bien récupérer pour encaisser.';
+  else if(lo/tot>=0.8)txt='Majorité en zones faciles (1–3) — excellent socle d\'endurance.';
+  else txt='Bon mélange endurance et intensité aujourd\'hui — entraînement équilibré.';
+  set('effZtxt',txt);})();
  set('effTrends',TR_ORDER.map(function(id){var c=TR[id];var leg=c.parts?'<div class="trlegend">'+c.parts.map(function(p){return '<span class="trlg"><span class="d" style="background:'+p[0]+'"></span>'+p[1]+'</span>'}).join('')+'</div>':'';return '<button class="efftr" type="button" onclick="openTrend(\''+id+'\')"><div class="efftrh"><b>'+c.label+'</b><i class="ti ti-chevron-right"></i></div>'+leg+'<div class="efftrc">'+trChartSVG(trBuildModel(id,'S'),null)+'</div>'+(c.exText?'<p class="efftrx">'+c.exText+'</p>':'')+'</button>'}).join(''));
  (function(){var cb=chargeBalance();
   var pos=Math.max(4,Math.min(96,(cb.ratio-0.5)/1.3*100));
@@ -6758,6 +6785,12 @@ function chargeBalance(){
  else if(r<=1.5)o={zone:2,lab:'Élevé',col:'#E0922A',tint:'#FBF1DD',ic:'ti-alert-triangle',txt:'Charge en hausse rapide — surveille ta récup et garde une séance facile cette semaine.'};
  else o={zone:3,lab:'Risque',col:'var(--accent)',tint:'#FBE9E4',ic:'ti-alert-triangle',txt:'Montée trop rapide, risque de surmenage. Lève le pied 1 à 2 jours.'};
  o.acute=a;o.chronic=chronic;o.ratio=r;return o;
+}
+function zonesToday(ss){
+ var W={1:[.55,.30,.15,0,0],2:[.25,.35,.25,.12,.03],3:[.10,.20,.30,.28,.12],4:[.05,.10,.25,.35,.25]};
+ var z=[0,0,0,0,0];(ss||[]).forEach(function(s){var w=W[s.int||2]||W[2],d=s.dur||0;for(var i=0;i<5;i++)z[i]+=d*w[i]});
+ z=z.map(function(v){return Math.round(v)});
+ return {z:z,tot:z.reduce(function(a,b){return a+b},0)};
 }
 
 /* ---------- EFFORT · DÉTAIL D'ACTIVITÉ (vue type Whoop, sombre) ---------- */
@@ -7333,7 +7366,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v361';
+const APP_VERSION='flint-v362';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
