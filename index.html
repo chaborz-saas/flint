@@ -2605,10 +2605,9 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h2bar i{display:block;height:100%;border-radius:5px;width:0;transition:width .6s cubic-bezier(.2,.8,.2,1)}
   .flhome .h2chev{color:#C8C2B8;font-size:22px;flex:none}
   .flhome .m-vio{background:#ECEAFB;color:#6C7BD6}.flhome .h2bar.m-vio i{background:#6C7BD6}
-  .flhome .m-amb{background:#FCEFD8;color:#E0922A}.flhome .h2bar.m-amb i{background:#E0922A}
-  .flhome .m-red{background:#FCE7E0;color:#F0653E}.flhome .h2bar.m-red i{background:#F0653E}
-  .flhome .m-cor{background:#FCE7E2;color:#FF6B5C}.flhome .h2bar.m-cor i{background:#FF6B5C}
-  .flhome .m-grn{background:#E4F5E9;color:#2FAE67}.flhome .h2bar.m-grn i{background:#2FAE67}
+  /* Sommeil = violet (unique). Charge / Calories / FC / Pas = orange FLINT (cohérent avec leurs pages détail). */
+  .flhome .m-amb,.flhome .m-red,.flhome .m-cor,.flhome .m-grn{background:#FCE7E1;color:#F0492E}
+  .flhome .h2bar.m-amb i,.flhome .h2bar.m-red i,.flhome .h2bar.m-cor i,.flhome .h2bar.m-grn i{background:#F0492E}
   </style>
   <div class="h2dn">
     <button class="nav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
@@ -5328,10 +5327,10 @@ function renderHome2(){var K=tk(gDay),today=gDay===0;
  var t=sensorOf(K),need=(getProfile().need||8)*60,slMin=(t&&t.sleepMin)||0,perf=need?slMin/need:0;
  bar('h2SleepBar',Math.min(1,perf));stat('h2SleepS',slMin?(perf>=.85?'Suffisant':perf>=.65?'Correct':'Insuffisant'):'—','#6C7BD6');
  var str=loadStrain(K),tg=(typeof strainTarget==='function'?strainTarget():[12,16]),obj=Math.round((tg[0]+tg[1])/2);
- bar('h2LoadBar',str/21);stat('h2LoadS','Objectif '+obj,'#E0922A');
- var kc=caloriesBurned(K);bar('h2KcalBar',Math.min(1,kc/2800));stat('h2KcalS','Brûlées','#F0653E');
- var rhr=(t&&t.rhr)?t.rhr:47;bar('h2FcBar',Math.max(.12,Math.min(1,1-(rhr-40)/40)));stat('h2FcS','Repos','#FF6B5C');
- var stp=flStepsOf(K),sg=stpGoal();bar('h2StepBar',stp/sg);stat('h2StepS',stp>=sg*0.7?'Actif':'En cours','#2FAE67');}
+ bar('h2LoadBar',str/21);stat('h2LoadS','Objectif '+obj,'#F0492E');
+ var kc=caloriesBurned(K);bar('h2KcalBar',Math.min(1,kc/2800));stat('h2KcalS','Brûlées','#F0492E');
+ var rhr=(t&&t.rhr)?t.rhr:47;bar('h2FcBar',Math.max(.12,Math.min(1,1-(rhr-40)/40)));stat('h2FcS','Repos','#F0492E');
+ var stp=flStepsOf(K),sg=stpGoal();bar('h2StepBar',stp/sg);stat('h2StepS',stp>=sg*0.7?'Actif':'En cours','#F0492E');}
 function renderToday(){
  var _tv=document.getElementById('v-today');if(_tv&&!_tv.classList.contains('on'))return;
  const p=getProfile(),K=tk(gDay),today=gDay===0,t=sensorOf(K),cal=calibNights(),calib=today&&cal<4;
@@ -7165,7 +7164,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v349';
+const APP_VERSION='flint-v350';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
