@@ -3578,7 +3578,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
 <div class="bal4">
   <div class="bal4-dn">
     <button class="nav" type="button" onclick="balDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
-    <button class="lbl" type="button" onclick="balToday()"><i class="ti ti-calendar"></i><span id="bal4Date">Aujourd'hui</span></button>
+    <button class="lbl" type="button" onclick="balOpenPicker()"><i class="ti ti-calendar"></i><span id="bal4Date">Aujourd'hui</span></button>
     <button class="nav" id="bal4Next" type="button" onclick="balDay(1)" aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button>
   </div>
   <div class="bal4-goal">
@@ -6338,6 +6338,7 @@ function calState(net){
 var _calMonth=0;
 function calShiftM(d){_calMonth=Math.min(0,_calMonth+d);haptic();renderBalTrend()}
 function calPick(off){_balDay=Math.min(0,off);haptic();go('balance')}
+function balOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='balance';slpCalOpen()}
 function renderBalTrend(){
  var base=new Date();base.setDate(1);base.setMonth(base.getMonth()+_calMonth);
  var year=base.getFullYear(),month=base.getMonth();
@@ -6720,13 +6721,13 @@ function slpJump(which){if(typeof haptic==='function')haptic();openSleepNight()}
 /* ===== Calendrier custom (remplace le picker natif) ===== */
 var slpCalView=null;
 function _slpYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='recovery'?(window._recDay||0):window._calMode==='steps'?(window._stepDay||0):window._calMode==='fc'?(window._fcDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
+function slpCalOpen(){var t=new Date();t.setHours(0,0,0,0);var cur=new Date(t);cur.setDate(cur.getDate()+(window._calMode==='balcurve'?_bcDay:window._calMode==='balance'?_balDay:window._calMode==='recovery'?(window._recDay||0):window._calMode==='steps'?(window._stepDay||0):window._calMode==='fc'?(window._fcDay||0):gDay));slpCalView={y:cur.getFullYear(),m:cur.getMonth()};slpCalRender();var el=document.getElementById('slpCal');if(el)el.classList.add('on')}
 function slpOpenPicker(){if(typeof haptic==='function')haptic();window._calMode='sleep';slpCalOpen()}
-function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else if(window._calMode==='steps'){var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML()}else if(window._calMode==='fc'){renderHeartDetail()}else{renderSleep()}window.scrollTo(0,0)}
+function _calRerender(){window._slpQuiet=true;if(window._calMode==='today'){renderToday()}else if(window._calMode==='balcurve'){renderBalCurve()}else if(window._calMode==='recovery'){renderRecovery()}else if(window._calMode==='steps'){var t=document.getElementById('mtStepsTop');if(t)t.innerHTML=stepsHeroHTML()}else if(window._calMode==='fc'){renderHeartDetail()}else if(window._calMode==='balance'){renderBalance()}else{renderSleep()}window.scrollTo(0,0)}
 function slpCalClose(){var el=document.getElementById('slpCal');if(el)el.classList.remove('on')}
 function slpCalMonth(d){if(!slpCalView)return;slpCalView.m+=d;if(slpCalView.m<0){slpCalView.m=11;slpCalView.y--}else if(slpCalView.m>11){slpCalView.m=0;slpCalView.y++}slpCalRender()}
 function slpCalToday(){gDay=0;slpCalClose();_calRerender()}
-function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else if(window._calMode==='steps'){window._stepDay=off}else if(window._calMode==='fc'){window._fcDay=off}else{gDay=off}slpCalClose();_calRerender()}
+function slpCalPick(ds){if(typeof haptic==='function')haptic();var t=new Date();t.setHours(0,0,0,0);var dd=new Date(ds+'T00:00:00');var off=Math.min(0,Math.round((dd-t)/86400000));if(window._calMode==='balcurve'){_bcDay=off;_bcSel=null}else if(window._calMode==='recovery'){window._recDay=off}else if(window._calMode==='steps'){window._stepDay=off}else if(window._calMode==='fc'){window._fcDay=off}else if(window._calMode==='balance'){_balDay=off}else{gDay=off}slpCalClose();_calRerender()}
 function slpCalRender(){
   var t=new Date();t.setHours(0,0,0,0);var sel=new Date(t);sel.setDate(sel.getDate()+gDay);
   var selStr=_slpYMD(sel),todayStr=_slpYMD(t),y=slpCalView.y,m=slpCalView.m;
@@ -7537,7 +7538,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v376';
+const APP_VERSION='flint-v377';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
