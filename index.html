@@ -2866,24 +2866,24 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .nut2stage .nov-mv b{font-weight:400}
 .nut2stage .nov-mv i{font-family:'Inter',sans-serif;font-style:normal;font-size:.42em;font-weight:700;color:#9A948A;margin-left:.18em}
 .nut2stage .nov-ml{font-family:'Inter',sans-serif;font-size:3.6cqw;font-weight:500;color:#6E6A62;white-space:nowrap;margin-left:.6cqw}
-.nut2-card{display:flex;align-items:center;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:20px 16px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
+.nut2-card{display:flex;align-items:stretch;margin:0 8px;background:#fff;border:1px solid #FBDDD3;border-radius:26px;padding:22px 18px;min-height:162px;box-shadow:0 6px 22px rgba(240,73,46,.07)}
 /* Modificateur coquille vide (non utilisé en version peuplée) : masque les valeurs.
    Ajouter .is-empty sur .nut2-card pour repasser en coquille. */
 .nut2-card.is-empty{align-items:stretch;min-height:168px}
 .nut2-card.is-empty .nut2-kcal{display:none}
 .nut2-card.is-empty .nut2-right>*{display:none}
-.nut2-left{flex:1;text-align:center;min-width:0;position:relative;padding-bottom:6px}
-.nut2-wave{position:absolute;left:0;right:0;bottom:-6px;height:26px;width:100%;opacity:.9}
+.nut2-left{flex:1;text-align:center;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:6px}
+.nut2-wave{position:absolute;left:-2px;right:-2px;bottom:1px;height:30px;width:calc(100% + 4px);opacity:.5}
 .nut2-day{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
 .nut2-kcal{margin-top:6px;display:flex;align-items:baseline;justify-content:center;gap:5px}
 .nut2-kcal b{font-family:'Anton';font-style:oblique 6deg;font-size:46px;line-height:1;color:#15140F}
 .nut2-kcal span{font-size:14px;font-weight:800;color:var(--accent)}
-.nut2-sep{width:1px;align-self:stretch;background:rgba(20,18,12,.10);margin:2px 14px}
-.nut2-right{flex:1;display:flex;flex-direction:column;gap:13px;min-width:0}
-.nut2-mrow{display:flex;align-items:center;gap:10px}
-.nut2-ring{width:30px;height:30px;flex:none;transform:rotate(-90deg)}
-.nut2-ring .nrt{fill:none;stroke:rgba(20,18,12,.09);stroke-width:3.5}
-.nut2-ring .nra{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:0 94.2}
+.nut2-sep{width:1px;align-self:stretch;background:rgba(20,18,12,.09);margin:4px 16px}
+.nut2-right{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-width:0}
+.nut2-mrow{display:flex;align-items:center;gap:11px}
+.nut2-ring{width:33px;height:33px;flex:none;transform:rotate(-90deg)}
+.nut2-ring .nrt{fill:none;stroke:rgba(20,18,12,.09);stroke-width:3}
+.nut2-ring .nra{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:0 94.2}
 .nut2-mv{display:flex;align-items:baseline;gap:2px;flex:none}
 .nut2-mv b{font-family:'Anton';font-style:oblique 6deg;font-size:20px;color:#15140F}
 .nut2-mv i{font-style:normal;font-size:11px;font-weight:700;color:#9A948A}
@@ -2959,7 +2959,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="nut2-left">
       <div class="nut2-day">Aujourd'hui</div>
       <div class="nut2-kcal"><b id="nutSumK">0</b><span>kcal</span></div>
-      <svg class="nut2-wave" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 17 C13 9 21 22 33 16 C45 10 53 21 65 15 C79 8 89 19 103 14 C110 11 115 13 117 13" fill="none" stroke="#F0492E" stroke-width="2" stroke-linecap="round"/><circle cx="117" cy="13" r="3" fill="#fff" stroke="#F0492E" stroke-width="2"/></svg>
+      <svg class="nut2-wave" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path d="M2 17 C13 9 21 22 33 16 C45 10 53 21 65 15 C79 8 89 19 103 14 C112 11 117 13 119 13" fill="none" stroke="#F0492E" stroke-width="2" stroke-linecap="round"/></svg>
     </div>
     <div class="nut2-sep"></div>
     <div class="nut2-right">
@@ -6780,7 +6780,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v331';
+const APP_VERSION='flint-v332';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
