@@ -2653,21 +2653,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .m-red{background:#FCE7E0;color:#F0653E}.flhome .h2bar.m-red i{background:#F0653E}
   .flhome .m-cor{background:#E4F5E9;color:#2FA86A}.flhome .h2bar.m-cor i{background:#2FA86A}
   .flhome .m-grn{background:#DCF3F2;color:#13AEAA}.flhome .h2bar.m-grn i{background:#13AEAA}
-  /* ===== Pastilles collectrices (sticky) — résumé des métriques en haut ===== */
-  .flhome .h2dots{position:sticky;top:64px;z-index:16;height:0;pointer-events:none}
-  .flhome .h2dots-in{display:flex;align-items:center;padding-left:4px}
-  .flhome .h2dot{width:0;margin-right:0;opacity:0;transform:scale(.2) translateY(-5px);transition:width .42s cubic-bezier(.2,.9,.3,1.25),margin-right .42s cubic-bezier(.2,.9,.3,1.25),opacity .26s ease,transform .42s cubic-bezier(.2,.9,.3,1.25);flex:none}
-  .flhome .h2dot.on{width:32px;margin-right:9px;opacity:1;transform:scale(1) translateY(0)}
-  .flhome .h2dot .cir{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:16px;color:#fff;box-shadow:0 5px 13px rgba(20,18,12,.22)}
   </style>
-  <div class="h2dots" aria-hidden="true"><div class="h2dots-in">
-    <span class="h2dot" data-k="recup"><span class="cir" style="background:#2FA86A"><i class="ti ti-battery-charging"></i></span></span>
-    <span class="h2dot" data-k="sleep"><span class="cir" style="background:#6C7BD6"><i class="ti ti-moon"></i></span></span>
-    <span class="h2dot" data-k="charge"><span class="cir" style="background:#E0922A"><i class="ti ti-bolt"></i></span></span>
-    <span class="h2dot" data-k="cal"><span class="cir" style="background:#F0653E"><i class="ti ti-flame"></i></span></span>
-    <span class="h2dot" data-k="fc"><span class="cir" style="background:#2FA86A"><i class="ti ti-heart"></i></span></span>
-    <span class="h2dot" data-k="steps"><span class="cir" style="background:#13AEAA"><i class="ti ti-walk"></i></span></span>
-  </div></div>
   <div class="h2dn">
     <button class="nav" onclick="flDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>
     <button class="lbl" onclick="flOpenPicker()"><i class="ti ti-calendar"></i><span id="flDateHd">Aujourd'hui</span></button>
@@ -2704,7 +2690,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
   <div class="h2list">
     <button class="h2row" type="button" onclick="go('sleep')"><span class="h2ic m-vio"><i class="ti ti-moon"></i></span><span class="h2bd"><span class="h2t">SOMMEIL</span><span class="h2l"><span class="h2v" id="flSleep">—</span><span class="h2s" id="h2SleepS"></span></span><span class="h2bar m-vio"><i id="h2SleepBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
-    <button class="h2row" type="button" onclick="go('load')"><span class="h2ic m-amb"><i class="ti ti-bolt"></i></span><span class="h2bd"><span class="h2t">CHARGE</span><span class="h2l"><span class="h2v"><span id="flLoad">—</span><small>/21</small></span><span class="h2s" id="h2LoadS"></span></span><span class="h2bar m-amb"><i id="h2LoadBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
+    <button class="h2row" type="button" onclick="go('load')"><span class="h2ic m-amb"><i class="ti ti-bolt"></i></span><span class="h2bd"><span class="h2t">EFFORT</span><span class="h2l"><span class="h2v"><span id="flLoad">—</span><small>/21</small></span><span class="h2s" id="h2LoadS"></span></span><span class="h2bar m-amb"><i id="h2LoadBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
     <button class="h2row" type="button" onclick="go('caltrend')"><span class="h2ic m-red"><i class="ti ti-flame"></i></span><span class="h2bd"><span class="h2t">CALORIES</span><span class="h2l"><span class="h2v"><span id="flKcal">—</span><small>kcal</small></span><span class="h2s" id="h2KcalS"></span></span><span class="h2bar m-red"><i id="h2KcalBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
     <button class="h2row" type="button" onclick="go('fcdetail')"><span class="h2ic m-cor"><i class="ti ti-heart"></i></span><span class="h2bd"><span class="h2t">FC</span><span class="h2l"><span class="h2v"><span id="flFcEgg">—</span><small>bpm</small></span><span class="h2s" id="h2FcS"></span></span><span class="h2bar m-cor"><i id="h2FcBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
     <button class="h2row" type="button" onclick="openMetricTrend('steps')"><span class="h2ic m-grn"><i class="ti ti-walk"></i></span><span class="h2bd"><span class="h2t">PAS</span><span class="h2l"><span class="h2v"><span id="flSteps">—</span><small>pas</small></span><span class="h2s" id="h2StepS"></span></span><span class="h2bar m-grn"><i id="h2StepBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
@@ -5626,19 +5612,7 @@ function renderToday(){
  const kn=document.getElementById('flKcal');if(kn){countUpEl(kn,kcalB,'',true)}
  renderHome2();
  window._todayShown=true;
- flDotsUpdate();
 }
-/* ===== Pastilles collectrices : apparaissent quand chaque métrique passe sous la barre ===== */
-function flDotsUpdate(){
- var tv=document.getElementById('v-today');if(!tv||!tv.classList.contains('on'))return;
- var bar=document.querySelector('.flhome .h2dots');if(!bar)return;
- var line=bar.getBoundingClientRect().top+10;
- var rows=document.querySelectorAll('.flhome .h2list .h2row');
- var A={recup:document.querySelector('.flhome .h2hero'),sleep:rows[0],charge:rows[1],cal:rows[2],fc:rows[3],steps:rows[4]};
- document.querySelectorAll('.flhome .h2dot').forEach(function(d){var el=A[d.getAttribute('data-k')];if(!el)return;d.classList.toggle('on',el.getBoundingClientRect().top<line);});
-}
-(function(){var tick=false;function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){flDotsUpdate();tick=false});}
- window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll,{passive:true});})();
 /* importe les séances détectées par la Polar Loop (Health Connect ExerciseSession) */
 function importDetectedSessions(items){if(!items||!items.length)return 0;const k=tk(),a=DB.get('sessions_'+k,[]);let n=0;items.forEach(it=>{const start=it.start||'';if(a.some(s=>s.auto&&s.start===start&&s.name===(it.sport||'Activité')))return;a.push({name:it.sport||'Activité',icon:sportIcon(it.sport),start:start,dur:it.dur||30,int:it.int||2,auto:true});n++});if(n)DB.set('sessions_'+k,a);return n}
 
@@ -7464,7 +7438,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v366';
+const APP_VERSION='flint-v367';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
