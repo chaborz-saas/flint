@@ -2601,7 +2601,13 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h2chk{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 5px 14px rgba(22,21,18,.12);display:grid;place-items:center;font-size:18px;color:#2FA86A}
   .flhome .h2plan{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px;margin:0 2px 16px;box-shadow:var(--sh-card)}
   .flhome .h2plan::before{content:'';position:absolute;left:0;right:0;top:0;height:96px;background:linear-gradient(180deg,var(--pl-tint,rgba(47,168,106,.12)),transparent);pointer-events:none}
-  .flhome .h2plan-top{position:relative;display:flex;align-items:center;gap:13px;margin-bottom:16px}
+  .flhome .h2plan-top{position:relative;display:flex;align-items:center;gap:13px;width:100%;border:0;background:none;font-family:inherit;text-align:left;cursor:pointer;padding:0}
+  .flhome .h2plan-caret{margin-left:auto;color:#B4ADA1;font-size:21px;flex:none;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  .flhome .h2plan.open .h2plan-caret{transform:rotate(180deg)}
+  .flhome .h2plan-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1)}
+  .flhome .h2plan.open .h2plan-fold{grid-template-rows:1fr}
+  .flhome .h2plan-foldin{overflow:hidden;min-height:0}
+  .flhome .h2plan-foldin>.h2plan-tiles{padding-top:15px}
   .flhome .h2plan-badge{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:23px;color:#fff;flex:none;background:var(--pl-col,#2FA86A);box-shadow:0 6px 16px var(--pl-sh,rgba(47,168,106,.32))}
   .flhome .h2plan-htx{flex:1;min-width:0}
   .flhome .h2plan .eyb{font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:#8A857D;text-transform:uppercase}
@@ -2668,15 +2674,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
   <div class="h2sep"></div>
   <div class="h2plan" id="planCard">
-    <div class="h2plan-top">
+    <button class="h2plan-top" type="button" onclick="planToggle()" aria-expanded="false">
       <span class="h2plan-badge" id="planBadge"><i class="ti ti-bolt"></i></span>
       <div class="h2plan-htx"><span class="eyb">TON PLAN DU JOUR</span><div class="h2plan-v" id="planVerdict">—</div></div>
-    </div>
-    <div class="h2plan-tiles">
-      <button class="h2plan-t t-charge" type="button" onclick="go('load')"><span class="ic"><i class="ti ti-bolt"></i></span><span class="tl">Effort</span><span class="tv" id="planEffort">—</span></button>
-      <button class="h2plan-t t-cal" type="button" onclick="go('nutrition')"><span class="ic"><i class="ti ti-flame"></i></span><span class="tl">Manger</span><span class="tv" id="planNut">—</span></button>
-      <button class="h2plan-t t-sleep" type="button" onclick="go('sleep')"><span class="ic"><i class="ti ti-moon"></i></span><span class="tl">Coucher</span><span class="tv" id="planSleep">—</span></button>
-    </div>
+      <i class="ti ti-chevron-down h2plan-caret"></i>
+    </button>
+    <div class="h2plan-fold"><div class="h2plan-foldin">
+      <div class="h2plan-tiles">
+        <button class="h2plan-t t-charge" type="button" onclick="go('load')"><span class="ic"><i class="ti ti-bolt"></i></span><span class="tl">Effort</span><span class="tv" id="planEffort">—</span></button>
+        <button class="h2plan-t t-cal" type="button" onclick="go('nutrition')"><span class="ic"><i class="ti ti-flame"></i></span><span class="tl">Manger</span><span class="tv" id="planNut">—</span></button>
+        <button class="h2plan-t t-sleep" type="button" onclick="go('sleep')"><span class="ic"><i class="ti ti-moon"></i></span><span class="tl">Coucher</span><span class="tv" id="planSleep">—</span></button>
+      </div>
+    </div></div>
   </div>
   </div>
   <div class="h2list">
@@ -5399,7 +5408,9 @@ function renderHome2(){var K=tk(gDay),today=gDay===0;
  var gp=getNutGoals(K),pn=document.getElementById('planNut');if(pn)pn.innerHTML=fmtN(gp.kcal)+'<small>kcal</small>';
  var pr=getProfile(),nd=pr.need||8,wk=(pr.wake||'07:00').split(':'),wmin=(+wk[0])*60+(+wk[1]),bmin=((wmin-nd*60)%1440+1440)%1440;
  var bed=String(Math.floor(bmin/60)).padStart(2,'0')+'h'+String(bmin%60).padStart(2,'0');
- var ps=document.getElementById('planSleep');if(ps)ps.innerHTML=bed+'<small>'+nd+'h</small>';}
+ var ps=document.getElementById('planSleep');if(ps)ps.innerHTML=bed+'<small>'+nd+'h</small>';
+ if(card){var op=!!DB.get('planOpen',0);card.classList.toggle('open',op);var tp=card.querySelector('.h2plan-top');if(tp)tp.setAttribute('aria-expanded',op?'true':'false');}}
+function planToggle(){var c=document.getElementById('planCard');if(!c)return;var op=!c.classList.contains('open');c.classList.toggle('open',op);DB.set('planOpen',op?1:0);var tp=c.querySelector('.h2plan-top');if(tp)tp.setAttribute('aria-expanded',op?'true':'false');if(typeof haptic==='function')haptic(6);}
 function renderToday(){
  var _tv=document.getElementById('v-today');if(_tv&&!_tv.classList.contains('on'))return;
  const p=getProfile(),K=tk(gDay),today=gDay===0,t=sensorOf(K),cal=calibNights(),calib=today&&cal<4;
@@ -7233,7 +7244,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v357';
+const APP_VERSION='flint-v358';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
