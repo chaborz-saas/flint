@@ -2660,7 +2660,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .m-grn{background:#DCF3F2;color:#13AEAA}.flhome .h2bar.m-grn i{background:#13AEAA}
   /* ===== Barre condensée 3 anneaux (façon WHOOP) — apparaît au scroll ===== */
   .flhome .h3cond{position:sticky;top:59px;height:0;z-index:17;pointer-events:none}
-  .flhome .h3cond-in{display:flex;justify-content:space-around;align-items:center;gap:6px;padding:11px 14px 12px;background:var(--bg);border-bottom:1px solid rgba(20,18,12,.06);box-shadow:0 10px 22px -8px rgba(20,18,12,.14);opacity:0;transform:translateY(-12px);transition:opacity .26s ease,transform .3s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+  .flhome .h3cond-in{display:flex;justify-content:space-around;align-items:center;gap:6px;padding:12px 14px 22px;background:linear-gradient(180deg,rgba(250,248,245,.9) 55%,rgba(250,248,245,.5));backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);-webkit-mask-image:linear-gradient(180deg,#000 66%,transparent);mask-image:linear-gradient(180deg,#000 66%,transparent);opacity:0;transform:translateY(-10px);transition:opacity .26s ease,transform .3s cubic-bezier(.2,.8,.2,1);pointer-events:none}
   .flhome .h3cond.show .h3cond-in{opacity:1;transform:translateY(0);pointer-events:auto}
   .flhome .h3c{display:flex;align-items:center;gap:9px;background:none;border:0;font-family:inherit;cursor:pointer;padding:2px 4px;transition:transform .12s ease}
   .flhome .h3c:active{transform:scale(.93)}
@@ -7478,7 +7478,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v372';
+const APP_VERSION='flint-v373';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
