@@ -6374,7 +6374,7 @@ window.processMealPhoto=function(file){if(!file)return;if(typeof haptic==='funct
    document.getElementById('balShSub').innerHTML='<span class="bal-aibadge"><i class="ti ti-sparkles"></i>IA · estimé</span>Vérifie et ajuste si besoin';
    var gg=function(id){return document.getElementById(id)};
    gg('balFName').value=r.name;gg('balFKcal').value=r.kcal;gg('balFProt').value=r.prot;gg('balFCarb').value=r.carb;gg('balFFat').value=r.fat;
-   window._flintScanItems=[{name:r.name,kcal:r.kcal,prot:r.prot,carb:r.carb,fat:r.fat,grams:100}];
+   if(!window._flintScanItems||!window._flintScanItems.length){window._flintScanItems=[{name:r.name,kcal:r.kcal,prot:r.prot,carb:r.carb,fat:r.fat,grams:100}];}
    gg('balShForm').style.display='';if(window.syncUI)window.syncUI();if(typeof haptic==='function')haptic();
   });
  })};
@@ -7839,7 +7839,7 @@ function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg')
 function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v386';
+const APP_VERSION='flint-v387';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+'), appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
