@@ -2600,6 +2600,10 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flbk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .flrow2{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F0EBE3;font-size:14px;color:#6E6A62}
 .flrow2:last-child{border-bottom:0}.flrow2 b{color:#161512;font-weight:800}
+.flbreathe{text-align:center;padding:30px 16px 10px}
+.flbreathe .brt{font-size:18px;font-weight:800;color:#161512;margin-bottom:30px}
+.flbreathe .brcircle{width:200px;height:200px;border-radius:50%;margin:0 auto;background:radial-gradient(circle at 50% 38%,#8FD6AF,#2FA86A);display:grid;place-items:center;color:#fff;font-size:18px;font-weight:800;transform:scale(.6);box-shadow:0 18px 50px rgba(47,168,106,.38)}
+.flbreathe .brsub{margin-top:36px;font-size:14px;color:#8A8580}
 /* guide d'installation iOS (Ajouter à l'écran d'accueil) */
 .iosinstall{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:300;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ECE6DD;border-radius:18px;padding:13px 14px;box-shadow:0 14px 44px rgba(22,21,18,.22);transform:translateY(150%);opacity:0;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .3s}
 .iosinstall.show{transform:translateY(0);opacity:1}
@@ -4115,6 +4119,9 @@ body.stepsview header{display:none}
 .ltmore{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-family:var(--sans);font-size:12.5px;font-weight:800;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.hsx-link,.hsx-bar .fill,.rvverdict,.lifetime{transition:none}}
 </style>
+<section class="view" id="v-flage"><div class="flbrief"><div class="pghd"><button class="bk" onclick="goBack('today')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">FLINT Age</div></div><div id="flageBody"></div></div></section>
+<section class="view" id="v-breathe"><div class="flbrief"><div class="pghd"><button class="bk" onclick="goBack('today')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Respiration</div></div><div id="breatheBody"></div></div></section>
+<section class="view" id="v-box"><div class="flbrief"><div class="pghd"><button class="bk" onclick="goBack('today')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Ma box</div></div><div id="boxBody"></div></div></section>
 <section class="view" id="v-howscore">
 <div class="flrecovery hsx">
   <div class="pghd"><button class="bk" onclick="goBack('recovery')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Le calcul de ton score</div></div>
@@ -4800,9 +4807,10 @@ body.stepsview header{display:none}
       <div class="fld"><span class="flab">Objectif kcal</span><input aria-label="Objectif kcal" id="pfKcal" class="fin2" type="number" inputmode="numeric"></div>
       <div class="fld"><span class="flab">Objectif protéines (g)</span><input aria-label="Objectif protéines (g)" id="pfProt" class="fin2" type="number" inputmode="numeric"></div>
     </div>
-    <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
+    <div class="swrow" style="margin-top:8px"><div><div class="swt">Suivi du cycle</div><div class="sws">Adapte la récup et l’effort à ta phase</div></div><label class="switch"><input type="checkbox" id="pfCycle" onchange="document.getElementById('cycFields').style.display=this.checked?'block':'none'"><span class="sl2"></span></label></div><div id="cycFields" style="display:none"><div class="fgrid"><div class="fld"><span class="flab">Dernières règles</span><input id="pfLastPeriod" class="fin2" type="date"></div><div class="fld"><span class="flab">Durée cycle (j)</span><input id="pfCycleLen" class="fin2" type="number" value="28"></div></div><div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Durée règles (j)</span><input id="pfPeriodLen" class="fin2" type="number" value="5"></div><div class="fld"></div></div></div><button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
   </div>
 
+  <div class="flcard"><div class="sect"><i class="ti ti-sparkles"></i>Plus</div><button class="fbtn ghost" onclick="openFlage()"><i class="ti ti-cake"></i>Mon FLINT Age</button><button class="fbtn ghost" onclick="openBox()"><i class="ti ti-users"></i>Ma box (social)</button><button class="fbtn ghost" onclick="openBreathe()"><i class="ti ti-wind"></i>Respiration guidée</button></div>
   <div class="flcard" id="journalCard"></div>
 
   <div class="flcard">
@@ -4939,7 +4947,7 @@ const tk=(off)=>{const d=new Date();if(off)d.setDate(d.getDate()+off);return d.g
 const tmin=s=>{const a=(s||'07:00').split(':').map(Number);return a[0]*60+a[1]};
 const fmtN=n=>Math.round(n||0).toLocaleString('fr-FR').replace(/[  ]/g,' ');
 const fmtDur=m=>m>=60?Math.floor(m/60)+'H'+String(m%60).padStart(2,'0'):m+' MIN';
-function getProfile(){const o=Object.assign({name:'Arthur',age:28,wake:'07:00',need:8,kcalGoal:2400,protGoal:150},DB.get('profile',{}));if(typeof o.name!=='string'||!o.name)o.name='Arthur';return o}
+function getProfile(){const o=Object.assign({name:'Arthur',age:28,wake:'07:00',need:8,kcalGoal:2400,protGoal:150,cycleOn:false,cycleLen:28,periodLen:5,lastPeriod:null},DB.get('profile',{}));if(typeof o.name!=='string'||!o.name)o.name='Arthur';return o}
 let toastT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2200)}
 function set(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -5008,7 +5016,7 @@ function go(v,isBack){var _el=document.getElementById('v-'+v);if(!_el)return;hap
  var cur=document.querySelector('.view.on');
  if(cur){window._scrollMem[cur.id]=window.scrollY||document.documentElement.scrollTop||0;var curV=cur.id.replace('v-','');if(!isBack&&curV!==v)window._navStack.push(curV)}
  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));_el.classList.add('on');document.querySelectorAll('#nav button').forEach(function(b){var a=b.dataset.v===v;b.classList.toggle('on',a);if(a)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(window.moveNav)moveNav();var _ht=document.getElementById('hdTitle');if(_ht){var _tt=({sleep:'Sommeil',recovery:'Récup',load:'Effort',nutrition:'Nutrition'}[v]||'');_ht.textContent=_tt;var _hd=document.querySelector('header');if(_hd){_hd.classList.toggle('has-title',!!_tt);_hd.classList.toggle('home-hdr',v==='today')}}document.body.classList.toggle('modalview',v==='journal'||v==='dashedit'||v==='stress'||v==='goal'||v==='coach');document.body.classList.toggle('trendview',v==='metrend');document.body.classList.toggle('sleepview',v==='sleep');
- flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,brief:renderBrief,weekreview:renderWeekReview,nuthistory:renderNutHistory,mealdetail:renderMealDetail,nutbilan:renderNutBilan,nutgraph:renderNutGraph}[v]||(()=>{}))();
+ flWatchBatt();({today:renderToday,nutrition:renderNutrition,recovery:renderRecovery,sleep:renderSleep,sleepdetail:renderSleepDetail,load:renderLoad,activitydetail:renderActivityDetail,fcdetail:renderHeartDetail,fczones:renderHeartZones,caltrend:renderCalTrend,efftrend:renderEffTrend,trends:renderTrends,profile:renderProfile,journal:renderJournalView,behavior:renderBehavior,dashedit:renderDashEdit,metrend:renderMetrend,stress:renderStress,goal:renderGoal,coach:renderCoachIntro,howscore:renderHowScore,balance:renderBalance,baltrend:renderBalTrend,balcurve:renderBalCurve,brief:renderBrief,weekreview:renderWeekReview,nuthistory:renderNutHistory,mealdetail:renderMealDetail,nutbilan:renderNutBilan,nutgraph:renderNutGraph,flage:renderFlage,breathe:renderBreathe,box:renderBox}[v]||(()=>{}))();
  if(!matchMedia('(prefers-reduced-motion:reduce)').matches){var _cs=_el.querySelectorAll('.h2block,.h2list,.mjwrap,.bal4-goal,.bal4-solde,.bal4-chart,.bal4-foot,.elx-hero,.elx-card,.elx-tgt,.fc2 .card,.nut2-card,.nut2-scan,.nut2-acts,.rec2 .card');for(var _i=0;_i<_cs.length&&_i<10;_i++){var _c=_cs[_i];_c.style.animation='none';void _c.offsetWidth;_c.style.animation='flCardIn .5s cubic-bezier(.2,.8,.2,1) both';_c.style.animationDelay=(_i*0.05).toFixed(2)+'s';}}
  var _fab=document.getElementById('flintScanFab');if(_fab)_fab.style.display=(v==='coach'||v==='nutrition')?'none':'flex';
  try{flTick(v)}catch(e){} var y=window._scrollMem['v-'+v]||0;window.scrollTo(0,y);requestAnimationFrame(function(){window.scrollTo(0,y)})}
@@ -7518,8 +7526,8 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
 
 /* ---------- PROFIL ---------- */
 function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal();
- const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;const ev=document.getElementById('ntEvening');if(ev)ev.checked=np.evening;const wk=document.getElementById('ntWeekly');if(wk)wk.checked=np.weekly;renderNotifNote(!!_LN())}
-function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;DB.set('profile',p);toast('Profil enregistré');renderToday()}
+ const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;const ev=document.getElementById('ntEvening');if(ev)ev.checked=np.evening;const wk=document.getElementById('ntWeekly');if(wk)wk.checked=np.weekly;renderNotifNote(!!_LN());try{renderCycleFields()}catch(e){}}
+function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;var _cy=document.getElementById('pfCycle');if(_cy){p.cycleOn=_cy.checked;p.lastPeriod=document.getElementById('pfLastPeriod').value||null;p.cycleLen=+document.getElementById('pfCycleLen').value||28;p.periodLen=+document.getElementById('pfPeriodLen').value||5;}DB.set('profile',p);toast('Profil enregistré');renderToday()}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
 async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();let added=0;if(HC.readSessions){try{const sg=await HC.readSessions();added=importDetectedSessions(sg&&sg.items)}catch(e){}}const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚'+(added?' · '+added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''):''));go('today')}else if(added){DB.set('demo',0);toast(added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''));go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
 
@@ -7542,6 +7550,7 @@ function flDropPct(v,b){return (b&&b.m&&v!=null)?Math.round((b.m-v)/b.m*100):nul
 function flHMdur(min){return Math.floor(min/60)+'h'+String(Math.round(min%60)).padStart(2,'0')}
 function flInsights(){var out=[],rv=recovery(),now=new Date(),h=now.getHours(),dow=now.getDay();var t=sensorOf(tk()),bH=baseStat('hrv'),bR=baseStat('rhr');
  if(rv){var d=flDecision(rv.s);out.push({id:'brief_'+tk(),kind:'brief',ic:'sunrise',cls:'info',title:'Brief du matin · Récup '+rv.s+'%',body:d.k+' aujourd\'hui. '+d.plan,tap:'openBrief()'})}
+ var _cs=cycleState();if(_cs){out.push({id:'cycle_'+tk(),kind:'good',ic:'flower',cls:'info',title:'Cycle · '+_cs.phase+' (J'+_cs.d+')',body:(cycleRecovNote(recovery())||('Règles dans '+_cs.daysToPeriod+' jours.')),tap:"go('recovery')"})}
  if(t&&t.hrv!=null&&bH){var dp=flDropPct(t.hrv,bH);if(dp!=null&&dp>=8)out.push({id:'hrvdrop_'+tk(),kind:'alert',ic:'activity-heartbeat',cls:'alert',title:'Ta VFC a chuté '+dp+'% cette nuit',body:'Variabilité cardiaque en baisse nette : possible début de maladie, stress, manque de sommeil ou alcool. Lève le pied aujourd\'hui.',tap:'go(\'recovery\')'})}
  if(t&&t.rhr!=null&&bR){var up=Math.round(t.rhr-bR.m);if(up>=Math.max(3,bR.sd))out.push({id:'rhrup_'+tk(),kind:'alert',ic:'heart',cls:'alert',title:'FC de repos élevée (+'+up+' bpm)',body:'Ta fréquence cardiaque de repos est au-dessus de ta normale. Signe de fatigue ou de récup incomplète.',tap:'go(\'recovery\')'})}
  var sd=sleepDebt();if(sd>=3)out.push({id:'sleepdebt_'+tk(),kind:'warn',ic:'zzz',cls:'warn',title:'Dette de sommeil : '+flHMdur(sd*60),body:'Tu accumules du retard de sommeil. Vise ton besoin complet cette nuit pour rembourser.',tap:'go(\'sleep\')'});
@@ -7566,7 +7575,7 @@ function closeFlBell(){var d=document.getElementById('flBellSheet');if(d){d.clas
 function openBrief(){go('brief')}
 function renderBrief(){var host=document.getElementById('briefBody');if(!host)return;var rv=recovery();
  if(!rv){host.innerHTML='<div class="card" style="margin-top:14px"><p class="sci">Ton brief s\'affiche après ta première nuit portée. Synchronise ta Polar Loop.</p></div>';return}
- var d=flDecision(rv.s),tgt=Math.round(rv.s/100*17),lo=Math.max(4,tgt-2),hi=Math.max(lo+1,tgt+1),t=rv.today;
+ var d=flDecision(rv.s),tgt=Math.round(rv.s/100*17),lo=Math.max(4,tgt-2),hi=Math.max(lo+1,tgt+1),t=rv.today;var _ct=cycleEffortTarget([lo,hi]);lo=_ct[0];hi=_ct[1];
  var sl=t&&t.sleepMin?flHMdur(t.sleepMin):'—',sd=sleepDebt();
  var alert=flTopInsights().filter(function(i){return i.kind==='alert'||i.kind==='warn'})[0];
  var pct=rv.s,circ=2*Math.PI*52,off=circ*(1-pct/100);
@@ -7697,11 +7706,125 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(merci|nickel|super|cool|parfait|top|genial)/.test(n))return 'Avec plaisir 💪 Je suis là quand tu veux.';
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
+/* ===================== FEATURES 5-8 (cycle, stress/respiration, social, FLINT Age) ===================== */
+function clampN(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+
+/* ---- F8 : FLINT Age ---- */
+function vo2Avg(n){var a=[];for(var i=0;i<n;i++){var v=TREND.vo2.val(tk(-i));if(v!=null)a.push(v)}if(!a.length)return null;return a.reduce(function(x,y){return x+y},0)/a.length}
+function avgField7(f){var a=[];for(var i=0;i<7;i++){var s=sensorOf(tk(-i));if(s&&s[f]!=null)a.push(s[f])}return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null}
+function flintAge(){
+  if(calibNights()<4)return null;
+  var age=getProfile().age||28;
+  var vo2=vo2Avg(14); if(vo2==null){var v=TREND.vo2.val(tk());vo2=(v!=null)?v:null;} if(vo2==null)return null;
+  var ageVO2=clampN(20+(50-vo2)/0.45,16,80);
+  var bH=baseStat('hrv'),bR=baseStat('rhr'),dH=0,dR=0,dRec=0,dS=0;
+  var hrv7=avgField7('hrv'); if(bH&&hrv7!=null)dH=-2.5*clampN((hrv7-bH.m)/bH.sd,-2,2);
+  var rhr7=avgField7('rhr'); if(bR&&rhr7!=null)dR=2.0*clampN((rhr7-bR.m)/bR.sd,-2,2);
+  var rec14=assess(14).rec; if(rec14!=null)dRec=clampN(-1.5*((rec14-50)/25),-2,2);
+  dS=1.0*clampN(sleepDebt()/7,0,1.5);
+  return Math.round(clampN(ageVO2+dH+dR+dRec+dS,16,80));
+}
+function fitnessAge(){return flintAge()}
+function openFlage(){go('flage')}
+function renderFlage(){var host=document.getElementById('flageBody');if(!host)return;
+  var fa=flintAge(),age=getProfile().age||28;
+  if(fa==null){host.innerHTML='<div class="card" style="margin-top:14px"><p class="sci">Ton FLINT Age s’affiche après ~4 nuits portées (il faut ta VO₂max et ta baseline VFC).</p></div>';return;}
+  var delta=fa-age,col=delta<=-1?'#2FA86A':(delta>=2?'#C0492C':'#5A52B5');
+  var verdict=delta<=-3?'Largement plus jeune que ton âge réel':(delta<=-1?'Plus jeune que ton âge réel':(delta<=1?'Aligné sur ton âge réel':'À surveiller'));
+  var vo2=vo2Avg(14);if(vo2==null)vo2=TREND.vo2.val(tk());
+  host.innerHTML='<div class="card" style="margin-top:14px;text-align:center;padding:26px 18px">'
+    +'<div style="font-size:12px;font-weight:800;letter-spacing:.06em;color:#8A8580">FLINT AGE</div>'
+    +'<div style="font-size:72px;font-weight:800;line-height:1;color:'+col+';margin:6px 0">'+fa+'</div>'
+    +'<div style="font-size:14px;color:#6E6A62">ans · âge physiologique</div>'
+    +'<div class="fldec" style="background:'+col+';margin-top:16px">'+(delta<=0?'−':'+')+Math.abs(delta)+' ans vs ton âge réel</div>'
+    +'<p style="font-size:14px;color:#4A463F;margin:10px 18px 0">'+verdict+'.</p></div>'
+    +'<div class="card"><div class="ct">Ce qui le compose</div><div class="flbk">'
+    +'<div class="stat"><div class="sl">VO₂max (14j)</div><div class="sv">'+(vo2!=null?Math.round(vo2):'—')+'</div></div>'
+    +'<div class="stat"><div class="sl">Âge réel</div><div class="sv">'+age+'</div></div>'
+    +'</div><p class="sci" style="margin-top:10px">Calculé comme les leaders (Garmin/Whoop) : socle VO₂max recalé sur les normes par âge, ajusté par ta VFC, ta FC de repos et ta récup. Pas un diagnostic médical.</p></div>'
+    +'<button class="fbtn primary" style="margin-top:6px" onclick="flageShare()"><i class="ti ti-share"></i>Partager mon FLINT Age</button>';
+}
+function flageShare(){var fa=flintAge();if(fa==null){toast('Pas encore de FLINT Age');return;}var age=getProfile().age||28,d=fa-age;var txt='Mon FLINT Age : '+fa+' ans ('+(d<=0?'−':'+')+Math.abs(d)+' vs mon âge réel) via FLINT';
+  if(navigator.share){navigator.share({title:'FLINT Age',text:txt,url:'https://chaborz-saas.github.io/flint/'}).catch(function(){});}else{try{navigator.clipboard.writeText(txt);toast('Copié dans le presse-papier');}catch(e){toast(txt);}}}
+
+/* ---- F5 : Cycle féminin ---- */
+function cycleState(){
+  var p=getProfile();if(!p.cycleOn||!p.lastPeriod)return null;
+  var len=clampN(p.cycleLen||28,21,35),per=clampN(p.periodLen||5,2,10);
+  var a=new Date(String(p.lastPeriod).replace(/-/g,'/')),b=new Date(tk().replace(/-/g,'/'));
+  var diff=Math.floor((b-a)/864e5);if(isNaN(diff)||diff<0)return null;
+  var d=((diff%len)+len)%len+1,ovDay=len-14,phase,key;
+  if(d<=per){phase='Règles';key='menstruelle';}
+  else if(d<ovDay-1){phase='Folliculaire';key='folliculaire';}
+  else if(d<=ovDay+1){phase='Ovulation';key='ovulatoire';}
+  else{phase='Lutéale';key='luteale';}
+  var pms=d>=len-2;
+  var mult=key==='folliculaire'?1.10:(key==='ovulatoire'?1.05:(key==='menstruelle'?0.95:(pms?0.80:0.88)));
+  return {d:d,len:len,phase:phase,key:key,pms:pms,daysToPeriod:(len-d+1),effortMult:mult,stale:diff>len+7};
+}
+function cycleEffortTarget(base){var cs=cycleState();if(!cs)return base;return [Math.round(base[0]*cs.effortMult),Math.round(base[1]*cs.effortMult)];}
+function cycleRecovNote(rv){
+  var cs=cycleState();if(!cs||!rv)return null;var bH=baseStat('hrv'),bR=baseStat('rhr');
+  if(cs.key==='luteale'&&((bH&&rv.today.hrv<bH.m-0.5*bH.sd)||(bR&&rv.today.rhr>bR.m+0.5*bR.sd)))
+    return 'Phase lutéale : une VFC plus basse et une FC de repos plus haute sont normales (effet hormonal), pas un signe de sous-récup.';
+  if(cs.key==='folliculaire')return 'Phase folliculaire : fenêtre haute capacité, bon moment pour une séance clé.';
+  if(cs.pms)return 'Fin de cycle (SPM) : effort perçu plus haut, privilégie le volume à l’intensité.';
+  if(cs.key==='menstruelle')return 'Règles : écoute ton énergie, tu peux t’entraîner normalement si elle est là.';
+  return null;
+}
+
+/* ---- F6 : Respiration guidée ---- */
+var _brTO=null,_brStopped=true;
+var BREATH_PRESETS=[
+ {id:'coherence',name:'Cohérence cardiaque',sub:'5 s inspire · 5 s expire',phases:[['Inspire',5000],['Expire',5000]],cycles:18},
+ {id:'p478',name:'Respiration 4-7-8',sub:'Apaise, aide à dormir',phases:[['Inspire',4000],['Retiens',7000],['Expire',8000]],cycles:6},
+ {id:'box',name:'Box breathing',sub:'4-4-4-4 · focus',phases:[['Inspire',4000],['Retiens',4000],['Expire',4000],['Retiens',4000]],cycles:8}
+];
+function openBreathe(){go('breathe')}
+function renderBreathe(){var host=document.getElementById('breatheBody');if(!host)return;breathStop();
+  host.innerHTML='<div class="card" style="margin-top:14px"><div class="ct">Un moment calme</div><p class="sci">Choisis un exercice. Suis le cercle : il grandit quand tu inspires, rétrécit quand tu expires.</p></div>'
+    +BREATH_PRESETS.map(function(p){return '<button class="flretain info" style="cursor:pointer" onclick="breathStart(\''+p.id+'\')"><span class="frrow"><span class="fric"><i class="ti ti-wind"></i></span><span class="frtx"><b>'+p.name+'</b><span>'+p.sub+'</span></span></span></button>';}).join('');
+}
+function breathStart(id){var p=BREATH_PRESETS.filter(function(x){return x.id===id})[0];if(!p)return;var host=document.getElementById('breatheBody');if(!host)return;
+  host.innerHTML='<div class="flbreathe"><div class="brt">'+p.name+'</div><div class="brcircle" id="brCircle"><span id="brPhase">Prêt…</span></div><div class="brsub" id="brCount">ça commence</div><button class="fbtn ghost" style="max-width:240px;margin:20px auto 0" onclick="breathStop();renderBreathe()"><i class="ti ti-x"></i>Arrêter</button></div>';
+  var circle=document.getElementById('brCircle'),pi=0,cyc=0;_brStopped=false;
+  function step(){if(_brStopped)return;var ph=p.phases[pi],label=ph[0],dur=ph[1];var pe=document.getElementById('brPhase');if(!pe)return;pe.textContent=label;var ce=document.getElementById('brCount');if(ce)ce.textContent='Cycle '+(cyc+1)+'/'+p.cycles;
+    var scale=label==='Inspire'?1:(label==='Expire'?0.5:(circle._ls||0.75));circle._ls=scale;circle.style.transition='transform '+(dur/1000)+'s ease-in-out';circle.style.transform='scale('+scale+')';try{haptic(10)}catch(e){}
+    _brTO=setTimeout(function(){pi++;if(pi>=p.phases.length){pi=0;cyc++;}if(cyc>=p.cycles){breathDone(p);return;}step();},dur);}
+  setTimeout(step,400);
+}
+function breathStop(){_brStopped=true;if(_brTO){clearTimeout(_brTO);_brTO=null;}}
+function breathDone(p){_brStopped=true;try{var k='journal_'+tk(),j=DB.get(k,{});j.meditation=true;DB.set(k,j);}catch(e){}var host=document.getElementById('breatheBody');if(!host)return;
+  host.innerHTML='<div class="card" style="margin-top:30px;text-align:center;padding:32px 18px"><span class="fric" style="margin:0 auto;width:54px;height:54px;font-size:26px;background:#E2F3E9;color:#2FA86A"><i class="ti ti-check"></i></span><b style="display:block;font-size:20px;margin-top:12px">Bien joué.</b><p class="sci">Séance de '+p.name+' terminée, ajoutée à ton journal (méditation).</p><button class="fbtn primary" style="max-width:240px;margin:14px auto 0" onclick="renderBreathe()">Une autre</button></div>';}
+
+/* ---- F7 : Box / Team (démo locale sédée) ---- */
+var BOX_MEMBERS=[{id:'marie',name:'Coach Marie',g:'women',n:44,freq:7,bias:12},{id:'tom',name:'Tom',g:'men',n:32,freq:6,bias:4},{id:'lea',name:'Léa',g:'women',n:21,freq:6,bias:8},{id:'hugo',name:'Hugo',g:'men',n:51,freq:5,bias:0},{id:'sarah',name:'Sarah',g:'women',n:9,freq:5,bias:6},{id:'max',name:'Max',g:'men',n:67,freq:4,bias:-2},{id:'ines',name:'Inès',g:'women',n:28,freq:6,bias:5},{id:'nico',name:'Nico',g:'men',n:12,freq:7,bias:3},{id:'emma',name:'Emma',g:'women',n:55,freq:4,bias:7},{id:'paul',name:'Paul',g:'men',n:18,freq:5,bias:1},{id:'jade',name:'Jade',g:'women',n:33,freq:6,bias:9},{id:'theo',name:'Théo',g:'men',n:5,freq:5,bias:2}];
+function fxAvatar(m){return 'https://randomuser.me/api/portraits/'+m.g+'/'+m.n+'.jpg'}
+function fxDay(m,off){return {rec:clampN(35+m.bias+(trSeed('rec|'+m.id+'|'+tk(-off))%55),28,96),trained:(trSeed('ses|'+m.id+'|'+tk(-off))%10)<m.freq};}
+function fxAgg(m,win){var rec=0,rn=0,ses=0,streak=0,brk=false;for(var i=0;i<win;i++){var d=fxDay(m,i);rec+=d.rec;rn++;if(d.trained)ses++;if(!brk){if(d.trained)streak++;else brk=true;}}return {id:m.id,name:m.name,avatar:fxAvatar(m),recAvg:Math.round(rec/rn),sessions:ses,streak:streak,score:ses*10+Math.min(streak,14)*3,me:false};}
+function fxMe(win){var ses=0,streak=0,brk=false,rec=0,rn=0;for(var i=0;i<win;i++){var tr=DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0;if(tr)ses++;if(!brk){if(tr)streak++;else brk=true;}var r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;rn++;}}var rv=recovery();return {id:'me',name:getProfile().name||'Toi',avatar:null,recAvg:rn?Math.round(rec/rn):(rv?rv.s:50),sessions:ses,streak:streak,score:ses*10+Math.min(streak,14)*3,me:true};}
+function fxRoster(win){var r=[fxMe(win)];BOX_MEMBERS.forEach(function(m){r.push(fxAgg(m,win));});r.sort(function(a,b){return b.score-a.score});return r;}
+function openBox(){go('box')}
+function boxSetWin(w){window._boxWin=w;renderBox();try{haptic()}catch(e){}}
+function renderBox(){var host=document.getElementById('boxBody');if(!host)return;var win=window._boxWin||7;var roster=fxRoster(win);
+  var box=DB.get('box',{name:'CrossFit Étincelle',code:'FLINT24'}),chal=DB.get('challenge',{name:'Prépa HYROX — 8 sem.',goal:240,end:tk(30)});
+  var total=0;BOX_MEMBERS.forEach(function(m){for(var i=0;i<12;i++){if(fxDay(m,i).trained)total++;}});for(var i=0;i<12;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)total++;}
+  var pct=Math.min(100,Math.round(total/(chal.goal||240)*100)),medals=['🥇','🥈','🥉'];
+  host.innerHTML='<div class="card" style="margin-top:14px"><div style="display:flex;align-items:center;gap:11px"><span class="fric" style="background:#FBEAE5;color:#C0492C"><i class="ti ti-barbell"></i></span><div><b style="font-size:16px">'+esc(box.name)+'</b><div style="font-size:12px;color:#8A8580">Code '+esc(box.code)+' · '+roster.length+' membres</div></div></div></div>'
+    +'<div class="card flretain info" style="display:block"><span class="frtag">DÉFI EN COURS</span><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px">'+esc(chal.name)+'</b><span style="font-size:12px;color:#8A8580">'+pct+'%</span></div><div style="height:9px;background:#EEE8DE;border-radius:5px;overflow:hidden;margin-top:8px"><span style="display:block;height:100%;width:'+pct+'%;background:var(--green)"></span></div><div style="font-size:12px;color:#8A8580;margin-top:6px">'+total+' / '+(chal.goal||240)+' séances de l’équipe</div></div>'
+    +'<div class="seg" id="boxWin" style="margin:14px 0 4px"><button class="'+(win===1?'on':'')+'" onclick="boxSetWin(1)">Jour</button><button class="'+(win===7?'on':'')+'" onclick="boxSetWin(7)">Semaine</button><button class="'+(win===30?'on':'')+'" onclick="boxSetWin(30)">Mois</button></div>'
+    +'<div class="ct" style="margin:14px 2px 6px">Classement assiduité</div>'
+    +roster.map(function(r,i){return '<div class="flnrow" style="'+(r.me?'background:#FBF4EF;border-radius:12px;padding:13px 8px':'')+'"><span style="width:28px;font-weight:800;color:#8A8580;text-align:center;font-size:'+(i<3?'17px':'14px')+'">'+(i<3?medals[i]:(i+1))+'</span>'+(r.avatar?'<span class="flnic" style="background-image:url('+r.avatar+');background-size:cover"></span>':'<span class="flnic"><i class="ti ti-user"></i></span>')+'<span class="flntx"><b>'+esc(r.name)+(r.me?' (toi)':'')+'</b><span>'+r.sessions+' séances · streak '+r.streak+' j · récup '+r.recAvg+'%</span></span><span style="font-weight:800;color:var(--green)">'+r.score+'</span></div>';}).join('');
+}
+function seedBox(){if(DB.get('box_seed')===1)return;DB.set('box',{name:'CrossFit Étincelle',code:'FLINT24'});DB.set('challenge',{name:'Prépa HYROX — 8 sem.',goal:240,end:tk(30)});DB.set('box_seed',1);}
+function renderCycleFields(){var p=getProfile();var cy=document.getElementById('pfCycle');if(!cy)return;cy.checked=!!p.cycleOn;var lp=document.getElementById('pfLastPeriod');if(lp)lp.value=p.lastPeriod||'';var cl=document.getElementById('pfCycleLen');if(cl)cl.value=p.cycleLen||28;var pl=document.getElementById('pfPeriodLen');if(pl)pl.value=p.periodLen||5;var cf=document.getElementById('cycFields');if(cf)cf.style.display=p.cycleOn?'block':'none';}
+
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v381';
+const APP_VERSION='flint-v382';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
+try{seedBox()}catch(e){}
 if(DB.get('demo')&&!sensorOf(tk()))seedTodayShowcase();
 persistRecov();
 renderToday();
