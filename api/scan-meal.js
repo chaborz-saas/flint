@@ -307,16 +307,49 @@ async function upcIdentify(code) {
     return { name: String(it.title).slice(0, 70), brand: String(it.brand || '').slice(0, 40) };
   } catch (e) { return null; }
 }
+// USDA FoodData Central (marques US) : le code est stocké en GTIN-14 (zéros de tête)
+async function usdaLookup(code) {
+  const key = process.env.USDA_KEY || 'DEMO_KEY';
+  const c = String(code).replace(/\D/g, '');
+  if (c.length < 6) return { error: 'invalide' };
+  const gtin = c.padStart(14, '0');
+  try {
+    const u = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + gtin + '&dataType=Branded&pageSize=1&api_key=' + key;
+    const r = await fetch(u);
+    if (!r.ok) return { error: 'USDA ' + r.status };
+    const j = await r.json();
+    const f = (j.foods || [])[0];
+    if (!f) return { error: 'introuvable' };
+    const nuts = {}; (f.foodNutrients || []).forEach(n => { nuts[n.nutrientName] = num(n.value); });
+    const per100 = { kcal: num(nuts['Energy']), prot: num(nuts['Protein']), carb: num(nuts['Carbohydrate, by difference']), fat: num(nuts['Total lipid (fat)']) };
+    if (!per100.kcal && !per100.prot && !per100.carb && !per100.fat) return { error: 'pas de macros' };
+    const sv = (f.servingSize && /g|gram|grm/i.test(f.servingSizeUnit || '')) ? (num(f.servingSize) || 30) : 30;
+    const ff = sv / 100;
+    const name = f.description || 'Produit';
+    const item = { name: String(name).slice(0, 60), grams: round(sv), kcal: round(per100.kcal * ff), prot: round(per100.prot * ff), carb: round(per100.carb * ff), fat: round(per100.fat * ff), confidence: 0.85, box: null, serving: round(sv), servingLabel: 'portion', barcode: c };
+    const product = { name: String(name).slice(0, 80), brand: String(f.brandOwner || f.brandName || '').slice(0, 40), image: null, score: null, label: null, source: 'usda', per100: { kcal: round(per100.kcal), prot: round(per100.prot), carb: round(per100.carb), fat: round(per100.fat) } };
+    return { mealName: item.name, items: [item], total: { kcal: item.kcal, prot: item.prot, carb: item.carb, fat: item.fat }, product: product, status: 'ok' };
+  } catch (e) { return { error: String((e && e.message) || e) }; }
+}
 async function barcodeCascade(raw) {
   const c = String(raw).replace(/\D/g, '');
   if (c.length < 6) return { error: 'Code-barres invalide' };
+  let offPartial = null;
   const seen = new Set();
   for (const v of codeVariants(c)) {
     if (seen.has(v)) continue; seen.add(v);
     const off = await offLookup(v);
-    if (!off.error) { off.barcode = off.barcode || c; return off; }   // trouvé (complet ou partiel)
+    if (!off.error) {
+      if (off.needsNutrition === true) { offPartial = offPartial || off; continue; }  // garde le partiel, cherche mieux
+      off.barcode = off.barcode || c; return off;   // OFF complet -> on prend
+    }
   }
-  // OFF a tout raté -> identifier le code-barres puis chercher par nom une fiche complète
+  // OFF n'a pas de macros -> USDA (marques US)
+  const usda = await usdaLookup(c);
+  if (usda && !usda.error) { usda.barcode = usda.barcode || c; return usda; }
+  // OFF avait au moins le nom (partiel) -> on le renvoie, l'utilisateur complète
+  if (offPartial) { offPartial.barcode = offPartial.barcode || c; return offPartial; }
+  // rien -> identifier le code-barres puis chercher par nom une fiche complète
   const id = await upcIdentify(c);
   if (id && id.name) {
     const results = await offSearch(id.name + (id.brand ? (' ' + id.brand) : ''));
