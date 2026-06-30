@@ -3999,6 +3999,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
   <div class="fc-grid" id="recCards"></div>
 
   <div class="card r2corr" id="recCorrCard"></div>
+  <button class="flretain info" style="cursor:pointer" onclick="openBreathe()"><span class="frrow"><span class="fric"><i class="ti ti-wind"></i></span><span class="frtx"><b>Respiration guidée</b><span>Un moment calme pour faire redescendre la pression.</span></span></span></button>
 
   <div class="card r2trend">
     <div class="r2th">
@@ -4817,14 +4818,9 @@ body.stepsview header{display:none}
     <div class="flab" style="margin:14px 0 7px">Sexe</div>
     <div class="seg" id="pfSexSeg"><button type="button" data-sex="homme" onclick="pfSetSex('homme')">Homme</button><button type="button" data-sex="femme" onclick="pfSetSex('femme')">Femme</button><button type="button" data-sex="autre" onclick="pfSetSex('autre')">Autre</button></div>
     <div class="fgrid" style="margin-top:12px"><div class="fld"><span class="flab">Âge</span><input aria-label="Âge" id="pfAge" class="fin2" type="number" inputmode="numeric"></div><div class="fld"><span class="flab">Taille (cm)</span><input aria-label="Taille" id="pfHeight" class="fin2" type="number" inputmode="numeric"></div></div>
-    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Poids (kg)</span><input aria-label="Poids" id="pfWeight" class="fin2" type="number" inputmode="decimal" step="0.1"></div><div class="fld"></div></div>
-    <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
-  </div>
-
-  <div class="flcard">
-    <div class="sect"><i class="ti ti-target"></i>Objectifs</div>
-    <div class="fgrid"><div class="fld"><span class="flab">Réveil cible</span><input aria-label="Réveil cible" id="pfWake" class="fin2" type="time"></div><div class="fld"><span class="flab">Besoin sommeil (h)</span><input aria-label="Besoin sommeil" id="pfNeed" class="fin2" type="number" step="0.5"></div></div>
-    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Objectif kcal</span><input aria-label="Objectif kcal" id="pfKcal" class="fin2" type="number" inputmode="numeric"></div><div class="fld"><span class="flab">Protéines (g)</span><input aria-label="Objectif protéines" id="pfProt" class="fin2" type="number" inputmode="numeric"></div></div>
+    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Poids (kg)</span><input aria-label="Poids" id="pfWeight" class="fin2" type="number" inputmode="decimal" step="0.1"></div><div class="fld"><span class="flab">Réveil cible</span><input aria-label="Réveil cible" id="pfWake" class="fin2" type="time"></div></div>
+    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Besoin sommeil (h)</span><input aria-label="Besoin sommeil" id="pfNeed" class="fin2" type="number" step="0.5"></div><div class="fld"><span class="flab">Objectif kcal</span><input aria-label="Objectif kcal" id="pfKcal" class="fin2" type="number" inputmode="numeric"></div></div>
+    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Protéines (g)</span><input aria-label="Objectif protéines" id="pfProt" class="fin2" type="number" inputmode="numeric"></div><div class="fld"></div></div>
     <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
   </div>
 
@@ -4838,24 +4834,11 @@ body.stepsview header{display:none}
     </div>
   </div>
 
-  <div class="flcard"><div class="sect"><i class="ti ti-sparkles"></i>Plus</div><button class="fbtn ghost" onclick="openFlage()"><i class="ti ti-cake"></i>Mon FLINT Age</button><button class="fbtn ghost" onclick="openBox()"><i class="ti ti-users"></i>Ma box (social)</button><button class="fbtn ghost" onclick="openBreathe()"><i class="ti ti-wind"></i>Respiration guidée</button></div>
-  <div class="flcard" id="journalCard"></div>
-
   <div class="flcard">
-    <div class="sect"><i class="ti ti-watch"></i>Capteur · Polar Loop</div>
+    <div class="sect"><i class="ti ti-watch"></i>Capteur</div>
     <button class="fbtn primary" onclick="connectPolarBle()"><i class="ti ti-bluetooth"></i>Connecter ma Polar Loop</button>
     <p class="hint" id="polarBleStatus" style="white-space:normal">Non connectée.</p>
-    <button class="fbtn dark" onclick="pullHealthConnect()"><i class="ti ti-refresh"></i>Synchroniser mon capteur</button>
-    <div class="divlab">Ou saisir la nuit à la main</div>
-    <div class="fgrid">
-      <div class="fld"><span class="flab">HRV (ms)</span><input aria-label="HRV (ms)" id="snHrv" class="fin2" type="number" inputmode="decimal"></div>
-      <div class="fld"><span class="flab">FC repos</span><input aria-label="FC repos" id="snRhr" class="fin2" type="number" inputmode="numeric"></div>
-      <div class="fld"><span class="flab">Resp /min</span><input aria-label="Resp /min" id="snResp" class="fin2" type="number" inputmode="decimal"></div>
-      <div class="fld"><span class="flab">Sommeil (h)</span><input aria-label="Sommeil (h)" id="snSleep" class="fin2" type="number" inputmode="decimal" step="0.1"></div>
-    </div>
-    <button class="fbtn ghost" style="margin-top:14px" onclick="saveSensorManual()"><i class="ti ti-device-floppy"></i>Enregistrer la nuit</button>
-    <button class="fbtn ghost" onclick="simulateData()"><i class="ti ti-dice-5"></i>Recharger la démo (28 jours)</button>
-    <p class="hint">Sur Android, ta Polar Loop remplit ça via Health Connect : nuit (HRV/sommeil) <b>et tes séances de sport détectées automatiquement</b> (type + intensité). ~4 nuits pour calibrer ta baseline.</p>
+    <button class="fbtn dark" style="margin-top:10px" onclick="pullHealthConnect()"><i class="ti ti-refresh"></i>Synchroniser</button>
   </div>
 
   <div class="flcard">
@@ -4867,23 +4850,22 @@ body.stepsview header{display:none}
     <p class="ntnote" id="ntNote"></p>
   </div>
 
-  <div class="flcard lifetime" role="button" tabindex="0" onclick="go('manifesto')">
-    <div class="ltic"><i class="ti ti-infinity"></i></div>
-    <div class="ltt">Tout débloqué à vie</div>
-    <p class="lts">Pas d'abonnement, jamais. Coach, anomalies, stades de sommeil, bilans, export — tout est inclus pour toujours. L'étincelle t'appartient.</p>
-    <div class="ltrow"><i class="ti ti-check"></i>Aucune fonctionnalité derrière un paywall</div>
-    <div class="ltrow"><i class="ti ti-check"></i>Tes données restent à toi — export en 1 tap</div>
-    <div class="ltrow"><i class="ti ti-check"></i>Mises à jour incluses, à vie</div>
-    <span class="ltmore">Lire notre engagement<i class="ti ti-arrow-right"></i></span>
-  </div>
+  <button class="flcard" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;cursor:pointer" onclick="go('manifesto')"><span class="fric" style="flex:0 0 38px;background:#EFEAF7;color:#5A52B5"><i class="ti ti-infinity"></i></span><span style="flex:1"><b style="display:block;font-size:14.5px;color:#161512">Tout débloqué à vie</b><span style="font-size:12.5px;color:#8A8580">Pas d’abonnement, jamais.</span></span><i class="ti ti-chevron-right" style="color:#C9C2B6"></i></button>
 
   <div class="flcard">
     <div class="sect"><i class="ti ti-settings"></i>App</div>
-    <button class="fbtn ghost" onclick="forceUpdate()"><i class="ti ti-refresh"></i>Forcer la mise à jour</button>
     <p class="verline" id="verLine"></p>
-    <button class="fbtn ghost" style="margin-top:14px" onclick="exportData()"><i class="ti ti-upload"></i>Exporter mes données</button>
-    <button class="fbtn danger" onclick="wipeData()"><i class="ti ti-trash"></i>Vider les données capteur</button>
-  </div>
+    <button class="fbtn ghost" onclick="forceUpdate()"><i class="ti ti-refresh"></i>Forcer la mise à jour</button>
+    <button class="fbtn ghost" style="margin-top:10px" onclick="exportData()"><i class="ti ti-upload"></i>Exporter mes données</button>
+    <details style="margin-top:14px"><summary style="cursor:pointer;font-size:12.5px;color:#A39B8E;font-weight:700">Outils développeur</summary>
+      <div class="divlab" style="margin-top:12px">Saisir une nuit à la main</div>
+      <div class="fgrid"><div class="fld"><span class="flab">HRV (ms)</span><input aria-label="HRV (ms)" id="snHrv" class="fin2" type="number" inputmode="decimal"></div><div class="fld"><span class="flab">FC repos</span><input aria-label="FC repos" id="snRhr" class="fin2" type="number" inputmode="numeric"></div></div>
+      <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Resp /min</span><input aria-label="Resp /min" id="snResp" class="fin2" type="number" inputmode="decimal"></div><div class="fld"><span class="flab">Sommeil (h)</span><input aria-label="Sommeil (h)" id="snSleep" class="fin2" type="number" inputmode="decimal" step="0.1"></div></div>
+      <button class="fbtn ghost" style="margin-top:12px" onclick="saveSensorManual()"><i class="ti ti-device-floppy"></i>Enregistrer la nuit</button>
+      <button class="fbtn ghost" onclick="simulateData()"><i class="ti ti-dice-5"></i>Recharger la démo</button>
+    </details>
+    <button class="fbtn danger" style="margin-top:14px" onclick="wipeData()"><i class="ti ti-trash"></i>Vider les données capteur</button>
+  </div
 </div>
 </section>
 
@@ -7855,7 +7837,7 @@ function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg')
 function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v383';
+const APP_VERSION='flint-v384';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
