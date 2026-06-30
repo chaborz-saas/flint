@@ -7698,7 +7698,7 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
  return 'Je m\'appuie sur tes données du jour (récup <b>'+s+'%</b>). Je peux te dire si tu es prêt à t\'entraîner, pourquoi ton score est comme ça, comment a été ta nuit, ou quel effort viser. Essaie une des suggestions 👇';}
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v380';
+const APP_VERSION='flint-v381';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -8367,17 +8367,29 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
     }
   }
 
+  function _offFast(p, code){
+    var n=p.nutriments||{};
+    var kcal=n['energy-kcal_100g']; if(kcal==null&&n['energy_100g']!=null)kcal=Number(n['energy_100g'])/4.184;
+    if(kcal==null)return null;
+    var per100={kcal:Math.round(+kcal||0),prot:Math.round(+n.proteins_100g||0),carb:Math.round(+n.carbohydrates_100g||0),fat:Math.round(+n.fat_100g||0)};
+    var serving=30, sm=String(p.serving_size||'').match(/([\d.,]+)\s*g/i); if(sm)serving=Math.round(parseFloat(sm[1].replace(',','.')))||30;
+    var f=serving/100, name=p.product_name_fr||p.product_name||p.brands||'Produit';
+    var img=p.image_front_small_url||p.image_front_url||null;
+    var it={name:String(name).slice(0,60),grams:serving,kcal:Math.round(per100.kcal*f),prot:Math.round(per100.prot*f),carb:Math.round(per100.carb*f),fat:Math.round(per100.fat*f),barcode:code};
+    return {mealName:it.name,items:[it],total:{kcal:it.kcal,prot:it.prot,carb:it.carb,fat:it.fat},product:{name:String(name).slice(0,80),brand:String(p.brands||'').split(',')[0].trim().slice(0,40),image:img,imageResolved:img?{imageUrl:img,status:'resolved'}:{imageUrl:null,status:'placeholder'},per100:per100,nutriscore:(p.nutriscore_grade||'').toUpperCase()||null,nova:(+p.nova_group)||null,analysis:[],reliability:'verified',score:null,label:null,barcode:code}};
+  }
   function barcodeLookup(code){
     code=String(code||'').replace(/\D/g,''); if(code.length<8){tt('Code-barres invalide');return;}
     var ov=openProduct();
     try{ var raw=localStorage.getItem('flx_pc_'+code); if(raw){ var cd=JSON.parse(raw); if(cd&&cd.product){ fillProduct(cd); _recentsAdd(code,cd.product); return; } } }catch(e){}
-    var done=false, ctrl=('AbortController' in window)?new AbortController():null;
+    var done=false, _fastShown=false, ctrl=('AbortController' in window)?new AbortController():null;
     var to=setTimeout(function(){ if(!done&&ctrl){ try{ctrl.abort();}catch(e){} } },9000);
+    try{ fetch('https://world.openfoodfacts.org/api/v2/product/'+code+'.json?fields=product_name,product_name_fr,brands,nutriments,serving_size,image_front_small_url,image_front_url,nutriscore_grade,nova_group').then(function(r){return r.json();}).then(function(d){ if(done)return; if(d&&d.status===1&&d.product){ var fast=_offFast(d.product,code); if(fast){ _fastShown=true; fillProduct(fast); _recentsAdd(code,fast.product); } } }).catch(function(){}); }catch(e){}
     callProxy({barcode:code}, ctrl).then(function(r){ done=true; clearTimeout(to);
       if(r&&r.ok&&r.data&&r.data.product){ fillProduct(r.data); _pcWrite(code,r.data); _recentsAdd(code,r.data.product); }
       else if(r&&r.ok&&r.data&&r.data.items&&r.data.items.length){ if(g('flxProd'))g('flxProd').remove(); showResult(r.data.mealName,r.data.items); }
-      else { fillNotFound(code); }
-    }).catch(function(){ done=true; clearTimeout(to);
+      else if(!_fastShown){ fillNotFound(code); }
+    }).catch(function(){ done=true; clearTimeout(to); if(_fastShown)return;
       var ovp=g('flxProd'), pan=ovp&&ovp.querySelector('.flx-prod-pan');
       if(pan){
         pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
@@ -8512,7 +8524,7 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
         if(caps.torch) _mountTorchWeb(track);
       } }catch(e){}
       var det=null; try{ det=new window.BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','qr_code']}); }catch(e){ det=null; }
-      if(!det){ try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){} _scanStream=null; _scanDone=false; _startZXing(ov); return; }
+      if(!det){ _startZXingFast(ov, vid); return; }   // garde le flux net (focus continu) + ZXing 1D rapide
       var h2=g('flxBarHint'); if(h2)h2.textContent='Place le code dans le cadre';
       var started=0, last=0, MIN=90;
       var tick=function(now){
@@ -8528,6 +8540,20 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
     }).catch(function(err){ clearTimeout(slow); _camDenied(err); });
   }
 
+  function _startZXingFast(ov, vid){
+    loadZXing(function(ZX){
+      if(!ZX||!vid){ try{ if(_scanStream)_scanStream.getTracks().forEach(function(t){t.stop();}); }catch(e){} _scanStream=null; _startZXing(ov); return; }
+      if(_scanDone)return;
+      try{
+        var hints=new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS,[ZX.BarcodeFormat.EAN_13,ZX.BarcodeFormat.EAN_8,ZX.BarcodeFormat.UPC_A,ZX.BarcodeFormat.UPC_E]);
+        _zx=new ZX.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:64});
+        var h2=g('flxBarHint'); if(h2)h2.textContent='Place le code dans le cadre';
+        if(_scanStream && _zx.decodeFromStream){ _zx.decodeFromStream(_scanStream, vid, function(result){ if(result&&result.getText)_onDetect(result.getText()); }); }
+        else { _zx.decodeFromVideoElement(vid, function(result){ if(result&&result.getText)_onDetect(result.getText()); }); }
+        _armHelp();
+      }catch(e){ try{ if(_scanStream)_scanStream.getTracks().forEach(function(t){t.stop();}); }catch(e2){} _scanStream=null; _startZXing(ov); }
+    });
+  }
   function _startZXing(ov){
     var vid=g('flxBarVid'); if(!vid){ var hh=g('flxBarHint'); if(hh)hh.textContent='Scanner indisponible — utilise « Saisir »'; return; }
     var hint=g('flxBarHint'); if(hint)hint.textContent='Ouverture de la caméra…';
