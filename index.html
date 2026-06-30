@@ -581,6 +581,7 @@
     html{background:#E7E2D7}
     body{max-width:465px;margin:0 auto;min-height:100vh;box-shadow:0 0 44px rgba(20,18,12,.13)}
     nav{left:50%;right:auto;transform:translateX(-50%);width:465px}
+    .coachv{left:50%;right:auto;width:465px;transform:translateX(-50%)}
   }
 
 /* ===== ÉCRAN RÉCUPÉRATION — niveau "flhome" (scopé .flrecovery) ===== */
@@ -2512,7 +2513,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flhome .fchr .fchrv small{font-family:'Inter';font-style:normal;font-size:15px;font-weight:700;color:#7C766B;margin-left:3px}
 .flhome .fchr .fchrR{flex:1;min-width:0;height:64px}
 /* ===== Coach IA ===== */
-.coachv{display:flex;flex-direction:column;height:100dvh;padding:max(10px,env(safe-area-inset-top)) 0 0}
+.coachv{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--bg);padding:max(10px,env(safe-area-inset-top)) 0 0}
+#v-coach.on{animation:none}
 .coachv .cvtop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 16px 10px;flex:none;border-bottom:1px solid #EFE9E0}
 .coachv .cvbk{width:42px;height:42px;flex:none;border:0;background:#F0ECE4;border-radius:13px;display:grid;place-items:center;color:#161512;font-size:20px;cursor:pointer}
 .coachv .cvttl{display:flex;align-items:center;gap:9px;font-family:'Anton';font-style:oblique 8deg;text-transform:uppercase;font-size:19px;letter-spacing:.5px;color:#161512}
@@ -7683,7 +7685,7 @@ function _cnorm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ
 function openCoachIA(){go('coach')}
 function renderCoachIntro(){var host=document.getElementById('coachThread');if(!host||host.dataset.init==='1')return;host.dataset.init='1';host.innerHTML='';
  var rv=recovery(),p=getProfile(),nm=p.name?(' '+esc(p.name)):'';
- var intro=rv?('Salut'+nm+' 👋 Ta récup du jour est de <b>'+rv.s+'%</b>. Pose-moi une question — je m\'appuie sur tes vraies données.'):('Salut'+nm+' 👋 Je n\'ai pas encore ta nuit. Synchronise ta Polar Loop et je pourrai te conseiller précisément.');
+ var intro=rv?('Salut'+nm+' 👋 Ta récup du jour est de <b>'+rv.s+'%</b>. Pose-moi une question, je m\'appuie sur tes vraies données.'):('Salut'+nm+' 👋 Je n\'ai pas encore ta nuit. Synchronise ta Polar Loop et je pourrai te conseiller précisément.');
  coachPush('coach',intro);}
 function coachPush(who,html){var host=document.getElementById('coachThread');if(!host)return;var d=document.createElement('div');d.className='cbub '+who;d.innerHTML=(who==='coach'?'<span class="cav"><i class="ti ti-bolt"></i></span>':'')+'<div class="ctx">'+html+'</div>';host.appendChild(d);host.scrollTop=host.scrollHeight;}
 function coachAsk(q){coachPush('me',esc(q));var host=document.getElementById('coachThread');var t=document.createElement('div');t.className='cbub coach typing';t.innerHTML='<span class="cav"><i class="ti ti-bolt"></i></span><div class="ctx"><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div>';host.appendChild(t);host.scrollTop=host.scrollHeight;haptic();setTimeout(function(){t.remove();coachPush('coach',coachReply(q))},480);}
@@ -7837,7 +7839,7 @@ function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg')
 function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v384';
+const APP_VERSION='flint-v385';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
