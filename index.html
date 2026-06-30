@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="FLINT">
 <meta name="application-name" content="FLINT">
 <meta name="format-detection" content="telephone=no">
-<meta name="description" content="FLINT — ta récupération, ton sommeil et ta charge, comme un Whoop, sans abonnement.">
+<meta name="description" content="FLINT, ta récupération, ton sommeil et ta charge, comme un Whoop, sans abonnement.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -3126,7 +3126,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 <div class="nut2">
   <div class="nut2-scan">
     <div class="nut2-scan-t">Scanner un plat</div>
-    <div class="nut2-scan-s">Ton plat en photo — l'IA compte calories &amp; macros</div>
+    <div class="nut2-scan-s">Ton plat en photo, l'IA compte calories &amp; macros</div>
     <button class="nut2-bigcam" type="button" onclick="nutCamera()" aria-label="Scanner mon repas"><i class="ti ti-camera"></i></button>
     <div class="nut2-scan-hint">Appuyer pour scanner</div>
   </div>
@@ -3796,7 +3796,7 @@ button.bal2-cd,button.bal2-card{border:0;font:inherit;text-align:left;cursor:poi
   <div class="pan">
     <div class="bal-sh-grip"></div>
     <div class="go-h">Ton objectif</div>
-    <div class="go-sub">Dis à FLINT ce que tu veux accomplir. Toute ta balance se recalibre autour — et on suit ta régularité dans la durée.</div>
+    <div class="go-sub">Dis à FLINT ce que tu veux accomplir. Toute ta balance se recale dessus, et on suit ta régularité dans la durée.</div>
     <div class="go-opts" id="goOpts"></div>
     <button class="go-confirm" type="button" onclick="goalConfirm()">Confirmer mon objectif</button>
   </div>
@@ -4141,7 +4141,7 @@ body.stepsview header{display:none}
 <div class="flrecovery hsx">
   <div class="pghd"><button class="bk" onclick="goBack('recovery')" aria-label="Retour">‹</button><div class="an" style="font-size:18px">Le calcul de ton score</div></div>
 
-  <div class="card"><p class="hsx-intro"><b>Pas de boîte noire.</b> Voici exactement ce que FLINT mesure pendant ta nuit et comment il en tire ta récup — chiffres réels, calcul lisible.</p></div>
+  <div class="card"><p class="hsx-intro"><b>Pas de boîte noire.</b> Tu vois exactement ce que FLINT mesure pendant ta nuit et comment il en tire ta récup : chiffres réels, calcul lisible.</p></div>
 
   <div class="card">
     <div class="hsx-ct">Tes 4 signaux cette nuit</div>
@@ -4152,10 +4152,10 @@ body.stepsview header{display:none}
     <div class="hsx-ct">La formule, en clair</div>
     <div class="hsx-formula" id="hsxFormula"></div>
     <div style="margin-top:14px">
-      <div class="hsx-li"><i class="ti ti-activity-heartbeat"></i><div><b>VFC (variabilité cardiaque) — poids le plus fort.</b> Plus elle est haute vs ta normale, mieux ton système nerveux a récupéré.</div></div>
-      <div class="hsx-li"><i class="ti ti-heart"></i><div><b>FC au repos — compte en négatif.</b> Plus basse que ta normale = meilleure récup.</div></div>
+      <div class="hsx-li"><i class="ti ti-activity-heartbeat"></i><div><b>VFC (variabilité cardiaque), le poids le plus fort.</b> Plus elle est haute vs ta normale, mieux ton système nerveux a récupéré.</div></div>
+      <div class="hsx-li"><i class="ti ti-heart"></i><div><b>FC au repos, compte en négatif.</b> Plus basse que ta normale = meilleure récup.</div></div>
       <div class="hsx-li"><i class="ti ti-moon"></i><div><b>Sommeil.</b> La part de ton besoin réellement couverte cette nuit.</div></div>
-      <div class="hsx-li"><i class="ti ti-lungs"></i><div><b>Respiration — garde-fou.</b> Une fréquence anormalement haute fait baisser le score (signal de fatigue ou de maladie).</div></div>
+      <div class="hsx-li"><i class="ti ti-lungs"></i><div><b>Respiration, le garde-fou.</b> Une fréquence anormalement haute fait baisser le score (signal de fatigue ou de maladie).</div></div>
     </div>
   </div>
 
@@ -4184,7 +4184,7 @@ body.stepsview header{display:none}
     <h1 class="mfst-h">L'étincelle<br>t'appartient</h1>
     <div class="mfst-body">
       <p>Tu ne loues pas ta forme. Tu ne paies pas un abonnement pour lire ton propre corps.</p>
-      <p>FLINT s'achète une fois — et tout ce qu'il sait faire, <b>aujourd'hui comme demain</b>, reste à toi.</p>
+      <p>FLINT s'achète une fois, et tout ce qu'il sait faire, <b>aujourd'hui comme demain</b>, reste à toi.</p>
       <p>Pas de paywall. Pas de rançon mensuelle. Pas de bracelet qui meurt quand tu arrêtes de payer.</p>
       <p class="mfst-kick">Ton étincelle ne s'éteint pas.</p>
     </div>
@@ -4381,7 +4381,7 @@ body.stepsview header{display:none}
     <div class="elx-ct">C'est quoi, l'effort ?</div>
     <p class="elx-p">Une note de <b>0 à 21</b> qui résume la <b>charge cardiovasculaire</b> de ta journée : plus tes séances sont <b>intenses et longues</b> (mesuré via ta fréquence cardiaque), plus la note monte.</p>
     <div class="elx-scale"><div class="elx-scmark" id="effScaleMark"></div></div>
-    <div class="elx-zlabs"><span style="flex:10"><b>Légère</b><i>0–10</i></span><span style="flex:4"><b>Modérée</b><i>10–14</i></span><span style="flex:4"><b>Soutenue</b><i>14–18</i></span><span style="flex:3"><b>Élevée</b><i>18+</i></span></div>
+    <div class="elx-zlabs"><span style="flex:10"><b>Légère</b><i>0-10</i></span><span style="flex:4"><b>Modérée</b><i>10-14</i></span><span style="flex:4"><b>Soutenue</b><i>14-18</i></span><span style="flex:3"><b>Élevée</b><i>18+</i></span></div>
   </section>
 
   <section class="card elx-card elx-zones">
@@ -4596,7 +4596,7 @@ body.stepsview header{display:none}
       <div class="fc2hbpm"><span id="fcCur">47</span><small>bpm</small></div>
       <div class="fc2zone" id="fcZonePill">Zone de repos</div>
       <div class="fc2stable" id="fcStable">Stable depuis 18 min</div>
-      <div class="fc2calm" id="fcCalm">Ton système cardiovasculaire est calme.</div>
+      <div class="fc2calm" id="fcCalm">Ton coeur tourne au ralenti.</div>
     </div>
   </div>
 
@@ -4614,7 +4614,7 @@ body.stepsview header{display:none}
     <div class="fc2ct">FC au repos nocturne</div>
     <div class="fc2gc-grid">
       <div>
-        <div class="fc2bigrow"><span class="fc2big" id="fcRest">52</span><span class="fc2bigu">bpm</span><span class="fc2norme" id="fcNorme">Norme perso : 47–56 bpm</span></div>
+        <div class="fc2bigrow"><span class="fc2big" id="fcRest">52</span><span class="fc2bigu">bpm</span><span class="fc2norme" id="fcNorme">Norme perso : 47-56 bpm</span></div>
         <div class="fc2gauge" id="fcRestGauge"></div>
         <div class="fc2scale" id="fcRestScale"></div>
         <div class="fc2note" id="fcRestNote"></div>
@@ -4650,7 +4650,7 @@ body.stepsview header{display:none}
   <button class="card fc2lf" type="button" onclick="go('recovery')">
     <span class="fc2lf-ic"><i class="ti ti-heart"></i></span>
     <div class="fc2lf-main">
-      <div class="fc2lf-tx" id="fcLf">FC basse et stable, cohérente avec une bonne récup</div>
+      <div class="fc2lf-tx" id="fcLf">FC basse et stable, signe d'une bonne récup</div>
       <span class="fc2lf-link">Voir ma récup <i class="ti ti-chevron-right"></i></span>
     </div>
   </button>
@@ -5008,7 +5008,7 @@ function sleepNight(k){k=k||tk();var s=sensorOf(k);if(!s||s.sleepMin==null)retur
 function baseStat(field){const a=[];const d=new Date();d.setDate(d.getDate()-1);for(let i=0;i<30;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();const s=DB.get('sensor_'+k,null);if(s&&s[field]!=null)a.push(s[field]);d.setDate(d.getDate()-1)}if(a.length<3)return null;const m=a.reduce((x,y)=>x+y,0)/a.length;const sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)||1;return {m,sd,n:a.length}}
 function loadOf(k){const ss=DB.get('sessions_'+k,[]);let L=0;ss.forEach(s=>{if(s.type==='nap')return;L+=Math.round((s.dur||0)*(s.int||2)*1.7)});const sen=sensorOf(k);if(sen&&sen.load)L=Math.max(L,sen.load);return L}
 function loadAvg(n,off){let t=0,c=0;const d=new Date();d.setDate(d.getDate()-(off||0));for(let i=0;i<n;i++){const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();t+=loadOf(k);c++;d.setDate(d.getDate()-1)}return c?t/c:0}
-function recovery(off){const t=sensorOf(tk(off||0));if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Conditions optimales pour performer.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
+function recovery(off){const t=sensorOf(tk(off||0));if(!t||t.hrv==null)return null;const bH=baseStat('hrv'),bR=baseStat('rhr'),bP=baseStat('resp');if(!bH)return null;const z=(v,b)=>(b&&v!=null)?(v-b.m)/b.sd:0;const zH=z(t.hrv,bH),zR=z(t.rhr,bR),zP=z(t.resp,bP);const need=(getProfile().need||8)*60;const sp=t.sleepMin!=null?t.sleepMin/need:0.85;const zS=Math.max(-2,Math.min(1.5,(sp-1)*3));const pR=Math.max(0,zP);const Z=0.55*zH-0.22*zR+0.18*zS-0.10*pR;const s=Math.max(1,Math.min(100,Math.round(100/(1+Math.exp(-1.05*Z)))));const zone=s>=67?['HAUTE','var(--green)','Ton corps est bien récupéré. Tu peux pousser fort aujourd\'hui.','PRÊT']:s>=34?['MODÉRÉE','var(--amber)','Récupération correcte. Vise une charge modérée aujourd\'hui.','OK']:['BASSE','var(--accent)','Récupération basse. Priorise le repos et le sommeil.','REPOS'];return {s,zone:zone[0],color:zone[1],reco:zone[2],state:zone[3],today:t,c:[['HRV',t.hrv+' ms',zH],['FC repos',(t.rhr||'—')+' bpm',-zR],['Sommeil',(t.sleepMin/60).toFixed(1)+'h',zS],['Respiration',(t.resp||'—')+'/min',-pR]],bH,bR,bP}}
 function loadStrain(k){const L=loadOf(k||tk());return Math.max(0,Math.min(21,+(21*(1-Math.exp(-L/520))).toFixed(1)))}
 function actStrain(s){const L=(s.dur||0)*(s.int||2)*1.7;return +(21*(1-Math.exp(-L/520))).toFixed(1)}
 function strainTarget(){const rv=recovery();if(!rv)return [10,14];const r=rv.s;return r>=67?[14,18]:r>=34?[10,14]:[6,10]}
@@ -5067,7 +5067,7 @@ function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)
  function metric(field,icon,name,val,unit){var b=baseStat(field);
   if(!b||val==null)return '<button class="nvcard" onclick="openSleepNight()"><div class="nvtop"><span class="nvic"><i class="ti '+icon+'"></i></span><div class="nvhead"><div class="nvname">'+name+'</div><div class="nvval" style="color:#7C766B">—</div></div><span class="nvcv"><i class="ti ti-chevron-right"></i></span></div></button>';
   var lo=b.m-b.sd,hi=b.m+b.sd,st=getMetricStatus(val,lo,hi),vc=st==='in'?'in':'out';
-  return '<button class="nvcard" onclick="openSleepNight()"><div class="nvtop"><span class="nvic"><i class="ti '+icon+'"></i></span><div class="nvhead"><div class="nvname">'+name+'</div><div class="nvval '+vc+'">'+val+'<small>'+unit+'</small></div><div class="nvnorm">normale '+r1(lo)+'–'+r1(hi)+'</div></div><span class="nvcv"><i class="ti ti-chevron-right"></i></span></div>'+bar(val,lo,hi,st)+'</button>';}
+  return '<button class="nvcard" onclick="openSleepNight()"><div class="nvtop"><span class="nvic"><i class="ti '+icon+'"></i></span><div class="nvhead"><div class="nvname">'+name+'</div><div class="nvval '+vc+'">'+val+'<small>'+unit+'</small></div><div class="nvnorm">normale '+r1(lo)+'-'+r1(hi)+'</div></div><span class="nvcv"><i class="ti ti-chevron-right"></i></span></div>'+bar(val,lo,hi,st)+'</button>';}
  var out=0;[['hrv',t.hrv],['rhr',t.rhr],['resp',t.resp]].forEach(function(m){var b=baseStat(m[0]);if(b&&m[1]!=null&&getMetricStatus(m[1],b.m-b.sd,b.m+b.sd)!=='in')out++});
  var sum=out>0
   ?'<div class="nvsum coral"><span class="si"><i class="ti ti-alert-triangle"></i></span><div class="st"><b>'+out+' indicateur'+(out>1?'s':'')+' hors fourchette</b><span>Ton corps montre des écarts à surveiller cette nuit.</span></div><i class="ti ti-chevron-right sc"></i></div>'
@@ -5082,7 +5082,7 @@ function renderVitaux(){var host=document.getElementById('vitauxCard');if(!host)
  host.innerHTML=H+sum+metric('hrv','ti-heartbeat','HRV',t.hrv,'ms')+metric('rhr','ti-heart','FC repos',t.rhr,'bpm')+metric('resp','ti-lungs','Respiration',t.resp,'/min')+ageCard;}
 const BEHAVIORS=[['cafeine','☕ Caféine tardive'],['alcool','🍺 Alcool'],['ecrans','📱 Écrans au lit'],['stress','😵 Stress élevé'],['sportintense','🏃 Sport intense'],['magnesium','💊 Magnésium'],['meditation','🧘 Méditation'],['repastard','🍽️ Repas tard'],['hydrate','💧 Bien hydraté']];
 function toggleBehavior(id){const k='journal_'+tk(),j=DB.get(k,{});j[id]=!j[id];DB.set(k,j);renderJournal();renderCorr();renderRecJournal();renderRecCorr()}
-function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>'}
+function renderJournal(){const host=document.getElementById('journalCard');if(!host)return;const j=DB.get('journal_'+tk(),{});host.innerHTML='<div class="ct">Journal du jour</div><div class="chips" style="flex-wrap:wrap;gap:7px;display:flex">'+BEHAVIORS.map(b=>'<button class="bchip'+(j[b[0]]?' on':'')+'" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>').join('')+'</div><p class="sci" style="margin-top:8px">Coche tes comportements. Flint croise avec ta récup pour trouver ce qui t\'aide.</p>'}
 function behaviorCorr(){const out=[];BEHAVIORS.forEach(b=>{const yes=[],no=[];for(let i=1;i<=30;i++){const k=tk(-i),r=DB.get('recov_'+k,null);if(r==null)continue;(DB.get('journal_'+k,{})[b[0]]?yes:no).push(r)}if(yes.length>=2&&no.length>=2){const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,base=avg(no);if(base>0){const imp=Math.round((avg(yes)-base)/base*100);if(Math.abs(imp)>=1)out.push({id:b[0],lbl:b[1],imp})}}});return out.sort((a,b)=>Math.abs(b.imp)-Math.abs(a.imp))}
 function renderCorr(){const host=document.getElementById('corrCard');if(!host)return;const c=behaviorCorr();host.innerHTML='<div class="ct">Ce qui influence ta récup</div>'+(c.length?c.slice(0,7).map(x=>'<div class="cor"><span class="cl">'+x.lbl+'</span><span class="cbarw"><span class="cbarf" style="width:'+Math.min(100,Math.abs(x.imp)*4)+'%;background:'+(x.imp>0?'var(--green)':'var(--accent)')+'"></span></span><span style="color:'+(x.imp>0?'var(--green)':'var(--accent)')+';font-weight:800;width:48px;text-align:right">'+(x.imp>0?'+':'')+x.imp+'%</span></div>').join(''):'<p class="sci">Remplis ton journal quelques jours pour révéler ce qui aide ou nuit à ta récup.</p>')}
 /* ---------- MON JOURNAL (style Flint) ---------- */
@@ -5136,7 +5136,7 @@ function renderMjWeek(){var host=document.getElementById('mjWeek');if(!host)retu
 function _behParts(lbl){var p=String(lbl).split(' ');return {emoji:p[0],name:p.slice(1).join(' ')}}
 function renderBehavior(){var c=behaviorCorr();var host=document.getElementById('behMatrix'),brief=document.getElementById('behBrief');if(!host)return;
  var head='<div class="bmxh"><span class="bmxic"><i class="ti ti-layout-grid"></i></span><div><div class="bmxt">Matrice d\'impact</div><div class="bmxs">Selon l\'effet et l\'intensité sur ta récupération</div></div></div>';
- if(!c.length){host.innerHTML=head+'<p class="sci" style="margin:6px 2px 0">Remplis ton journal quelques jours — Flint révélera ce qui aide ou freine ta récup.</p>';if(brief)brief.innerHTML='';return}
+ if(!c.length){host.innerHTML=head+'<p class="sci" style="margin:6px 2px 0">Remplis ton journal quelques jours. Flint révèle ce qui aide ou freine ta récup.</p>';if(brief)brief.innerHTML='';return}
  var neg=c.filter(function(x){return x.imp<0}),pos=c.filter(function(x){return x.imp>0});
  var maxAbs=Math.max(20,Math.ceil(Math.max.apply(null,c.map(function(x){return Math.abs(x.imp)}))/10)*10);
  function byMag(a,b){return Math.abs(b.imp)-Math.abs(a.imp)}
@@ -5227,9 +5227,9 @@ const TREND={
   explP:'La performance sommeil mesure la qualité globale de vos nuits. Le score combine le temps de sommeil vs votre besoin, la régularité de vos horaires, l\'efficacité (temps réellement endormi) et le stress nocturne. Au-delà de 85 % le sommeil est optimal, entre 70 et 85 % il est suffisant, en dessous il est insuffisant.'},
  steps:{label:'Pas (version bêta)',unit:'',icon:'ti-walk',short:'pas',chart:'bar',barCol:'#3FA0E0',moy:true,fmt:true,foot:'La moyenne n\'inclut pas les données du jour.',goal:true,
   val:function(k){return flStepsOf(k)},
-  sent:function(av,a30,r,dn){return dn?'Votre moyenne de pas est en baisse par rapport à la période précédente. Quelques pas de plus chaque jour suffisent à inverser la tendance.':'Votre moyenne de pas progresse — continuez sur cette lancée pour ancrer l\'habitude.'},
+  sent:function(av,a30,r,dn){return dn?'Votre moyenne de pas est en baisse par rapport à la période précédente. Quelques pas de plus chaque jour suffisent à inverser la tendance.':'Votre moyenne de pas progresse, continuez sur cette lancée pour ancrer l\'habitude.'},
   explT:'Les pas : une mesure de vos mouvements',
-  explP:'Les pas quotidiens correspondent au nombre total de pas que vous faites chaque jour : un indicateur clé de votre activité de fond. Marcher suffisamment réduit le risque cardiovasculaire, soutient le métabolisme et favorise la récupération — l\'équilibre idéal entre effort et repos.'},
+  explP:'Les pas quotidiens correspondent au nombre total de pas que vous faites chaque jour : un indicateur clé de votre activité de fond. Marcher suffisamment réduit le risque cardiovasculaire, soutient le métabolisme et favorise la récupération : le bon équilibre entre effort et repos.'},
  calories:{label:'Calories',unit:'Cal',icon:'ti-flame',short:'calories',chart:'bar',barCol:'#E8674A',moy:true,fmt:true,
   val:function(k){return caloriesBurned(k)},
   sent:function(av,a30,r){return 'Vous avez brûlé en moyenne '+fmtN(av)+' calories '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+', '+(a30!=null?(av>=a30?'soit plus que':'soit moins que')+' votre moyenne des 30 derniers jours.':'selon votre profil.')},
@@ -5242,14 +5242,14 @@ const TREND={
   bd:{title:'Analyse de la récupération',bands:[{l:'Verte (67-100 %)',f:function(v){return v>=67},c:'#2FAE67'},{l:'Jaune (34-66 %)',f:function(v){return v>=34},c:'#F5A623'},{l:'Rouge (1-33 %)',f:function(v){return true},c:'#E14434'}]},
   sent:function(av,a30,r){return 'Votre récupération moyenne '+(r==='M'?'ce mois-ci':r==='S'?'sur 7 jours':'sur cette période')+' ('+av+' %) '+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'.')},
   explT:'La récupération, qu\'est-ce que c\'est ?',
-  explP:'La récupération mesure la capacité de votre corps à performer aujourd\'hui. Elle est calculée chaque nuit à partir de votre VFC, votre FC au repos, votre respiration et votre sommeil. Vert : prêt à charger. Jaune : dosez l\'effort. Rouge : priorisez le repos. Un bon sommeil ne garantit pas une récup verte — l\'effort et le stress de la veille comptent aussi.'},
+  explP:'La récupération mesure la capacité de votre corps à performer aujourd\'hui. Elle est calculée chaque nuit à partir de votre VFC, votre FC au repos, votre respiration et votre sommeil. Vert : prêt à charger. Jaune : dosez l\'effort. Rouge : priorisez le repos. Un bon sommeil ne garantit pas une récup verte : l\'effort et le stress de la veille comptent aussi.'},
  sleepeff:{label:'Efficacité du sommeil',unit:'%',icon:'ti-chart-bar',short:'efficacité du sommeil',chart:'line',color:'#2FA86A',
   val:function(k){var n=sleepNight(k);return n&&n.efficiency!=null?n.efficiency:null},
   verdict:function(v){return v>=90?{t:'Optimal',c:'#2FAE67'}:v>=80?{t:'Suffisant',c:'#8A8580'}:{t:'À améliorer',c:'#C8901A'}},
   bd:{title:'Analyse de l\'efficacité du sommeil',bands:[{l:'Optimal (90 %+)',f:function(v){return v>=90},c:'#2FAE67'},{l:'Suffisant (80-89 %)',f:function(v){return v>=80},c:'#C9C5BC'},{l:'Insuffisant (<80 %)',f:function(v){return true},c:'#F5A623'}]},
   sent:function(av,a30,r){return 'Votre efficacité moyenne du sommeil ('+av+' %) '+(r==='M'?'ce mois-ci ':'')+(a30!=null?(av>=a30?'est supérieure':'est inférieure')+' à votre moyenne de '+a30+' % des 30 derniers jours.':'.')},
   explT:'Qu\'est-ce que l\'efficacité du sommeil ?',
-  explP:'L\'efficacité du sommeil est le pourcentage de temps réellement endormi pendant que vous êtes au lit (temps endormi ÷ temps au lit). Au-delà de 85 %, c\'est excellent : vous passez peu de temps éveillé. Une efficacité basse traduit des réveils fréquents — un environnement sombre, frais et calme, et des horaires réguliers l\'améliorent nettement.'},
+  explP:'L\'efficacité du sommeil est le pourcentage de temps réellement endormi pendant que vous êtes au lit (temps endormi ÷ temps au lit). Au-delà de 85 %, c\'est excellent : vous passez peu de temps éveillé. Une efficacité basse traduit des réveils fréquents. Un environnement sombre, frais et calme, et des horaires réguliers l\'améliorent nettement.'},
  sleepreg:{label:'Régularité du sommeil',unit:'%',icon:'ti-moon',short:'régularité du sommeil',chart:'bar',barCol:'#9BA0E8',moy:true,
   val:function(k){var s=DB.get('sensor_'+k,null);if(!s||s.bedMin==null)return null;var a=[];for(var i=1;i<=4;i++){var p=DB.get('sensor_'+tk2off(k,-i),null);if(p&&p.bedMin!=null)a.push(p.bedMin)}if(a.length<2)return 80;var m=a.reduce(function(x,y){return x+y},0)/a.length,dev=Math.abs(s.bedMin-m);return Math.max(40,Math.min(100,Math.round(100-dev/3)))},
   verdict:function(v){return v>=80?{t:'Optimal',c:'#2FAE67'}:v>=70?{t:'Correct',c:'#8A8580'}:{t:'Irrégulier',c:'#C8901A'}},
@@ -5264,7 +5264,7 @@ const TREND={
   bd:{title:'Explications de la dette de sommeil',bands:[{l:'Faible (<0:30)',f:function(v){return v<0.5},c:'#2FAE67'},{l:'Modérée (0:30-0:45)',f:function(v){return v<0.75},c:'#F5A623'},{l:'Élevée (>0:45)',f:function(v){return true},c:'#E8674A'}]},
   sent:function(av,a30,r){return 'Votre dette de sommeil moyenne ('+hHM(av)+') '+(r==='M'?'ce mois-ci ':'')+(a30!=null?(av<=a30?'est inférieure':'est supérieure')+' à votre moyenne de '+hHM(a30)+' des 30 derniers jours. '+(av<=a30?'Beau progrès.':'À surveiller.'):'.')},
   explT:'Qu\'est-ce que la dette de sommeil ?',
-  explP:'La dette de sommeil est le manque accumulé quand vous dormez moins que votre besoin, nuit après nuit. En dessous de 30-45 min, c\'est optimal. Une dette élevée pèse sur la concentration, l\'humeur, l\'immunité et la performance. Même 10-15 min de sommeil en plus par nuit la réduisent — évitez les grasses matinées et les longues siestes tardives.'},
+  explP:'La dette de sommeil est le manque accumulé quand vous dormez moins que votre besoin, nuit après nuit. En dessous de 30-45 min, c\'est optimal. Une dette élevée pèse sur la concentration, l\'humeur, l\'immunité et la performance. Même 10-15 min de sommeil en plus par nuit la réduisent. Évite les grasses matinées et les longues siestes tardives.'},
  effort:{label:'Effort du jour',unit:'',icon:'ti-bolt',short:'effort',chart:'bar',dec:true,moy:true,yMax:21,yticks:[0,7,14,21],
   val:function(k){return loadStrain(k)},
   barFn:function(v){return v>18?'#E8674A':v>14?'#F5A623':v>10?'#3FA0E0':'#6C7BD6'},
@@ -5272,7 +5272,7 @@ const TREND={
   bd:{title:'Analyse de l\'effort',bands:[{l:'Léger (<10)',f:function(v){return v<10},c:'#6C7BD6'},{l:'Modéré (10-14)',f:function(v){return v<=14},c:'#3FA0E0'},{l:'Vigoureux (14-18)',f:function(v){return v<=18},c:'#F5A623'},{l:'Très intense (>18)',f:function(v){return true},c:'#E8674A'}]},
   sent:function(av,a30,r){return 'Votre effort moyen '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+' ('+(Math.round(av*10)/10).toString().replace('.',',')+') '+(a30!=null?(av<a30?'est inférieur':'est supérieur')+' à votre moyenne de '+(Math.round(a30*10)/10).toString().replace('.',',')+' des 30 derniers jours.':'.')},
   explT:'L\'effort du jour, qu\'est-ce que c\'est ?',
-  explP:'L\'effort mesure la charge totale imposée à votre corps sur la journée, cardio et musculaire, sur une échelle de 0 à 21 inspirée de l\'échelle de Borg. Léger (0-9) : récupération active. Modéré (10-13) : bon équilibre. Élevé (14-17) : progrès mais récup plus lente. Intense (18-21) : gains maximaux, mais risque accru — à alterner avec du repos.'},
+  explP:'L\'effort mesure la charge totale imposée à votre corps sur la journée, cardio et musculaire, sur une échelle de 0 à 21 inspirée de l\'échelle de Borg. Léger (0-9) : récupération active. Modéré (10-13) : bon équilibre. Élevé (14-17) : progrès mais récup plus lente. Intense (18-21) : gains maximaux, mais risque accru, à alterner avec du repos.'},
  resp:{label:'Fréquence respiratoire',unit:'r/m',icon:'ti-lungs',field:'resp',short:'fréquence respiratoire',chart:'line',color:'#3FA0E0',dec:true,lowerIsBetter:true,
   val:function(k){var s=DB.get('sensor_'+k,null);return s&&s.resp!=null?s.resp:null},
   explT:'La fréquence respiratoire, qu\'est-ce que c\'est ?',
@@ -5285,7 +5285,7 @@ const TREND={
   val:function(k){var n=sleepNight(k);return n?n.inBed/60:null},
   sent:function(av,a30,r){return 'Vous avez passé en moyenne '+hHM(av)+' au lit '+(r==='M'?'ce mois-ci':r==='S'?'cette semaine':'sur cette période')+(a30!=null?', soit '+(av>=a30?'plus':'moins')+' que vos '+hHM(a30)+' habituels.':'.')},
   explT:'Le temps passé au lit, qu\'est-ce que c\'est ?',
-  explP:'Le temps passé au lit est la durée totale entre le moment où vous vous couchez et celui où vous vous levez, sommeil et réveils compris. Comparé à votre temps réellement endormi (efficacité), il révèle combien de temps vous restez éveillé au lit. Trop de temps au lit sans dormir fragmente le sommeil — mieux vaut se coucher quand on a réellement sommeil.'},
+  explP:'Le temps passé au lit est la durée totale entre le moment où vous vous couchez et celui où vous vous levez, sommeil et réveils compris. Comparé à votre temps réellement endormi (efficacité), il révèle combien de temps vous restez éveillé au lit. Trop de temps au lit sans dormir fragmente le sommeil. Couche-toi quand tu as vraiment sommeil.'},
  sleepresto:{label:'Sommeil réparateur (%)',unit:'%',icon:'ti-heart-rate-monitor',short:'sommeil réparateur',chart:'bar',moy:true,grp:'sommeil',
   val:function(k){var n=sleepNight(k);if(!n||!n.asleep)return null;return Math.round(n.restorative/n.asleep*100)},
   barFn:function(v){return v>=45?'#6E6BFF':v>=30?'#A9A6F5':'#C9C5BC'},
@@ -5304,25 +5304,25 @@ const TREND={
   explP:'Le sommeil profond (SOL) répare le corps : muscles, hormones, immunité. Le sommeil paradoxal (SP/REM) consolide la mémoire et régule les émotions. Empilés ici nuit par nuit, ils forment votre sommeil réparateur total. Visez au moins 1h30 à 2h de profond et autant de paradoxal : c\'est cette base, plus que la durée totale, qui détermine à quel point vous vous réveillez régénéré.'},
  strengthtime:{label:'Temps de musculation',unit:'',icon:'ti-barbell',short:'temps de musculation',chart:'bar',barCol:'#6C7BD6',moy:true,timefmt:true,grp:'activite',
   val:function(k){var ss=DB.get('sessions_'+k,[]),m=0;ss.forEach(function(s){if(s.type==='strength')m+=(s.dur||0)});return m/60},
-  sent:function(av,a30,r){var wk=Math.round(av*7*60);return 'Tu fais en moyenne '+hHM(av)+' de muscu par jour, soit ~'+hHM(av*7)+' par semaine. '+(wk>=90?'Au-dessus des 90 min/sem recommandées — solide pour la masse et la résistance.':'Vise 90 min/sem pour développer ta masse musculaire.')},
+  sent:function(av,a30,r){var wk=Math.round(av*7*60);return 'Tu fais en moyenne '+hHM(av)+' de muscu par jour, soit ~'+hHM(av*7)+' par semaine. '+(wk>=90?'Au-dessus des 90 min/sem recommandées, solide pour la masse et la résistance.':'Vise 90 min/sem pour développer ta masse musculaire.')},
   explT:'Le temps de musculation, qu\'est-ce que c\'est ?',
-  explP:'C\'est le temps cumulé passé en renforcement musculaire (muscu, renfo, rameur, CrossFit). Sous tension, le muscle se micro-déchire puis se reconstruit plus fort pendant la récup. Vise au moins 90 minutes par semaine : c\'est le seuil au-delà duquel les gains de force et de densité osseuse deviennent nets. Le repos entre deux séances compte autant que la séance — c\'est là que le muscle pousse.'},
- vo2:{label:'VO₂ max',unit:'mL/kg/min',icon:'ti-lungs',short:'VO₂ max',chart:'line',color:'#3FA0E0',foot:'Estimée à partir de ta FC au repos — pour une valeur exacte, fie-toi à un test en laboratoire.',
+  explP:'C\'est le temps cumulé passé en renforcement musculaire (muscu, renfo, rameur, CrossFit). Sous tension, le muscle se micro-déchire puis se reconstruit plus fort pendant la récup. Vise au moins 90 minutes par semaine : c\'est le seuil au-delà duquel les gains de force et de densité osseuse deviennent nets. Le repos entre deux séances compte autant que la séance : c\'est là que le muscle pousse.'},
+ vo2:{label:'VO₂ max',unit:'mL/kg/min',icon:'ti-lungs',short:'VO₂ max',chart:'line',color:'#3FA0E0',foot:'Estimée à partir de ta FC au repos. Pour une valeur exacte, fie-toi à un test en laboratoire.',
   val:function(k){var s=sensorOf(k);if(!s||s.rhr==null)return null;var hrMax=208-0.7*getProfile().age;return Math.round(15.3*hrMax/s.rhr)},
   verdict:function(v){return v>=52?{t:'Excellent',c:'#2FAE67'}:v>=45?{t:'Bon',c:'#2E78B5'}:v>=38?{t:'Correct',c:'#8A8580'}:{t:'À développer',c:'#C8901A'}},
   sent:function(av,a30,r){return 'Ta VO₂ max estimée ('+av+' mL/kg/min) '+(a30!=null?(av>=a30?'progresse':'recule légèrement')+' vs tes '+a30+' habituels.':'reflète ta condition cardiovasculaire.')+' Plus elle est haute, plus ton cœur, tes poumons et tes muscles travaillent ensemble.'},
   explT:'Qu\'est-ce que la VO₂ max ?',
-  explP:'La VO₂ max est la quantité maximale d\'oxygène que ton corps peut utiliser à l\'effort. C\'est l\'indicateur de référence de la condition physique et de la longévité. FLINT l\'estime à partir de ta FC au repos (une FC repos basse ↔ une VO₂ max haute). Elle baisse naturellement avec l\'âge, mais l\'endurance et le fractionné la maintiennent — chaque point gagné, c\'est de la résilience en plus.'},
+  explP:'La VO₂ max est la quantité maximale d\'oxygène que ton corps peut utiliser à l\'effort. C\'est l\'indicateur de référence de la condition physique et de la longévité. FLINT l\'estime à partir de ta FC au repos (une FC repos basse ↔ une VO₂ max haute). Elle baisse naturellement avec l\'âge, mais l\'endurance et le fractionné la maintiennent : chaque point gagné, c\'est de la résilience en plus.'},
  weight:{label:'Poids',unit:'kg',icon:'ti-scale',short:'poids',chart:'line',color:'#8A8580',dec:true,addData:true,addLabel:'Ajouter une mesure',
   val:function(k){var b=DB.get('bodylog',{})[k];return b&&b.weight!=null?b.weight:null},
   sent:function(av,a30,r){return 'Ton poids moyen sur cette période est de '+(Math.round(av*10)/10).toString().replace('.',',')+' kg'+(a30!=null?', '+(av>a30?'au-dessus':av<a30?'en dessous':'au niveau')+' de tes '+(Math.round(a30*10)/10).toString().replace('.',',')+' kg habituels.':'.')},
   explT:'Le poids : un indicateur parmi d\'autres',
-  explP:'Le poids fluctue avec l\'hydratation, l\'alimentation, le glycogène et le cycle — une variation d\'un jour ne veut rien dire, c\'est la tendance sur plusieurs semaines qui compte. Pèse-toi au même moment (le matin, à jeun) pour comparer ce qui est comparable. Et garde en tête : à la salle, gagner du muscle peut faire monter le chiffre alors que tu t\'affines.'},
+  explP:'Le poids fluctue avec l\'hydratation, l\'alimentation, le glycogène et le cycle. Une variation d\'un jour ne veut rien dire, c\'est la tendance sur plusieurs semaines qui compte. Pèse-toi au même moment (le matin, à jeun) pour comparer ce qui est comparable. Et garde en tête : à la salle, gagner du muscle peut faire monter le chiffre alors que tu t\'affines.'},
  leanmass:{label:'Masse corporelle maigre',unit:'kg',icon:'ti-stretching',short:'masse maigre',chart:'line',color:'#6C7BD6',dec:true,addData:true,addLabel:'Ajouter une mesure',
   val:function(k){var b=DB.get('bodylog',{})[k];return b&&b.lean!=null?b.lean:null},
   sent:function(av,a30,r){return 'Ta masse maigre moyenne est de '+(Math.round(av*10)/10).toString().replace('.',',')+' kg'+(a30!=null?', '+(av>=a30?'en hausse':'en baisse')+' vs tes '+(Math.round(a30*10)/10).toString().replace('.',',')+' kg habituels.':'.')+' C\'est ta masse hors graisse : muscles, os, organes, eau.'},
   explT:'Qu\'est-ce que la masse maigre ?',
-  explP:'La masse maigre, c\'est tout ce qui n\'est pas de la graisse : muscle, os, organes, eau. La suivre est bien plus parlant que le poids seul — elle te dit si tu construis du muscle ou si tu en perds. En sèche, l\'objectif est de faire baisser le poids SANS toucher à la masse maigre. En prise de masse, c\'est elle qui doit monter. FLINT la calcule à partir de ton poids et de ton taux de masse grasse.'}
+  explP:'La masse maigre, c\'est tout ce qui n\'est pas de la graisse : muscle, os, organes, eau. La suivre est bien plus parlant que le poids seul : elle te dit si tu construis du muscle ou si tu en perds. En sèche, l\'objectif est de faire baisser le poids SANS toucher à la masse maigre. En prise de masse, c\'est elle qui doit monter. FLINT la calcule à partir de ton poids et de ton taux de masse grasse.'}
 };
 function tk2off(key,off){var p=key.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+off);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function trend30(M){var s=0,c=0;for(var i=1;i<=30;i++){var v=M.val(tk(-i));if(v!=null){s+=v;c++}}return c?((M&&(M.timefmt||M.dec))?Math.round(s/c*100)/100:Math.round(s/c)):null}
@@ -5366,7 +5366,7 @@ function renderMetrend(){var M=TREND[_tMetric];if(!M)return;var bar=M.chart==='b
  set('mt2Title',M.label);set('mt2Sub',M.intro||('Explore ta '+metShort(M).toLowerCase()+' jour après jour et comprends son impact sur ta récupération et tes performances.'));
  set('tAvgU',M.unit);set('tExplT',M.explT);set('tExplP',M.explP);
  var ei=document.getElementById('tExplIc');if(ei)ei.innerHTML='<i class="ti '+M.icon+'"></i>';
- set('tChTtl','Votre '+metShort(M)+' — '+(_tRange==='S'?'cette semaine':_tRange==='M'?'ce mois':'6 mois'));
+ set('tChTtl','Votre '+metShort(M)+', '+(_tRange==='S'?'cette semaine':_tRange==='M'?'ce mois':'6 mois'));
  var pts=trendPts(M,_tRange,_tOff),avg=trendAvg(pts),b=(!bar&&M.field)?baseStat(M.field):null,bLo=b?Math.round(b.m-b.sd):null,bHi=b?Math.round(b.m+b.sd):null;
  var selK=_tDaySel;_tSel=null;if(selK){for(var i=0;i<pts.length;i++){if(dkey(pts[i].date)===selK){_tSel=i;break}}}
  set('tAvgL','Moyenne '+(_tRange==='S'?'7 jours':_tRange==='M'?'30 jours':'6 mois'));
@@ -5475,7 +5475,7 @@ var _ggMin=9300,_ggMax=19300,_ggVal=14300;
 function openStepGoal(){var a=trend30(TREND.steps)||10000;_ggMin=Math.round(a*0.65/100)*100;_ggMax=Math.round(a*1.45/100)*100;var st=DB.get('stepGoal',null);_ggVal=st!=null?st:Math.round(a*1.05/100)*100;_ggVal=Math.max(_ggMin,Math.min(_ggMax,_ggVal));go('goal')}
 function renderGoal(){set('ggMin',fmtN(_ggMin));set('ggMax',fmtN(_ggMax));set('ggVal',fmtN(_ggVal));
  var f=(_ggVal-_ggMin)/((_ggMax-_ggMin)||1),fill=document.getElementById('ggFill');if(fill)fill.style.height=(f*100).toFixed(1)+'%';
- var a=trend30(TREND.steps)||10000,tt,td;if(_ggVal>a*1.15){tt='Objectif ambitieux';td='Au-dessus de ta moyenne actuelle — vise une progression régulière, sans forcer.'}else if(_ggVal<a*0.9){tt='Objectif accessible';td='En dessous de ta moyenne — idéal pour reprendre en douceur et tenir dans la durée.'}else{tt='Conservez votre objectif optimal';td='Votre nombre moyen de pas est déjà optimal. Concentrez-vous sur la continuité de ces progrès.'}set('ggTipT',tt);set('ggTipD',td);
+ var a=trend30(TREND.steps)||10000,tt,td;if(_ggVal>a*1.15){tt='Objectif ambitieux';td='Au-dessus de ta moyenne actuelle, vise une progression régulière, sans forcer.'}else if(_ggVal<a*0.9){tt='Objectif accessible';td='En dessous de ta moyenne, idéal pour reprendre en douceur et tenir dans la durée.'}else{tt='Pile au bon niveau';td='Ta moyenne de pas est déjà solide. Garde le cap, c\'est la régularité qui paie.'}set('ggTipT',tt);set('ggTipD',td);
  var tr=document.getElementById('ggTrack');if(tr){tr.onpointerdown=function(e){e.preventDefault();try{tr.setPointerCapture(e.pointerId)}catch(_){}ggSet(e.clientY);tr.onpointermove=function(ev){ggSet(ev.clientY)};tr.onpointerup=tr.onpointercancel=function(ev){try{tr.releasePointerCapture(ev.pointerId)}catch(_){}tr.onpointermove=null}}}}
 function ggSet(cy){var tr=document.getElementById('ggTrack');if(!tr)return;var r=tr.getBoundingClientRect(),f=1-(cy-r.top)/r.height;f=Math.max(0,Math.min(1,f));_ggVal=Math.round((_ggMin+f*(_ggMax-_ggMin))/100)*100;renderGoal();haptic()}
 function saveStepGoal(){DB.set('stepGoal',_ggVal);flOkShow('Enregistrement réussi','Objectif de '+fmtN(_ggVal)+' pas par jour.',function(){go('metrend')})}
@@ -5664,14 +5664,14 @@ function renderHome2(){var K=tk(gDay),today=gDay===0;
  var card=document.getElementById('planCard'),pv=document.getElementById('planVerdict'),bdg=document.getElementById('planBadge');
  var verdict,vcol,vtint,vsh,vic;
  if(sc==null){verdict='Synchronise ta nuit pour débloquer ton plan.';vcol='#9A988F';vtint='rgba(154,152,143,.12)';vsh='rgba(154,152,143,.30)';vic='ti-clock';}
- else if(sc>=67){verdict='Feu vert — c\'est le bon jour pour pousser.';vcol='#2FA86A';vtint='rgba(47,168,106,.12)';vsh='rgba(47,168,106,.32)';vic='ti-flame';}
- else if(sc>=34){verdict='Récup correcte — dose ton effort aujourd\'hui.';vcol='#E0922A';vtint='rgba(224,146,42,.13)';vsh='rgba(224,146,42,.32)';vic='ti-adjustments';}
- else{verdict='Récup basse — priorise le repos.';vcol='#E14434';vtint='rgba(225,68,52,.12)';vsh='rgba(225,68,52,.30)';vic='ti-zzz';}
+ else if(sc>=67){verdict='Feu vert, c\'est le bon jour pour pousser.';vcol='#2FA86A';vtint='rgba(47,168,106,.12)';vsh='rgba(47,168,106,.32)';vic='ti-flame';}
+ else if(sc>=34){verdict='Récup correcte, dose ton effort aujourd\'hui.';vcol='#E0922A';vtint='rgba(224,146,42,.13)';vsh='rgba(224,146,42,.32)';vic='ti-adjustments';}
+ else{verdict='Récup basse, priorise le repos.';vcol='#E14434';vtint='rgba(225,68,52,.12)';vsh='rgba(225,68,52,.30)';vic='ti-zzz';}
  if(pv)pv.textContent=verdict;
  if(card){card.style.setProperty('--pl-col',vcol);card.style.setProperty('--pl-tint',vtint);card.style.setProperty('--pl-sh',vsh);}
  if(bdg)bdg.innerHTML='<i class="ti '+vic+'"></i>';
  var tgp=(typeof strainTarget==='function'?strainTarget():[12,16]);
- var pe=document.getElementById('planEffort');if(pe)pe.innerHTML=tgp[0]+'–'+tgp[1]+'<small>/21</small>';
+ var pe=document.getElementById('planEffort');if(pe)pe.innerHTML=tgp[0]+'-'+tgp[1]+'<small>/21</small>';
  var gp=getNutGoals(K),pn=document.getElementById('planNut');if(pn)pn.innerHTML=fmtN(gp.kcal)+'<small>kcal</small>';
  var pr=getProfile(),nd=pr.need||8,wk=(pr.wake||'07:00').split(':'),wmin=(+wk[0])*60+(+wk[1]),bmin=((wmin-nd*60)%1440+1440)%1440;
  var bed=String(Math.floor(bmin/60)).padStart(2,'0')+'h'+String(bmin%60).padStart(2,'0');
@@ -5699,7 +5699,7 @@ function renderToday(){
  const tg=strainTarget();
  if(calib){set('flCoachT','En calibration · '+cal+'/4 nuits');set('flCoachM','Flint apprend ta baseline.<br>Ton score se débloque après 4 nuits portées.')}
  else if(!has){set('flCoachT',today?'En attente de ta nuit':'Pas de données');set('flCoachM',today?'Synchronise ta Polar Loop.<br>Ta récup s\'affiche après la nuit portée.':'Aucune nuit enregistrée pour cette date.')}
- else{const s=rv.s;set('flCoachT','Récup '+(s>=67?'haute':s>=34?'modérée':'basse')+' — '+(s>=67?'prêt à charger':s>=34?'charge avec tête':'journée repos'));set('flCoachM',(s>=67?'Ton corps a bien encaissé.':s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.')+(today?'<br>Vise un effort de '+tg[0]+'-'+tg[1]+' aujourd\'hui.':''))}
+ else{const s=rv.s;set('flCoachT','Récup '+(s>=67?'haute':s>=34?'modérée':'basse')+', '+(s>=67?'prêt à charger':s>=34?'charge avec tête':'journée repos'));set('flCoachM',(s>=67?'Ton corps a bien encaissé.':s>=34?'Récupération correcte, dose ton effort.':'Récupération basse, priorise le repos.')+(today?'<br>Vise un effort de '+tg[0]+'-'+tg[1]+' aujourd\'hui.':''))}
  // couleur récup : ≥80 vert · 30-79 orange · <30 rouge
  const sv2=has?rv.s:(calib?Math.round(cal/4*100):0);
  const col=!has?'#9A988F':sv2>=67?'#2FA86A':sv2>=34?'#F2922B':'#E14434';
@@ -5749,9 +5749,9 @@ function renderToday(){
  flRenderActivities(K);
  flRenderWk();
  (function(){var at,ap;
-  if(has&&sv2>=67){at='Tu peux pousser aujourd\'hui.';ap='Ton corps a bien encaissé. C\'est le bon jour pour une grosse séance — reste à l\'écoute de tes sensations.';}
+  if(has&&sv2>=67){at='Tu peux pousser aujourd\'hui.';ap='Ton corps a bien encaissé. C\'est le bon jour pour une grosse séance, reste à l\'écoute de tes sensations.';}
   else if(has&&sv2<30){at='Lève le pied aujourd\'hui.';ap='Récupération basse. Privilégie le repos actif et le sommeil pour rebondir plus fort.';}
-  else{at='Priorise une charge modérée aujourd\'hui.';ap='Ton corps a bien récupéré, mais évite de trop pousser. L\'équilibre est la clé de la progression.';}
+  else{at='Priorise une charge modérée aujourd\'hui.';ap='Ton corps a bien récupéré, mais évite de trop pousser. Vise l\'équilibre, c\'est là que tu progresses.';}
   set('flAdT',at);set('flAdP',ap)})();
  var _first=!window._todayShown;
  const rn=document.getElementById('flRecup');if(rn){if(has){countUpEl(rn,rv.s,'')}else rn.textContent=calib?cal+'/4':'—'}
@@ -5926,7 +5926,7 @@ function ngShift(d){var n=Math.min(0,_ngOff+d);if(n===_ngOff)return;_ngOff=n;_ng
 function ngRangeLbl(){var MS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
  if(_ngP==='annee'){return ''+(new Date().getFullYear()+_ngOff);}
  var span=_ngP==='mois'?30:7,a=new Date();a.setDate(a.getDate()+_ngOff*span-(span-1));var b=new Date();b.setDate(b.getDate()+_ngOff*span);
- return a.getDate()+' '+MS[a.getMonth()]+' – '+b.getDate()+' '+MS[b.getMonth()];}
+ return a.getDate()+' '+MS[a.getMonth()]+' au '+b.getDate()+' '+MS[b.getMonth()];}
 function ngAvg(data){var v=(data||[]).filter(function(d){return d.kcal>0}).map(function(d){return d.kcal});return v.length?Math.round(v.reduce(function(a,b){return a+b},0)/v.length):0;}
 function ngHero(){var sel=_ngSel!=null&&_ngData?_ngData[_ngSel]:null,de=document.getElementById('ngDelta');
  if(sel){set('ngBig',sel.kcal?fmtN(sel.kcal):'—');set('ngLbl',sel.full);if(de)de.style.display='none';return;}
@@ -5957,7 +5957,7 @@ function renderNutGraph(){var data=nutBilanData(_ngP,_ngOff);_ngData=data;var g=
  set('ngRegIn',inT);set('ngRegU',under);set('ngRegO',over);
  set('ngLogged',nLog+'/'+keys.length);set('ngBest',best?fmtN(best):'—');set('ngTotal',total?fmtN(total):'—');
  var tip=document.getElementById('ngInsight');if(tip){var pct=aC&&g.kcal?Math.round((aC-g.kcal)/g.kcal*100):0,msg;
-  if(!aC)msg='Pas encore de données sur cette période — logue tes repas pour voir ton analyse.';
+  if(!aC)msg='Pas encore de données sur cette période. Logue tes repas pour voir ton analyse.';
   else if(nLog<keys.length*0.6)msg='Régularité à soigner : '+nLog+'/'+keys.length+' jours loggés. Plus tu logges, plus l\'analyse est fiable.';
   else if(inT>=nLog*0.6)msg='Solide : '+inT+'/'+nLog+' jours dans ta cible, bilan moyen '+(aN<=0?'−':'+')+fmtN(Math.abs(aN))+' kcal/j. Tu es pile dans ton objectif.';
   else if(under>over)msg='Tu manges souvent sous ta cible ('+under+' jours sur '+nLog+'). Ajoute une collation protéinée les jours d\'entraînement.';
@@ -5996,8 +5996,8 @@ function renderNutBilan(){var data=nutBilanData(),g=getNutGoals();_nbData=data;_
  if(tip){var msg;
   if(!avg)msg='Logue tes repas quelques jours pour voir apparaître ton bilan.';
   else if(logged<totDays*0.6)msg='Sois plus régulier : logge chaque repas pour un bilan fiable.';
-  else if(pct>12)msg='Tu dépasses ta cible — surveille les portions et les extras.';
-  else if(pct<-12)msg='Tu manges sous ta cible — ajoute une collation protéinée les jours d\'entraînement.';
+  else if(pct>12)msg='Tu dépasses ta cible. Surveille les portions et les extras.';
+  else if(pct<-12)msg='Tu manges sous ta cible. Ajoute une collation protéinée les jours d\'entraînement.';
   else msg='Ta moyenne est bonne, essaie d\'être plus régulier le week-end pour atteindre ton objectif.';
   tip.textContent=msg;}}
 /* ---------- Nutrition : historique multi-jours + détail repas ---------- */
@@ -6072,7 +6072,7 @@ function goalObj(){var o=DB.get('balGoalObj',null);if(!o||!balGoals()[o.type]){v
 function goalOf(){return goalObj().type}
 function goalDays(){var p=String(goalObj().since).split('-');var sd=new Date(+p[0],(+p[1]||1)-1,(+p[2]||1));var t=new Date();t.setHours(0,0,0,0);return Math.max(1,Math.round((t-sd)/86400000)+1)}
 function goalAdherence(){var G=balGoals()[goalOf()],days=Math.min(goalDays(),400),inT=0,tot=0;for(var i=0;i<days;i++){var kk=tk(-i);if(mealsOf(kk).length){tot++;var n=balanceOf(kk).net;if(n>=G.lo&&n<=G.hi)inT++}}return {pct:tot?Math.round(inT/tot*100):0,inT:inT,tot:tot}}
-function setBalGoal(type){var o=goalObj();if(o.type!==type){DB.set('balGoalObj',{type:type,since:tk()});toast('Objectif mis à jour — balance recalibrée');haptic(12)}DB.set('balGoalSet',1);renderBalance()}
+function setBalGoal(type){var o=goalObj();if(o.type!==type){DB.set('balGoalObj',{type:type,since:tk()});toast('Objectif mis à jour, balance recalibrée');haptic(12)}DB.set('balGoalSet',1);renderBalance()}
 /* fiche de choix d'objectif */
 var _goPick=null,_goShown=false;
 function goalSheetOpen(){_goPick=goalOf();renderGoalOpts();document.getElementById('goSheet').classList.add('on');haptic()}
@@ -6328,13 +6328,13 @@ function renderBalance(){
  if(!b.hasFood)ct='Logue tes repas pour voir si ton solde colle à ton objectif <b>'+gw+'</b>.';
  else if(inT)ct='Pile dans ta cible '+gw+' (<b>'+fmtN(G.lo)+' à '+fmtN(G.hi)+' kcal</b>). Continue exactement comme ça 👌';
  else if(below){
-  ct=(g==='seche')?'Déficit trop fort. Au-delà de <b>'+fmtN(Math.abs(G.lo))+' kcal</b>, tu risques de perdre du muscle et d\'entamer ta récup — remange un peu.':
+  ct=(g==='seche')?'Déficit trop fort. Au-delà de <b>'+fmtN(Math.abs(G.lo))+' kcal</b>, tu risques de perdre du muscle et d\'entamer ta récup. Remange un peu.':
      (g==='masse')?'Pas assez de surplus : il te manque <b>'+fmtN(G.lo-b.net)+' kcal</b> pour nourrir ta prise de muscle.':
-     'En dessous de l\'équilibre — ajoute <b>'+fmtN(G.lo-b.net)+' kcal</b> pour te stabiliser.';
+     'En dessous de l\'équilibre, ajoute <b>'+fmtN(G.lo-b.net)+' kcal</b> pour te stabiliser.';
  } else {
-  ct=(g==='seche')?'Pas assez de déficit pour sécher — réduis d\'environ <b>'+fmtN(b.net-G.hi)+' kcal</b>.':
+  ct=(g==='seche')?'Pas assez de déficit pour sécher, réduis d\'environ <b>'+fmtN(b.net-G.hi)+' kcal</b>.':
      (g==='masse')?'Surplus trop fort : au-delà, tu prends surtout du gras. Retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b>.':
-     'Au-dessus de l\'équilibre — retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b> pour rester stable.';
+     'Au-dessus de l\'équilibre, retire ~<b>'+fmtN(b.net-G.hi)+' kcal</b> pour rester stable.';
  }
  var bt=document.getElementById('bal4Txt');if(bt)bt.innerHTML=ct;
  var ww=document.getElementById('bal4Week');if(ww)ww.innerHTML=bal4WeekHTML();
@@ -6353,8 +6353,8 @@ function balRecupLink(){
  var under=0,surplusHi=0,logged=0;
  for(var i=0;i<3;i++){var kk=tk(-i);if(mealsOf(kk).length){logged++;var n=balanceOf(kk).net;if(n<-450)under++;if(n>700)surplusHi++;}}
  if(!logged)return {show:false};
- if(under>=2)return {show:true,col:'var(--accent)',tint:'#FBE9E4',ic:'ti-battery-1',txt:'<b>'+under+' jours de gros déficit</b> d\'affilée — sous-manger entame ta récup'+(rs!=null?' (déjà à '+rs+'%)':'')+'. Remonte un peu tes apports.'};
- if(surplusHi>=2)return {show:true,col:'#E0922A',tint:'#FBF1DD',ic:'ti-flame',txt:'<b>Surplus répété</b> — bon pour construire, mais surveille sommeil et digestion pour ne pas plomber ta récup.'};
+ if(under>=2)return {show:true,col:'var(--accent)',tint:'#FBE9E4',ic:'ti-battery-1',txt:'<b>'+under+' jours de gros déficit</b> d\'affilée. Sous-manger entame ta récup'+(rs!=null?' (déjà à '+rs+'%)':'')+'. Remonte un peu tes apports.'};
+ if(surplusHi>=2)return {show:true,col:'#E0922A',tint:'#FBF1DD',ic:'ti-flame',txt:'<b>Surplus répété.</b> Bon pour construire, mais surveille sommeil et digestion pour ne pas plomber ta récup.'};
  return {show:true,col:'#2FA86A',tint:'#EAF6EF',ic:'ti-battery-charging',txt:'Tes apports <b>soutiennent bien ta récup</b>'+(rs!=null?' (récup '+rs+'%)':'')+' ces derniers jours. Continue comme ça.'};
 }
 function balPhotoStart(){var f=document.getElementById('balFile');if(f){f.value='';f.click()}}
@@ -6445,7 +6445,7 @@ function renderBalTrend(){
  var inT=nets.filter(function(n){return n>=G.lo&&n<=G.hi}).length;
  set('btrStat','<div class="btr-sc"><div class="btr-sv" style="color:'+balStatus(avg,true)[1]+'">'+(avg>0?'+':(avg<0?'−':''))+fmtN(Math.abs(avg))+'</div><div class="btr-sl">bilan moyen / jour</div></div><div class="btr-sc"><div class="btr-sv" style="color:var(--green)">'+inT+'</div><div class="btr-sl">jours dans ta cible</div></div><div class="btr-sc"><div class="btr-sv">'+nets.length+'</div><div class="btr-sl">jours suivis</div></div>');
  var pctIn=nets.length?Math.round(inT/nets.length*100):0;
- set('btrTie',!nets.length?'<b>Aucun repas loggé ce mois.</b> Prends tes repas en photo pour remplir ton calendrier.':(pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+') ce mois.</b> Belle régularité — c\'est ça qui paie.':'<b>'+pctIn+'% de jours dans ta cible ce mois.</b> Touche un jour pour voir le détail. La constance te rapproche de '+G.lbl.toLowerCase()+'.'));
+ set('btrTie',!nets.length?'<b>Aucun repas loggé ce mois.</b> Prends tes repas en photo pour remplir ton calendrier.':(pctIn>=60?'<b>'+pctIn+'% de jours dans ta cible ('+G.lbl.toLowerCase()+') ce mois.</b> Belle régularité, c\'est ça qui paie.':'<b>'+pctIn+'% de jours dans ta cible ce mois.</b> Touche un jour pour voir le détail. La constance te rapproche de '+G.lbl.toLowerCase()+'.'));
 }
 /* ---------- AUJOURD'HUI · DÉTAIL COURBE (scrubbable) ---------- */
 var _bcSel=null,_bcDay=0,BC_W=340,BC_PADL=40,BC_PADR=46;
@@ -6492,9 +6492,9 @@ function renderBalCurve(){var host=document.getElementById('bcChart');host.inner
 /* ---------- RÉCUP ---------- */
 function renderRecCorr(){var host=document.getElementById('recCorrCard');if(!host)return;var c=behaviorCorr();
  var ICN={cafeine:'ti-coffee',alcool:'ti-glass-full',ecrans:'ti-device-mobile',sportintense:'ti-barbell',magnesium:'ti-pill',meditation:'ti-yoga',repastard:'ti-tools-kitchen-2',hydrate:'ti-droplet'};
- host.innerHTML='<div class="r2ch">Ce qui influence ta récup</div>'+(c.length?c.slice(0,5).map(function(x){var pos=x.imp>0,col=pos?'#1E7A47':'#C0492C',lbl=String(x.lbl).replace(/^\S+\s/,'');return '<button class="r2cr" type="button" onclick="go(\'behavior\')"><span class="r2ci"><i class="ti '+(ICN[x.id]||'ti-point')+'"></i></span><span class="r2cl">'+lbl+'</span><span class="r2cv" style="color:'+col+'">'+(pos?'+':'')+x.imp+'%</span><i class="ti ti-chevron-right r2cc"></i></button>'}).join(''):'<p class="r2cempty">Coche ton journal du soir quelques jours — Flint révèle ce qui aide ou nuit à ta récup.</p>');}
+ host.innerHTML='<div class="r2ch">Ce qui influence ta récup</div>'+(c.length?c.slice(0,5).map(function(x){var pos=x.imp>0,col=pos?'#1E7A47':'#C0492C',lbl=String(x.lbl).replace(/^\S+\s/,'');return '<button class="r2cr" type="button" onclick="go(\'behavior\')"><span class="r2ci"><i class="ti '+(ICN[x.id]||'ti-point')+'"></i></span><span class="r2cl">'+lbl+'</span><span class="r2cv" style="color:'+col+'">'+(pos?'+':'')+x.imp+'%</span><i class="ti ti-chevron-right r2cc"></i></button>'}).join(''):'<p class="r2cempty">Coche ton journal du soir quelques jours. Flint révèle ce qui aide ou nuit à ta récup.</p>');}
 function renderRecJournal(){var host=document.getElementById('recJournalCard');if(!host)return;var j=DB.get('journal_'+tk(),{});
- host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait — Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
+ host.innerHTML='<div class="rvh"><span class="ic" style="color:#E8674A"><i class="ti ti-checklist"></i></span><b>Journal du soir</b></div><div class="rjchips">'+BEHAVIORS.map(function(b){return '<button class="rjchip'+(j[b[0]]?' on':'')+'" type="button" onclick="toggleBehavior(\''+b[0]+'\')">'+b[1]+'</button>'}).join('')+'</div><p class="sci" style="margin-top:10px">Coche ce que tu as fait. Flint corrèle avec ta récup pour trouver ce qui t\'aide.</p>';}
 function recSetTrend(m){window._recTrendMetric=m;var h=document.getElementById('recTrendChart');if(h)h.innerHTML=recTrendChartSVG(m)}
 function recDateFmt(off){var d=new Date();d.setDate(d.getDate()+(off||0));if(!off)return 'Aujourd\'hui';var J=['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],M=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];return J[d.getDay()]+' '+d.getDate()+' '+M[d.getMonth()];}
 function recDay(d){if(typeof haptic==='function')haptic();window._recDay=Math.min(0,(window._recDay||0)+d);renderRecovery();}
@@ -6524,7 +6524,7 @@ function renderFactorCards(rv){
    +'<div class="fc-mid"><span class="fc-val">'+d.fmt(d.cur)+(d.unit?'<small>'+d.unit+'</small>':'')+'</span><span class="fc-pill" style="color:'+tone[0]+';background:'+tone[1]+'">'+st.s+'</span></div>'
    +'<div class="fc-sentence">'+recFactorSentence(d)+'</div>'
    +'<div class="fc-gauge"><span class="z" style="left:'+zl.toFixed(1)+'%;width:'+(zh-zl).toFixed(1)+'%"></span><span class="d" style="left:'+dp.toFixed(1)+'%;background:'+dotc+'"></span></div>'
-   +'<div class="fc-norme">Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>'
+   +'<div class="fc-norme">Norme '+d.fmt(d.low)+'-'+d.fmt(d.high)+(d.unit?(' '+d.unit):'')+'</div>'
    +'</button>';
  }).join('');
 }
@@ -6534,7 +6534,7 @@ function recBuildOverlay(rv){
   +'<button class="ovnav-a" onclick="recDay(-1)" aria-label="Jour précédent"><i class="ti ti-chevron-left"></i></button>'
   +'<button class="ovnav-d" onclick="recCalOpen()"><span>'+recDateFmt(off)+'</span> <i class="ti ti-calendar"></i></button>'
   +'<button class="ovnav-a" onclick="recDay(1)"'+(off>=0?' disabled':'')+' aria-label="Jour suivant"><i class="ti ti-chevron-right"></i></button></div>';
- if(!rv)return nav+'<div class="ov" style="left:6%;top:70%;font-size:4cqw;color:#6E6A62">'+(off?'Aucune nuit ce jour-là.':'Pas de donnée — recharge la démo.')+'</div>';
+ if(!rv)return nav+'<div class="ov" style="left:6%;top:70%;font-size:4cqw;color:#6E6A62">'+(off?'Aucune nuit ce jour-là.':'Pas de donnée, recharge la démo.')+'</div>';
  var rc=rv.s>=67?'#3E9E6E':rv.s>=34?'#E0922A':'#CF4631';
  var C=2*Math.PI*43,o=C*(1-Math.max(0,Math.min(100,rv.s))/100),h=nav;
  h+='<div class="ovring" style="left:6%;top:55.5%;width:30%;aspect-ratio:1;animation-delay:.05s">'
@@ -6546,7 +6546,7 @@ function recBuildOverlay(rv){
  var tg=rv.s>=67?[14,18]:rv.s>=34?[10,14]:[6,10],vk=rv.s>=67?'Pousse':rv.s>=34?'Maintiens':'Lève le pied';
  h+='<div class="ov ovv" style="left:46%;top:65.5%;font-size:6.6cqw;color:#15140F;animation-delay:.14s">'+title+'</div>';
  h+='<div class="ov ovnw" style="left:46%;top:77%;font-size:3cqw;color:#6E6A62;animation-delay:.19s">'+sub+'</div>';
- h+='<div class="ov" style="left:46%;top:84.2%;display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF4EC;border-radius:30px;padding:1.5cqw 2.6cqw;max-width:46cqw;animation-delay:.24s"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:3.2cqw"></i><span style="font-size:2.5cqw;font-weight:700;color:'+rc+';line-height:1.18">'+vk+' — vise un effort de '+tg[0]+'–'+tg[1]+'</span></div>';
+ h+='<div class="ov" style="left:46%;top:84.2%;display:inline-flex;align-items:center;gap:1.4cqw;background:#EAF4EC;border-radius:30px;padding:1.5cqw 2.6cqw;max-width:46cqw;animation-delay:.24s"><i class="ti ti-arrow-up-right" style="color:'+rc+';font-size:3.2cqw"></i><span style="font-size:2.5cqw;font-weight:700;color:'+rc+';line-height:1.18">'+vk+', vise un effort de '+tg[0]+' à '+tg[1]+'</span></div>';
  return h;
 }
 var REC_TONE={good:['#2E7D4F','#EAF4EE','#3FB57A'],warn:['#9A6500','#FBF1DD','#E0922A'],bad:['#B23A22','#FBEAE6','#CF4631']};
@@ -6586,10 +6586,10 @@ function recGrade(d){
  if(d.sleep){if(d.cur>=d.low)return {s:'Suffisant',t:'good',dir:0,c:'Objectif atteint.'};var dm=d.low-d.cur;return dm<=45?{s:'Court',t:'warn',dir:-1,c:'Un peu sous ton objectif.'}:{s:'Insuffisant',t:'bad',dir:-1,c:'Nettement sous ton objectif.'};}
  if(d.cur>=d.low&&d.cur<=d.high)return {s:'Normale',t:'good',dir:0,c:'Dans ta normale.'};
  if(d.cur>d.high){
-  if(!d.lowerBetter)return {s:'Élevée',t:'good',dir:1,c:'Au-dessus de ta plage — bon signe.'};
+  if(!d.lowerBetter)return {s:'Élevée',t:'good',dir:1,c:'Au-dessus de ta plage, bon signe.'};
   var ex=(d.cur-d.high)/sd;return ex<=1?{s:'Élevée',t:'warn',dir:1,c:'Un peu élevée.'}:{s:'Très élevée',t:'bad',dir:1,c:'Nettement élevée.'};
  }
- if(d.lowerBetter)return {s:'Basse',t:'good',dir:-1,c:d.key==='resp'?'Calme, sous ta normale.':'Plus basse que d\'habitude — bon signe.'};
+ if(d.lowerBetter)return {s:'Basse',t:'good',dir:-1,c:d.key==='resp'?'Calme, sous ta normale.':'Plus basse que d\'habitude, bon signe.'};
  var df=(d.low-d.cur)/sd;return df<=1?{s:'Basse',t:'warn',dir:-1,c:'Un peu sous ta plage.'}:{s:'Très basse',t:'bad',dir:-1,c:'Nettement sous ta plage.'};
 }
 function recFactorDefs(rv){
@@ -6612,7 +6612,7 @@ function recGaugesHTML(rv){
   var pct=function(v){return Math.max(0,Math.min(100,(v-tmin)/(tmax-tmin)*100))};
   var zl=pct(d.low),zh=pct(d.high),dp=pct(d.cur);
   var st=d.state,tone=REC_TONE[st.t],dotc=st.t==='good'?'#15140F':tone[2];
-  var normLab='Norme '+d.fmt(d.low)+'–'+d.fmt(d.high)+(d.unit?(' '+d.unit):'');
+  var normLab='Norme '+d.fmt(d.low)+'-'+d.fmt(d.high)+(d.unit?(' '+d.unit):'');
   var valHTML=d.fmt(d.cur)+(d.unit?'<span class="u">'+d.unit+'</span>':'');
   return '<button class="rgc" type="button" onclick="recWhyOpen(\''+d.key+'\')">'
    +'<div class="rgc-h"><span class="rgc-ic" style="color:'+d.col+'"><i class="ti '+d.ic+'"></i></span><span class="rgc-t">'+d.title+'</span><span class="rgc-pill" style="color:'+tone[0]+';background:'+tone[1]+'">'+st.s+'</span></div>'
@@ -6635,10 +6635,10 @@ function recWhyData(key){
 }
 function recWhyInterp(key,st){
  var dir=st.dir;
- if(key==='hrv'){if(dir===0)return 'Ta variabilité cardiaque est dans ta plage habituelle : bon équilibre nerveux, ton corps encaisse bien le stress et l\'effort.';if(dir>0)return 'Ta VFC est au-dessus de ta plage habituelle. C\'est souvent bon signe (forme, calme), mais un pic isolé peut aussi suivre un gros repos ou une variation de mesure — regarde la tendance.';return 'Ta VFC est sous ta plage habituelle — souvent le signe d\'une fatigue, d\'un stress ou d\'une récupération incomplète.';}
- if(key==='rhr'){if(dir===0)return 'Ta fréquence cardiaque au repos est dans ta plage habituelle : cœur reposé.';if(dir>0)return 'Ta FC au repos est plus haute que d\'habitude — fatigue, stress, alcool ou nuit trop courte peuvent la faire monter.';return 'Ta FC au repos est sous ta plage habituelle. En général bon signe (cœur bien reposé), à confirmer sur la tendance.';}
- if(key==='resp'){if(dir===0)return 'Ta fréquence respiratoire est stable, dans ta normale : rien d\'inhabituel cette nuit.';if(dir>0)return 'Ta fréquence respiratoire est au-dessus de ta normale — effort tardif, alcool ou début d\'infection peuvent l\'expliquer.';return 'Ta fréquence respiratoire est sous ta normale — généralement sans gravité, à surveiller si ça persiste.';}
- if(key==='sleepperf')return st.t==='good'?'Tu as atteint ta fenêtre de sommeil cible : une bonne base pour récupérer.':'Tu as dormi sous ton objectif — le manque de sommeil pèse directement sur ta récup du lendemain.';
+ if(key==='hrv'){if(dir===0)return 'Ta variabilité cardiaque est dans ta plage habituelle : bon équilibre nerveux, ton corps encaisse bien le stress et l\'effort.';if(dir>0)return 'Ta VFC est au-dessus de ta plage habituelle. C\'est souvent bon signe (forme, calme), mais un pic isolé peut aussi suivre un gros repos ou une variation de mesure, regarde la tendance.';return 'Ta VFC est sous ta plage habituelle, souvent le signe d\'une fatigue, d\'un stress ou d\'une récupération incomplète.';}
+ if(key==='rhr'){if(dir===0)return 'Ta fréquence cardiaque au repos est dans ta plage habituelle : cœur reposé.';if(dir>0)return 'Ta FC au repos est plus haute que d\'habitude : fatigue, stress, alcool ou nuit trop courte peuvent la faire monter.';return 'Ta FC au repos est sous ta plage habituelle. En général bon signe (cœur bien reposé), à confirmer sur la tendance.';}
+ if(key==='resp'){if(dir===0)return 'Ta fréquence respiratoire est stable, dans ta normale : rien d\'inhabituel cette nuit.';if(dir>0)return 'Ta fréquence respiratoire est au-dessus de ta normale : effort tardif, alcool ou début d\'infection peuvent l\'expliquer.';return 'Ta fréquence respiratoire est sous ta normale, généralement sans gravité, à surveiller si ça persiste.';}
+ if(key==='sleepperf')return st.t==='good'?'Tu as atteint ta fenêtre de sommeil cible : une bonne base pour récupérer.':'Tu as dormi sous ton objectif. Le manque de sommeil pèse directement sur ta récup du lendemain.';
  return '';
 }
 function recWhyRow(r,tag,positive){
@@ -6656,7 +6656,7 @@ function recWhyHTML(key,rv){
  if(data.onHurt.length||data.onHelp.length){blocks+='<div class="rw-sec">Ce que tu as coché ce soir</div>';data.onHurt.forEach(function(r){blocks+=recWhyRow(r,'a pu nuire',false)});data.onHelp.forEach(function(r){blocks+=recWhyRow(r,'a aidé',true)});}
  var pot=data.pot.slice(0,4);
  if(pot.length){blocks+='<div class="rw-sec">Leviers pour demain</div>';pot.forEach(function(r){blocks+=recWhyRow(r,r.positive?'à privilégier':'à éviter',r.positive)});}
- if(!data.onHurt.length&&!data.onHelp.length&&!pot.length)blocks='<p class="rw-empty">Coche ton journal du soir quelques jours — Flint reliera ce signal à tes vraies habitudes.</p>';
+ if(!data.onHurt.length&&!data.onHelp.length&&!pot.length)blocks='<p class="rw-empty">Coche ton journal du soir quelques jours. Flint reliera ce signal à tes vraies habitudes.</p>';
  var cta='<button class="rw-cta" type="button" onclick="recWhyClose();openMetricTrend(\''+key+'\')"><i class="ti ti-chart-line"></i>Voir la tendance 7 jours<i class="ti ti-chevron-right"></i></button>';
  return head+interp+blocks+cta;
 }
@@ -6705,7 +6705,7 @@ function recInsightTxt(rv){if(!rv||!rv.c)return '';
  var base={'HRV':baseStat('hrv'),'FC repos':baseStat('rhr'),'Respiration':baseStat('resp')}[top[0]];
  var cur={'HRV':rv.today&&rv.today.hrv,'FC repos':rv.today&&rv.today.rhr,'Respiration':rv.today&&rv.today.resp}[top[0]];
  if(base&&cur!=null){var pct=Math.round((cur-base.m)/base.m*100),ab=Math.abs(pct);
-  if(top[0]==='HRV')return 'Ta VFC est '+ab+'% '+(pct>=0?'plus élevée':'plus basse')+" que d'habitude. "+(pct>=0?'Une VFC élevée indique un bon équilibre nerveux : tu encaisses bien le stress et l\'effort.':'Une VFC plus basse traduit de la fatigue ou du stress — dose ta journée.');
+  if(top[0]==='HRV')return 'Ta VFC est '+ab+'% '+(pct>=0?'plus élevée':'plus basse')+" que d'habitude. "+(pct>=0?'Une VFC élevée indique un bon équilibre nerveux : tu encaisses bien le stress et l\'effort.':'Une VFC plus basse traduit de la fatigue ou du stress. Dose ta journée.');
   if(top[0]==='FC repos')return 'Ta FC au repos est '+ab+'% '+(pct>=0?'plus haute':'plus basse')+" que d'habitude. "+(pct<=0?'Plus elle est basse, mieux ton corps a récupéré.':'Une FC repos élevée peut signaler fatigue, stress ou une nuit difficile.');
   return 'Ta fréquence respiratoire est '+(ab<2?'stable, dans ta normale':((pct>0?ab+'% au-dessus':ab+'% en dessous')+' de ta normale')+'. Très stable d\'ordinaire, tout écart marqué mérite l\'attention.');
  }
@@ -6720,7 +6720,7 @@ function renderRecTrends(){var host=document.getElementById('recTrends');if(!hos
 function fitnessAge(){const t=sensorOf(tk()),age=getProfile().age||28;if(!t||t.rhr==null)return null;return Math.max(16,Math.min(80,Math.round(age-((t.hrv||50)-50)/6+((t.rhr||60)-58)/3)))}
 /* ---------- TRANSPARENCE : COMMENT TON SCORE EST CALCULÉ ---------- */
 function hsxFormulaHTML(rv){var tail=rv?(' <span class="op">=</span> <b>'+rv.s+'%</b>'):'';
- return 'Récup <span class="op">=</span> sigmoïde( <span class="pos">0,55 × VFC</span> <span class="op">−</span> <span class="neg">0,22 × FC repos</span> <span class="op">+</span> <span class="pos">0,18 × Sommeil</span> <span class="op">−</span> <span class="neg">0,10 × Respiration</span> )'+tail+'<br><span class="op" style="font-size:11.5px">Chaque signal est d\'abord ramené à ton écart vs ta normale (z-score), puis la sigmoïde resserre le tout sur une échelle 0–100.</span>';}
+ return 'Récup <span class="op">=</span> sigmoïde( <span class="pos">0,55 × VFC</span> <span class="op">−</span> <span class="neg">0,22 × FC repos</span> <span class="op">+</span> <span class="pos">0,18 × Sommeil</span> <span class="op">−</span> <span class="neg">0,10 × Respiration</span> )'+tail+'<br><span class="op" style="font-size:11.5px">Chaque signal est d\'abord ramené à ton écart vs ta normale (z-score), puis la sigmoïde resserre le tout sur une échelle 0-100.</span>';}
 function renderHowScore(){
  var rv=recovery();var sig=document.getElementById('hsxSignals');
  var W=[0.55,0.22,0.18,0.10];
@@ -6734,14 +6734,14 @@ function renderHowScore(){
   var contrib=W[i]*c[2];var mag=Math.max(0,Math.min(1,Math.abs(contrib)/0.9));
   var pos=contrib>=0,neutral=Math.abs(contrib)<0.05,col=neutral?'var(--faint)':(pos?'var(--green)':'var(--accent)');
   var fillW=(mag*50).toFixed(1),left=pos?'50%':(50-mag*50).toFixed(1)+'%';
-  var dirTxt=neutral?'effet neutre — dans ta normale':(pos?'pousse ton score vers le haut':'tire ton score vers le bas');
+  var dirTxt=neutral?'effet neutre, dans ta normale':(pos?'pousse ton score vers le haut':'tire ton score vers le bas');
   return '<div class="hsx-row"><div class="hsx-rt"><span class="hsx-rn">'+esc(c[0])+'</span><span class="hsx-rw">×'+String(W[i]).replace('.',',')+'</span><span class="hsx-rv">'+esc(c[1])+'</span></div>'
    +'<div class="hsx-bar"><span class="mid"></span><span class="fill" style="left:'+left+';width:'+fillW+'%;background:'+col+'"></span></div>'
    +'<div class="hsx-rd" style="color:'+col+';font-weight:700">'+dirTxt+'</div></div>';
  }).join('');
  if(sig)sig.innerHTML=html;
  var cal=calibNights();
- set('hsxBaseline','FLINT compare chaque signal à <b>ta</b> normale, calculée sur tes 30 dernières nuits — pas une moyenne de population. L\'écart est mesuré en « z-score » : de combien tu t\'éloignes de ton habitude. Calcul actuellement basé sur <b>'+cal+' nuit'+(cal>1?'s':'')+'</b> portée'+(cal>1?'s':'')+'.');
+ set('hsxBaseline','FLINT compare chaque signal à <b>ta</b> normale, calculée sur tes 30 dernières nuits, pas une moyenne de population. L\'écart est mesuré en « z-score » : de combien tu t\'éloignes de ton habitude. Calcul actuellement basé sur <b>'+cal+' nuit'+(cal>1?'s':'')+'</b> portée'+(cal>1?'s':'')+'.');
 }
 
 /* ---------- SOMMEIL ---------- */
@@ -6850,7 +6850,7 @@ function renderSleep(){var t=sensorOf(tk(gDay)),need=(getProfile().need||8)*60;l
  set('shScore',score+'<small> / 100</small>');
  (function(){var G='#2FAE67',A='#F5A623',C='#E8674A';function setF(v,q,bid,w,col){set(v.id,v.t);set(q.id,q.t);var b=document.getElementById(bid);if(b){b.style.width=Math.max(8,Math.min(100,w))+'%';b.style.background=col}}
   var durPc=Math.round(t.sleepMin/need*100),dq=durPc>=90?0:durPc>=70?1:2;
-  setF({id:'shWhyV1',t:Math.floor(t.sleepMin/60)+'h'+String(t.sleepMin%60).padStart(2,'0')},{id:'shWhyQ1',t:['Optimal','Suffisant','Court'][dq]},'shWhyB1',durPc,[G,A,C][dq]);
+  setF({id:'shWhyV1',t:Math.floor(t.sleepMin/60)+'h'+String(t.sleepMin%60).padStart(2,'0')},{id:'shWhyQ1',t:['Idéal','Suffisant','Court'][dq]},'shWhyB1',durPc,[G,A,C][dq]);
   var rq=regul>=85?0:regul>=70?1:2;
   setF({id:'shWhyV2',t:regul+'%'},{id:'shWhyQ2',t:['Excellente','Bonne','Irrégulière'][rq]},'shWhyB2',regul,[G,A,C][rq]);
   var wk=(nm.wakeEvents!=null?nm.wakeEvents:Math.max(1,Math.round((nm.awake||0)/20))),wq=wk<=2?0:wk<=4?1:2;
@@ -6953,16 +6953,16 @@ function renderSleepDetail(){const ctx=window._sleepCtx,nap=!!(ctx&&ctx.nap),nee
  window._slFocus=null;
  (function(){var _n=slNm();set('slTotDur',_n?(function(m){m=Math.round(m);return m>=60?Math.floor(m/60)+'h'+String(m%60).padStart(2,'0'):m+' min'})(_n.awake+_n.light+_n.deep+_n.rem):'—')})();
  set('slNightHR',slCurveSVG(null));
- (function(){var g=window._slNightGeo;window._slNightInsp=false;if(g&&g.vals.length){var li=0,lv=1e9;g.vals.forEach(function(v,i){if(v<lv){lv=v;li=i}});window._slNightSel=li;set('slHrV',g.vals[li]);set('slHrT',g.times[li]);}set('slNightNote',window._slNightReal?'':'<div class="sci" style="font-size:10px;margin-top:3px;color:#7C766B">FC estimée — réelle dès que le capteur transmet les échantillons.</div>');slNightBind();})();
+ (function(){var g=window._slNightGeo;window._slNightInsp=false;if(g&&g.vals.length){var li=0,lv=1e9;g.vals.forEach(function(v,i){if(v<lv){lv=v;li=i}});window._slNightSel=li;set('slHrV',g.vals[li]);set('slHrT',g.times[li]);}set('slNightNote',window._slNightReal?'':'<div class="sci" style="font-size:10px;margin-top:3px;color:#7C766B">FC estimée. Réelle dès que le capteur transmet les échantillons.</div>');slNightBind();})();
  set('slStages',slStagesHTML(null));
  const debt=sleepDebt();set('slDebt',Math.floor(debt)+'h'+String(Math.round(debt%1*60)).padStart(2,'0'));set('slDebtSub',debt<1?'Pas de dette 💪':'à rembourser');set('slPlan',debt<1?'Tu es à jour 👌':'Comble-la en visant ton besoin chaque nuit.');renderSleepCoach();
  const arr=seriesBack('sleepMin',14).map(function(x){return x?x/60:null});set('slBars',barsSVG(arr,{h:66,ref:need/60,refLabel:'besoin',refColor:'var(--indigo)',lab:['−14 nuits','auj.'],colorFn:function(v){return v==null?'var(--track)':(v>=need/60?'#6C7BD6':'var(--amber)')}}));
- const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map(function(c,i){return '<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>'}).join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?' — déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
+ const sn=sleepNeedCalc(),mxn=sn.need*1.2;set('sleepNeedCard','<div class="wf">'+[['Base',sn.base,'#9AA4DD'],['Dette',sn.debt,'#F2C744'],['Effort',sn.strain,'#F0902E'],['Besoin',sn.need,'#6C7BD6']].map(function(c,i){return '<div class="c"><div class="cn2">'+(i>0&&i<3?'+':i===3?'=':'')+(c[1]/60).toFixed(1)+'h</div><div class="cb" style="height:'+Math.max(8,c[1]/mxn*54)+'px;background:'+c[2]+'"></div><div class="cl2">'+c[0]+'</div></div>'}).join('')+'</div><div class="hvn"><span class="f" style="width:'+Math.min(100,t.sleepMin/sn.need*100)+'%"></span><span class="tick" style="left:100%"></span></div><p class="sci" style="margin-top:8px">'+(t.sleepMin/60).toFixed(1)+'h dormies sur '+(sn.need/60).toFixed(1)+'h de besoin'+(t.sleepMin<sn.need?', déficit '+Math.round(sn.need-t.sleepMin)+' min':' ✓ couvert')+'</p>');
  set('slVitals',[['HRV',t.hrv!=null?t.hrv+' <small>ms</small>':'—','#6C7BD6'],['FC repos',t.rhr!=null?t.rhr+' <small>bpm</small>':'—','#E0723A'],['Respiration',t.resp!=null?t.resp+' <small>/min</small>':'—','#3FB57A']].map(function(v){return '<div class="vit"><div class="vl">'+v[0]+'</div><div class="vv" style="color:'+v[2]+'">'+v[1]+'</div></div>'}).join(''));
- var reg=sleepConsistency();set('slRegul',reg!=null?reg+'%':'—');set('slRegulSub',reg==null?'Quelques nuits de plus pour la mesurer':reg>=85?'Très régulier — garde le cap 👌':reg>=65?'Assez régulier':'Irrégulier — stabilise tes horaires');
+ var reg=sleepConsistency();set('slRegul',reg!=null?reg+'%':'—');set('slRegulSub',reg==null?'Quelques nuits de plus pour la mesurer':reg>=85?'Très régulier, garde le cap 👌':reg>=65?'Assez régulier':'Irrégulier, stabilise tes horaires');
  var wk2=(getProfile().wake||'07:00').split(':'),wakeH=(+wk2[0])+(+wk2[1])/60;set('slIdealBed','Vise le lit vers <b>'+_coachFmtT(((((+wk2[0])*60+(+wk2[1]))-sleepNeedCalc().need)%1440+1440)%1440)+'</b> pour couvrir ton besoin avant '+(getProfile().wake||'07:00')+'.');
  (function(){var host=document.getElementById('slRegulChart');if(!host)return;var W=320,H=132,padL=30,top=10,padB=20,lo=20,hi=33;function np(c){return c<12?c+24:c}function y(v){return top+(v-lo)/(hi-lo)*(H-padB-top)}var bars='',gw=(W-padL-8)/7;var bedI=((wakeH-sleepNeedCalc().need/60)%24+24)%24;var g='<line x1="'+padL+'" y1="'+y(np(bedI)).toFixed(1)+'" x2="'+(W-8)+'" y2="'+y(np(bedI)).toFixed(1)+'" stroke="#C9C5BC" stroke-width="1" stroke-dasharray="4 4"/><line x1="'+padL+'" y1="'+y(np(wakeH)).toFixed(1)+'" x2="'+(W-8)+'" y2="'+y(np(wakeH)).toFixed(1)+'" stroke="#C9C5BC" stroke-width="1" stroke-dasharray="4 4"/>';var yl='';[[21,'21h'],[27,'03h'],[33,'09h']].forEach(function(l){yl+='<text x="3" y="'+(y(l[0])+3).toFixed(1)+'" font-size="8" fill="#C9C5BC">'+l[1]+'</text>'});for(var i=6;i>=0;i--){var nn=sleepNight(tk(-i));var cx=padL+(6-i)*gw+gw/2;var dl=new Date();dl.setDate(dl.getDate()-i);bars+='<text x="'+cx.toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="8.5" fill="#9A988F">'+['dim','lun','mar','mer','jeu','ven','sam'][dl.getDay()]+'</text>';if(nn){var bedC=nn.bedMin/60,wkC=nn.wakeMin/60,yb=y(np(bedC)),yw=y(np(wkC)),c=i===0?'#E8674A':'#9AA4DD';bars+='<rect x="'+(cx-9).toFixed(1)+'" y="'+Math.min(yb,yw).toFixed(1)+'" width="18" height="'+Math.max(4,Math.abs(yw-yb)).toFixed(1)+'" rx="6" fill="'+c+'"/>'}}host.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:'+H+'px" class="regrow">'+yl+g+bars+'</svg>';})();
- (function(){var host=document.getElementById('slAnomaly');if(!host)return;var rs=[],hs=[];for(var i=1;i<=14;i++){var s=sensorOf(tk(-i));if(s){if(s.resp!=null)rs.push(s.resp);if(s.rhr!=null)hs.push(s.rhr);}}function av(a){return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null}var ra=av(rs),ha=av(hs),m=[];if(ra&&t.resp!=null&&t.resp>ra*1.12)m.push('respiration +'+Math.round((t.resp/ra-1)*100)+'%');if(ha&&t.rhr!=null&&t.rhr>ha*1.10)m.push('FC repos +'+Math.round((t.rhr/ha-1)*100)+'%');if(m.length){host.style.display='';set('slAnomalyTxt','Cette nuit : '+m.join(' · ')+' vs ta normale. Possible alcool, stress ou début de maladie — lève le pied aujourd’hui.');}else{host.style.display='none';}})();
+ (function(){var host=document.getElementById('slAnomaly');if(!host)return;var rs=[],hs=[];for(var i=1;i<=14;i++){var s=sensorOf(tk(-i));if(s){if(s.resp!=null)rs.push(s.resp);if(s.rhr!=null)hs.push(s.rhr);}}function av(a){return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null}var ra=av(rs),ha=av(hs),m=[];if(ra&&t.resp!=null&&t.resp>ra*1.12)m.push('respiration +'+Math.round((t.resp/ra-1)*100)+'%');if(ha&&t.rhr!=null&&t.rhr>ha*1.10)m.push('FC repos +'+Math.round((t.rhr/ha-1)*100)+'%');if(m.length){host.style.display='';set('slAnomalyTxt','Cette nuit : '+m.join(' · ')+' vs ta normale. Possible alcool, stress ou début de maladie. Lève le pied aujourd’hui.');}else{host.style.display='none';}})();
 }
 function sleepDebt(){const need=(getProfile().need||8);let d=0;for(let i=1;i<=14;i++){const s=sensorOf(tk(-i));if(s&&s.sleepMin)d+=Math.max(0,need-s.sleepMin/60)}return d}
 /* ---- Coach sommeil (planificateur façon Whoop) ---- */
@@ -6980,7 +6980,7 @@ function renderSleepCoach(){const host=document.getElementById('coachCard');if(!
  +'<div class="lab" style="margin-top:16px">Heure de réveil cible</div><input id="coachWake" class="fin" type="time" value="'+getProfile().wake+'" onchange="setCoachWake(this.value)">'
  +'<div class="lab" style="margin-top:14px">Choisis ton objectif</div>'
  +tiers.map((tt,i)=>{const ib=nd*tt[1]/eff,bt=wake-ib;return '<div class="trow'+(i===sel?' on':'')+'" onclick="setSleepTier('+i+')"><span class="tdot" style="background:'+tt[2]+'"></span><span class="tn">'+tt[0]+'</span><span class="th">'+_coachFmtH(ib)+' au lit</span><span class="tb">'+_coachFmtT(bt)+'</span></div>'}).join('')
- +'<p class="sci" style="margin-top:10px">Couche-toi à l\'heure indiquée pour réveil à '+_coachFmtT(wake)+'. Tu vises plus de sommeil quand ta dette ou ta charge monte — comme Whoop.</p>';}
+ +'<p class="sci" style="margin-top:10px">Couche-toi à l\'heure indiquée pour réveil à '+_coachFmtT(wake)+'. Tu vises plus de sommeil quand ta dette ou ta charge monte, comme Whoop.</p>';}
 function setSleepTier(i){window._sleepTier=i;renderSleepCoach()}
 function setCoachWake(v){const p=getProfile();p.wake=v||'07:00';DB.set('profile',p);renderSleepCoach()}
 
@@ -6991,12 +6991,12 @@ function renderLoad(){var K=tk();
  var str=loadStrain();
  document.getElementById('strainRing').innerHTML=ringHTML(str/21*100,168,'EFFORT','/ 21','var(--accent)',str.toFixed(1).replace('.',','));
  set('strainStatus',str<10?'Charge légère':str<14?'Charge modérée':str<18?'Charge soutenue':'Charge très élevée');
- set('effMeaning',str<10?'Journée tranquille — ton corps récupère.':str<14?'Bonne zone pour progresser sans entamer ta récup.':str<18?'Bel effort — soigne bien ta récupération ensuite.':'Grosse journée — priorise le repos et le sommeil.');
+ set('effMeaning',str<10?'Journée tranquille, ton corps récupère.':str<14?'Bonne zone pour progresser sans entamer ta récup.':str<18?'Bel effort, soigne bien ta récupération ensuite.':'Grosse journée : priorise le repos et le sommeil.');
  var mk=document.getElementById('effScaleMark');if(mk)mk.style.left=Math.max(1.5,Math.min(98.5,str/21*100))+'%';
- var tg=strainTarget(),lo=tg[0],hi=tg[1];set('effTgt',String(lo).replace('.',',')+' – '+String(hi).replace('.',',')+' / 21');
+ var tg=strainTarget(),lo=tg[0],hi=tg[1];set('effTgt',String(lo).replace('.',',')+' à '+String(hi).replace('.',',')+' / 21');
  var rs=rv?rv.s:null;
  var ctx=rs==null?'Synchronise ta nuit pour adapter ta cible.':(rs>=67?'Récup haute ('+rs+'%) : tu peux pousser aujourd\'hui.':rs>=34?'Récup modérée ('+rs+'%) : dose ton effort.':'Récup basse ('+rs+'%) : lève le pied.');
- var verdict=str<=0?'':(str<lo?' Encore sous ta cible.':str<=hi?' Tu es dans ta cible 👌':' Tu as dépassé ta cible — soigne la récup.');
+ var verdict=str<=0?'':(str<lo?' Encore sous ta cible.':str<=hi?' Tu es dans ta cible 👌':' Tu as dépassé ta cible : soigne la récup.');
  set('effTgtX',ctx+verdict);
  var ss=DB.get('sessions_'+K,[]).filter(function(s){return s.type!=='nap'});
  set('effActs',ss.length?ss.map(function(s,i){var sc=actStrain(s).toFixed(1).replace('.',',');var end=s.start?(function(){var sm=tmin(s.start)+(s.dur||0);return String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')})():'';return '<button class="eact" type="button" onclick="openActivity('+i+')"><span class="eai">'+(s.icon||'🏃')+'<b>'+sc+'</b></span><span class="ean">'+esc(s.name||'Activité')+'</span><span class="eat">'+(s.start||'')+'<br>'+end+'</span></button>'}).join(''):'<p class="sci" style="padding:2px 2px 14px;color:#7C766B">Aucune séance aujourd\'hui. Ajoute-en une pour suivre ta charge.</p>');
@@ -7005,10 +7005,10 @@ function renderLoad(){var K=tk();
   var bar=document.getElementById('effZbar');if(bar)bar.innerHTML=tot?z.map(function(v,i){return v>0?'<span style="flex:'+v+';background:'+ZM[i][1]+'" title="'+ZM[i][0]+' · '+v+' min"></span>':''}).join(''):'';
   var leg=document.getElementById('effZleg');if(leg)leg.innerHTML=ZM.map(function(m,i){return '<span class="zi'+(z[i]>0?'':' off')+'"><span class="d" style="background:'+m[1]+'"></span><b>'+m[0]+'</b> '+(z[i]>0?z[i]+' min':'—')+'</span>'}).join('');
   var lo=z[0]+z[1]+z[2],hi=z[3]+z[4],txt;
-  if(!tot)txt='Aucune séance aujourd\'hui — ajoute-en une pour voir où passe ton effort.';
-  else if(hi/tot>=0.35)txt='Beaucoup d\'intensité (zones 4–5) — pense à bien récupérer pour encaisser.';
-  else if(lo/tot>=0.8)txt='Majorité en zones faciles (1–3) — excellent socle d\'endurance.';
-  else txt='Bon mélange endurance et intensité aujourd\'hui — entraînement équilibré.';
+  if(!tot)txt='Aucune séance aujourd\'hui. Ajoute-en une pour voir où passe ton effort.';
+  else if(hi/tot>=0.35)txt='Beaucoup d\'intensité (zones 4 et 5), pense à bien récupérer pour encaisser.';
+  else if(lo/tot>=0.8)txt='Majorité en zones faciles (1 à 3), excellent socle d\'endurance.';
+  else txt='Bon mélange endurance et intensité aujourd\'hui, entraînement équilibré.';
   set('effZtxt',txt);})();
  (function(){var ns=nextSession();
   set('effNextT',ns.t);set('effNextDur',ns.dur);set('effNextZone',ns.zone);set('effNextTxt',ns.txt);
@@ -7030,8 +7030,8 @@ function chargeBalance(){
  var w=TR.charge.weekly,a=0;for(var i=0;i<w.length;i++)a+=w[i][2];a=a/(w.length||1);
  var chronic=10.4,r=chronic>0?a/chronic:1,o;
  if(r<0.8)o={zone:0,lab:'Sous-charge',col:'#3E63E0',tint:'#ECF0FC',ic:'ti-trending-down',txt:'Ton volume baisse. Si tu te sens frais, c\'est le moment d\'ajouter une séance.'};
- else if(r<=1.3)o={zone:1,lab:'Optimal',col:'#2FA86A',tint:'#EAF6EF',ic:'ti-circle-check',txt:'Tu progresses sans entamer ta récup. Continue comme ça.'};
- else if(r<=1.5)o={zone:2,lab:'Élevé',col:'#E0922A',tint:'#FBF1DD',ic:'ti-alert-triangle',txt:'Charge en hausse rapide — surveille ta récup et garde une séance facile cette semaine.'};
+ else if(r<=1.3)o={zone:1,lab:'Idéale',col:'#2FA86A',tint:'#EAF6EF',ic:'ti-circle-check',txt:'Tu progresses sans entamer ta récup. Continue comme ça.'};
+ else if(r<=1.5)o={zone:2,lab:'Élevé',col:'#E0922A',tint:'#FBF1DD',ic:'ti-alert-triangle',txt:'Charge en hausse rapide : surveille ta récup et garde une séance facile cette semaine.'};
  else o={zone:3,lab:'Risque',col:'var(--accent)',tint:'#FBE9E4',ic:'ti-alert-triangle',txt:'Montée trop rapide, risque de surmenage. Lève le pied 1 à 2 jours.'};
  o.acute=a;o.chronic=chronic;o.ratio=r;return o;
 }
@@ -7043,11 +7043,11 @@ function zonesToday(ss){
 }
 function nextSession(){
  var rv=recovery(),rs=rv?rv.s:null,cb=chargeBalance();
- if(cb.zone>=3||(rs!=null&&rs<34))return {t:'Récup active',ic:'ti-walk',col:'#3E63E0',tint:'#ECF0FC',dur:'20–40 min',zone:'Zone 1',txt:'Ton corps a besoin de souffler. Marche, mobilité ou très facile — zéro intensité aujourd\'hui.'};
- if(rs==null)return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 2–3',txt:'Synchronise ta nuit pour une reco précise. En attendant, reste sur du modéré.'};
- if(rs>=67&&cb.zone<=1)return {t:'Tu peux pousser',ic:'ti-flame',col:'var(--accent)',tint:'#FBE9E4',dur:'40–55 min',zone:'Zones 4–5',txt:'Récup haute et charge maîtrisée : c\'est le bon jour pour une séance de qualité avec des intervalles.'};
- if(rs>=67)return {t:'Séance soutenue',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 3–4',txt:'Bonne récup mais charge déjà élevée : pousse un peu, sans aller au max.'};
- return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45–60 min',zone:'Zones 2–3',txt:'Récup correcte : entretiens ta forme sans entamer ta récupération.'};
+ if(cb.zone>=3||(rs!=null&&rs<34))return {t:'Récup active',ic:'ti-walk',col:'#3E63E0',tint:'#ECF0FC',dur:'20-40 min',zone:'Zone 1',txt:'Ton corps a besoin de souffler. Marche, mobilité ou très facile, zéro intensité aujourd\'hui.'};
+ if(rs==null)return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45-60 min',zone:'Zones 2-3',txt:'Synchronise ta nuit pour une reco précise. En attendant, reste sur du modéré.'};
+ if(rs>=67&&cb.zone<=1)return {t:'Tu peux pousser',ic:'ti-flame',col:'var(--accent)',tint:'#FBE9E4',dur:'40-55 min',zone:'Zones 4-5',txt:'Récup haute et charge maîtrisée : c\'est le bon jour pour une séance de qualité avec des intervalles.'};
+ if(rs>=67)return {t:'Séance soutenue',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45-60 min',zone:'Zones 3-4',txt:'Bonne récup mais charge déjà élevée : pousse un peu, sans aller au max.'};
+ return {t:'Séance modérée',ic:'ti-activity',col:'#E0922A',tint:'#FBF1DD',dur:'45-60 min',zone:'Zones 2-3',txt:'Récup correcte : entretiens ta forme sans entamer ta récupération.'};
 }
 
 /* ---------- EFFORT · DÉTAIL D'ACTIVITÉ (vue type Whoop, sombre) ---------- */
@@ -7075,7 +7075,7 @@ function actBuild(s){
  const avg=Math.round(hr.reduce((a,b)=>a+b,0)/hr.length),max=Math.max.apply(null,hr);
  let endTxt='—';if(s.start){const sm=tmin(s.start)+dur;endTxt=String(Math.floor(sm/60)%24).padStart(2,'0')+':'+String(sm%60).padStart(2,'0')}
  const eff=actStrain(s);
- return {name:s.name||'Activité',start:s.start||'—',end:endTxt,dur:hms(totSec),effort:String(eff).replace('.',','),effortCmp:'',steps:'—',stepsCmp:'',kcal:Math.round(dur*(s.int||2)*2.6),kcalCmp:'',avg,avgCmp:'',max,maxCmp:'',updated:'07/04/2026',mile:{cur:130,tgt:150,rem:20},zones:genZones(hr,totSec),hr,coach:'Dino, séance '+(s.name||'')+' de '+dur+' min. '+(eff>12?'Grosse intensité — pense à bien récupérer.':'Effort bien dosé, on continue comme ça.')};
+ return {name:s.name||'Activité',start:s.start||'—',end:endTxt,dur:hms(totSec),effort:String(eff).replace('.',','),effortCmp:'',steps:'—',stepsCmp:'',kcal:Math.round(dur*(s.int||2)*2.6),kcalCmp:'',avg,avgCmp:'',max,maxCmp:'',updated:'07/04/2026',mile:{cur:130,tgt:150,rem:20},zones:genZones(hr,totSec),hr,coach:'Dino, séance '+(s.name||'')+' de '+dur+' min. '+(eff>12?'Grosse intensité, pense à bien récupérer.':'Effort bien dosé, on continue comme ça.')};
 }
 function actGraph(samples,focus){
  const W=346,H=216,padL=30,padR=6,padT=12,padB=26,n=samples.length,yMin=68,yMax=170;
@@ -7164,7 +7164,7 @@ function renderActivityDetail(){const m=actBuild(window._actSess);window._actMod
  window._actGeo=actGeo(m);window._actInsp=false;var dmi=0,dmx=-1;m.hr.forEach(function(v,i){if(v>dmx){dmx=v;dmi=i}});window._actSel=dmi;
  set('actHrV',m.hr[dmi]);set('actHrT',window._actGeo.times[dmi]);
  set('actGraph',actGraph(m.hr,null));set('actDur',m.dur);set('actZones',actZonesHTML());set('actUpd',m.updated||'—');actBind();
- set('actMileIco',actSportSVG(m.name,22));set('actMileCur',m.mile?m.mile.cur:'—');set('actMileTgt',m.mile?('/'+m.mile.tgt):'');set('actMileRem',m.mile?('Encore '+m.mile.rem+' avant votre prochain jalon'):'');
+ set('actMileIco',actSportSVG(m.name,22));set('actMileCur',m.mile?m.mile.cur:'—');set('actMileTgt',m.mile?('/'+m.mile.tgt):'');set('actMileRem',m.mile?('Encore '+m.mile.rem+' avant ton prochain jalon'):'');
  document.getElementById('actMileBar').style.width=(m.mile?Math.round(m.mile.cur/m.mile.tgt*100):0)+'%';
  set('actStats',actStatsHTML(m));set('actCoach',m.coach);
 }
@@ -7182,7 +7182,7 @@ function fcDayCurve(rhr,dayMax){const n=96,a=[];for(let i=0;i<n;i++){const h=i/4
  a[a.indexOf(Math.max.apply(null,a))]=dayMax;
  return a}
 function fcZonesHTML(fcmax){const Z=[['Maximum',.9,1.0,'#E14434','Sprint, effort maximal et court'],['Seuil',.8,.9,'#F2922B','Au seuil, gagne en performance'],['Aérobie',.7,.8,'#E8B53A','Renforce le cardio, allure tempo'],['Endurance',.6,.7,'#3FB57A','Base d\'endurance, tu peux parler'],['Récupération',.5,.6,'#5E6FE6','Récup active, brûle les graisses']];
- return Z.map(z=>{const lo=Math.round(fcmax*z[1]),hi=Math.round(fcmax*z[2]);return '<div class="zline"><span class="zdot" style="background:'+z[3]+'"></span><div class="zmid"><div class="zname">'+z[0]+'</div><div class="zwhat">'+z[4]+'</div></div><div class="zbpm">'+lo+'–'+hi+'<small>'+Math.round(z[1]*100)+'–'+Math.round(z[2]*100)+'% FC max</small></div></div>'}).join('')}
+ return Z.map(z=>{const lo=Math.round(fcmax*z[1]),hi=Math.round(fcmax*z[2]);return '<div class="zline"><span class="zdot" style="background:'+z[3]+'"></span><div class="zmid"><div class="zname">'+z[0]+'</div><div class="zwhat">'+z[4]+'</div></div><div class="zbpm">'+lo+'-'+hi+'<small>'+Math.round(z[1]*100)+'-'+Math.round(z[2]*100)+'% FC max</small></div></div>'}).join('')}
 function fcDay24SVG(_curve,maxv){maxv=maxv||162;let s='<svg viewBox="0 0 340 190" preserveAspectRatio="none" style="width:100%;height:auto">';
  s+=[20,95,170,245,320].map(x=>'<line x1="'+x+'" x2="'+x+'" y1="18" y2="145" stroke="rgba(22,21,18,0.08)" stroke-dasharray="5 8"/>').join('');
  s+=[40,82,124].map(y=>'<line x1="20" x2="320" y1="'+y+'" y2="'+y+'" stroke="rgba(22,21,18,0.05)" stroke-dasharray="5 8"/>').join('');
@@ -7238,11 +7238,11 @@ function fc2RestCard(rhr){
  else if(rhr<=hi)st={t:'Dans ta norme',c:'#1E7A47',ic:'ti-circle-check',dot:'#F0492E'};
  else if(bs&&rhr<=bs.m+2*bs.sd)st={t:'Au-dessus',c:'#9A6500',ic:'ti-alert-circle',dot:'#E0922A'};
  else st={t:'Nettement haute',c:'#B23A22',ic:'ti-alert-triangle',dot:'#CF4631'};
- set('fcRest',rhr);set('fcNorme','Norme perso : '+lo+'–'+hi+' bpm');
+ set('fcRest',rhr);set('fcNorme','Norme perso : '+lo+'-'+hi+' bpm');
  var g=document.getElementById('fcRestGauge');if(g)g.innerHTML='<span class="fc2g-zone" style="left:'+pct(lo).toFixed(1)+'%;width:'+(pct(hi)-pct(lo)).toFixed(1)+'%"></span><span class="fc2g-dot" style="left:'+pct(rhr).toFixed(1)+'%;background:'+st.dot+'"></span>';
  set('fcRestScale','<span style="left:0">'+tmin+'</span><span style="left:'+pct(lo).toFixed(1)+'%">'+lo+'</span><span style="left:'+pct(hi).toFixed(1)+'%">'+hi+'</span><span style="left:100%">'+tmax+'</span>');
  var chk=document.getElementById('fcRestChk');if(chk){chk.innerHTML='<i class="ti '+st.ic+'"></i>'+st.t;chk.style.color=st.c;}
- var rn=document.getElementById('fcRestNote');if(rn)rn.textContent=rhr<lo?'Encore plus bas que ton habitude — excellent.':rhr<=hi?'Cohérent avec ton repos habituel.':'Au-dessus de ton habitude — fatigue ou stress ?';
+ var rn=document.getElementById('fcRestNote');if(rn)rn.textContent=rhr<lo?'Encore plus bas que ton habitude, excellent.':rhr<=hi?'Cohérent avec ton repos habituel.':'Au-dessus de ton habitude, fatigue ou stress ?';
  var sp=document.getElementById('fcRestSpark');if(sp)sp.innerHTML=fc2Spark(TREND.rhr,12);
 }
 function fc2Vo2Card(age){
@@ -7251,14 +7251,14 @@ function fc2Vo2Card(age){
  var vd=TREND.vo2.verdict?TREND.vo2.verdict(v):{t:'Bon',c:'#F0492E'};
  var ref=Math.round(48-Math.max(0,age-25)*0.32);
  var comp=v>=ref+2?'au-dessus de ta tranche d\'âge':v<=ref-2?'sous ta tranche d\'âge':'dans ta tranche d\'âge';
- var e=document.getElementById('fcVo2Verdict');if(e)e.innerHTML='<b style="color:'+vd.c+'">'+vd.t+'</b> — '+comp;
+ var e=document.getElementById('fcVo2Verdict');if(e)e.innerHTML='<b style="color:'+vd.c+'">'+vd.t+'</b>, '+comp;
  var sp=document.getElementById('fcVo2Spark');if(sp)sp.innerHTML=fc2Spark(TREND.vo2,12);
 }
 function fc2ZonesHTML(curve,b){
  var mins=[0,0,0,0];curve.forEach(function(p){mins[fc2ZoneIdx(p.v,b)]+=6;});
  var mx=Math.max.apply(null,mins)||1;
  function fmt(m){m=Math.round(m);return Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');}
- return FC2_ZONES.map(function(z,i){return '<div class="fc2zrow"><span class="fc2zdot" style="background:'+z[1]+'"></span><span class="fc2zname">'+z[0]+'</span><span class="fc2zbpm">'+b[i]+'–'+b[i+1]+' bpm</span><span class="fc2zbar"><i style="width:'+(mins[i]/mx*100).toFixed(0)+'%;background:'+z[1]+'"></i></span><span class="fc2ztime">'+fmt(mins[i])+'</span></div>';}).join('');
+ return FC2_ZONES.map(function(z,i){return '<div class="fc2zrow"><span class="fc2zdot" style="background:'+z[1]+'"></span><span class="fc2zname">'+z[0]+'</span><span class="fc2zbpm">'+b[i]+'-'+b[i+1]+' bpm</span><span class="fc2zbar"><i style="width:'+(mins[i]/mx*100).toFixed(0)+'%;background:'+z[1]+'"></i></span><span class="fc2ztime">'+fmt(mins[i])+'</span></div>';}).join('');
 }
 function fcDay(d){if(typeof haptic==='function')haptic();window._fcDay=Math.min(0,(window._fcDay||0)+d);renderHeartDetail();}
 function fcCalOpen(){if(typeof haptic==='function')haptic();window._calMode='fc';slpCalOpen();}
@@ -7280,7 +7280,7 @@ function renderHeartDetail(){
  fc2RestCard(rhr);fc2Vo2Card(age);
  set('fcZonesList',fc2ZonesHTML(curve,b));
  var bs=baseStat('rhr');
- set('fcLf',(bs&&rhr>bs.m+bs.sd)?'FC au repos au-dessus de ta normale — surveille fatigue ou stress.':'FC basse et stable, cohérente avec une bonne récup.');
+ set('fcLf',(bs&&rhr>bs.m+bs.sd)?'FC au repos au-dessus de ta normale, surveille fatigue ou stress.':'FC basse et stable, cohérente avec une bonne récup.');
 }
 function renderHeartZones(){const t=sensorOf(tk())||{};const p=getProfile();const age=p.age||28;const fcmax=220-age;const rhr=t.rhr!=null?t.rhr:47;
  const curve=fcDayCurve(rhr,162);const dmax=Math.max.apply(null,curve);
@@ -7356,12 +7356,12 @@ function calBind(){var box=document.getElementById('calChartBox');if(!box||box._
 function setCalPeriod(p){window._calPeriod=p;window._calOff=0;renderCalTrend()}
 function calShift(dir){var period=window._calPeriod||'M',nd=period==='S'?7:period==='6M'?182:30;window._calOff=Math.min(0,(window._calOff||0)+dir*nd);renderCalTrend()}
 function calToggleDD(){var m=document.getElementById('calDDMenu');if(m)m.style.display=m.style.display==='none'?'block':'none'}
-function calPickMetric(name){var m=document.getElementById('calDDMenu');if(m)m.style.display='none';if(name!=='Calories')toast(name+' — bientôt disponible')}
+function calPickMetric(name){var m=document.getElementById('calDDMenu');if(m)m.style.display='none';if(name!=='Calories')toast(name+' : bientôt dispo')}
 function renderCalTrend(){var period=window._calPeriod||'M',off=window._calOff||0;window._calSel=null;window._calInspect=false;
  document.querySelectorAll('#calSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.p===period)});
  var m=calBuildModel(period,off);window._calModel=m;
  var box=document.getElementById('calChartBox');if(box)box.classList.remove('inspect');
- set('calRange',calRangeLabel(m.offs[0])+' – '+calRangeLabel(m.offs[m.n-1]));
+ set('calRange',calRangeLabel(m.offs[0])+' - '+calRangeLabel(m.offs[m.n-1]));
  var pct=m.pct,sign=pct>0?'+':'',ref=period==='S'?'à la semaine précédente':period==='6M'?'aux 6 mois précédents':'au mois précédent';
  var bd=document.getElementById('calBadge');if(bd){bd.className='calbadge'+(pct<0?' neg':pct>0?' pos':'');bd.innerHTML='<span class="bdot"></span>'+sign+pct+' % par rapport '+ref}
  var per=period==='S'?'cette semaine':period==='6M'?'au cours de cette période':'ce mois-ci',cmp=pct>0?'soit plus que':pct<0?'soit moins que':'ce qui correspond à';
@@ -7395,7 +7395,7 @@ var TR={
  charge:{label:'Charge du jour',icon:'ti-bolt',unit:'',fmt:'dec',maxY:20,color:'#E8674A',
   weekly:[['jeu','20',10.1],['ven','21',10.0],['sam','22',13.7],['dim','23',8.1],['lun','24',10.2],['mar','25',13.3],['mer','26',12.9]],
   insight:'Durant cette période de 7 jours, ta charge moyenne était proche de ta moyenne habituelle.',
-  exTitle:"La charge, c'est quoi ?",exText:"La charge combine l'intensité et la durée de tes efforts. Une charge modérée (10–14) fait progresser sans entamer ta récupération."},
+  exTitle:"La charge, c'est quoi ?",exText:"La charge combine l'intensité et la durée de tes efforts. Une charge modérée (10 à 14) fait progresser sans entamer ta récupération."},
  zones13:{label:'Zones de FC 1 à 3',icon:'ti-heart',unit:'',fmt:'hm',maxY:60,parts:[['#B9CED8','Zone 1'],['#4A9CC1','Zone 2'],['#61B99A','Zone 3']],
   weekly:[['jeu','20',[18,4,0]],['ven','21',[14,2,2]],['sam','22',[31,10,9]],['dim','23',[18,7,0]],['lun','24',[10,2,0]],['mar','25',[14,15,9]],['mer','26',[12,3,0]]],
   insight:'Ces zones correspondent à un effort léger à modéré. Elles construisent ton endurance sans trop charger ton corps.',
@@ -7422,9 +7422,9 @@ function trDlab(d){return ['DIM.','LUN.','MAR.','MER.','JEU.','VEN.','SAM.'][d.g
 function trTotal(w){return Array.isArray(w[2])?w[2].reduce(function(a,b){return a+b},0):w[2]}
 function trSeed(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h}
 function trRangeLabel(a,b){var y=String(b.getFullYear()).slice(2);
- if(a.getFullYear()!==b.getFullYear())return CAL_MONTHS[a.getMonth()]+' '+String(a.getFullYear()).slice(2)+' – '+CAL_MONTHS[b.getMonth()]+' '+y;
- if(a.getMonth()!==b.getMonth())return CAL_MONTHS[a.getMonth()]+' '+a.getDate()+' – '+CAL_MONTHS[b.getMonth()]+' '+b.getDate()+', '+y;
- return CAL_MONTHS[a.getMonth()]+' '+a.getDate()+' – '+b.getDate()+', '+y}
+ if(a.getFullYear()!==b.getFullYear())return CAL_MONTHS[a.getMonth()]+' '+String(a.getFullYear()).slice(2)+' - '+CAL_MONTHS[b.getMonth()]+' '+y;
+ if(a.getMonth()!==b.getMonth())return CAL_MONTHS[a.getMonth()]+' '+a.getDate()+' - '+CAL_MONTHS[b.getMonth()]+' '+b.getDate()+', '+y;
+ return CAL_MONTHS[a.getMonth()]+' '+a.getDate()+' - '+b.getDate()+', '+y}
 function trBuildModel(id,period){var cfg=TR[id];period=period||'S';
  var W=360,H=300,padL=44,padR=14,padT=18,botY=256,plotH=botY-padT,plotW=W-padL-padR;
  var anchor=trAnchor(cfg),isLine=period==='6M',lineMode=isLine||cfg.kind==='line'||cfg.kind==='dualline',pts=[];
@@ -7490,7 +7490,7 @@ function trBind(){var box=document.getElementById('trChartBox');if(!box||box._bo
 function trToggleDD(){var m=document.getElementById('trDDMenu');if(m)m.style.display=m.style.display==='none'?'block':'none'}
 function trPickMetric(id){var mm=document.getElementById('trDDMenu');if(mm)mm.style.display='none';openTrend(id)}
 function setTrPeriod(p){window._trPeriod=p;renderEffTrend()}
-function trShift(){toast('Période précédente — démo')}
+function trShift(){toast('Période précédente : démo')}
 function openTrend(id){window._trMetric=id;window._trPeriod='S';window._trSel=null;window._trInspect=false;go('efftrend')}
 function renderEffTrend(){var id=window._trMetric||'charge',period=window._trPeriod||'S',cfg=TR[id];
  document.querySelectorAll('#trSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.p===period)});
@@ -7519,7 +7519,7 @@ function renderEffTrend(){var id=window._trMetric||'charge',period=window._trPer
    '<div class="trkc"><div class="kl">'+(thirdIsTotal?'Total':'Plus bas')+'</div><div class="kv">'+trFmtV(cfg,thirdIsTotal?tot:mnv)+'<small>'+u+'</small></div></div>'+
    '</div>';
   var extra='';
-  if(id==='charge'){var lv=[['Très intense (>18.0)','#E8674A',0],['Vigoureux (14.1–18.0)','#4A9CC1',0],['Modéré (10.1–14.0)','#61B99A',0],['Léger (0–10.0)','#B9CED8',0]];m.pts.forEach(function(p){var v=p.v;if(v>18)lv[0][2]++;else if(v>14)lv[1][2]++;else if(v>10)lv[2][2]++;else lv[3][2]++});var mx=Math.max.apply(null,lv.map(function(x){return x[2]}))||1;
+  if(id==='charge'){var lv=[['Très intense (>18.0)','#E8674A',0],['Vigoureux (14.1 à 18.0)','#4A9CC1',0],['Modéré (10.1 à 14.0)','#61B99A',0],['Léger (0 à 10.0)','#B9CED8',0]];m.pts.forEach(function(p){var v=p.v;if(v>18)lv[0][2]++;else if(v>14)lv[1][2]++;else if(v>10)lv[2][2]++;else lv[3][2]++});var mx=Math.max.apply(null,lv.map(function(x){return x[2]}))||1;
    extra='<section class="calcard explainb" style="margin-bottom:18px"><h2 style="font-size:15px;letter-spacing:.12em">Analyse de la charge <span style="color:#7A756E">(jours)</span></h2><div style="margin-top:14px">'+lv.map(function(x){return '<div class="trlv"><span class="dt" style="background:'+x[1]+'"></span><span class="nm">'+x[0]+'</span><span class="bar"><span style="width:'+(x[2]/mx*100)+'%;background:'+x[1]+'"></span></span><span class="ct">'+x[2]+'x</span></div>'}).join('')+'</div></section>';}
   else if(id==='strength'){extra='<button type="button" class="trcta" onclick="openActSheet&&openActSheet()"><i class="ti ti-barbell"></i> Ajouter une séance</button>';}
   ex.innerHTML=kpi+extra;}
@@ -7557,7 +7557,7 @@ function renderNotifNote(native){const el=document.getElementById('ntNote');if(!
 function toggleNotif(k,v){const p=notifPrefs();p[k]=v;DB.set('notifs',p);haptic();if(v===true&&!window.Capacitor&&('Notification'in window)&&Notification.permission==='default'){try{var rp=Notification.requestPermission();if(rp&&rp.then)rp.catch(function(){})}catch(e){}}scheduleNotifs().then(native=>renderNotifNote(native))}
 
 /* ---------- INTELLIGENCE FLINT : brief, coach proactif, bilan, check-in ---------- */
-function flDecision(s){return s>=67?{k:'Pousse',c:'var(--green)',ic:'flame',plan:'Ton corps est prêt. Conditions optimales pour pousser fort aujourd\'hui.'}:s>=34?{k:'Dose',c:'var(--amber)',ic:'adjustments-horizontal',plan:'Récup correcte. Vise une charge modérée, sans aller au bout.'}:{k:'Repos',c:'var(--accent)',ic:'bed',plan:'Récup basse. Priorise le repos, le sommeil et l\'hydratation.'}}
+function flDecision(s){return s>=67?{k:'Pousse',c:'var(--green)',ic:'flame',plan:'Ton corps est prêt. C\'est le jour pour pousser fort.'}:s>=34?{k:'Dose',c:'var(--amber)',ic:'adjustments-horizontal',plan:'Récup correcte. Vise une charge modérée, sans aller au bout.'}:{k:'Repos',c:'var(--accent)',ic:'bed',plan:'Récup basse. Priorise le repos, le sommeil et l\'hydratation.'}}
 function flDropPct(v,b){return (b&&b.m&&v!=null)?Math.round((b.m-v)/b.m*100):null}
 function flHMdur(min){return Math.floor(min/60)+'h'+String(Math.round(min%60)).padStart(2,'0')}
 function flInsights(){var out=[],rv=recovery(),now=new Date(),h=now.getHours(),dow=now.getDay();var t=sensorOf(tk()),bH=baseStat('hrv'),bR=baseStat('rhr');
@@ -7597,7 +7597,7 @@ function renderBrief(){var host=document.getElementById('briefBody');if(!host)re
   +'<p style="font-size:14px;line-height:1.5;color:#4A463F;margin:6px 18px 0">'+d.plan+'</p></div>'
   +(alert?'<div class="flretain '+alert.cls+'" style="cursor:default"><span class="frrow"><span class="fric"><i class="ti ti-'+alert.ic+'"></i></span><span class="frtx"><b>'+alert.title+'</b><span>'+alert.body+'</span></span></span></div>':'')
   +'<div class="card" style="margin-top:16px"><div class="ct">Ton plan du jour</div><div class="flbk">'
-   +'<div class="stat"><div class="sl">Cible d\'effort</div><div class="sv">'+lo+'–'+hi+'</div><div class="ss">sur 21</div></div>'
+   +'<div class="stat"><div class="sl">Cible d\'effort</div><div class="sv">'+lo+'-'+hi+'</div><div class="ss">sur 21</div></div>'
    +'<div class="stat"><div class="sl">Sommeil cette nuit</div><div class="sv">'+sl+'</div></div>'
    +'<div class="stat"><div class="sl">Dette de sommeil</div><div class="sv">'+(sd<1?'À jour':flHMdur(sd*60))+'</div></div>'
    +'<div class="stat"><div class="sl">VFC</div><div class="sv">'+(t&&t.hrv!=null?t.hrv+'<small> ms</small>':'—')+'</div></div>'
@@ -7608,7 +7608,7 @@ function renderWeekReview(){var host=document.getElementById('weekBody');if(!hos
  var w=assess(7),pw=(function(){var rec=0,n=0;for(var i=7;i<14;i++){var r=DB.get('recov_'+tk(-i),null);if(r!=null){rec+=r;n++}}return n?Math.round(rec/n):null})();
  var dRec=(w.rec!=null&&pw!=null)?w.rec-pw:null;
  var acute=flWeekStrain(0),chronic=Math.round((function(){var s=0;for(var i=0;i<28;i++)s+=loadStrain(tk(-i));return s})()/4);
- var ratio=chronic?acute/chronic:null,ratioTxt=ratio==null?'—':ratio>1.3?'Charge en forte hausse — attention au surmenage':ratio<0.8?'Charge en baisse — phase de récupération':'Charge équilibrée, bon rythme',ratioCol=ratio==null?'#8A8580':ratio>1.3?'#C0492C':ratio<0.8?'#2E78B5':'#2FA86A';
+ var ratio=chronic?acute/chronic:null,ratioTxt=ratio==null?'—':ratio>1.3?'Charge en forte hausse, attention au surmenage':ratio<0.8?'Charge en baisse, phase de récupération':'Charge équilibrée, bon rythme',ratioCol=ratio==null?'#8A8580':ratio>1.3?'#C0492C':ratio<0.8?'#2E78B5':'#2FA86A';
  var sd=sleepDebt(),best=null,bestK=null;for(var i=0;i<7;i++){var r=DB.get('recov_'+tk(-i),null);if(r!=null&&(best==null||r>best)){best=r;bestK=i}}
  var DOWF=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],bestDay=bestK!=null?DOWF[(function(){var _p=tk(-bestK).split('-');return new Date(+_p[0],+_p[1]-1,+_p[2]).getDay()})()]:null;
  var c=behaviorCorr(),neg=c.filter(function(x){return x.imp<0})[0];
@@ -7639,7 +7639,7 @@ function closeCheckin(){var d=document.getElementById('flCkSheet');if(d){d.class
 function flPush(title,body){try{if(window.Capacitor)return;if(!('Notification'in window)||Notification.permission!=='granted')return;new Notification(title,{body:body,icon:'icon-192.png'})}catch(e){}}
 function flTick(v){try{flRefreshBell()}catch(e){}if(v==='today'){try{flRenderBriefCard()}catch(e){}}
  var now=new Date(),h=now.getHours(),p=notifPrefs();
- if(p.morning&&h>=5&&h<12){var mk='push_m_'+tk();if(!DB.get(mk,0)){var rv=recovery();if(rv){DB.set(mk,1);flPush('☀️ Récup '+rv.s+'% — '+flDecision(rv.s).k+' aujourd\'hui','Ouvre ton brief du matin dans Flint.')}}}
+ if(p.morning&&h>=5&&h<12){var mk='push_m_'+tk();if(!DB.get(mk,0)){var rv=recovery();if(rv){DB.set(mk,1);flPush('☀️ Récup '+rv.s+'%, '+flDecision(rv.s).k+' aujourd\'hui','Ouvre ton brief du matin dans Flint.')}}}
  if((p.evening||p.bed)&&h>=20){var ek='push_e_'+tk(),j=DB.get('journal_'+tk(),{}),any=false;for(var kk in j)if(j[kk])any=true;if(!DB.get(ek,0)&&!any){DB.set(ek,1);flPush('🌙 Check-in du soir','30 s pour noter ta journée et révéler ce qui influence ta récup.')}}}
 window.addEventListener('load',function(){setTimeout(function(){var on=document.querySelector('.view.on');flTick(on?on.id.replace('v-',''):'today')},500)});
 
@@ -7667,7 +7667,7 @@ function seedTodayShowcase(){const sleepMin=462,deep=104,rem=118,awake=12,light=
  const timeInBed=474,latency=11,wakeEvents=9,lowestHr=45,bedMin=1386,wakeMin=420;
  DB.set('sensor_'+tk(),{hrv:96,rhr:47,resp:13.4,skinTemp:36.6,spo2:97,deep,rem,light,awake,sleepMin,timeInBed,latency,wakeEvents,lowestHr,bedMin,wakeMin,stages:flStageSegs({deep,rem,light,awake}),hrSamples:flHrSamples(47,lowestHr,timeInBed),source:'sim'});
  DB.set('sessions_'+tk(),[{name:'Marche',icon:'🚶',start:'09:15',dur:45,int:1,auto:true},{name:'Padel',icon:'🎾',start:'12:30',dur:75,int:2,auto:true},{type:'nap',name:'Sieste',icon:'😴',start:'15:00',dur:25},{name:'Football',icon:'⚽',start:'18:00',dur:75,int:3,auto:true}]);
- DB.set('meals_'+tk(),[{name:'Petit-déj — flocons & œufs',kcal:520,prot:32,carb:60,fat:16},{name:'Déjeuner — poulet riz',kcal:760,prot:55,carb:80,fat:18},{name:'Collation — skyr & banane',kcal:280,prot:22,carb:38,fat:4},{name:'Snack — amandes',kcal:290,prot:10,carb:10,fat:24}]);
+ DB.set('meals_'+tk(),[{name:'Petit-déj : flocons & œufs',kcal:520,prot:32,carb:60,fat:16},{name:'Déjeuner : poulet riz',kcal:760,prot:55,carb:80,fat:18},{name:'Collation : skyr & banane',kcal:280,prot:22,carb:38,fat:4},{name:'Snack : amandes',kcal:290,prot:10,carb:10,fat:24}]);
  persistRecov()}
 function ensureDemo(){if(DB.get('seeded')===11)return;simulateData(true);seedTodayShowcase();
  for(let i=1;i<=13;i++){const k=tk(-i);DB.set('meals_'+k,[{name:'Journée',kcal:Math.round(1950+Math.random()*650),prot:Math.round(120+Math.random()*70),carb:Math.round(180+Math.random()*120),fat:Math.round(55+Math.random()*45)}])}
@@ -7694,8 +7694,8 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(!rv)return "Je n'ai pas encore tes données de cette nuit. Synchronise ta Polar Loop et je te conseillerai précisément.";
  var s=rv.s,zone=s>=67?'haute':s>=34?'modérée':'basse';
  if(/(pret|prete|entrain|pousser|seance|forme|aujourd|peux|wod|muscu|metcon)/.test(n)){
-  if(s>=67)return 'Feu vert 🔥 Ta récup est haute ('+s+'%). Ton corps a bien encaissé — c\'est le bon jour pour une grosse séance. Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b>. Reste à l\'écoute de tes sensations.';
-  if(s>=34)return 'Tu peux t\'entraîner, mais dose. Récup modérée ('+s+'%). Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b> — technique ou métcon léger plutôt qu\'un max. Garde de la marge pour demain.';
+  if(s>=67)return 'Feu vert 🔥 Ta récup est haute ('+s+'%). Ton corps a bien encaissé, c\'est le bon jour pour une grosse séance. Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b>. Reste à l\'écoute de tes sensations.';
+  if(s>=34)return 'Tu peux t\'entraîner, mais dose. Récup modérée ('+s+'%). Vise un effort de <b>'+tg[0]+' à '+tg[1]+'</b>, technique ou métcon léger plutôt qu\'un max. Garde de la marge pour demain.';
   return 'Aujourd\'hui, lève le pied. Récup basse ('+s+'%) : ton corps n\'a pas fini d\'encaisser. Repos actif, mobilité ou marche. Si tu t\'entraînes, reste sous <b>'+tg[1]+'</b> d\'effort.';
  }
  if(/(pourquoi|score|recup\b|si bas|si haut|explique)/.test(n)){
@@ -7706,14 +7706,14 @@ function coachReply(q){var n=_cnorm(q),rv=recovery(),t=sensorOf(tk()),p=getProfi
  if(/(sommeil|dormi|dormir|nuit|reveil|coucher)/.test(n)){
   var sn=sleepNight(tk());if(!sn)return "Pas de données de sommeil pour cette nuit.";
   var need=(p.need||8)*60,hh=Math.floor(sn.asleep/60)+'h'+String(Math.round(sn.asleep%60)).padStart(2,'0');
-  var v=sn.asleep>=need-15?'C\'est dans ta cible 👍':sn.asleep>=need-60?'Un peu court — vise 30 min de plus.':'Nuit courte, couche-toi plus tôt ce soir.';
+  var v=sn.asleep>=need-15?'C\'est dans ta cible 👍':sn.asleep>=need-60?'Un peu court, vise 30 min de plus.':'Nuit courte, couche-toi plus tôt ce soir.';
   return 'Tu as dormi <b>'+hh+'</b> (besoin '+Math.floor(need/60)+'h). '+v+' Pour mieux récupérer : horaires réguliers, chambre fraîche et sombre, écrans coupés 30 min avant.';
  }
  if(/(effort|charge|intensite|combien|forcer|borg)/.test(n))return 'Vise un effort entre <b>'+tg[0]+' et '+tg[1]+'</b> aujourd\'hui (échelle 0-21). Au-delà tu creuses ta récup ; en dessous tu progresses moins. En crossfit, alterne une grosse séance et une séance technique le lendemain.';
  if(/(mieux recup|recuperer|recup plus|progresser|conseil|ameliorer)/.test(n))return 'Tes 3 leviers, par ordre d\'impact : <b>1) le sommeil</b> (régularité + durée), <b>2) doser l\'effort</b> (évite d\'enchaîner les séances max), <b>3) l\'hygiène</b> (hydratation, alcool/caféine tardifs). Remplis ton journal et je te dirai ce qui pèse le plus pour toi.';
  if(/(vfc|hrv|variabilite)/.test(n)){var b=baseStat('hrv'),hv=t&&t.hrv!=null?t.hrv:null;if(hv==null)return "Pas de VFC mesurée cette nuit.";var rel=b?(hv>=b.m+b.sd?'au-dessus de ta normale (bon signe)':hv<=b.m-b.sd?'sous ta normale (fatigue ou stress)':'dans ta plage habituelle'):'';return 'Ta VFC cette nuit : <b>'+hv+' ms</b>'+(rel?', '+rel:'')+'. Une VFC haute = système nerveux bien récupéré. Sommeil régulier, gestion du stress et hydratation l\'améliorent.';}
- if(/(fc |cardiaque|pouls|battement|coeur|rhr)/.test(n)){var hr=t&&t.rhr!=null?t.rhr:null;if(hr==null)return "Pas de FC au repos mesurée cette nuit.";var br=baseStat('rhr'),rel=br?(hr>br.m+br.sd?'plus haute que ta normale — fatigue, stress ou début de maladie possible':'dans ta normale'):'';return 'Ta FC au repos : <b>'+hr+' bpm</b>'+(rel?', '+rel:'')+'. Plus elle est basse et stable, mieux c\'est.';}
- if(/(fatigue|creve|epuise|nase|hs|crame)/.test(n)){if(s<34)return 'Tes données confirment : récup basse ('+s+'%). Normal de te sentir entamé. Priorise sommeil, hydratation et repos actif — tu reviendras plus fort.';return 'Tes données sont plutôt bonnes ('+s+'%). Si tu te sens fatigué malgré ça, écoute ton ressenti : le stress du quotidien pèse parfois plus que les chiffres.';}
+ if(/(fc |cardiaque|pouls|battement|coeur|rhr)/.test(n)){var hr=t&&t.rhr!=null?t.rhr:null;if(hr==null)return "Pas de FC au repos mesurée cette nuit.";var br=baseStat('rhr'),rel=br?(hr>br.m+br.sd?'plus haute que ta normale : fatigue, stress ou début de maladie possible':'dans ta normale'):'';return 'Ta FC au repos : <b>'+hr+' bpm</b>'+(rel?', '+rel:'')+'. Plus elle est basse et stable, mieux c\'est.';}
+ if(/(fatigue|creve|epuise|nase|hs|crame)/.test(n)){if(s<34)return 'Tes données confirment : récup basse ('+s+'%). Normal de te sentir entamé. Priorise sommeil, hydratation et repos actif, tu reviendras plus fort.';return 'Tes données sont plutôt bonnes ('+s+'%). Si tu te sens fatigué malgré ça, écoute ton ressenti : le stress du quotidien pèse parfois plus que les chiffres.';}
  if(/stress|anxi|tendu|nerveux/.test(n))return 'Le stress se lit sur ta VFC et ta FC au repos. Aujourd\'hui ta récup est '+zone+' ('+s+'%). Quelques minutes de respiration lente (cohérence cardiaque) le soir aident vraiment.';
  if(/(merci|nickel|super|cool|parfait|top|genial)/.test(n))return 'Avec plaisir 💪 Je suis là quand tu veux.';
  if(/(salut|bonjour|hello|coucou|hey|ca va|yo)/.test(n))return 'Salut'+(nm?' '+nm:'')+' ! Ta récup du jour est '+zone+' ('+s+'%). Demande-moi si tu peux pousser, pourquoi ton score, comment a été ta nuit, ou quel effort viser.';
@@ -7819,7 +7819,7 @@ function fxRoster(win){var r=[fxMe(win)];BOX_MEMBERS.forEach(function(m){r.push(
 function openBox(){go('box')}
 function boxSetWin(w){window._boxWin=w;renderBox();try{haptic()}catch(e){}}
 function renderBox(){var host=document.getElementById('boxBody');if(!host)return;var win=window._boxWin||7;var roster=fxRoster(win);
-  var box=DB.get('box',{name:'CrossFit Étincelle',code:'FLINT24'}),chal=DB.get('challenge',{name:'Prépa HYROX — 8 sem.',goal:240,end:tk(30)});
+  var box=DB.get('box',{name:'CrossFit Étincelle',code:'FLINT24'}),chal=DB.get('challenge',{name:'Prépa HYROX 8 sem.',goal:240,end:tk(30)});
   var total=0;BOX_MEMBERS.forEach(function(m){for(var i=0;i<12;i++){if(fxDay(m,i).trained)total++;}});for(var i=0;i<12;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)total++;}
   var pct=Math.min(100,Math.round(total/(chal.goal||240)*100)),medals=['🥇','🥈','🥉'];
   host.innerHTML='<div class="card" style="margin-top:14px"><div style="display:flex;align-items:center;gap:11px"><span class="fric" style="background:#FBEAE5;color:#C0492C"><i class="ti ti-barbell"></i></span><div><b style="font-size:16px">'+esc(box.name)+'</b><div style="font-size:12px;color:#8A8580">Code '+esc(box.code)+' · '+roster.length+' membres</div></div></div></div>'
@@ -7828,7 +7828,7 @@ function renderBox(){var host=document.getElementById('boxBody');if(!host)return
     +'<div class="ct" style="margin:14px 2px 6px">Classement assiduité</div>'
     +roster.map(function(r,i){return '<div class="flnrow" style="'+(r.me?'background:#FBF4EF;border-radius:12px;padding:13px 8px':'')+'"><span style="width:28px;font-weight:800;color:#8A8580;text-align:center;font-size:'+(i<3?'17px':'14px')+'">'+(i<3?medals[i]:(i+1))+'</span>'+(r.avatar?'<span class="flnic" style="background-image:url('+r.avatar+');background-size:cover"></span>':'<span class="flnic"><i class="ti ti-user"></i></span>')+'<span class="flntx"><b>'+esc(r.name)+(r.me?' (toi)':'')+'</b><span>'+r.sessions+' séances · streak '+r.streak+' j · récup '+r.recAvg+'%</span></span><span style="font-weight:800;color:var(--green)">'+r.score+'</span></div>';}).join('');
 }
-function seedBox(){if(DB.get('box_seed')===1)return;DB.set('box',{name:'CrossFit Étincelle',code:'FLINT24'});DB.set('challenge',{name:'Prépa HYROX — 8 sem.',goal:240,end:tk(30)});DB.set('box_seed',1);}
+function seedBox(){if(DB.get('box_seed')===1)return;DB.set('box',{name:'CrossFit Étincelle',code:'FLINT24'});DB.set('challenge',{name:'Prépa HYROX 8 sem.',goal:240,end:tk(30)});DB.set('box_seed',1);}
 function renderCycleFields(){var p=getProfile();var cy=document.getElementById('pfCycle');if(!cy)return;cy.checked=!!p.cycleOn;var lp=document.getElementById('pfLastPeriod');if(lp)lp.value=p.lastPeriod||'';var cl=document.getElementById('pfCycleLen');if(cl)cl.value=p.cycleLen||28;var pl=document.getElementById('pfPeriodLen');if(pl)pl.value=p.periodLen||5;var cf=document.getElementById('cycFields');if(cf)cf.style.display=p.cycleOn?'block':'none';}
 var _pfSex='homme';
 function pfPickPhoto(){var i=document.getElementById('pfPhotoInput');if(i)i.click();}
@@ -7839,8 +7839,8 @@ function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg')
 function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v385';
-async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
+const APP_VERSION='flint-v386';
+async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+'), appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
 try{seedBox()}catch(e){}
@@ -7893,7 +7893,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
       log('6. SCAN BRUT (tout le Bluetooth, zéro filtre) :');
       try{ await T(P.rawScan(),10000,'rawScan'); }
       catch(e){ log('⚠️ scan brut : '+e.message); }
-      setTimeout(function(){ try{ P.rawStop&&P.rawStop(); P.stopScan&&P.stopScan(); }catch(e){} if(!connecting)log('— Fin (25s). Si AUCUNE ligne « ⭐ POLAR » ni appareil à signal fort (-40 à -60 dBm) n\'est apparu, ta Loop n\'émet rien du tout → souci matériel.'); },25000);
+      setTimeout(function(){ try{ P.rawStop&&P.rawStop(); P.stopScan&&P.stopScan(); }catch(e){} if(!connecting)log('Fin (25s). Si AUCUNE ligne « ⭐ POLAR » ni appareil à signal fort (-40 à -60 dBm) n\'est apparu, ta Loop n\'émet rien du tout → souci matériel.'); },25000);
     }catch(e){log('❌ erreur : '+(e&&e.message?e.message:e));}
   };
 })();
@@ -7967,7 +7967,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)retur
   window._flintSyncResultUI=syncUI;window.syncUI=syncUI;
   window.nutFix=function(){if(window.toast)toast('Ajuste les aliments ou les grammes ci-dessous');var h=document.getElementById('scanItems');if(h&&h.scrollIntoView)h.scrollIntoView({behavior:'smooth',block:'center'});};
   window.nutGallery=function(){var f=document.getElementById('nutGalleryFile');if(f){f.value='';f.click();}};
-  window.nutDescribe=function(){if(window.toast)toast('Décrire ton plat — bientôt');};
+  window.nutDescribe=function(){if(window.toast)toast('Décrire ton plat, bientôt');};
   function recalc(){
     var items=window._flintScanItems||[];
     var t=items.reduce(function(a,it){return {k:a.k+(+it.kcal||0),p:a.p+(+it.prot||0),c:a.c+(+it.carb||0),f:a.f+(+it.fat||0)};},{k:0,p:0,c:0,f:0});
@@ -8399,7 +8399,7 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
     pan.innerHTML='<button class="flx-prod-x" aria-label="Fermer"><i class="ti ti-x"></i></button>'
       +'<div class="flx-nf"><div class="flx-nf-ic"><i class="ti ti-barcode"></i></div>'
       +'<div class="flx-nf-h">On n\'a pas encore ce produit</div>'
-      +'<div class="flx-nf-s">Ajoute-le en 10 secondes — il sera là au prochain scan, pour toi et les autres.</div>'
+      +'<div class="flx-nf-s">Ajoute-le en 10 secondes. Il sera là au prochain scan, pour toi et les autres.</div>'
       +'<button class="flx-nf-b primary" data-a="label"><i class="ti ti-camera"></i> Scanner l\'étiquette</button>'
       +'<button class="flx-nf-b" data-a="search"><i class="ti ti-search"></i> Rechercher par nom</button>'
       +'<button class="flx-nf-b" data-a="manual"><i class="ti ti-pencil"></i> Ajouter manuellement</button></div>';
@@ -8556,7 +8556,7 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
   }
   function _armHelp(){
     if(_scanHelpTO)clearTimeout(_scanHelpTO);
-    _scanHelpTO=setTimeout(function(){ if(_scanDone)return; var h=g('flxBarHint'); if(h)h.innerHTML='Difficile à lire ? Rapproche un peu, ajoute de la lumière, ou « Saisir » le code.'; }, 6000);
+    _scanHelpTO=setTimeout(function(){ if(_scanDone)return; var h=g('flxBarHint'); if(h)h.innerHTML='Difficile à lire ? Rapproche un peu, ajoute de la lumière, ou tape « Saisir ».'; }, 6000);
   }
   function _scanStop(){
     _scanDone=true;
@@ -8698,10 +8698,10 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
     });
   }
   function _startZXing(ov){
-    var vid=g('flxBarVid'); if(!vid){ var hh=g('flxBarHint'); if(hh)hh.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+    var vid=g('flxBarVid'); if(!vid){ var hh=g('flxBarHint'); if(hh)hh.textContent='Scanner indisponible. Tape le code avec « Saisir ».'; return; }
     var hint=g('flxBarHint'); if(hint)hint.textContent='Ouverture de la caméra…';
     loadZXing(function(ZX){
-      if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible — utilise « Saisir »'; return; }
+      if(!ZX){ var h=g('flxBarHint'); if(h)h.textContent='Scanner indisponible. Tape le code avec « Saisir ».'; return; }
       if(_scanDone)return;
       try{
         var hints=null; try{ hints=new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS,[ZX.BarcodeFormat.EAN_13,ZX.BarcodeFormat.EAN_8,ZX.BarcodeFormat.UPC_A,ZX.BarcodeFormat.UPC_E,ZX.BarcodeFormat.QR_CODE,ZX.BarcodeFormat.CODE_128]); }catch(e){ hints=null; }
@@ -8732,7 +8732,7 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
       var h=g('flxBarHint'); if(h)h.textContent='Place le code dans le cadre';
       _armHelp();
       return BS.startScan?BS.startScan({}):null;
-    }).catch(function(e){ if(e!=='h'){ var h=g('flxBarHint'); if(h)h.textContent='Scanner natif indisponible — utilise « Saisir »'; } });
+    }).catch(function(e){ if(e!=='h'){ var h=g('flxBarHint'); if(h)h.textContent='Scanner natif indisponible. Tape le code avec « Saisir ».'; } });
   }
 
   function _startScanner(){
@@ -8817,7 +8817,7 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
  function fillProduct(p,header,icon){
   var n=p.nutriments||{};
   var nm=(p.product_name_fr||p.product_name||'Produit');if(p.brands)nm=nm+' · '+String(p.brands).split(',')[0];
-  sheet(nm+' (100 g)',Math.round(n['energy-kcal_100g']||n['energy-kcal']||0),Math.round(n['proteins_100g']||0),Math.round(n['carbohydrates_100g']||0),Math.round(n['fat_100g']||0),header,'<span class="bal-aibadge"><i class="ti '+icon+'"></i>Open Food Facts</span>Valeurs pour 100 g — ajuste si besoin',icon);
+  sheet(nm+' (100 g)',Math.round(n['energy-kcal_100g']||n['energy-kcal']||0),Math.round(n['proteins_100g']||0),Math.round(n['carbohydrates_100g']||0),Math.round(n['fat_100g']||0),header,'<span class="bal-aibadge"><i class="ti '+icon+'"></i>Open Food Facts</span>Valeurs pour 100 g, ajuste si besoin',icon);
  }
  function barcodeLookup(code){
   code=String(code||'').replace(/\D/g,'');if(!code){if(window.toast)toast('Code invalide');return;}
@@ -8852,9 +8852,9 @@ body.flx-native-scan>*:not(#flxBar){visibility:hidden !important}
   ov.querySelector('.flx-scan-x').onclick=close;
   ov.querySelector('.flx-scan-man').onclick=function(){close();var c=window.prompt('Saisis les chiffres sous le code-barres :');if(c)barcodeLookup(c);};
   loadZX(function(ZX){
-   if(!ZX){var h=g('flxBarHint');if(h)h.textContent='Scanner indisponible — utilise « Saisir »';return;}
+   if(!ZX){var h=g('flxBarHint');if(h)h.textContent='Scanner indisponible. Tape le code avec « Saisir ».';return;}
    try{_zx=new ZX.BrowserMultiFormatReader();_zx.decodeFromVideoDevice(undefined,vid,function(res){if(res&&res.getText){if(window.haptic)haptic(12);close();barcodeLookup(res.getText());}});}
-   catch(e){var h2=g('flxBarHint');if(h2)h2.textContent='Caméra indisponible — utilise « Saisir »';}
+   catch(e){var h2=g('flxBarHint');if(h2)h2.textContent='Caméra indisponible. Tape le code avec « Saisir ».';}
   });
  }
  function openCamera(){
