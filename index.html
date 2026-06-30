@@ -2604,6 +2604,18 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
 .flbreathe .brt{font-size:18px;font-weight:800;color:#161512;margin-bottom:30px}
 .flbreathe .brcircle{width:200px;height:200px;border-radius:50%;margin:0 auto;background:radial-gradient(circle at 50% 38%,#8FD6AF,#2FA86A);display:grid;place-items:center;color:#fff;font-size:18px;font-weight:800;transform:scale(.6);box-shadow:0 18px 50px rgba(47,168,106,.38)}
 .flbreathe .brsub{margin-top:36px;font-size:14px;color:#8A8580}
+.pfhero2{position:relative;text-align:center;padding:16px 16px 2px}
+.pfhero2 .bk2{position:absolute;left:8px;top:8px}
+.pfh-av{width:106px;height:106px;margin:8px auto 0;position:relative;cursor:pointer}
+.pfh-avimg{width:106px;height:106px;border-radius:50%;background:#E8E2D8 center/cover no-repeat;border:3px solid #fff;box-shadow:0 10px 26px rgba(22,21,18,.18);display:grid;place-items:center;font-family:var(--disp);font-style:oblique 6deg;font-size:40px;color:#B9B1A4}
+.pfh-cam{position:absolute;right:2px;bottom:2px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:15px;border:2.5px solid #fff;box-shadow:0 4px 12px rgba(240,73,46,.4)}
+.pfh-name{font-family:var(--disp);font-style:oblique 7deg;text-transform:uppercase;font-size:27px;color:#161512;margin-top:13px;letter-spacing:.5px;line-height:1}
+.pfh-sub{font-size:12.5px;color:#8A8580;margin-top:4px;font-weight:600}
+.pfh-stats{display:flex;justify-content:center;gap:9px;margin:18px 4px 8px}
+.pfh-stat{flex:1;border:0;cursor:pointer;font-family:inherit;background:#fff;border-radius:16px;padding:13px 6px;box-shadow:var(--shadow);transition:transform .12s ease}
+.pfh-stat:active{transform:scale(.96)}
+.pfh-stat b{display:block;font-family:var(--disp);font-style:oblique 5deg;font-size:23px;color:#161512;line-height:1}
+.pfh-stat span{display:block;font-size:10.5px;color:#8A8580;margin-top:5px;font-weight:700;letter-spacing:.02em}
 /* guide d'installation iOS (Ajouter à l'écran d'accueil) */
 .iosinstall{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:300;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ECE6DD;border-radius:18px;padding:13px 14px;box-shadow:0 14px 44px rgba(22,21,18,.22);transform:translateY(150%);opacity:0;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .3s}
 .iosinstall.show{transform:translateY(0);opacity:1}
@@ -4786,28 +4798,44 @@ body.stepsview header{display:none}
 <!-- ===================== PROFIL ===================== -->
 <section class="view" id="v-profile">
 <div class="flprofile">
-  <div class="pfhero">
-    <svg class="strk" width="150" height="120" viewBox="0 0 150 120" preserveAspectRatio="none"><g stroke="#3C3A35" stroke-width="3.4" stroke-linecap="round"><line x1="70" y1="20" x2="140" y2="20"/><line x1="95" y1="34" x2="150" y2="34"/><line x1="55" y1="48" x2="148" y2="48"/><line x1="90" y1="62" x2="150" y2="62"/><line x1="65" y1="76" x2="142" y2="76"/><line x1="100" y1="90" x2="150" y2="90"/><line x1="78" y1="104" x2="146" y2="104"/></g></svg>
+  <div class="pfhero2">
     <button class="bk2" onclick="goBack('today')" aria-label="Retour">‹</button>
-    <svg class="flame" width="30" height="38" viewBox="0 0 24 24" fill="none" stroke="#E8674A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z"/></svg>
-    <div style="flex:1;min-width:0"><div class="ttl">Profil</div><div class="sub">Tes objectifs, ton capteur et tes réglages.</div></div>
+    <div class="pfh-av" onclick="pfPickPhoto()" role="button" aria-label="Changer la photo"><div class="pfh-avimg" id="pfAvatarImg">A</div><span class="pfh-cam"><i class="ti ti-camera"></i></span></div>
+    <input type="file" accept="image/*" id="pfPhotoInput" style="display:none" onchange="pfPhotoChange(event)">
+    <div class="pfh-name" id="pfHeroName">Arthur</div>
+    <div class="pfh-sub" id="pfHeroSub">Membre FLINT · à vie</div>
+    <div class="pfh-stats">
+      <button class="pfh-stat" type="button" onclick="openFlage()"><b id="pfHeroAge">—</b><span>FLINT Age</span></button>
+      <button class="pfh-stat" type="button" onclick="go('recovery')"><b id="pfHeroRec">—</b><span>Récup 7j</span></button>
+      <button class="pfh-stat" type="button" onclick="openBox()"><b id="pfHeroStreak">—</b><span>Streak</span></button>
+    </div>
   </div>
 
   <div class="flcard">
-    <div class="sect"><i class="ti ti-user"></i>Toi</div>
-    <div class="fgrid">
-      <div class="fld"><span class="flab">Prénom</span><input aria-label="Prénom" id="pfName" class="fin2"></div>
-      <div class="fld"><span class="flab">Âge</span><input aria-label="Âge" id="pfAge" class="fin2" type="number" inputmode="numeric"></div>
+    <div class="sect"><i class="ti ti-user"></i>Mes informations</div>
+    <div class="fld"><span class="flab">Prénom</span><input aria-label="Prénom" id="pfName" class="fin2"></div>
+    <div class="flab" style="margin:14px 0 7px">Sexe</div>
+    <div class="seg" id="pfSexSeg"><button type="button" data-sex="homme" onclick="pfSetSex('homme')">Homme</button><button type="button" data-sex="femme" onclick="pfSetSex('femme')">Femme</button><button type="button" data-sex="autre" onclick="pfSetSex('autre')">Autre</button></div>
+    <div class="fgrid" style="margin-top:12px"><div class="fld"><span class="flab">Âge</span><input aria-label="Âge" id="pfAge" class="fin2" type="number" inputmode="numeric"></div><div class="fld"><span class="flab">Taille (cm)</span><input aria-label="Taille" id="pfHeight" class="fin2" type="number" inputmode="numeric"></div></div>
+    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Poids (kg)</span><input aria-label="Poids" id="pfWeight" class="fin2" type="number" inputmode="decimal" step="0.1"></div><div class="fld"></div></div>
+    <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
+  </div>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-target"></i>Objectifs</div>
+    <div class="fgrid"><div class="fld"><span class="flab">Réveil cible</span><input aria-label="Réveil cible" id="pfWake" class="fin2" type="time"></div><div class="fld"><span class="flab">Besoin sommeil (h)</span><input aria-label="Besoin sommeil" id="pfNeed" class="fin2" type="number" step="0.5"></div></div>
+    <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Objectif kcal</span><input aria-label="Objectif kcal" id="pfKcal" class="fin2" type="number" inputmode="numeric"></div><div class="fld"><span class="flab">Protéines (g)</span><input aria-label="Objectif protéines" id="pfProt" class="fin2" type="number" inputmode="numeric"></div></div>
+    <button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
+  </div>
+
+  <div class="flcard">
+    <div class="sect"><i class="ti ti-flower"></i>Cycle menstruel</div>
+    <div class="swrow"><div><div class="swt">Suivi du cycle</div><div class="sws">Adapte la récup et l’effort à ta phase</div></div><label class="switch"><input type="checkbox" id="pfCycle" onchange="document.getElementById('cycFields').style.display=this.checked?'block':'none'"><span class="sl2"></span></label></div>
+    <div id="cycFields" style="display:none">
+      <div class="fgrid" style="margin-top:6px"><div class="fld"><span class="flab">Dernières règles</span><input id="pfLastPeriod" class="fin2" type="date"></div><div class="fld"><span class="flab">Durée cycle (j)</span><input id="pfCycleLen" class="fin2" type="number" value="28"></div></div>
+      <div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Durée règles (j)</span><input id="pfPeriodLen" class="fin2" type="number" value="5"></div><div class="fld"></div></div>
+      <button class="fbtn primary" style="margin-top:14px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer le cycle</button>
     </div>
-    <div class="fgrid" style="margin-top:10px">
-      <div class="fld"><span class="flab">Réveil cible</span><input aria-label="Réveil cible" id="pfWake" class="fin2" type="time"></div>
-      <div class="fld"><span class="flab">Besoin sommeil (h)</span><input aria-label="Besoin sommeil (h)" id="pfNeed" class="fin2" type="number" step="0.5"></div>
-    </div>
-    <div class="fgrid" style="margin-top:10px">
-      <div class="fld"><span class="flab">Objectif kcal</span><input aria-label="Objectif kcal" id="pfKcal" class="fin2" type="number" inputmode="numeric"></div>
-      <div class="fld"><span class="flab">Objectif protéines (g)</span><input aria-label="Objectif protéines (g)" id="pfProt" class="fin2" type="number" inputmode="numeric"></div>
-    </div>
-    <div class="swrow" style="margin-top:8px"><div><div class="swt">Suivi du cycle</div><div class="sws">Adapte la récup et l’effort à ta phase</div></div><label class="switch"><input type="checkbox" id="pfCycle" onchange="document.getElementById('cycFields').style.display=this.checked?'block':'none'"><span class="sl2"></span></label></div><div id="cycFields" style="display:none"><div class="fgrid"><div class="fld"><span class="flab">Dernières règles</span><input id="pfLastPeriod" class="fin2" type="date"></div><div class="fld"><span class="flab">Durée cycle (j)</span><input id="pfCycleLen" class="fin2" type="number" value="28"></div></div><div class="fgrid" style="margin-top:10px"><div class="fld"><span class="flab">Durée règles (j)</span><input id="pfPeriodLen" class="fin2" type="number" value="5"></div><div class="fld"></div></div></div><button class="fbtn primary" style="margin-top:16px" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Enregistrer</button>
   </div>
 
   <div class="flcard"><div class="sect"><i class="ti ti-sparkles"></i>Plus</div><button class="fbtn ghost" onclick="openFlage()"><i class="ti ti-cake"></i>Mon FLINT Age</button><button class="fbtn ghost" onclick="openBox()"><i class="ti ti-users"></i>Ma box (social)</button><button class="fbtn ghost" onclick="openBreathe()"><i class="ti ti-wind"></i>Respiration guidée</button></div>
@@ -4947,7 +4975,7 @@ const tk=(off)=>{const d=new Date();if(off)d.setDate(d.getDate()+off);return d.g
 const tmin=s=>{const a=(s||'07:00').split(':').map(Number);return a[0]*60+a[1]};
 const fmtN=n=>Math.round(n||0).toLocaleString('fr-FR').replace(/[  ]/g,' ');
 const fmtDur=m=>m>=60?Math.floor(m/60)+'H'+String(m%60).padStart(2,'0'):m+' MIN';
-function getProfile(){const o=Object.assign({name:'Arthur',age:28,wake:'07:00',need:8,kcalGoal:2400,protGoal:150,cycleOn:false,cycleLen:28,periodLen:5,lastPeriod:null},DB.get('profile',{}));if(typeof o.name!=='string'||!o.name)o.name='Arthur';return o}
+function getProfile(){const o=Object.assign({name:'Arthur',age:28,wake:'07:00',need:8,kcalGoal:2400,protGoal:150,cycleOn:false,cycleLen:28,periodLen:5,lastPeriod:null,sex:'homme',height:null,weight:null},DB.get('profile',{}));if(typeof o.name!=='string'||!o.name)o.name='Arthur';return o}
 let toastT;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),2200)}
 function set(id,v){const e=document.getElementById(id);if(e)e.innerHTML=v}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -7526,8 +7554,8 @@ function renderTrends(){const metrics=[['recov','Récupération','var(--accent)'
 
 /* ---------- PROFIL ---------- */
 function renderProfile(){const p=getProfile();document.getElementById('pfName').value=p.name;document.getElementById('pfAge').value=p.age;document.getElementById('pfWake').value=p.wake;document.getElementById('pfNeed').value=p.need;document.getElementById('pfKcal').value=p.kcalGoal;document.getElementById('pfProt').value=p.protGoal;set('verLine','Version : '+APP_VERSION+(DB.get('demo')?' · mode démo':''));renderJournal();
- const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;const ev=document.getElementById('ntEvening');if(ev)ev.checked=np.evening;const wk=document.getElementById('ntWeekly');if(wk)wk.checked=np.weekly;renderNotifNote(!!_LN());try{renderCycleFields()}catch(e){}}
-function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;var _cy=document.getElementById('pfCycle');if(_cy){p.cycleOn=_cy.checked;p.lastPeriod=document.getElementById('pfLastPeriod').value||null;p.cycleLen=+document.getElementById('pfCycleLen').value||28;p.periodLen=+document.getElementById('pfPeriodLen').value||5;}DB.set('profile',p);toast('Profil enregistré');renderToday()}
+ const np=notifPrefs();const b=document.getElementById('ntBed');if(b)b.checked=np.bed;const m=document.getElementById('ntMorning');if(m)m.checked=np.morning;const ev=document.getElementById('ntEvening');if(ev)ev.checked=np.evening;const wk=document.getElementById('ntWeekly');if(wk)wk.checked=np.weekly;renderNotifNote(!!_LN());try{renderCycleFields();renderProfileExtra()}catch(e){}}
+function saveProfile(){const p=getProfile();p.name=document.getElementById('pfName').value||'Arthur';p.age=+document.getElementById('pfAge').value||28;p.wake=document.getElementById('pfWake').value||'07:00';p.need=+document.getElementById('pfNeed').value||8;p.kcalGoal=+document.getElementById('pfKcal').value||2400;p.protGoal=+document.getElementById('pfProt').value||150;var _cy=document.getElementById('pfCycle');if(_cy){p.cycleOn=_cy.checked;p.lastPeriod=document.getElementById('pfLastPeriod').value||null;p.cycleLen=+document.getElementById('pfCycleLen').value||28;p.periodLen=+document.getElementById('pfPeriodLen').value||5;}var _hh=document.getElementById('pfHeight');if(_hh)p.height=+_hh.value||null;var _ww=document.getElementById('pfWeight');if(_ww)p.weight=+_ww.value||null;p.sex=_pfSex;DB.set('profile',p);toast('Profil enregistré');renderToday();try{pfApplyAvatar();set('pfHeroName',esc(getProfile().name||'Arthur'))}catch(e){}}
 function saveSensorManual(){const g=id=>parseFloat(document.getElementById(id).value)||null;const hrv=g('snHrv');if(!hrv){toast('Saisis au moins la HRV');return}const cur=sensorOf(tk())||{};DB.set('sensor_'+tk(),Object.assign(cur,{hrv,rhr:g('snRhr'),resp:g('snResp'),sleepMin:g('snSleep')?Math.round(g('snSleep')*60):cur.sleepMin,source:'manual'}));persistRecov();toast('Nuit enregistrée ⌚');go('today')}
 async function pullHealthConnect(){const HC=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.HealthConnect;if(!HC){toast('Dispo sur l\'app Android avec ta Polar Loop');return}try{if(HC.isAvailable){const a=await HC.isAvailable();if(!a||!a.available){toast('Active Health Connect');return}}if(HC.requestAuth)await HC.requestAuth();let added=0;if(HC.readSessions){try{const sg=await HC.readSessions();added=importDetectedSessions(sg&&sg.items)}catch(e){}}const r=await HC.readNight();if(r&&r.hrv!=null){DB.set('sensor_'+tk(),Object.assign({source:'polar'},r));DB.set('demo',0);persistRecov();toast('Capteur synchronisé ⌚'+(added?' · '+added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''):''));go('today')}else if(added){DB.set('demo',0);toast(added+' séance'+(added>1?'s':'')+' détectée'+(added>1?'s':''));go('today')}else toast('Pas de données cette nuit')}catch(e){toast('Sync impossible')}}
 
@@ -7818,9 +7846,16 @@ function renderBox(){var host=document.getElementById('boxBody');if(!host)return
 }
 function seedBox(){if(DB.get('box_seed')===1)return;DB.set('box',{name:'CrossFit Étincelle',code:'FLINT24'});DB.set('challenge',{name:'Prépa HYROX — 8 sem.',goal:240,end:tk(30)});DB.set('box_seed',1);}
 function renderCycleFields(){var p=getProfile();var cy=document.getElementById('pfCycle');if(!cy)return;cy.checked=!!p.cycleOn;var lp=document.getElementById('pfLastPeriod');if(lp)lp.value=p.lastPeriod||'';var cl=document.getElementById('pfCycleLen');if(cl)cl.value=p.cycleLen||28;var pl=document.getElementById('pfPeriodLen');if(pl)pl.value=p.periodLen||5;var cf=document.getElementById('cycFields');if(cf)cf.style.display=p.cycleOn?'block':'none';}
+var _pfSex='homme';
+function pfPickPhoto(){var i=document.getElementById('pfPhotoInput');if(i)i.click();}
+function pfPhoto(){return DB.get('pf_photo',null);}
+function pfPhotoChange(e){var f=e.target&&e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(ev){var img=new Image();img.onload=function(){var sz=256,c=document.createElement('canvas'),side=Math.min(img.width,img.height);c.width=sz;c.height=sz;var ctx=c.getContext('2d');ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,sz,sz);var data=c.toDataURL('image/jpeg',0.85);try{DB.set('pf_photo',data);}catch(err){toast('Photo trop lourde');return;}pfApplyAvatar();try{haptic()}catch(e){}toast('Photo mise \u00e0 jour');};img.src=ev.target.result;};rd.readAsDataURL(f);}
+function pfApplyAvatar(){var ph=pfPhoto(),nm=(getProfile().name||'A').trim().charAt(0).toUpperCase();var ai=document.getElementById('pfAvatarImg');if(ai){if(ph){ai.style.backgroundImage='url('+ph+')';ai.textContent='';}else{ai.style.backgroundImage='';ai.textContent=nm;}}var hv=document.getElementById('avatar');if(hv){if(ph){hv.style.backgroundImage='url('+ph+')';hv.style.backgroundSize='cover';hv.style.backgroundPosition='center';hv.style.color='transparent';hv.textContent='';}else{hv.style.backgroundImage='none';hv.style.background='var(--accent)';hv.style.color='#fff';hv.textContent=nm;}}}
+function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg');if(seg){[].forEach.call(seg.querySelectorAll('button'),function(b){b.classList.toggle('on',b.getAttribute('data-sex')===sx);});try{moveSeg(seg)}catch(e){}}if(save!==false){var p=getProfile();p.sex=sx;DB.set('profile',p);try{haptic()}catch(e){}}}
+function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v382';
+const APP_VERSION='flint-v383';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+') — appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
@@ -7828,6 +7863,7 @@ try{seedBox()}catch(e){}
 if(DB.get('demo')&&!sensorOf(tk()))seedTodayShowcase();
 persistRecov();
 renderToday();
+try{pfApplyAvatar()}catch(e){}
 scheduleNotifs();
 checkUpdate(true);
 /* Barre de date auto-masquante (Whoop-like) : se cache au scroll bas, réapparaît épinglée au scroll haut */
