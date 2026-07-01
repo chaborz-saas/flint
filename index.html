@@ -2747,6 +2747,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .ft-avatar{width:40px;height:40px;border-radius:50%;background:#EFEFEF;border:0;display:grid;place-items:center;cursor:pointer;padding:0}
   .ft-h1{font-size:46px;font-weight:900;letter-spacing:-.045em;line-height:1;margin:24px 0 0}
   .ft-date{font-size:16.5px;font-weight:500;color:#7F8183;margin-top:8px}
+  .ft-hero{cursor:pointer;transition:transform .12s ease}
+  .ft-hero:active{transform:scale(.985)}
   .ft-reclabel{text-align:center;text-transform:uppercase;font-size:11px;font-weight:600;letter-spacing:.14em;color:#7F8183;margin-top:32px}
   .ft-score{text-align:center;margin-top:4px;line-height:1;white-space:nowrap}
   .ft-num{font-size:200px;font-weight:900;letter-spacing:-.04em;color:#0B0B0B;display:inline-block;transform:scaleX(.9)}
@@ -2757,7 +2759,8 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .ft-cta{display:flex;align-items:center;justify-content:center;gap:9px;background:#FF4E1A;color:#fff;border:0;border-radius:999px;height:46px;width:258px;margin:24px auto 0;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
   .ft-cta:active{transform:scale(.98)}
   .ft-gauges{display:flex;align-items:stretch;margin-top:32px}
-  .ft-gauge{flex:1;display:flex;flex-direction:column;align-items:center}
+  .ft-gauge{flex:1;display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:0;font-family:inherit;cursor:pointer;transition:transform .12s ease}
+  .ft-gauge:active{transform:scale(.96)}
   .ft-vdiv{width:1px;background:#E8E8E8;margin:6px 0;align-self:stretch}
   .ft-glabel{text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:.02em;color:#7F8183;line-height:1}
   .ft-ring{position:relative;width:114px;height:114px;margin-top:12px}
@@ -2785,35 +2788,37 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     </header>
     <h1 class="ft-h1">Aujourd&rsquo;hui</h1>
     <div class="ft-date" id="ftDate">Mercredi 14 mai</div>
-    <div class="ft-reclabel">Récupération</div>
-    <div class="ft-score"><span class="ft-num">87</span><span class="ft-den">/100</span></div>
-    <div class="ft-arc">
-      <svg viewBox="0 0 390 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path d="M303 36 C 310 30, 317 24, 324 18" fill="none" stroke="#E8E8E8" stroke-width="6.5" stroke-linecap="round"/>
-        <path d="M58 20 C 120 91, 250 90, 303 36" fill="none" stroke="#18BF77" stroke-width="6.5" stroke-linecap="round"/>
-        <circle cx="303" cy="36" r="6.5" fill="#18BF77"/>
-      </svg>
+    <div class="ft-hero" onclick="go('recovery')" role="button" tabindex="0">
+      <div class="ft-reclabel">Récupération</div>
+      <div class="ft-score"><span class="ft-num">87</span><span class="ft-den">/100</span></div>
+      <div class="ft-arc">
+        <svg viewBox="0 0 390 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path d="M303 36 C 310 30, 317 24, 324 18" fill="none" stroke="#E8E8E8" stroke-width="6.5" stroke-linecap="round"/>
+          <path d="M58 20 C 120 91, 250 90, 303 36" fill="none" stroke="#18BF77" stroke-width="6.5" stroke-linecap="round"/>
+          <circle cx="303" cy="36" r="6.5" fill="#18BF77"/>
+        </svg>
+      </div>
+      <div class="ft-state">PRÊT.</div>
     </div>
-    <div class="ft-state">PRÊT.</div>
     <button class="ft-cta" onclick="go('load')"><span>Vise un effort de 14&ndash;18</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="ft-gauges">
-      <div class="ft-gauge">
+      <button class="ft-gauge" type="button" onclick="go('sleep')">
         <div class="ft-glabel">Sommeil</div>
         <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:88"/></g></svg><div class="ft-rc"><div class="ft-gval">7h42</div><div class="ft-gsub">8h cible</div></div></div>
         <div class="ft-gstat"><span class="dot g"></span>Bon</div>
-      </div>
+      </button>
       <div class="ft-vdiv"></div>
-      <div class="ft-gauge">
+      <button class="ft-gauge" type="button" onclick="go('load')">
         <div class="ft-glabel">Effort</div>
         <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 c" cx="50" cy="50" r="42.5" style="--pct:44"/></g></svg><div class="ft-rc"><div class="ft-gval">142</div><div class="ft-gsub">charge</div></div></div>
         <div class="ft-gstat"><span class="dot c"></span>Modéré</div>
-      </div>
+      </button>
       <div class="ft-vdiv"></div>
-      <div class="ft-gauge">
+      <button class="ft-gauge" type="button" onclick="go('recovery')">
         <div class="ft-glabel">Énergie</div>
         <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:72"/></g></svg><div class="ft-rc"><div class="ft-gval">72%</div><div class="ft-gsub">dispo.</div></div></div>
         <div class="ft-gstat"><span class="dot g"></span>Bonne</div>
-      </div>
+      </button>
     </div>
     <button class="ft-more" onclick="document.querySelector('#v-today .mjwrap')?.scrollIntoView({behavior:'smooth',block:'start'})">Ma journée <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
