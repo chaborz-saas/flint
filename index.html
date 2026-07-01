@@ -2735,6 +2735,89 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h3c .h3lbl{font-size:9.5px;font-weight:800;letter-spacing:.5px;color:#8A857D;margin-top:2px}
   .flhome .h3rf{transition:stroke-dasharray .55s cubic-bezier(.2,.8,.2,1)}
   </style>
+  <style id="ft-v2-style">
+  /* ===== FLINT v2 — accueil "Aujourd'hui" (reforme graphique, etape 1) ===== */
+  .home-hdr{display:none}                 /* header global masque sur l'accueil (v==='today') */
+  #v-today{background:#fff}                /* accueil en blanc */
+  .flhome{background:#fff!important;padding-top:calc(env(safe-area-inset-top) + 12px)}
+  .ft-home{font-family:'Inter',-apple-system,sans-serif;color:#0B0B0B;max-width:440px;margin:0 auto;padding:0 24px 4px}
+  .ft-head{display:flex;align-items:center;justify-content:space-between;height:40px;position:static;background:none;box-shadow:none;border:0;padding:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:auto}
+  .ft-logo{display:flex;align-items:center;gap:6px;color:#0B0B0B}
+  .ft-logo span{font-size:24px;font-weight:800;font-style:italic;letter-spacing:-.02em}
+  .ft-avatar{width:40px;height:40px;border-radius:50%;background:#EFEFEF;border:0;display:grid;place-items:center;cursor:pointer;padding:0}
+  .ft-h1{font-size:46px;font-weight:900;letter-spacing:-.045em;line-height:1;margin:24px 0 0}
+  .ft-date{font-size:16.5px;font-weight:500;color:#7F8183;margin-top:8px}
+  .ft-reclabel{text-align:center;text-transform:uppercase;font-size:11px;font-weight:600;letter-spacing:.14em;color:#7F8183;margin-top:32px}
+  .ft-score{text-align:center;margin-top:4px;line-height:1;white-space:nowrap}
+  .ft-num{font-size:200px;font-weight:900;letter-spacing:-.04em;color:#0B0B0B;display:inline-block;transform:scaleX(.9)}
+  .ft-den{font-size:24px;font-weight:600;color:#7F8183;margin-left:2px}
+  .ft-arc{margin-top:-6px}
+  .ft-arc svg{width:100%;height:auto;display:block}
+  .ft-state{text-align:center;font-size:57px;font-weight:900;letter-spacing:-.02em;margin-top:0}
+  .ft-cta{display:flex;align-items:center;justify-content:center;gap:9px;background:#FF4E1A;color:#fff;border:0;border-radius:999px;height:46px;width:258px;margin:24px auto 0;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
+  .ft-cta:active{transform:scale(.98)}
+  .ft-gauges{display:flex;align-items:stretch;margin-top:32px}
+  .ft-gauge{flex:1;display:flex;flex-direction:column;align-items:center}
+  .ft-vdiv{width:1px;background:#E8E8E8;margin:6px 0;align-self:stretch}
+  .ft-glabel{text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:.02em;color:#7F8183;line-height:1}
+  .ft-ring{position:relative;width:114px;height:114px;margin-top:12px}
+  .ft-ring svg{width:100%;height:100%;display:block}
+  .ft-trk{fill:none;stroke:#E8E8E8;stroke-width:3.8}
+  .ft-arc2{fill:none;stroke-width:3.8;stroke-linecap:round;stroke-dasharray:calc(var(--pct)*2.6704) 267.04}
+  .ft-arc2.g{stroke:#18BF77}.ft-arc2.c{stroke:#2F2F2F}
+  .ft-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+  .ft-gval{font-size:23px;font-weight:800;letter-spacing:-.02em;color:#0B0B0B}
+  .ft-gsub{font-size:11px;font-weight:500;color:#A8ABB0;margin-top:3px}
+  .ft-gstat{display:flex;align-items:center;gap:5px;margin-top:12px;font-size:13px;font-weight:600;color:#0B0B0B}
+  .ft-gstat .dot{width:7px;height:7px;border-radius:50%}
+  .ft-gstat .dot.g{background:#18BF77}.ft-gstat .dot.c{background:#2F2F2F}
+  .ft-more{display:flex;align-items:center;gap:6px;margin:24px 0 10px;padding:0;border:0;background:none;font-family:inherit;font-size:26px;font-weight:800;color:#A8ABB0;cursor:pointer}
+  </style>
+  <div class="ft-home">
+    <header class="ft-head">
+      <div class="ft-logo">
+        <svg width="26" height="22" viewBox="0 0 22 20" aria-hidden="true"><g fill="currentColor"><rect x="0" y="3" width="14" height="3" rx="1.5" transform="skewX(-12)"/><rect x="2" y="8.5" width="16" height="3" rx="1.5" transform="skewX(-12)"/><rect x="0" y="14" width="12" height="3" rx="1.5" transform="skewX(-12)"/></g></svg>
+        <span>FLINT</span>
+      </div>
+      <button class="ft-avatar" aria-label="Profil" onclick="go('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#8A8A8A"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="#8A8A8A"/></svg>
+      </button>
+    </header>
+    <h1 class="ft-h1">Aujourd&rsquo;hui</h1>
+    <div class="ft-date" id="ftDate">Mercredi 14 mai</div>
+    <div class="ft-reclabel">Récupération</div>
+    <div class="ft-score"><span class="ft-num">87</span><span class="ft-den">/100</span></div>
+    <div class="ft-arc">
+      <svg viewBox="0 0 390 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d="M303 36 C 324 26, 345 17, 367 8" fill="none" stroke="#E8E8E8" stroke-width="6.5" stroke-linecap="round"/>
+        <path d="M58 20 C 120 91, 250 90, 303 36" fill="none" stroke="#18BF77" stroke-width="6.5" stroke-linecap="round"/>
+        <circle cx="303" cy="36" r="6.5" fill="#18BF77"/>
+      </svg>
+    </div>
+    <div class="ft-state">PRÊT.</div>
+    <button class="ft-cta" onclick="go('load')"><span>Vise un effort de 14&ndash;18</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="ft-gauges">
+      <div class="ft-gauge">
+        <div class="ft-glabel">Sommeil</div>
+        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:88"/></g></svg><div class="ft-rc"><div class="ft-gval">7h42</div><div class="ft-gsub">8h cible</div></div></div>
+        <div class="ft-gstat"><span class="dot g"></span>Bon</div>
+      </div>
+      <div class="ft-vdiv"></div>
+      <div class="ft-gauge">
+        <div class="ft-glabel">Effort</div>
+        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 c" cx="50" cy="50" r="42.5" style="--pct:44"/></g></svg><div class="ft-rc"><div class="ft-gval">142</div><div class="ft-gsub">charge</div></div></div>
+        <div class="ft-gstat"><span class="dot c"></span>Modéré</div>
+      </div>
+      <div class="ft-vdiv"></div>
+      <div class="ft-gauge">
+        <div class="ft-glabel">Énergie</div>
+        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:72"/></g></svg><div class="ft-rc"><div class="ft-gval">72%</div><div class="ft-gsub">dispo.</div></div></div>
+        <div class="ft-gstat"><span class="dot g"></span>Bonne</div>
+      </div>
+    </div>
+    <button class="ft-more" onclick="document.querySelector('#v-today .mjwrap')?.scrollIntoView({behavior:'smooth',block:'start'})">Ma journée <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <div class="fl-oldtop" style="display:none" aria-hidden="true">
   <div class="h3cond"><div class="h3cond-in">
     <button class="h3c" type="button" onclick="go('sleep')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3SleepArc" cx="16" cy="16" r="14" fill="none" stroke="#6C7BD6" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3tx"><b id="h3SleepV">—</b><span class="h3lbl">SOMMEIL</span></span></button>
     <button class="h3c" type="button" onclick="go('recovery')"><svg class="h3ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#E7E1D7" stroke-width="3.5"/><circle class="h3rf" id="h3RecupArc" cx="16" cy="16" r="14" fill="none" stroke="#2FA86A" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 16 16)" stroke-dasharray="0 88"/></svg><span class="h3tx"><b id="h3RecupV">—</b><span class="h3lbl">RÉCUP</span></span></button>
@@ -2781,6 +2864,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <button class="h2row" type="button" onclick="go('fcdetail')"><span class="h2ic m-cor"><i class="ti ti-heart"></i></span><span class="h2bd"><span class="h2t">FC</span><span class="h2l"><span class="h2v"><span id="flFcEgg">—</span><small>bpm</small></span><span class="h2s" id="h2FcS"></span></span><span class="h2bar m-cor"><i id="h2FcBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
     <button class="h2row" type="button" onclick="openMetricTrend('steps')"><span class="h2ic m-grn"><i class="ti ti-walk"></i></span><span class="h2bd"><span class="h2t">PAS</span><span class="h2l"><span class="h2v"><span id="flSteps">—</span><small>pas</small></span><span class="h2s" id="h2StepS"></span></span><span class="h2bar m-grn"><i id="h2StepBar"></i></span></span><i class="ti ti-chevron-right h2chev"></i></button>
   </div>
+  </div><!-- /fl-oldtop (ancien hero conserve, masque : garde le pipeline de donnees intact) -->
 
   <div id="flBriefHost"></div>
 
@@ -7839,7 +7923,7 @@ function pfSetSex(sx,save){_pfSex=sx;var seg=document.getElementById('pfSexSeg')
 function renderProfileExtra(){var p=getProfile();var h=document.getElementById('pfHeight');if(h)h.value=p.height||'';var w=document.getElementById('pfWeight');if(w)w.value=p.weight||'';pfSetSex(p.sex||'homme',false);set('pfHeroName',esc(p.name||'Arthur'));var fa=flintAge();set('pfHeroAge',fa!=null?fa:'\u2014');var r7=assess(7).rec;set('pfHeroRec',r7!=null?r7+'%':'\u2014');var st=0;for(var i=0;i<90;i++){if(DB.get('sessions_'+tk(-i),[]).filter(function(x){return x.type!=='nap'}).length>0)st++;else break;}set('pfHeroStreak',st+' j');pfApplyAvatar();}
 
 /* ---------- UPDATE / INIT ---------- */
-const APP_VERSION='flint-v388';
+const APP_VERSION='flint-v389';
 async function checkUpdate(auto){try{const r=await fetch('sw.js?cb='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/flint-v(\d+)/);if(m){const liveN=+m[1],curN=+((APP_VERSION.match(/(\d+)/)||['0'])[0]);if(liveN>curN){if(auto){forceUpdate();return}const b=document.getElementById('updBanner');if(!b)return;b.style.display='block';b.textContent='⬆️ Nouvelle version (flint-v'+liveN+'), appuie pour mettre à jour'}}}catch(e){}}
 async function forceUpdate(){toast('Mise à jour…');try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}if(window.caches){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(e){}location.replace(location.href.split('?')[0]+'?v='+Date.now())}
 ensureDemo();
