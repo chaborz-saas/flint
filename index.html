@@ -2736,91 +2736,114 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   .flhome .h3rf{transition:stroke-dasharray .55s cubic-bezier(.2,.8,.2,1)}
   </style>
   <style id="ft-v2-style">
-  /* ===== FLINT v2 — accueil "Aujourd'hui" (reforme graphique, etape 1) ===== */
+  /* ===== FLINT v2 — DA orange/noir/blanc ===== */
   .home-hdr{display:none}                 /* header global masque sur l'accueil (v==='today') */
   #v-today{background:#fff}                /* accueil en blanc */
   .flhome{background:#fff!important;padding-top:calc(env(safe-area-inset-top) + 12px)}
-  .ft-home{font-family:'Inter',-apple-system,sans-serif;color:#0B0B0B;max-width:440px;margin:0 auto;padding:0 24px 4px}
-  .ft-head{display:flex;align-items:center;justify-content:space-between;height:40px;position:static;background:none;box-shadow:none;border:0;padding:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:auto}
-  .ft-logo{display:flex;align-items:center;gap:6px;color:#0B0B0B}
-  .ft-logo span{font-size:24px;font-weight:800;font-style:italic;letter-spacing:-.02em}
-  .ft-avatar{width:40px;height:40px;border-radius:50%;background:#EFEFEF;border:0;display:grid;place-items:center;cursor:pointer;padding:0}
-  .ft-h1{font-size:46px;font-weight:900;letter-spacing:-.045em;line-height:1;margin:24px 0 0}
-  .ft-date{font-size:16.5px;font-weight:500;color:#7F8183;margin-top:8px}
+  .ft-home{font-family:'Inter',-apple-system,sans-serif;color:#0B0B0B;max-width:440px;margin:0 auto;padding:0 26px 4px}
+  .ft-head{display:flex;align-items:center;justify-content:space-between;height:44px;position:static;background:none;box-shadow:none;border:0;padding:0;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:auto}
+  .ft-logo{display:flex;align-items:center;gap:7px;color:#0B0B0B}
+  .ft-logo span{font-size:25px;font-weight:800;font-style:italic;letter-spacing:-.02em}
+  .ft-avatar{width:42px;height:42px;border-radius:50%;background:#F5F5F5;border:1px solid #EFEFEF;display:grid;place-items:center;cursor:pointer;padding:0}
+  .ft-day{display:flex;align-items:center;gap:8px;margin-top:30px;padding:0;border:0;background:none;font-family:inherit;font-size:21px;font-weight:700;color:#0B0B0B;cursor:pointer}
+  .ft-day:active{opacity:.6}
+  .ft-hello{font-size:52px;font-weight:900;letter-spacing:-.045em;line-height:1.04;margin:12px 0 0}
+  .ft-hello .o{color:#F93A00}
+  .ft-sub{font-size:19px;font-weight:500;color:#8E9094;margin-top:8px}
   .ft-hero{cursor:pointer;transition:transform .12s ease}
   .ft-hero:active{transform:scale(.985)}
-  .ft-reclabel{text-align:center;text-transform:uppercase;font-size:11px;font-weight:600;letter-spacing:.14em;color:#7F8183;margin-top:32px}
-  .ft-score{text-align:center;margin-top:4px;line-height:1;white-space:nowrap}
-  .ft-num{font-size:200px;font-weight:900;letter-spacing:-.04em;color:#0B0B0B;display:inline-block;transform:scaleX(.9)}
-  .ft-den{font-size:24px;font-weight:600;color:#7F8183;margin-left:2px}
-  .ft-arc{margin-top:-6px}
-  .ft-arc svg{width:100%;height:auto;display:block}
-  .ft-state{text-align:center;font-size:57px;font-weight:900;letter-spacing:-.02em;margin-top:0}
-  .ft-cta{display:flex;align-items:center;justify-content:center;gap:9px;background:#FF4E1A;color:#fff;border:0;border-radius:999px;height:46px;width:258px;margin:24px auto 0;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
-  .ft-cta:active{transform:scale(.98)}
-  .ft-gauges{display:flex;align-items:stretch;margin-top:32px}
-  .ft-gauge{flex:1;display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:0;font-family:inherit;cursor:pointer;transition:transform .12s ease}
-  .ft-gauge:active{transform:scale(.96)}
-  .ft-vdiv{width:1px;background:#E8E8E8;margin:6px 0;align-self:stretch}
-  .ft-glabel{text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:.02em;color:#7F8183;line-height:1}
-  .ft-ring{position:relative;width:114px;height:114px;margin-top:12px}
+  .ft-reclabel{text-align:center;text-transform:uppercase;font-size:13px;font-weight:700;letter-spacing:.1em;color:#1A1A1A;margin-top:34px}
+  .ft-bigring{position:relative;width:252px;margin:10px auto 0}
+  .ft-bigring svg{width:100%;height:auto;display:block}
+  .ft-bigc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;line-height:1}
+  .ft-num{font-size:104px;font-weight:900;letter-spacing:-.04em;color:#0B0B0B}
+  .ft-den{font-size:22px;font-weight:600;color:#8E9094;margin:52px 0 0 4px}
+  .ft-gauges{display:flex;gap:10px;margin-top:26px}
+  .ft-gcard{flex:1;display:flex;flex-direction:column;align-items:center;background:#FBFBFB;border:1px solid #F1F1F1;border-radius:20px;padding:15px 4px 13px;font-family:inherit;cursor:pointer;transition:transform .12s ease}
+  .ft-gcard:active{transform:scale(.96)}
+  .ft-glabel{text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:.06em;color:#3A3B3E;line-height:1}
+  .ft-ring{position:relative;width:96px;height:96px;margin-top:13px}
   .ft-ring svg{width:100%;height:100%;display:block}
-  .ft-trk{fill:none;stroke:#E8E8E8;stroke-width:3.8}
-  .ft-arc2{fill:none;stroke-width:3.8;stroke-linecap:round;stroke-dasharray:calc(var(--pct)*2.6704) 267.04}
-  .ft-arc2.g{stroke:#18BF77}.ft-arc2.c{stroke:#2F2F2F}
+  .ft-trk{fill:none;stroke:#EFEFEF;stroke-width:4}
+  .ft-arc2{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:calc(var(--pct)*2.6704) 267.04}
+  .ft-arc2.o{stroke:url(#ftOG)}.ft-arc2.c{stroke:#6D6D6D}
   .ft-rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
   .ft-gval{font-size:23px;font-weight:800;letter-spacing:-.02em;color:#0B0B0B}
-  .ft-gsub{font-size:11px;font-weight:500;color:#A8ABB0;margin-top:3px}
-  .ft-gstat{display:flex;align-items:center;gap:5px;margin-top:12px;font-size:13px;font-weight:600;color:#0B0B0B}
+  .ft-gsub{font-size:12px;font-weight:500;color:#8E9094;margin-top:4px}
+  .ft-gstat{display:flex;align-items:center;gap:6px;margin-top:13px;font-size:13px;font-weight:600;color:#0B0B0B}
   .ft-gstat .dot{width:7px;height:7px;border-radius:50%}
-  .ft-gstat .dot.g{background:#18BF77}.ft-gstat .dot.c{background:#2F2F2F}
-  .ft-more{display:flex;align-items:center;gap:6px;margin:24px 0 10px;padding:0;border:0;background:none;font-family:inherit;font-size:26px;font-weight:800;color:#A8ABB0;cursor:pointer}
+  .ft-gstat .dot.o{background:#F93A00}.ft-gstat .dot.c{background:#575757}
+  .ft-more{display:flex;align-items:center;gap:10px;margin:30px 0 14px;padding:0;border:0;background:none;font-family:inherit;font-size:24px;font-weight:700;color:#0B0B0B;cursor:pointer;letter-spacing:-.02em}
+  .ft-more:active{opacity:.6}
+  /* ===== Ma journee (timeline) ===== */
+  .ftj{font-family:'Inter',-apple-system,sans-serif;color:#0B0B0B;max-width:440px;margin:0 auto;padding:34px 26px 10px;position:relative}
+  .ftj-title{font-size:46px;font-weight:900;letter-spacing:-.045em;line-height:1;margin:0}
+  .ftj-meta{font-size:17px;font-weight:500;color:#8E9094;margin-top:9px}
+  .ftj-chip{display:inline-block;background:#F6542B;color:#fff;font-size:13.5px;font-weight:700;border-radius:999px;padding:8px 15px;margin-top:14px}
+  .ftj-tl{position:relative;margin-top:22px}
+  .ftj-tl::before{content:'';position:absolute;left:-20px;top:0;bottom:0;width:120px;background:radial-gradient(60% 50% at 40% 50%,rgba(249,58,0,.06),transparent 70%);pointer-events:none}
+  .ftj-row{position:relative;display:flex;align-items:center;gap:13px;width:100%;border:0;background:none;padding:11px 0;font-family:inherit;text-align:left;cursor:pointer}
+  .ftj-row:active{opacity:.65}
+  .ftj-row+.ftj-row::before{content:'';position:absolute;left:24px;top:-3px;width:5px;height:5px;border-radius:50%;background:#F93A00;transform:translateX(-50%)}
+  .ftj-ic{width:50px;height:50px;border-radius:50%;background:#fff;border:1px solid #F0F0F0;box-shadow:0 4px 14px rgba(20,15,10,.06);display:grid;place-items:center;font-size:22px;color:#0B0B0B;flex:none}
+  .ftj-time{display:flex;flex-direction:column;line-height:1.25;min-width:47px;flex:none}
+  .ftj-time b{font-size:16px;font-weight:800;color:#0B0B0B}
+  .ftj-time i{font-style:normal;font-size:15px;font-weight:500;color:#A2A4A8}
+  .ftj-bd{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+  .ftj-bd b{font-size:18px;font-weight:800;letter-spacing:-.01em;color:#0B0B0B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ftj-bd span{font-size:13px;font-weight:500;color:#A2A4A8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ftj-val{background:#F4F4F4;border-radius:999px;padding:11px 15px;font-size:16px;font-weight:800;color:#0B0B0B;flex:none;font-variant-numeric:tabular-nums}
+  .ftj-empty{font-size:14px;color:#8E9094;padding:8px 2px}
+  .ftj-up{display:flex;align-items:center;gap:9px;margin:22px 0 8px;padding:0;border:0;background:none;font-family:inherit;font-size:22px;font-weight:700;color:#F93A00;cursor:pointer;letter-spacing:-.01em}
+  .ftj-up:active{opacity:.6}
   </style>
   <div class="ft-home">
     <header class="ft-head">
       <div class="ft-logo">
-        <svg width="26" height="22" viewBox="0 0 22 20" aria-hidden="true"><g fill="currentColor"><rect x="0" y="3" width="14" height="3" rx="1.5" transform="skewX(-12)"/><rect x="2" y="8.5" width="16" height="3" rx="1.5" transform="skewX(-12)"/><rect x="0" y="14" width="12" height="3" rx="1.5" transform="skewX(-12)"/></g></svg>
+        <svg width="26" height="22" viewBox="0 0 22 20" aria-hidden="true"><g fill="#F93A00"><rect x="0" y="3" width="14" height="3" rx="1.5" transform="skewX(-12)"/><rect x="2" y="8.5" width="16" height="3" rx="1.5" transform="skewX(-12)"/><rect x="0" y="14" width="12" height="3" rx="1.5" transform="skewX(-12)"/></g></svg>
         <span>FLINT</span>
       </div>
       <button class="ft-avatar" aria-label="Profil" onclick="go('profile')">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#8A8A8A"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="#8A8A8A"/></svg>
       </button>
     </header>
-    <h1 class="ft-h1">Aujourd&rsquo;hui</h1>
-    <div class="ft-date" id="ftDate">Mercredi 14 mai</div>
+    <button class="ft-day" type="button" onclick="flOpenPicker()"><span id="flDateHd">Aujourd'hui</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="#0B0B0B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <h1 class="ft-hello">Bonjour <span id="ftName">Arthur</span><span class="o">.</span></h1>
+    <div class="ft-sub">Voici ton état du jour.</div>
     <div class="ft-hero" onclick="go('recovery')" role="button" tabindex="0">
       <div class="ft-reclabel">Récupération</div>
-      <div class="ft-score"><span class="ft-num">87</span><span class="ft-den">/100</span></div>
-      <div class="ft-arc">
-        <svg viewBox="0 0 390 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-          <path d="M303 36 C 310 30, 317 24, 324 18" fill="none" stroke="#E8E8E8" stroke-width="6.5" stroke-linecap="round"/>
-          <path d="M58 20 C 120 91, 250 90, 303 36" fill="none" stroke="#18BF77" stroke-width="6.5" stroke-linecap="round"/>
-          <circle cx="303" cy="36" r="6.5" fill="#18BF77"/>
+      <div class="ft-bigring">
+        <svg viewBox="0 0 230 230" aria-hidden="true">
+          <defs>
+            <linearGradient id="ftOG" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFD9C4"/><stop offset=".45" stop-color="#FC6A33"/><stop offset="1" stop-color="#F93A00"/>
+            </linearGradient>
+          </defs>
+          <path d="M59.9 203.2 A104 104 0 1 1 170.1 203.2" fill="none" stroke="#EFEFEF" stroke-width="6.5" stroke-linecap="round"/>
+          <path d="M59.9 203.2 A104 104 0 1 1 204.1 168.6" fill="none" stroke="url(#ftOG)" stroke-width="6.5" stroke-linecap="round"/>
+          <circle cx="204.1" cy="168.6" r="10" fill="#F93A00" stroke="#fff" stroke-width="3.5"/>
         </svg>
+        <div class="ft-bigc"><span class="ft-num">87</span><span class="ft-den">/100</span></div>
       </div>
-      <div class="ft-state">PRÊT.</div>
     </div>
-    <button class="ft-cta" onclick="go('load')"><span>Vise un effort de 14&ndash;18</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="ft-gauges">
-      <button class="ft-gauge" type="button" onclick="go('sleep')">
+      <button class="ft-gcard" type="button" onclick="go('sleep')">
         <div class="ft-glabel">Sommeil</div>
-        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:88"/></g></svg><div class="ft-rc"><div class="ft-gval">7h42</div><div class="ft-gsub">8h cible</div></div></div>
-        <div class="ft-gstat"><span class="dot g"></span>Bon</div>
+        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 o" cx="50" cy="50" r="42.5" style="--pct:91"/></g></svg><div class="ft-rc"><div class="ft-gval">7h42</div><div class="ft-gsub">8h cible</div></div></div>
+        <div class="ft-gstat"><span class="dot o"></span>Bon</div>
       </button>
-      <div class="ft-vdiv"></div>
-      <button class="ft-gauge" type="button" onclick="go('load')">
+      <button class="ft-gcard" type="button" onclick="go('load')">
         <div class="ft-glabel">Effort</div>
         <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 c" cx="50" cy="50" r="42.5" style="--pct:44"/></g></svg><div class="ft-rc"><div class="ft-gval">142</div><div class="ft-gsub">charge</div></div></div>
         <div class="ft-gstat"><span class="dot c"></span>Modéré</div>
       </button>
-      <div class="ft-vdiv"></div>
-      <button class="ft-gauge" type="button" onclick="go('recovery')">
+      <button class="ft-gcard" type="button" onclick="go('recovery')">
         <div class="ft-glabel">Énergie</div>
-        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 g" cx="50" cy="50" r="42.5" style="--pct:72"/></g></svg><div class="ft-rc"><div class="ft-gval">72%</div><div class="ft-gsub">dispo.</div></div></div>
-        <div class="ft-gstat"><span class="dot g"></span>Bonne</div>
+        <div class="ft-ring"><svg viewBox="0 0 100 100"><g transform="rotate(-90 50 50)"><circle class="ft-trk" cx="50" cy="50" r="42.5"/><circle class="ft-arc2 o" cx="50" cy="50" r="42.5" style="--pct:72"/></g></svg><div class="ft-rc"><div class="ft-gval">72%</div><div class="ft-gsub">dispo.</div></div></div>
+        <div class="ft-gstat"><span class="dot o"></span>Bonne</div>
       </button>
     </div>
-    <button class="ft-more" onclick="document.querySelector('#v-today .mjwrap')?.scrollIntoView({behavior:'smooth',block:'start'})">Ma journée <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="ft-more" type="button" onclick="document.getElementById('ftJournee')?.scrollIntoView({behavior:'smooth',block:'start'})">Ma journée <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="#F93A00" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   <div class="fl-oldtop" style="display:none" aria-hidden="true">
   <div class="h3cond"><div class="h3cond-in">
@@ -2871,6 +2894,16 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
   </div>
   </div><!-- /fl-oldtop (ancien hero conserve, masque : garde le pipeline de donnees intact) -->
 
+  <!-- ===== FLINT v2 : Ma journee (timeline minimaliste) ===== -->
+  <section class="ftj" id="ftJournee">
+    <h2 class="ftj-title">Ma journée</h2>
+    <div class="ftj-meta" id="ftjMeta">—</div>
+    <div class="ftj-chip" id="ftjChip" hidden></div>
+    <div class="ftj-tl" id="ftjList"></div>
+    <button class="ftj-up" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M6 11l6-6 6 6" stroke="#F93A00" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aujourd'hui</button>
+  </section>
+
+  <div class="fl-oldbelow" style="display:none" aria-hidden="true">
   <div id="flBriefHost"></div>
 
   <div class="mjwrap">
@@ -2906,6 +2939,7 @@ header.home-hdr .av:active,header.home-hdr .wbatt:active,header.home-hdr .hdmenu
     <div class="fladic"><i class="ti ti-bolt"></i></div>
     <div class="fladtx"><h3 id="flAdT">Priorise une charge modérée aujourd'hui.</h3><p id="flAdP">Ton corps a bien récupéré, mais évite de trop pousser. L'équilibre est la clé de la progression.</p><span class="fladcta">Demander au Coach IA <i class="ti ti-arrow-right"></i></span></div>
   </div>
+  </div><!-- /fl-oldbelow (anciennes sections accueil conservees masquees) -->
 
   </div>
 </div></section>
@@ -5664,7 +5698,27 @@ function flRenderActivities(k){k=k||tk();const ss=DB.get('sessions_'+k,[]);
  set('flActMeta',nRows?nRows+' entrée'+(nRows>1?'s':'')+' · cumul '+loadStrain(k).toFixed(1).replace('.',','):'');
  var _an=document.getElementById('flActNight');if(_an)_an.innerHTML=nightHTML;
  const dayHTML=ss.map((s,i)=>{const nap=s.type==='nap';const oi=nap?-1:ss.slice(0,i+1).filter(x=>x.type!=='nap').length-1;const start=s.start||'';return flRow({sleep:nap,icon:nap?'moon':flActIcon(s.name,nap),value:nap?flDurHM(s.dur):actStrain(s).toFixed(1).replace('.',','),title:(s.name||'Séance'),start:start,end:start?flEndTime(start,s.dur):'',tag:nap?'sommeil':(s.auto?'auto':'manuel'),onc:nap?'openNapDetail('+i+')':'openActivity('+oi+')'})}).join('');
- set('flActList',dayHTML||(nightHTML?'':'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>'))}
+ set('flActList',dayHTML||(nightHTML?'':'<p class="muted" style="font-size:13px;padding:6px 2px">Aucune activité détectée. Branche ta Polar Loop ou ajoute-la à la main.</p>'))
+ try{ftRenderJournee(k)}catch(e){}}
+/* ===== FLINT v2 : timeline "Ma journee" + prenom (memes donnees que flRenderActivities) ===== */
+function ftRenderJournee(k){k=k||tk();
+ var nmEl=document.getElementById('ftName');if(nmEl){var pn=String((getProfile().name||'')).trim().split(/\s+/)[0];nmEl.textContent=pn||'toi'}
+ var host=document.getElementById('ftjList');if(!host)return;
+ var ss=DB.get('sessions_'+k,[]),nm=sleepNight(k),rows=[];
+ if(nm)rows.push({icon:'moon',title:'NUIT',start:flHM(nm.bedMin),end:flHM(nm.wakeMin),tag:'sommeil',val:flDurHM(nm.asleep),onc:'openSleepNight()'});
+ ss.forEach(function(s,i){var nap=s.type==='nap';var oi=nap?-1:ss.slice(0,i+1).filter(function(x){return x.type!=='nap'}).length-1;var start=s.start||'';
+  rows.push({icon:nap?'moon':flActIcon(s.name,nap),title:nap?'Sieste':(s.name||'Séance'),start:start,end:start?flEndTime(start,s.dur):'',tag:nap?'sommeil':(s.auto?'auto':'manuel'),val:nap?flDurHM(s.dur):actStrain(s).toFixed(1).replace('.',','),onc:nap?'openNapDetail('+i+')':'openActivity('+oi+')'})});
+ var n=rows.length,cv=loadStrain(k);
+ set('ftjMeta',n?n+' entrée'+(n>1?'s':'')+' · cumul '+cv.toFixed(1).replace('.',','):'Aucune entrée');
+ var chip=document.getElementById('ftjChip');
+ if(chip){chip.hidden=!n;chip.textContent=cv>=14?'Journée bien remplie':(cv>=8?'Belle journée':'Journée tranquille')}
+ host.innerHTML=rows.map(function(r){var meta=(r.start?r.start+' → '+r.end+' · ':'')+r.tag;
+  return '<button class="ftj-row" type="button" onclick="'+r.onc+'">'
+   +'<span class="ftj-ic"><i class="ti ti-'+r.icon+'"></i></span>'
+   +'<span class="ftj-time"><b>'+(r.start||'—')+'</b><i>'+(r.end||'')+'</i></span>'
+   +'<span class="ftj-bd"><b>'+esc(r.title)+'</b><span>'+meta+'</span></span>'
+   +'<span class="ftj-val">'+r.val+'</span>'
+   +'</button>'}).join('')||'<p class="ftj-empty">Aucune activité aujourd\'hui.</p>'}
 function flWkData(range){var out=[];
  if(range==='4S'||range==='12S'){var weeks=range==='4S'?4:12;for(var w=weeks-1;w>=0;w--){var sum=0;for(var j=0;j<7;j++)sum+=loadStrain(tk(gDay-(w*7+j)));var dd=new Date();dd.setDate(dd.getDate()+gDay-w*7);out.push({lab:dd.getDate()+'/'+(dd.getMonth()+1),v:+(sum/7).toFixed(1)})}}
  else{for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()+gDay-i);out.push({lab:['DIM','LUN','MAR','MER','JEU','VEN','SAM'][d.getDay()],v:+loadStrain(tk(gDay-i)).toFixed(1)})}}
